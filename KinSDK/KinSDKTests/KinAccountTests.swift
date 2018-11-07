@@ -67,12 +67,9 @@ class KinAccountTests: XCTestCase {
         kinClient.deleteKeystore()
     }
 
-    func sendTransaction(from account: KinAccount,
-                         to recipient: String,
-                         kin: Decimal,
-                         memo: String? = nil) throws -> TransactionId {
-        let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
-            account.sendTransaction(to: recipient, kin: kin, memo: memo, completion: txComp)
+    func sendTransaction(_ transaction: Transaction, from account: KinAccount) throws -> TransactionId {
+        let txClosure = { (txComp: @escaping SendTransactionCompletion) in
+            account.sendTransaction(transaction, completion: txComp)
         }
 
         if let txHash = try serialize(txClosure) {
@@ -103,12 +100,13 @@ class KinAccountTests: XCTestCase {
 
         return Stellar.sequence(account: funderPK, node: node)
             .then { sequence in
+                let operation = Operation.createAccount(destination: account, balance: Int64(100 * AssetUnitDivisor))
+
                 let tx = Transaction(sourceAccount: sourcePK,
                                      seqNum: sequence,
                                      timeBounds: nil,
                                      memo: .MEMO_NONE,
-                                     operations: [Operation.createAccount(destination: account,
-                                                                          balance: 100 * 10000000)])
+                                     operations: [operation])
 
                 let envelope = try Stellar.sign(transaction: tx,
                                                 signer: funder,
@@ -123,8 +121,6 @@ class KinAccountTests: XCTestCase {
         group.enter()
 
         var e: Error?
-
-        let asset = Asset(assetCode: "KIN", issuer: kNetworkId.issuer)!
 
         guard let issuer = issuer else {
             throw KinError.unknown
@@ -148,8 +144,8 @@ class KinAccountTests: XCTestCase {
 
                     return Stellar.payment(source: issuer,
                                            destination: account.stellarAccount.publicKey!,
-                                           amount: 100 * 10000000,
-                                           asset: asset,
+                                           amount: Int64(100 * AssetUnitDivisor),
+                                           asset: .ASSET_TYPE_NATIVE,
                                            node: self.node)
                         .error { error in
                             e = error
@@ -282,18 +278,17 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            let txId = try sendTransaction(from: account0,
-                                           to: account1.publicAddress,
-                                           kin: sendAmount,
-                                           memo: nil) as TransactionId?
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: nil) { (tx, error) in
+                let txId = try! self.sendTransaction(tx!, from: account0)
 
-            XCTAssertNotNil(txId)
+                XCTAssertNotNil(txId)
 
-            let balance0: Decimal = try getBalance(account0)
-            let balance1: Decimal = try getBalance(account1)
+                let balance0: Decimal = try! self.getBalance(account0)
+                let balance1: Decimal = try! self.getBalance(account1)
 
-            XCTAssertEqual(balance0, startBalance0 - sendAmount)
-            XCTAssertEqual(balance1, startBalance1 + sendAmount)
+                XCTAssertEqual(balance0, startBalance0 - sendAmount)
+                XCTAssertEqual(balance1, startBalance1 + sendAmount)
+            }
         }
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
@@ -322,18 +317,17 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            let txId = try sendTransaction(from: account0,
-                                           to: account1.publicAddress,
-                                           kin: sendAmount,
-                                           memo: "memo") as TransactionId?
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "memo") { (tx, error) in
+                let txId = try! self.sendTransaction(tx!, from: account0)
 
-            XCTAssertNotNil(txId)
+                XCTAssertNotNil(txId)
 
-            let balance0: Decimal = try getBalance(account0)
-            let balance1: Decimal = try getBalance(account1)
+                let balance0: Decimal = try! self.getBalance(account0)
+                let balance1: Decimal = try! self.getBalance(account1)
 
-            XCTAssertEqual(balance0, startBalance0 - sendAmount)
-            XCTAssertEqual(balance1, startBalance1 + sendAmount)
+                XCTAssertEqual(balance0, startBalance0 - sendAmount)
+                XCTAssertEqual(balance1, startBalance1 + sendAmount)
+            }
         }
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
@@ -362,18 +356,17 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            let txId = try sendTransaction(from: account0,
-                                           to: account1.publicAddress,
-                                           kin: sendAmount,
-                                           memo: "") as TransactionId?
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "") { (tx, error) in
+                let txId = try! self.sendTransaction(tx!, from: account0)
 
-            XCTAssertNotNil(txId)
+                XCTAssertNotNil(txId)
 
-            let balance0: Decimal = try getBalance(account0)
-            let balance1: Decimal = try getBalance(account1)
+                let balance0: Decimal = try! self.getBalance(account0)
+                let balance1: Decimal = try! self.getBalance(account1)
 
-            XCTAssertEqual(balance0, startBalance0 - sendAmount)
-            XCTAssertEqual(balance1, startBalance1 + sendAmount)
+                XCTAssertEqual(balance0, startBalance0 - sendAmount)
+                XCTAssertEqual(balance1, startBalance1 + sendAmount)
+            }
         }
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
@@ -390,22 +383,21 @@ class KinAccountTests: XCTestCase {
             }
 
             let balance: Decimal = try getBalance(account0)
+            let amount = balance * Decimal(AssetUnitDivisor) + 1
 
-            do {
-                _ = try sendTransaction(from: account0,
-                                        to: account1.publicAddress,
-                                        kin: balance * 10000000 + 1,
-                                        memo: nil) as TransactionId?
+            account0.generateTransaction(to: account1.publicAddress, kin: amount, memo: nil) { (tx, error) in
+                do {
+                    _ = try self.sendTransaction(tx!, from: account0)
 
-                XCTAssertTrue(false,
-                              "Tried to send kin with insufficient funds, but didn't get an error")
-            }
-            catch {
-                guard case KinError.insufficientFunds = error else {
-                    XCTAssertTrue(false,
-                                  "Tried to send kin, and got error, but not .insufficientFunds: \(error)")
+                    XCTAssertTrue(false, "Tried to send kin with insufficient funds, but didn't get an error")
+                }
+                catch {
+                    guard case KinError.insufficientFunds = error else {
+                        XCTAssertTrue(false,
+                                      "Tried to send kin, and got error, but not .insufficientFunds: \(error)")
 
-                    return
+                        return
+                    }
                 }
             }
         }
@@ -422,20 +414,19 @@ class KinAccountTests: XCTestCase {
                 return
         }
 
-        do {
-            _ = try sendTransaction(from: account0,
-                                    to: account1.publicAddress,
-                                    kin: 0,
-                                    memo: nil) as TransactionId?
-            XCTAssertTrue(false,
-                          "Tried to send kin with insufficient funds, but didn't get an error")
-        }
-        catch {
-            if let kinError = error as? KinError,
-                case KinError.invalidAmount = kinError {
-            } else {
-                XCTAssertTrue(false,
-                              "Received unexpected error: \(error.localizedDescription)")
+        account0.generateTransaction(to: account1.publicAddress, kin: 0, memo: nil) { (tx, error) in
+            do {
+                _ = try self.sendTransaction(tx!, from: account0)
+
+                XCTAssertTrue(false, "Tried to send kin with insufficient funds, but didn't get an error")
+            }
+            catch {
+                if let kinError = error as? KinError,
+                    case KinError.invalidAmount = kinError {
+                } else {
+                    XCTAssertTrue(false,
+                                  "Received unexpected error: \(error.localizedDescription)")
+                }
             }
         }
     }
@@ -461,12 +452,15 @@ class KinAccountTests: XCTestCase {
 
     func test_use_after_delete_transaction() {
         do {
-            let account = kinClient.accounts[0]
+            let account = kinClient.accounts[0]!
             
             try kinClient.deleteAccount(at: 0)
-            _ = try sendTransaction(from: account!, to: "", kin: 1, memo: nil)
 
-            XCTAssert(false, "An exception should have been thrown.")
+            account.generateTransaction(to: "", kin: 1, memo: nil) { (tx, error) in
+                account.sendTransaction(tx!, completion: { (txId, error) in
+                    XCTAssert(false, "An exception should have been thrown.")
+                })
+            }
         }
         catch {
             if let kinError = error as? KinError,
