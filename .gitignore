@@ -1,0 +1,12 @@
+.DS_Store
+
+KinSDK/KinSDK.xcodeproj/project.xcworkspace/xcuserdata
+KinSDK/KinSDK.xcodeproj/xcuserdata
+
+KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace/xcuserdata
+KinSampleApp/KinSampleApp.xcodeproj/xcuserdata
+
+KinSDK/build
+
+Docs/Output
+*.xcuserdatad
