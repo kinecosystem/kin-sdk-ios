@@ -9,28 +9,28 @@
 import Foundation
 
 public struct BCKeyUtils {
-    public static func base32(publicKey: Data) -> String {
+    public static func base32(publicKey: [UInt8]) -> String {
         return dataToBase32(publicKey, type: VersionBytes.ed25519PublicKey)
     }
 
-    public static func base32(seed: Data) -> String {
+    public static func base32(seed: [UInt8]) -> String {
         return dataToBase32(seed, type: VersionBytes.ed25519SecretSeed)
     }
 
-    public static func key(base32: String) -> Data {
+    public static func key(base32: String) -> [UInt8] {
         // Stellar represents a key in base32 using a leading type identifier and a trailing 2-byte
         // checksum, for a total of 35 bytes.  The actual key is stored in bytes 2-33.
 
         let binary: String = base32.reduce("") { $0 + fromTable[String($1)]! }
 
-        var d = Data()
+        var a = [UInt8]()
 
         for i: Int in stride(from: 8, to: 264, by: 8) {
             let s: String = binary[i..<(i + 8)]
-            d.append(UInt8(s, radix: 2)!)
+            a.append(UInt8(s, radix: 2)!)
         }
 
-        return d
+        return a
     }
 }
 
@@ -41,10 +41,10 @@ private struct VersionBytes {
     static let sha256Hash: UInt8 =  23 << 3             // X
 }
 
-private func dataToBase32(_ data: Data, type: UInt8) -> String {
+private func dataToBase32(_ data: [UInt8], type: UInt8) -> String {
     var d = Data([type])
 
-    d.append(data)
+    d.append(Data(data))
     d.append(contentsOf: d.crc16)
 
     return dataToBase32(d)
