@@ -13,9 +13,11 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/kinfoundation/kin-sdk-ios.git', :tag => "#{s.version}", :submodules => true  }
 
   s.source_files     = 'KinSDK/KinSDK/source/*.swift',
+                       'KinSDK/KinSDK/source/blockchain/**/*.swift',
+                       'KinSDK/KinSDK/source/third-party/SHA256.swift',
                        'KinSDK/KinSDK/source/third-party/keychain-swift/KeychainSwift/*.swift'
 
-  s.dependency 'StellarKit', '0.3.7'
+  s.dependency 'KinUtil'
   s.dependency 'Sodium', '0.6'
 
   s.ios.deployment_target = '8.0'
