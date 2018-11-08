@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import StellarKit
 import KinUtil
 
 public class PaymentWatch {

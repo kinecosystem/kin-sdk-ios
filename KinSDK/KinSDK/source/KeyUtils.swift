@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import StellarKit
 
 enum KeyUtilsError: Error {
     case encodingFailed (String)
@@ -24,7 +23,7 @@ public struct KeyUtils {
     }
 
     public static func keyPair(from seed: String) -> Sign.KeyPair? {
-        return Sodium().sign.keyPair(seed: StellarKit.KeyUtils.key(base32: seed))
+        return Sodium().sign.keyPair(seed: BCKeyUtils.key(base32: seed))
     }
 
     public static func seed(from passphrase: String,

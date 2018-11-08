@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import StellarKit
 
 enum KeyStoreErrors: Error {
     case storeFailed
@@ -144,7 +143,7 @@ public struct KeyStore {
 
     @discardableResult
     public static func importSecretSeed(_ seed: String, passphrase: String) throws -> StellarAccount {
-        let seedData = StellarKit.KeyUtils.key(base32: seed)
+        let seedData = BCKeyUtils.key(base32: seed)
 
         let storageKey = StorageClass.nextStorageKey()
 
@@ -207,7 +206,7 @@ public struct KeyStore {
             throw KeyStoreErrors.keypairGenerationFailed
         }
 
-        return AccountData(pkey: StellarKit.KeyUtils.base32(publicKey: keypair.publicKey),
+        return AccountData(pkey: BCKeyUtils.base32(publicKey: keypair.publicKey),
                            seed: encryptedSeed.hexString,
                            salt: salt,
                            extra: nil)

@@ -21,7 +21,7 @@ class KinAccountTests: XCTestCase {
     var issuer: StellarAccount?
 
     let endpoint = "http://localhost:8000"
-    let sNetworkId: StellarKit.NetworkId = .custom("private testnet")
+    let sNetworkId: BCNetworkId = .custom("private testnet")
     lazy var node = Stellar.Node(baseURL: URL(string: endpoint)!, networkId: sNetworkId)
 
     lazy var kNetworkId = KinSDK.NetworkId.custom(issuer: "GBSJ7KFU2NXACVHVN2VWQIXIV5FWH6A7OIDDTEUYTCJYGY3FJMYIDTU7",

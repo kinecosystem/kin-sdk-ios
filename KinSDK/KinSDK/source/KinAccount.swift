@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import StellarKit
-import StellarErrors
 import KinUtil
 
 /**
@@ -51,15 +49,31 @@ public protocol KinAccount: class {
 
     func status() -> Promise<AccountStatus>
 
+    /**
+     // TODO: update this comment
+
+     Generate a Kin transaction for a specific address.
+
+     The completion block is called after the transaction is posted on the network, which is prior
+     to confirmation.
+
+     The completion block **is not dispatched on the main thread**.
+
+     - parameter recipient: The recipient's public address
+     - parameter kin: The amount of Kin to be sent
+     - parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     */
     func generateTransaction(to recipient: String,
                              kin: Decimal,
                              memo: String?,
                              completion: @escaping GenerateTransactionCompletion)
-    
+
+    func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<Transaction>
+
     /**
      // TODO: update this comment
      
-     Posts a Kin transfer to a specific address.
+     Posts a Kin transaction to a specific address.
      
      The completion block is called after the transaction is posted on the network, which is prior
      to confirmation.
@@ -73,17 +87,12 @@ public protocol KinAccount: class {
     func sendTransaction(_ transaction: Transaction, completion: @escaping SendTransactionCompletion)
     
     /**
-     Posts a Kin transfer to a specific address.
+     Posts a Kin transaction to a specific address.
 
-     - parameter recipient: The recipient's public address
-     - parameter kin: The amount of Kin to be sent
-     - parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
-
-     - returns: A promise which is signalled with the `TransactionId`.
+     - Parameter transaction: The transaction to send.
+     - Returns: A promise which is signalled with the `TransactionId`.
      */
-//    func sendTransaction(to recipient: String,
-//                         kin: Decimal,
-//                         memo: String?) -> Promise<TransactionId>
+    func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId>
 
     /**
      Retrieve the current Kin balance.
@@ -120,6 +129,14 @@ public protocol KinAccount: class {
 }
 
 final class KinStellarAccount: KinAccount {
+    func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<Transaction> {
+        return Promise()
+    }
+
+    func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId> {
+        return Promise()
+    }
+
     internal let stellarAccount: StellarAccount
     fileprivate let node: Stellar.Node
     fileprivate let asset: Asset = .ASSET_TYPE_NATIVE
@@ -236,7 +253,7 @@ final class KinStellarAccount: KinAccount {
         
         let prefixedMemo = Memo.prependAppIdIfNeeded(appId, to: memo ?? "")
         
-        guard prefixedMemo.utf8.count <= StellarKit.Transaction.MaxMemoLength else {
+        guard prefixedMemo.utf8.count <= Transaction.MaxMemoLength else {
             completion(nil, StellarError.memoTooLong(prefixedMemo))
             return
         }
