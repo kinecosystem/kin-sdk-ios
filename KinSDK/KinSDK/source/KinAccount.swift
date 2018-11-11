@@ -50,47 +50,53 @@ public protocol KinAccount: class {
     func status() -> Promise<AccountStatus>
 
     /**
-     // TODO: update this comment
-
      Generate a Kin transaction for a specific address.
 
      The completion block is called after the transaction is posted on the network, which is prior
      to confirmation.
 
-     The completion block **is not dispatched on the main thread**.
+     - Attention: The completion block **is not dispatched on the main thread**.
 
-     - parameter recipient: The recipient's public address
-     - parameter kin: The amount of Kin to be sent
-     - parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter recipient: The recipient's public address.
+     - Parameter kin: The amount of Kin to be sent.
+     - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter completion: A completion with the `Transaction` or an `Error`.
      */
     func generateTransaction(to recipient: String,
                              kin: Decimal,
                              memo: String?,
                              completion: @escaping GenerateTransactionCompletion)
 
+    /**
+     Generate a Kin transaction for a specific address.
+
+     - Parameter recipient: The recipient's public address.
+     - Parameter kin: The amount of Kin to be sent.
+     - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+
+     - Returns: A promise which is signalled with the `Transaction` or an `Error`.
+     */
     func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<Transaction>
 
     /**
-     // TODO: update this comment
-     
-     Posts a Kin transaction to a specific address.
+     Send a Kin transaction.
      
      The completion block is called after the transaction is posted on the network, which is prior
      to confirmation.
      
-     The completion block **is not dispatched on the main thread**.
+     - Attention: The completion block **is not dispatched on the main thread**.
      
-     - parameter recipient: The recipient's public address
-     - parameter kin: The amount of Kin to be sent
-     - parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter transaction: The transaction to send.
+     - Parameter completion: A completion with the `TransactionId` or an `Error`.
      */
     func sendTransaction(_ transaction: Transaction, completion: @escaping SendTransactionCompletion)
     
     /**
-     Posts a Kin transaction to a specific address.
+     Send a Kin transaction.
 
      - Parameter transaction: The transaction to send.
-     - Returns: A promise which is signalled with the `TransactionId`.
+
+     - Returns: A promise which is signalled with the `TransactionId` or an `Error`.
      */
     func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId>
 
@@ -129,14 +135,6 @@ public protocol KinAccount: class {
 }
 
 final class KinStellarAccount: KinAccount {
-    func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<Transaction> {
-        return Promise()
-    }
-
-    func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId> {
-        return Promise()
-    }
-
     internal let stellarAccount: StellarAccount
     fileprivate let node: Stellar.Node
     fileprivate let asset: Asset = .ASSET_TYPE_NATIVE
@@ -277,6 +275,14 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
+    func generateTransaction(to recipient: String, kin: Decimal, memo: String? = nil) -> Promise<Transaction> {
+        let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
+            self.generateTransaction(to: recipient, kin: kin, memo: memo, completion: txComp)
+        }
+
+        return promise(txClosure)
+    }
+
     func sendTransaction(_ transaction: Transaction, completion: @escaping SendTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
@@ -312,13 +318,13 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-//    func sendTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<TransactionId> {
-//        let txClosure = { (txComp: @escaping SendTransactionCompletion) in
-//            self.sendTransaction(to: recipient, kin: kin, memo: memo, completion: txComp)
-//        }
-//
-//        return promise(txClosure)
-//    }
+    func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId> {
+        let txClosure = { (txComp: @escaping SendTransactionCompletion) in
+            self.sendTransaction(transaction, completion: txComp)
+        }
+
+        return promise(txClosure)
+    }
 
     func balance(completion: @escaping BalanceCompletion) {
         guard deleted == false else {
