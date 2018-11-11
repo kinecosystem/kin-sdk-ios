@@ -60,7 +60,7 @@ public protocol KinAccount: class {
      - Parameter recipient: The recipient's public address.
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
-     - Parameter completion: A completion with the `Transaction` or an `Error`.
+     - Parameter completion: A completion with the `TransactionEnvelope` or an `Error`.
      */
     func generateTransaction(to recipient: String,
                              kin: Decimal,
@@ -74,9 +74,9 @@ public protocol KinAccount: class {
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
 
-     - Returns: A promise which is signalled with the `Transaction` or an `Error`.
+     - Returns: A promise which is signalled with the `TransactionEnvelope` or an `Error`.
      */
-    func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<Transaction>
+    func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<TransactionEnvelope>
 
     /**
      Send a Kin transaction.
@@ -86,19 +86,19 @@ public protocol KinAccount: class {
      
      - Attention: The completion block **is not dispatched on the main thread**.
      
-     - Parameter transaction: The transaction to send.
+     - Parameter transactionEnvelope: The `TransactionEnvelope` to send.
      - Parameter completion: A completion with the `TransactionId` or an `Error`.
      */
-    func sendTransaction(_ transaction: Transaction, completion: @escaping SendTransactionCompletion)
+    func sendTransaction(_ transactionEnvelope: TransactionEnvelope, completion: @escaping SendTransactionCompletion)
     
     /**
      Send a Kin transaction.
 
-     - Parameter transaction: The transaction to send.
+     - Parameter transactionEnvelope: The `TransactionEnvelope` to send.
 
      - Returns: A promise which is signalled with the `TransactionId` or an `Error`.
      */
-    func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId>
+    func sendTransaction(_ transactionEnvelope: TransactionEnvelope) -> Promise<TransactionId>
 
     /**
      Retrieve the current Kin balance.
@@ -263,8 +263,8 @@ final class KinStellarAccount: KinAccount {
                             asset: asset,
                             memo: try Memo(prefixedMemo),
                             node: node)
-                .then { transaction -> Void in
-                    completion(transaction, nil)
+                .then { transactionEnvelope -> Void in
+                    completion(transactionEnvelope, nil)
                 }
                 .error { error in
                     completion(nil, KinError.transactionCreationFailed(error))
@@ -275,7 +275,7 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-    func generateTransaction(to recipient: String, kin: Decimal, memo: String? = nil) -> Promise<Transaction> {
+    func generateTransaction(to recipient: String, kin: Decimal, memo: String? = nil) -> Promise<TransactionEnvelope> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
             self.generateTransaction(to: recipient, kin: kin, memo: memo, completion: txComp)
         }
@@ -283,7 +283,7 @@ final class KinStellarAccount: KinAccount {
         return promise(txClosure)
     }
 
-    func sendTransaction(_ transaction: Transaction, completion: @escaping SendTransactionCompletion) {
+    func sendTransaction(_ transactionEnvelope: TransactionEnvelope, completion: @escaping SendTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
@@ -293,34 +293,26 @@ final class KinStellarAccount: KinAccount {
             return try self.stellarAccount.sign(message: message, passphrase: "")
         }
 
-        do {
-            let enveloper = try Stellar.sign(transaction: transaction, signer: stellarAccount, node: node)
-
-            Stellar.postTransaction(envelope: enveloper, node: node)
-                .then { txHash -> Void in
-                    self.stellarAccount.sign = nil
-                    completion(txHash, nil)
-                }
-                .error { error in
-                    self.stellarAccount.sign = nil
-
-                    if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
-                        completion(nil, KinError.insufficientFunds)
-                        return
-                    }
-
-                    completion(nil, KinError.paymentFailed(error))
+        Stellar.postTransaction(envelope: transactionEnvelope, node: node)
+            .then { txHash -> Void in
+                self.stellarAccount.sign = nil
+                completion(txHash, nil)
             }
-        }
-        catch {
-            self.stellarAccount.sign = nil
-            completion(nil, error)
+            .error { error in
+                self.stellarAccount.sign = nil
+
+                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
+                    completion(nil, KinError.insufficientFunds)
+                    return
+                }
+
+                completion(nil, KinError.paymentFailed(error))
         }
     }
 
-    func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId> {
+    func sendTransaction(_ transactionEnvelope: TransactionEnvelope) -> Promise<TransactionId> {
         let txClosure = { (txComp: @escaping SendTransactionCompletion) in
-            self.sendTransaction(transaction, completion: txComp)
+            self.sendTransaction(transactionEnvelope, completion: txComp)
         }
 
         return promise(txClosure)

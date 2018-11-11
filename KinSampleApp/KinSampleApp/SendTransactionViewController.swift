@@ -36,11 +36,14 @@ class SendTransactionViewController: UIViewController {
         let address = addressTextField.text ?? ""
         
         promise(curry(kinAccount.generateTransaction)(address)(amount)(memoTextField.text))
-            .then(on: .main) { [weak self] transaction -> Promise<TransactionId> in
+            .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionId> in
                 guard let strongSelf = self else {
-                    return Promise().signal(KinError.unknown) // TODO: update with correct error
+                    return Promise().signal(KinError.unknown)
                 }
-                return promise(curry(strongSelf.kinAccount.sendTransaction)(transaction))
+
+                // TODO: send envelope to whitelist server
+
+                return promise(curry(strongSelf.kinAccount.sendTransaction)(transactionEnvelope))
             }
             .then(on: DispatchQueue.main, { [weak self] transactionId in
                 let message = "Transaction with ID \(transactionId) sent to \(address)"

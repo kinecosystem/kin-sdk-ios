@@ -28,10 +28,10 @@ public typealias Balance = Decimal
 public typealias TransactionId = String
 
 /**
- Closure type used by the generate transaction API upon completion, which contains a `Transaction` in
- case of success, or an error in case of failure.
+ Closure type used by the generate transaction API upon completion, which contains a `TransactionEnvelope`
+ in case of success, or an error in case of failure.
  */
-public typealias GenerateTransactionCompletion = (Transaction?, Error?) -> Void
+public typealias GenerateTransactionCompletion = (TransactionEnvelope?, Error?) -> Void
 
 /**
  Closure type used by the send transaction API upon completion, which contains a `TransactionId` in

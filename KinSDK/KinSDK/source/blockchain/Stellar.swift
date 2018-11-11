@@ -62,9 +62,9 @@ public enum Stellar {
                                    amount: Int64,
                                    asset: Asset = .ASSET_TYPE_NATIVE,
                                    memo: Memo = .MEMO_NONE,
-                                   node: Node) -> Promise<Transaction> {
+                                   node: Node) -> Promise<TransactionEnvelope> {
         return balance(account: destination, asset: asset, node: node)
-            .then { _ -> Promise<Transaction> in
+            .then { _ -> Promise<TransactionEnvelope> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
                                            asset: asset,
@@ -73,7 +73,7 @@ public enum Stellar {
                 return TxBuilder(source: source, node: node)
                     .set(memo: memo)
                     .add(operation: op)
-                    .tx()
+                    .envelope(networkId: node.networkId.description)
             }
             .transformError({ error -> Error in
                 switch error {
