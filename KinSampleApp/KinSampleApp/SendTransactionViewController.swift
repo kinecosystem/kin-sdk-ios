@@ -8,7 +8,6 @@
 
 import UIKit
 import KinSDK
-import StellarErrors
 import KinUtil
 
 class SendTransactionViewController: UIViewController {
