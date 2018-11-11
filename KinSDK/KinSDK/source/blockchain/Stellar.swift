@@ -12,7 +12,7 @@ import KinUtil
 public protocol Account {
     var publicKey: String? { get }
     
-    var sign: ((Data) throws -> Data)? { get }
+    var sign: (([UInt8]) throws -> [UInt8])? { get }
 }
 
 private let testId = "Test SDF Network ; September 2015"
@@ -311,7 +311,7 @@ public enum Stellar {
         
         return try KinSDK.sign(transaction: tx,
                                signer: signer,
-                               hint: BCKeyUtils.key(base32: publicKey).suffix(4),
+                               hint: Data(BCKeyUtils.key(base32: publicKey).suffix(4)),
                                networkId: node.networkId.description)
     }
     
