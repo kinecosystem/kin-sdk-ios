@@ -15,33 +15,6 @@ public protocol Account {
     var sign: (([UInt8]) throws -> [UInt8])? { get }
 }
 
-private let testId = "Test SDF Network ; September 2015"
-private let mainId = "Public Global Stellar Network ; September 2015"
-
-public enum BCNetworkId {
-    case test
-    case main
-    case custom(String)
-}
-
-extension BCNetworkId: CustomStringConvertible {
-    public init(_ description: String) {
-        switch description {
-        case testId: self = .test
-        case mainId: self = .main
-        default: self = .custom(description)
-        }
-    }
-    
-    public var description: String {
-        switch self {
-        case .test: return testId
-        case .main: return mainId
-        case .custom(let identifier): return identifier
-        }
-    }
-}
-
 /**
  `Stellar` provides an API for communicating with Stellar Horizon servers, with an emphasis on
  supporting non-native assets.

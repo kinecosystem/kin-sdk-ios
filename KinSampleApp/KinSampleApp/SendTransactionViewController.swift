@@ -11,6 +11,7 @@ import KinSDK
 import KinUtil
 
 class SendTransactionViewController: UIViewController {
+    var kinClient: KinClient!
     var kinAccount: KinAccount!
 
     @IBOutlet weak var sendButton: UIButton!
@@ -31,6 +32,54 @@ class SendTransactionViewController: UIViewController {
         amountTextField.becomeFirstResponder()
     }
 
+    func a(_ transactionEnvelope: TransactionEnvelope) {
+        // TODO: send envelope to whitelist server
+        // !!!: this is sample code. needs to be moved to correct locations.
+
+        struct WhiteListObj: Codable { // TODO: better object name
+            let transactionEnvelope: TransactionEnvelope
+            let networkId: NetworkId
+
+            enum CodingKeys: String, CodingKey {
+                case transactionEnvelope = "transaction"
+                case networkId = "networkId"
+            }
+
+            init(transactionEnvelope: TransactionEnvelope, networkId: NetworkId) {
+                self.transactionEnvelope = transactionEnvelope
+                self.networkId = networkId
+            }
+
+            init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: CodingKeys.self)
+
+                let transactionEnvelopeData = try values.decode(Data.self, forKey: .transactionEnvelope)
+                transactionEnvelope = try XDRDecoder.decode(TransactionEnvelope.self, data: transactionEnvelopeData)
+
+                networkId = try values.decode(NetworkId.self, forKey: .networkId)
+            }
+
+            func encode(to encoder: Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+
+                let transactionEnvelopeData = try XDREncoder.encode(transactionEnvelope)
+                try container.encode(transactionEnvelopeData, forKey: .transactionEnvelope)
+
+                try container.encode(networkId, forKey: .networkId)
+            }
+        }
+
+        let wlo = WhiteListObj(transactionEnvelope: transactionEnvelope, networkId: .mainNet)
+
+        do {
+            let data = try JSONEncoder().encode(wlo)
+//            let b = try JSONDecoder().decode(WhiteListObj.self, from: data)
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            print("\(json)")
+        }
+        catch {}
+    }
+
     @IBAction func sendTapped(_ sender: Any) {
         let amount = Decimal(UInt64(amountTextField.text ?? "0") ?? 0)
         let address = addressTextField.text ?? ""
@@ -41,7 +90,7 @@ class SendTransactionViewController: UIViewController {
                     return Promise().signal(KinError.unknown)
                 }
 
-                // TODO: send envelope to whitelist server
+                strongSelf.a(transactionEnvelope)
 
                 return promise(curry(strongSelf.kinAccount.sendTransaction)(transactionEnvelope))
             }

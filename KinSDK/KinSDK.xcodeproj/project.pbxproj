@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		680F782421994F1C0064DA26 /* BCNetworkId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680F782321994F1C0064DA26 /* BCNetworkId.swift */; };
 		688D2C382173694E00CF5A2C /* AppIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686759EC21736844001E9626 /* AppIdTests.swift */; };
 		68D04A2321940FA500F27492 /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0A21940FA500F27492 /* SHA256.swift */; };
 		68D04A2421940FA500F27492 /* StellarErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0D21940FA500F27492 /* StellarErrors.swift */; };
@@ -161,6 +162,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		680F782321994F1C0064DA26 /* BCNetworkId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCNetworkId.swift; sourceTree = "<group>"; };
 		686759EC21736844001E9626 /* AppIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdTests.swift; sourceTree = "<group>"; };
 		68D04A0A21940FA500F27492 /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
 		68D04A0D21940FA500F27492 /* StellarErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarErrors.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				68D04A1321940FA500F27492 /* Transaction.swift */,
 				68D04A1421940FA500F27492 /* Asset.swift */,
 				68D04A1521940FA500F27492 /* Operation.swift */,
+				680F782321994F1C0064DA26 /* BCNetworkId.swift */,
 			);
 			path = types;
 			sourceTree = "<group>";
@@ -752,6 +755,7 @@
 				82140EC41FA88EAF00FAF19B /* KinTypes.swift in Sources */,
 				68D04A2421940FA500F27492 /* StellarErrors.swift in Sources */,
 				68D04A3021940FA500F27492 /* StellarOps.swift in Sources */,
+				680F782421994F1C0064DA26 /* BCNetworkId.swift in Sources */,
 				68D04A2521940FA500F27492 /* PublicKey.swift in Sources */,
 				91D4395E1FC410860006FEB5 /* KinAccount.swift in Sources */,
 				68D04A2E21940FA500F27492 /* StellarResults.swift in Sources */,

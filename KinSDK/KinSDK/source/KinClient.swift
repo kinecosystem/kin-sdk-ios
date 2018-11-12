@@ -121,4 +121,45 @@ public final class KinClient {
 
         accounts.flushCache()
     }
+
+    /**
+     Cached minimum fee.
+     */
+    private var _minFee: Stroop?
+
+    /**
+     Get the minimum fee for sending a transaction.
+
+     - Returns: The minimum fee needed to send a transaction.
+     */
+    public func minFee() -> Promise<Stroop> {
+        // TODO: make network request to get the value
+        let promise = Promise<Stroop>()
+
+        if let minFee = _minFee {
+            promise.signal(minFee)
+        }
+        else {
+            let request = URLRequest(url: URL(string: "")!)
+
+            URLSession.shared.dataTask(with: request, completionHandler: { (data, _, error) in
+                // ???: is this returning on a different thread
+
+                if let error = error {
+                    promise.signal(error)
+                    return
+                }
+
+                guard let minFee = data as? Stroop else {
+//                    promise.signal(Error)
+                    return
+                }
+                
+                self._minFee = minFee
+                promise.signal(minFee)
+            }).resume()
+        }
+
+        return promise
+    }
 }

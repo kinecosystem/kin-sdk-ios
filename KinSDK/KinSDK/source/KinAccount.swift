@@ -63,7 +63,7 @@ public protocol KinAccount: class {
      - Parameter completion: A completion with the `TransactionEnvelope` or an `Error`.
      */
     func generateTransaction(to recipient: String,
-                             kin: Decimal,
+                             kin: Kin,
                              memo: String?,
                              completion: @escaping GenerateTransactionCompletion)
 
@@ -76,7 +76,7 @@ public protocol KinAccount: class {
 
      - Returns: A promise which is signalled with the `TransactionEnvelope` or an `Error`.
      */
-    func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<TransactionEnvelope>
+    func generateTransaction(to recipient: String, kin: Kin, memo: String?) -> Promise<TransactionEnvelope>
 
     /**
      Send a Kin transaction.
@@ -178,6 +178,7 @@ final class KinStellarAccount: KinAccount {
         return jsonString
     }
 
+    // TODO: activate shouldn't be needed any more
     public func activate(completion: @escaping (String?, Error?) -> Void) {
         stellarAccount.sign = { message in
             return try self.stellarAccount.sign(message: message, passphrase: "")
@@ -234,7 +235,7 @@ final class KinStellarAccount: KinAccount {
     }
     
     func generateTransaction(to recipient: String,
-                             kin: Decimal,
+                             kin: Kin,
                              memo: String? = nil,
                              completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
@@ -275,7 +276,7 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-    func generateTransaction(to recipient: String, kin: Decimal, memo: String? = nil) -> Promise<TransactionEnvelope> {
+    func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil) -> Promise<TransactionEnvelope> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
             self.generateTransaction(to: recipient, kin: kin, memo: memo, completion: txComp)
         }

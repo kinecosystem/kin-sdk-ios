@@ -18,6 +18,7 @@ public enum StellarError: Error {
     case missingSignClosure
     case urlEncodingFailed
     case dataEncodingFailed
+    case dataDencodingFailed
     case signingFailed
     case destinationNotReadyForAsset (Error, String?)
     case unknownError (Any?)

@@ -53,6 +53,16 @@ public enum AccountStatus: Int {
 
 internal let AssetUnitDivisor: UInt64 = 10_000
 
+/**
+ Kin is the native currency of the network.
+ */
+public typealias Kin = Decimal
+
+/**
+ Stroop is the smallest amount unit. It is one ten-thousandth: `1/10000` or `0.0001`.
+ */
+public typealias Stroop = UInt32
+
 public struct PaymentInfo {
     private let txEvent: TxEvent
     private let account: String

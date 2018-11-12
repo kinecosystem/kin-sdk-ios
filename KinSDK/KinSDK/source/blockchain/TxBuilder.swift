@@ -12,7 +12,7 @@ import KinUtil
 public final class TxBuilder {
     private var source: Account
     private var memo: Memo?
-    private var fee: UInt32?
+    private var fee: Stroop?
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
     private var opSigners = [Account]()
@@ -30,7 +30,7 @@ public final class TxBuilder {
         return self
     }
 
-    public func set(fee: UInt32) -> TxBuilder {
+    public func set(fee: Stroop) -> TxBuilder {
         self.fee = fee
 
         return self
