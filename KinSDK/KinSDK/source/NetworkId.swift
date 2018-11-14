@@ -46,7 +46,7 @@ extension NetworkId {
         case .mainNet:
             return BCNetworkId("Public Global Kin Ecosystem Network ; June 2018")
         case .testNet:
-            return BCNetworkId("private testnet")
+            return BCNetworkId("Integration Test Network ; zulucrypto") // !!!: debug
         case .playground:
             return BCNetworkId("Kin Playground Network ; June 2018")
         case .custom(let stellarNetworkId):

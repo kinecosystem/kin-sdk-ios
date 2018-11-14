@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         if production {
             provider = Provider(url: URL(string: "https://horizon-ecosystem.kininfrastructure.com")!, networkId: .mainNet)
         } else {
-            provider = Provider(url: URL(string: "https://horizon-playground.kininfrastructure.com")!, networkId: .playground)
+            provider = Provider(url: URL(string: "18.206.35.110:8008")!, networkId: .testNet)
         }
         
         do {
