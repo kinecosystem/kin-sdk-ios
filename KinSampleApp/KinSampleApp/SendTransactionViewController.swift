@@ -37,7 +37,7 @@ class SendTransactionViewController: UIViewController {
         let promise: Promise<TransactionEnvelope> = Promise()
 
         var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+//        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(whitelistEnvelope)
 
@@ -47,12 +47,18 @@ class SendTransactionViewController: UIViewController {
                 return
             }
 
-            guard let data = data, let envelope = try? JSONDecoder().decode(WhitelistEnvelope.self, from: data) else {
-                promise.signal(KinError.unknown)
+            guard let data = data else {
+                promise.signal(KinError.unknown) // Error: no returned data
                 return
             }
 
-            promise.signal(envelope.transactionEnvelope)
+            do {
+                let envelope = try JSONDecoder().decode(WhitelistEnvelope.self, from: data)
+                promise.signal(envelope.transactionEnvelope)
+            }
+            catch {
+                promise.signal(error)
+            }
         }
 
         task.resume()
@@ -66,13 +72,14 @@ class SendTransactionViewController: UIViewController {
         
         promise(curry(kinAccount.generateTransaction)(address)(amount)(memoTextField.text))
             .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionEnvelope> in
-                let urlString = "" // TODO: url to whitelist sever
+                let urlString = "18.206.35.110:3000/whitelist"
 
                 guard let strongSelf = self, let url = URL(string: urlString) else {
                     return Promise().signal(KinError.unknown)
                 }
 
-                let whitelistEnvelope = WhitelistEnvelope(transactionEnvelope: transactionEnvelope, networkId: .mainNet)
+                let networkId = strongSelf.kinClient.networkId
+                let whitelistEnvelope = WhitelistEnvelope(transactionEnvelope: transactionEnvelope, networkId: networkId)
 
                 return strongSelf.whitelistTransaction(to: url, whitelistEnvelope: whitelistEnvelope)
             }
