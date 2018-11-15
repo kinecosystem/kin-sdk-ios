@@ -207,7 +207,7 @@ public enum Stellar {
      - Returns: A promise which will be signalled with the result of the operation.
      */
     public static func accountDetails(account: String, node: Node) -> Promise<AccountDetails> {
-        let url = Endpoint(url: node.baseURL).account(account).url
+        let url = Endpoint(node.baseURL).account(account).url
         
         return issue(request: URLRequest(url: url))
             .then { data in
@@ -238,7 +238,7 @@ public enum Stellar {
     public static func txWatch(account: String? = nil,
                                lastEventId: String?,
                                node: Node) -> EventWatcher<TxEvent> {
-        let url = Endpoint(url: node.baseURL).account(account).transactions().cursor(lastEventId).url
+        let url = Endpoint(node.baseURL).account(account).transactions().cursor(lastEventId).url
         
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
@@ -257,7 +257,7 @@ public enum Stellar {
     public static func paymentWatch(account: String? = nil,
                                     lastEventId: String?,
                                     node: Node) -> EventWatcher<PaymentEvent> {
-        let url = Endpoint(url: node.baseURL).account(account).payments().cursor(lastEventId).url
+        let url = Endpoint(node.baseURL).account(account).payments().cursor(lastEventId).url
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
@@ -272,6 +272,20 @@ public enum Stellar {
         return accountDetails(account: account, node: node)
             .then { accountDetails in
                 return Promise<UInt64>().signal(accountDetails.seqNum + 1)
+        }
+    }
+
+    public static func networkParameters(node: Node) -> Promise<NetworkParameters> {
+        let url = Endpoint(node.baseURL).ledgers().order(.descending).limit(1).url
+
+        return issue(request: URLRequest(url: url))
+            .then { data in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    throw StellarError.unknownError(horizonError)
+                }
+
+                return try Promise<NetworkParameters>(JSONDecoder().decode(NetworkParameters.self,
+                                                                           from: data))
         }
     }
 
@@ -305,7 +319,7 @@ public enum Stellar {
             return Promise<String>(StellarError.dataEncodingFailed)
         }
         
-        var request = URLRequest(url: Endpoint(url: node.baseURL).transactions().url)
+        var request = URLRequest(url: Endpoint(node.baseURL).transactions().url)
         request.httpMethod = "POST"
         request.httpBody = httpBody
         
