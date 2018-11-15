@@ -8,7 +8,6 @@
 
 import XCTest
 @testable import KinSDK
-@testable import StellarKit
 import KinUtil
 
 class KinAccountTests: XCTestCase {
@@ -24,8 +23,7 @@ class KinAccountTests: XCTestCase {
     let sNetworkId: BCNetworkId = .custom("private testnet")
     lazy var node = Stellar.Node(baseURL: URL(string: endpoint)!, networkId: sNetworkId)
 
-    lazy var kNetworkId = KinSDK.NetworkId.custom(issuer: "GBSJ7KFU2NXACVHVN2VWQIXIV5FWH6A7OIDDTEUYTCJYGY3FJMYIDTU7",
-                                                      stellarNetworkId: sNetworkId)
+    lazy var kNetworkId = KinSDK.NetworkId.custom(stellarNetworkId: sNetworkId)
 
     override func setUp() {
         super.setUp()
@@ -67,9 +65,9 @@ class KinAccountTests: XCTestCase {
         kinClient.deleteKeystore()
     }
 
-    func sendTransaction(_ transaction: Transaction, from account: KinAccount) throws -> TransactionId {
+    func sendTransaction(_ envelope: TransactionEnvelope, from account: KinAccount) throws -> TransactionId {
         let txClosure = { (txComp: @escaping SendTransactionCompletion) in
-            account.sendTransaction(transaction, completion: txComp)
+            account.sendTransaction(envelope, completion: txComp)
         }
 
         if let txHash = try serialize(txClosure) {
@@ -91,7 +89,8 @@ class KinAccountTests: XCTestCase {
         let funderPK = "GCLBBAIDP34M4JACPQJUYNSPZCQK7IRHV7ETKV6U53JPYYUIIVDVJJFQ"
         let funderSK = "SDBDJVXHPVQGDXYHEVOBBV4XZUDD7IQTXM5XHZRLXRJVY5YMH4YUCNZC"
 
-        let sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(KeyUtils.key(base32: funderPK)))
+        let keyPair = BCKeyUtils.key(base32: funderPK)
+        let sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(keyPair))
 
         let funder = try! KeyStore.importSecretSeed(funderSK, passphrase: passphrase)
         funder.sign = { message in
@@ -278,8 +277,8 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: nil) { (tx, error) in
-                let txId = try! self.sendTransaction(tx!, from: account0)
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: nil) { (envelope, error) in
+                let txId = try! self.sendTransaction(envelope!, from: account0)
 
                 XCTAssertNotNil(txId)
 
@@ -317,8 +316,8 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "memo") { (tx, error) in
-                let txId = try! self.sendTransaction(tx!, from: account0)
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "memo") { (envelope, error) in
+                let txId = try! self.sendTransaction(envelope!, from: account0)
 
                 XCTAssertNotNil(txId)
 
@@ -356,8 +355,8 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "") { (tx, error) in
-                let txId = try! self.sendTransaction(tx!, from: account0)
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "") { (envelope, error) in
+                let txId = try! self.sendTransaction(envelope!, from: account0)
 
                 XCTAssertNotNil(txId)
 
@@ -385,9 +384,9 @@ class KinAccountTests: XCTestCase {
             let balance: Decimal = try getBalance(account0)
             let amount = balance * Decimal(AssetUnitDivisor) + 1
 
-            account0.generateTransaction(to: account1.publicAddress, kin: amount, memo: nil) { (tx, error) in
+            account0.generateTransaction(to: account1.publicAddress, kin: amount, memo: nil) { (envelope, error) in
                 do {
-                    _ = try self.sendTransaction(tx!, from: account0)
+                    _ = try self.sendTransaction(envelope!, from: account0)
 
                     XCTAssertTrue(false, "Tried to send kin with insufficient funds, but didn't get an error")
                 }
@@ -414,9 +413,9 @@ class KinAccountTests: XCTestCase {
                 return
         }
 
-        account0.generateTransaction(to: account1.publicAddress, kin: 0, memo: nil) { (tx, error) in
+        account0.generateTransaction(to: account1.publicAddress, kin: 0, memo: nil) { (envelope, error) in
             do {
-                _ = try self.sendTransaction(tx!, from: account0)
+                _ = try self.sendTransaction(envelope!, from: account0)
 
                 XCTAssertTrue(false, "Tried to send kin with insufficient funds, but didn't get an error")
             }
@@ -456,8 +455,8 @@ class KinAccountTests: XCTestCase {
             
             try kinClient.deleteAccount(at: 0)
 
-            account.generateTransaction(to: "", kin: 1, memo: nil) { (tx, error) in
-                account.sendTransaction(tx!, completion: { (txId, error) in
+            account.generateTransaction(to: "", kin: 1, memo: nil) { (envelope, error) in
+                account.sendTransaction(envelope!, completion: { (txId, error) in
                     XCTAssert(false, "An exception should have been thrown.")
                 })
             }
