@@ -256,7 +256,11 @@ final class KinStellarAccount: KinAccount {
             completion(nil, StellarError.memoTooLong(prefixedMemo))
             return
         }
-        
+
+        stellarAccount.sign = { message in
+            return try self.stellarAccount.sign(message: message, passphrase: "")
+        }
+
         do {
             Stellar.transaction(source: stellarAccount,
                             destination: recipient,
@@ -265,13 +269,16 @@ final class KinStellarAccount: KinAccount {
                             memo: try Memo(prefixedMemo),
                             node: node)
                 .then { transactionEnvelope -> Void in
+                    self.stellarAccount.sign = nil
                     completion(transactionEnvelope, nil)
                 }
                 .error { error in
+                    self.stellarAccount.sign = nil
                     completion(nil, KinError.transactionCreationFailed(error))
             }
         }
         catch {
+            self.stellarAccount.sign = nil
             completion(nil, error)
         }
     }
@@ -290,18 +297,11 @@ final class KinStellarAccount: KinAccount {
             return
         }
 
-        stellarAccount.sign = { message in
-            return try self.stellarAccount.sign(message: message, passphrase: "")
-        }
-
         Stellar.postTransaction(envelope: transactionEnvelope, node: node)
             .then { txHash -> Void in
-                self.stellarAccount.sign = nil
                 completion(txHash, nil)
             }
             .error { error in
-                self.stellarAccount.sign = nil
-
                 if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
                     completion(nil, KinError.insufficientFunds)
                     return
