@@ -15,26 +15,26 @@ public final class KinClient {
     /**
      Convenience initializer to instantiate a `KinClient` with a `ServiceProvider`.
 
-     - parameter provider: The `ServiceProvider` instance that provides the `URL` and `NetworkId`.
+     - parameter provider: The `ServiceProvider` instance that provides the `URL` and `Network`.
      - parameter appId: The `AppId` of the host application.
      */
     public convenience init(provider: ServiceProvider, appId: AppId) {
-        self.init(with: provider.url, networkId: provider.networkId, appId: appId)
+        self.init(with: provider.url, network: provider.network, appId: appId)
     }
 
     /**
-     Instantiates a `KinClient` with a `URL` and a `NetworkId`.
+     Instantiates a `KinClient` with a `URL` and a `Network`.
 
      - parameter nodeProviderUrl: The `URL` of the node this client will communicate to.
-     - parameter networkId: The `NetworkId` to be used.
+     - parameter network: The `Network` to be used.
      - parameter appId: The `AppId` of the host application.
      */
-    public init(with nodeProviderUrl: URL, networkId: NetworkId, appId: AppId) {
-        self.node = Stellar.Node(baseURL: nodeProviderUrl, networkId: networkId.stellarNetworkId)
+    public init(with nodeProviderUrl: URL, network: Network, appId: AppId) {
+        self.node = Stellar.Node(baseURL: nodeProviderUrl, network: network)
 
         self.accounts = KinAccounts(node: node, appId: appId)
 
-        self.networkId = networkId
+        self.network = network
     }
 
     public var url: URL {
@@ -46,9 +46,9 @@ public final class KinClient {
     internal let node: Stellar.Node
 
     /**
-     The `NetworkId` of the network which this client communicates to.
+     The `Network` of the network which this client communicates to.
      */
-    public let networkId: NetworkId
+    public let network: Network
 
     /**
      Adds an account associated to this client, and returns it.

@@ -1,5 +1,5 @@
 //
-//  NetworkId.swift
+//  Network.swift
 //  KinSDK
 //
 //  Created by Kin Foundation
@@ -9,31 +9,33 @@
 import Foundation
 
 /**
- `NetworkId` represents the block chain network to which `KinClient` will connect.
+ `Network` represents the block chain network to which `KinClient` will connect.
  */
-public enum NetworkId {
+public enum Network {
     /**
-     Kik's private Stellar production network.
+     Kik's private production network.
      */
     case mainNet
 
     /**
-     Kik's private Stellar test network.
+     Kik's private test network.
      */
     case testNet
 
     /**
-     Kik's private Stellar playground network.
+     Kik's private playground network.
      */
     case playground
 
     /**
-     A network with a custom Stellar identifier.
+     A network with a custom identifier.
      */
-    case custom(stellarNetworkId: BCNetworkId)
+    case custom(String)
 }
 
-extension NetworkId {
+extension Network {
+    public typealias Id = String
+
     private enum CodingKeys: String, CodingKey {
         case mainNet
         case testNet
@@ -41,21 +43,23 @@ extension NetworkId {
         case custom
     }
 
-    public var stellarNetworkId: BCNetworkId {
+    public var id: Id {
         switch self {
         case .mainNet:
-            return BCNetworkId("Public Global Kin Ecosystem Network ; June 2018")
+            return "Public Global Kin Ecosystem Network ; June 2018"
+//            return "Public Global Stellar Network ; September 2015"
         case .testNet:
-            return BCNetworkId("Integration Test Network ; zulucrypto") // !!!: debug
+            return "Integration Test Network ; zulucrypto"
+//            return "Test SDF Network ; September 2015"
         case .playground:
-            return BCNetworkId("Kin Playground Network ; June 2018")
-        case .custom(let stellarNetworkId):
-            return stellarNetworkId
+            return "Kin Playground Network ; June 2018"
+        case .custom(let id):
+            return id
         }
     }
 }
 
-extension NetworkId: Decodable {
+extension Network: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -68,16 +72,29 @@ extension NetworkId: Decodable {
         else if let _ = try? container.decode(String.self, forKey: .playground) {
             self = .playground
         }
-        else if let stellarNetworkId = try? container.decode(BCNetworkId.self, forKey: .custom) {
-            self = .custom(stellarNetworkId: stellarNetworkId)
+        else if let id = try? container.decode(String.self, forKey: .custom) {
+            self = .custom(id)
         }
         else {
             throw StellarError.dataDencodingFailed
         }
     }
+
+    internal init(from id: String) throws {
+        switch id {
+        case Network.mainNet.id:
+            self = .mainNet
+        case Network.testNet.id:
+            self = .testNet
+        case Network.playground.id:
+            self = .playground
+        default:
+            throw StellarError.dataDencodingFailed
+        }
+    }
 }
 
-extension NetworkId: Encodable {
+extension Network: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
@@ -88,26 +105,13 @@ extension NetworkId: Encodable {
             try container.encode(self.description, forKey: .testNet)
         case .playground:
             try container.encode(self.description, forKey: .playground)
-        case .custom(let stellarNetworkId):
-            try container.encode(stellarNetworkId, forKey: .custom)
+        case .custom(let id):
+            try container.encode(id, forKey: .custom)
         }
     }
 }
 
-extension NetworkId: CustomStringConvertible {
-    private func networkId(description: String) -> NetworkId? {
-        switch description {
-        case NetworkId.mainNet.description:
-            return .mainNet
-        case NetworkId.testNet.description:
-            return .testNet
-        case NetworkId.playground.description:
-            return .playground
-        default:
-            return nil
-        }
-    }
-
+extension Network: CustomStringConvertible {
     /// :nodoc:
     public var description: String {
         switch self {
@@ -118,13 +122,13 @@ extension NetworkId: CustomStringConvertible {
         case .playground:
             return "playground"
         case .custom(_):
-            return "custom network"
+            return "custom"
         }
     }
 }
 
-extension NetworkId: Equatable {
-    public static func ==(lhs: NetworkId, rhs: NetworkId) -> Bool {
+extension Network: Equatable {
+    public static func ==(lhs: Network, rhs: Network) -> Bool {
         switch lhs {
         case .mainNet:
             switch rhs {
@@ -151,9 +155,4 @@ extension NetworkId: Equatable {
             return false
         }
     }
-}
-
-fileprivate struct CustomNetworkIdValues: Codable {
-    let issuer: String
-    let stellarNetworkId: BCNetworkId
 }

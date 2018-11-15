@@ -10,9 +10,9 @@ import Foundation
 
 public struct WhitelistEnvelope {
     public let transactionEnvelope: TransactionEnvelope
-    public let networkId: NetworkId
+    public let networkId: Network.Id
 
-    public init(transactionEnvelope: TransactionEnvelope, networkId: NetworkId) {
+    public init(transactionEnvelope: TransactionEnvelope, networkId: Network.Id) {
         self.transactionEnvelope = transactionEnvelope
         self.networkId = networkId
     }
@@ -32,7 +32,7 @@ extension WhitelistEnvelope: Decodable {
         let transactionEnvelopeData = try values.decode(Data.self, forKey: .transactionEnvelope)
         transactionEnvelope = try XDRDecoder.decode(TransactionEnvelope.self, data: transactionEnvelopeData)
 
-        networkId = try values.decode(NetworkId.self, forKey: .networkId)
+        networkId = try values.decode(Network.Id.self, forKey: .networkId)
     }
 }
 

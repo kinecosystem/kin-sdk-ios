@@ -37,7 +37,7 @@ class SendTransactionViewController: UIViewController {
         let promise: Promise<TransactionEnvelope> = Promise()
 
         var request = URLRequest(url: url)
-//        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(whitelistEnvelope)
 
@@ -52,9 +52,11 @@ class SendTransactionViewController: UIViewController {
                 return
             }
 
+//            let string = String(data: data, encoding: .utf8) // !!!!: debug
+
             do {
-                let envelope = try JSONDecoder().decode(WhitelistEnvelope.self, from: data)
-                promise.signal(envelope.transactionEnvelope)
+                let envelope = try XDRDecoder.decode(TransactionEnvelope.self, data: data)
+                promise.signal(envelope)
             }
             catch {
                 promise.signal(error)
@@ -72,13 +74,14 @@ class SendTransactionViewController: UIViewController {
         
         promise(curry(kinAccount.generateTransaction)(address)(amount)(memoTextField.text))
             .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionEnvelope> in
-                let urlString = "18.206.35.110:3000/whitelist"
+//                let urlString = "http://18.206.35.110:3000/whitelist"
+                let urlString = "http://10.4.59.1:3000/whitelist"
 
                 guard let strongSelf = self, let url = URL(string: urlString) else {
                     return Promise().signal(KinError.unknown)
                 }
 
-                let networkId = strongSelf.kinClient.networkId
+                let networkId = Network.testNet.id
                 let whitelistEnvelope = WhitelistEnvelope(transactionEnvelope: transactionEnvelope, networkId: networkId)
 
                 return strongSelf.whitelistTransaction(to: url, whitelistEnvelope: whitelistEnvelope)

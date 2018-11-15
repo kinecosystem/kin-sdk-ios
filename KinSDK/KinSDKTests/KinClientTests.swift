@@ -19,7 +19,7 @@ class KinClientTests: XCTestCase {
             return
         }
         
-        kinClient = KinClient(with: URL(string: "http://localhost:8000")!, networkId: .custom(stellarNetworkId: .custom("private testnet")), appId: appId)
+        kinClient = KinClient(with: URL(string: "http://localhost:8000")!, network: .custom(.custom("private testnet")), appId: appId)
         
     }
 

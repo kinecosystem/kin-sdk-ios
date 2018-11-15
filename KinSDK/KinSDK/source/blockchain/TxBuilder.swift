@@ -98,7 +98,7 @@ public final class TxBuilder {
         return p
     }
 
-    public func envelope(networkId: String) -> Promise<TransactionEnvelope> {
+    public func envelope(networkId: Network.Id) -> Promise<TransactionEnvelope> {
         let p = Promise<TransactionEnvelope>()
 
         tx()
@@ -114,7 +114,7 @@ public final class TxBuilder {
         return p
     }
     
-    private func sign(tx: Transaction, networkId: String) throws -> TransactionEnvelope {
+    private func sign(tx: Transaction, networkId: Network.Id) throws -> TransactionEnvelope {
         var sigs = [DecoratedSignature]()
 
         let m = try tx.hash(networkId: networkId)

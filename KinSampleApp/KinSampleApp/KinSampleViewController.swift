@@ -148,7 +148,7 @@ extension KinSampleViewController: KinClientCellDelegate {
     private func createAccount(user_id: String) -> Promise<Bool> {
         let p = Promise<Bool>()
 
-        let url = URL(string: "http://friendbot-kik.kininfrastructure.com?addr=\(kinAccount.publicAddress)")!
+        let url = URL(string: "http://18.206.35.110:8001?addr=\(kinAccount.publicAddress)")!
         let request = URLRequest(url: url)
 
         URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
@@ -170,6 +170,7 @@ extension KinSampleViewController: KinClientCellDelegate {
         return p
     }
 
+    // TODO: remove this func
     private func activate() -> Promise<Bool> {
         let p = Promise<Bool>()
 

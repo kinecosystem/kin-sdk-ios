@@ -12,11 +12,11 @@ import SafariServices
 
 struct Provider: ServiceProvider {
     public let url: URL
-    public let networkId: NetworkId
+    public let network: Network
 
-    init(url: URL, networkId: NetworkId) {
+    init(url: URL, network: Network) {
         self.url = url
-        self.networkId = networkId
+        self.network = network
     }
 }
 
@@ -44,9 +44,9 @@ class HomeViewController: UIViewController {
 
         let provider: Provider
         if production {
-            provider = Provider(url: URL(string: "https://horizon-ecosystem.kininfrastructure.com")!, networkId: .mainNet)
+            provider = Provider(url: URL(string: "https://horizon-ecosystem.kininfrastructure.com")!, network: .mainNet)
         } else {
-            provider = Provider(url: URL(string: "18.206.35.110:8008")!, networkId: .testNet)
+            provider = Provider(url: URL(string: "http://18.206.35.110:8008")!, network: .testNet)
         }
         
         do {

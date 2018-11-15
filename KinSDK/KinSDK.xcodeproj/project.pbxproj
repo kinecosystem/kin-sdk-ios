@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		680F782421994F1C0064DA26 /* BCNetworkId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680F782321994F1C0064DA26 /* BCNetworkId.swift */; };
 		680F7838219C0FA90064DA26 /* WhitelistEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */; };
 		688D2C382173694E00CF5A2C /* AppIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686759EC21736844001E9626 /* AppIdTests.swift */; };
 		68D04A2321940FA500F27492 /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0A21940FA500F27492 /* SHA256.swift */; };
@@ -53,7 +52,7 @@
 		82BA1F14204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED2204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift */; };
 		82BA1F15204D22AB00396AE2 /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED3204D22AB00396AE2 /* TegKeychainConstants.swift */; };
 		82F6D8051FB2112B00AEE17D /* KinSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82140EA91FA88E5B00FAF19B /* KinSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9148CE501FCACF9C0005D603 /* NetworkId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9148CE4F1FCACF9C0005D603 /* NetworkId.swift */; };
+		9148CE501FCACF9C0005D603 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9148CE4F1FCACF9C0005D603 /* Network.swift */; };
 		91D4395C1FC410630006FEB5 /* KinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4395B1FC410630006FEB5 /* KinClient.swift */; };
 		91D4395E1FC410860006FEB5 /* KinAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4395D1FC410860006FEB5 /* KinAccount.swift */; };
 		91DDFDFC1FC6ED99004B0903 /* KinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DDFDFB1FC6ED99004B0903 /* KinError.swift */; };
@@ -148,7 +147,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		680F782321994F1C0064DA26 /* BCNetworkId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCNetworkId.swift; sourceTree = "<group>"; };
 		680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitelistEnvelope.swift; sourceTree = "<group>"; };
 		686759EC21736844001E9626 /* AppIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdTests.swift; sourceTree = "<group>"; };
 		68D04A0A21940FA500F27492 /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
@@ -203,7 +201,7 @@
 		82BA2013204D231600396AE2 /* libsodium-osx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsodium-osx.a"; path = "KinSDK/source/third-party/swift-sodium/Sodium/libsodium/libsodium-osx.a"; sourceTree = "<group>"; };
 		82BA2014204D231600396AE2 /* libsodium-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsodium-ios.a"; path = "KinSDK/source/third-party/swift-sodium/Sodium/libsodium/libsodium-ios.a"; sourceTree = "<group>"; };
 		82BA2114204D867200396AE2 /* KinSDK-macos-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KinSDK-macos-Info.plist"; sourceTree = "<group>"; };
-		9148CE4F1FCACF9C0005D603 /* NetworkId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkId.swift; sourceTree = "<group>"; };
+		9148CE4F1FCACF9C0005D603 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		91D4395B1FC410630006FEB5 /* KinClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinClient.swift; sourceTree = "<group>"; };
 		91D4395D1FC410860006FEB5 /* KinAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinAccount.swift; sourceTree = "<group>"; };
 		91DDFDFB1FC6ED99004B0903 /* KinError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinError.swift; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 				68D04A1321940FA500F27492 /* Transaction.swift */,
 				68D04A1421940FA500F27492 /* Asset.swift */,
 				68D04A1521940FA500F27492 /* Operation.swift */,
-				680F782321994F1C0064DA26 /* BCNetworkId.swift */,
 			);
 			path = types;
 			sourceTree = "<group>";
@@ -361,7 +358,7 @@
 				91D4395B1FC410630006FEB5 /* KinClient.swift */,
 				91DDFDFB1FC6ED99004B0903 /* KinError.swift */,
 				82140EC31FA88EAF00FAF19B /* KinTypes.swift */,
-				9148CE4F1FCACF9C0005D603 /* NetworkId.swift */,
+				9148CE4F1FCACF9C0005D603 /* Network.swift */,
 				8261EF322043F390001848CB /* Watchers.swift */,
 				680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */,
 			);
@@ -659,7 +656,7 @@
 				82BA1F15204D22AB00396AE2 /* TegKeychainConstants.swift in Sources */,
 				68D04A2621940FA500F27492 /* WrappedData.swift in Sources */,
 				68D04A462194134F00F27492 /* Errors.swift in Sources */,
-				9148CE501FCACF9C0005D603 /* NetworkId.swift in Sources */,
+				9148CE501FCACF9C0005D603 /* Network.swift in Sources */,
 				91D4395C1FC410630006FEB5 /* KinClient.swift in Sources */,
 				68D04A2321940FA500F27492 /* SHA256.swift in Sources */,
 				68D04A2B21940FA500F27492 /* Operation.swift in Sources */,
@@ -681,7 +678,6 @@
 				68D04A2421940FA500F27492 /* StellarErrors.swift in Sources */,
 				68D04A3021940FA500F27492 /* StellarOps.swift in Sources */,
 				680F7838219C0FA90064DA26 /* WhitelistEnvelope.swift in Sources */,
-				680F782421994F1C0064DA26 /* BCNetworkId.swift in Sources */,
 				68D04A2521940FA500F27492 /* PublicKey.swift in Sources */,
 				91D4395E1FC410860006FEB5 /* KinAccount.swift in Sources */,
 				68D04A2E21940FA500F27492 /* StellarResults.swift in Sources */,

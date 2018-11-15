@@ -20,10 +20,10 @@ class KinAccountTests: XCTestCase {
     var issuer: StellarAccount?
 
     let endpoint = "http://localhost:8000"
-    let sNetworkId: BCNetworkId = .custom("private testnet")
-    lazy var node = Stellar.Node(baseURL: URL(string: endpoint)!, networkId: sNetworkId)
+    let sNetwork: Network = .custom("private testnet")
+    lazy var node = Stellar.Node(baseURL: URL(string: endpoint)!, network: sNetwork)
 
-    lazy var kNetworkId = KinSDK.NetworkId.custom(stellarNetworkId: sNetworkId)
+    lazy var kNetwork = KinSDK.Network.custom(sNetwork)
 
     override func setUp() {
         super.setUp()
@@ -33,7 +33,7 @@ class KinAccountTests: XCTestCase {
             return
         }
             
-        kinClient = KinClient(with: URL(string: endpoint)!, networkId: kNetworkId, appId: appId)
+        kinClient = KinClient(with: URL(string: endpoint)!, network: kNetwork, appId: appId)
 
         KeyStore.removeAll()
 

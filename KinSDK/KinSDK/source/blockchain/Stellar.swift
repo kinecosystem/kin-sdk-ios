@@ -22,11 +22,11 @@ public protocol Account {
 public enum Stellar {
     public struct Node {
         public let baseURL: URL
-        public let networkId: BCNetworkId
+        public let network: Network
         
-        public init(baseURL: URL, networkId: BCNetworkId = .test) {
+        public init(baseURL: URL, network: Network = .testNet) {
             self.baseURL = baseURL
-            self.networkId = networkId
+            self.network = network
         }
     }
     
@@ -46,7 +46,7 @@ public enum Stellar {
                 return TxBuilder(source: source, node: node)
                     .set(memo: memo)
                     .add(operation: op)
-                    .envelope(networkId: node.networkId.description)
+                    .envelope(networkId: node.network.id)
             }
             .transformError({ error -> Error in
                 switch error {
@@ -298,7 +298,7 @@ public enum Stellar {
         return try KinSDK.sign(transaction: tx,
                                signer: signer,
                                hint: Data(BCKeyUtils.key(base32: publicKey).suffix(4)),
-                               networkId: node.networkId.description)
+                               networkId: node.network.id)
     }
     
     public static func postTransaction(envelope: TransactionEnvelope, node: Node) -> Promise<String> {

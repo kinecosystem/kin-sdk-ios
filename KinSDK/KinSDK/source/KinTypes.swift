@@ -10,7 +10,7 @@ import Foundation
 import KinUtil
 
 /**
- A protocol to encapsulate the formation of the endpoint `URL` and the `NetworkId`.
+ A protocol to encapsulate the formation of the endpoint `URL` and the `Network`.
  */
 public protocol ServiceProvider {
     /**
@@ -19,9 +19,9 @@ public protocol ServiceProvider {
     var url: URL { get }
 
     /**
-     The `NetworkId` to be used.
+     The `Network` to be used.
      */
-    var networkId: NetworkId { get }
+    var network: Network { get }
 }
 
 public typealias Balance = Decimal
