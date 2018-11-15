@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct WhitelistEnvelope { // TODO: better object name
+public struct WhitelistEnvelope {
     public let transactionEnvelope: TransactionEnvelope
     public let networkId: NetworkId
 

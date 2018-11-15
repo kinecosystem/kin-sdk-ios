@@ -62,7 +62,7 @@ extension TxEvent {
     }
 
     public var payments: [Payment] {
-        return envelope.tx.operations.flatMap({ op in
+        return envelope.tx.operations.compactMap({ op in
             if case let Operation.Body.PAYMENT(pOP) = op.body {
                 return Payment(source: op.sourceAccount?.publicKey ?? source_account,
                                destination: pOP.destination.publicKey!,

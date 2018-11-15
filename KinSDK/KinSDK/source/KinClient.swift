@@ -140,11 +140,9 @@ public final class KinClient {
             promise.signal(minFee)
         }
         else {
-            let request = URLRequest(url: URL(string: "")!)
+            let url = URL(string: "")!
 
-            URLSession.shared.dataTask(with: request, completionHandler: { (data, _, error) in
-                // ???: is this returning on a different thread
-
+            let task = URLSession.shared.dataTask(with: url) { (data, request, error) in
                 if let error = error {
                     promise.signal(error)
                     return
@@ -154,10 +152,12 @@ public final class KinClient {
 //                    promise.signal(Error)
                     return
                 }
-                
+
                 self._minFee = minFee
                 promise.signal(minFee)
-            }).resume()
+            }
+
+            task.resume()
         }
 
         return promise
