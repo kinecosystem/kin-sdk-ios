@@ -133,31 +133,20 @@ public final class KinClient {
      - Returns: The minimum fee needed to send a transaction.
      */
     public func minFee() -> Promise<Stroop> {
-        // TODO: make network request to get the value
         let promise = Promise<Stroop>()
 
         if let minFee = _minFee {
             promise.signal(minFee)
         }
         else {
-            let url = URL(string: "")!
-
-            let task = URLSession.shared.dataTask(with: url) { (data, request, error) in
-                if let error = error {
+            Stellar.networkParameters(node: node)
+                .then { [weak self] networkParameters in
+                    self?._minFee = networkParameters.baseFee
+                    promise.signal(networkParameters.baseFee)
+                }
+                .error { error in
                     promise.signal(error)
-                    return
-                }
-
-                guard let minFee = data as? Stroop else {
-//                    promise.signal(Error)
-                    return
-                }
-
-                self._minFee = minFee
-                promise.signal(minFee)
             }
-
-            task.resume()
         }
 
         return promise

@@ -284,8 +284,7 @@ public enum Stellar {
                     throw StellarError.unknownError(horizonError)
                 }
 
-                return try Promise<NetworkParameters>(JSONDecoder().decode(NetworkParameters.self,
-                                                                           from: data))
+                return try Promise(JSONDecoder().decode(NetworkParameters.self, from: data))
         }
     }
 
