@@ -123,7 +123,6 @@ public protocol KinAccount: class {
 final class KinStellarAccount: KinAccount {
     internal let stellarAccount: StellarAccount
     fileprivate let node: Stellar.Node
-    fileprivate let asset: Asset = .ASSET_TYPE_NATIVE
     fileprivate let appId: AppId
 
     var deleted = false
@@ -140,7 +139,6 @@ final class KinStellarAccount: KinAccount {
 
             return extra
         }
-
         set {
             try? KeyStore.set(extra: newValue, for: stellarAccount)
         }
@@ -226,7 +224,6 @@ final class KinStellarAccount: KinAccount {
             Stellar.transaction(source: stellarAccount,
                             destination: recipient,
                             amount: kinInt,
-                            asset: asset,
                             memo: try Memo(prefixedMemo),
                             node: node)
                 .then { transactionEnvelope -> Void in
@@ -287,7 +284,7 @@ final class KinStellarAccount: KinAccount {
             return
         }
         
-        Stellar.balance(account: stellarAccount.publicKey!, asset: asset, node: node)
+        Stellar.balance(account: stellarAccount.publicKey!, node: node)
             .then { balance -> Void in
                 completion(balance, nil)
             }
@@ -305,10 +302,7 @@ final class KinStellarAccount: KinAccount {
             throw KinError.accountDeleted
         }
 
-        return BalanceWatch(node: node,
-                            account: stellarAccount.publicKey!,
-                            balance: balance,
-                            asset: asset)
+        return BalanceWatch(node: node, account: stellarAccount.publicKey!, balance: balance)
     }
 
     public func watchPayments(cursor: String?) throws -> PaymentWatch {
@@ -316,10 +310,7 @@ final class KinStellarAccount: KinAccount {
             throw KinError.accountDeleted
         }
 
-        return PaymentWatch(node: node,
-                            account: stellarAccount.publicKey!,
-                            asset: asset,
-                            cursor: cursor)
+        return PaymentWatch(node: node, account: stellarAccount.publicKey!, cursor: cursor)
     }
 
     public func watchCreation() throws -> Promise<Void> {
@@ -338,8 +329,7 @@ final class KinStellarAccount: KinAccount {
             linkBag = LinkBag()
             
             p.signal(())
-        })
-            .add(to: linkBag)
+        }).add(to: linkBag)
 
         return p
     }
@@ -352,10 +342,8 @@ final class KinStellarAccount: KinAccount {
             throw KinError.internalInconsistency
         }
         
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: store,
-                                                         options: [.prettyPrinted])
-            else {
-                return nil
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: store, options: [.prettyPrinted]) else {
+            return nil
         }
         
         return String(data: jsonData, encoding: .utf8)

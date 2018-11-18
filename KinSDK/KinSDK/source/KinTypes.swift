@@ -66,7 +66,6 @@ public typealias Stroop = UInt32
 public struct PaymentInfo {
     private let txEvent: TxEvent
     private let account: String
-    private let asset: Asset
 
     public var createdAt: Date {
         return txEvent.created_at
@@ -81,7 +80,7 @@ public struct PaymentInfo {
     }
 
     public var source: String {
-        return txEvent.payments.filter({ $0.asset == asset }).first?.source ?? txEvent.source_account
+        return txEvent.payments.first?.source ?? txEvent.source_account
     }
 
     public var hash: String {
@@ -89,14 +88,14 @@ public struct PaymentInfo {
     }
 
     public var amount: Decimal {
-        if let amount = txEvent.payments.filter({ $0.asset == asset }).first?.amount {
+        if let amount = txEvent.payments.first?.amount {
             return amount / Decimal(AssetUnitDivisor)
         }
         return Decimal(0)
     }
 
     public var destination: String {
-        return txEvent.payments.filter({ $0.asset == asset }).first?.destination ?? ""
+        return txEvent.payments.first?.destination ?? ""
     }
 
     public var memoText: String? {
@@ -107,10 +106,9 @@ public struct PaymentInfo {
         return txEvent.memoData
     }
 
-    init(txEvent: TxEvent, account: String, asset: Asset) {
+    init(txEvent: TxEvent, account: String) {
         self.txEvent = txEvent
         self.account = account
-        self.asset = asset
     }
 }
 

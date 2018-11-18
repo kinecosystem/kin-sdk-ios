@@ -19,15 +19,16 @@ public class PaymentWatch {
         return txWatch.eventSource.lastEventId
     }
 
-    init(node: Stellar.Node, account: String, asset: Asset, cursor: String? = nil) {
+    init(node: Stellar.Node, account: String, cursor: String? = nil) {
         self.txWatch = Stellar.txWatch(account: account, lastEventId: cursor, node: node)
 
         self.emitter = self.txWatch.emitter
             .filter({ ti in
-                ti.payments.count > 0 && ti.payments
-                    .filter({ $0.asset == asset }).count > 0
+                ti.payments.count > 0
             })
-            .map({ return PaymentInfo(txEvent: $0, account: account, asset: asset) })
+            .map({
+                return PaymentInfo(txEvent: $0, account: account)
+            })
 
         self.emitter.add(to: linkBag)
     }
@@ -39,7 +40,7 @@ public class BalanceWatch {
 
     public let emitter: StatefulObserver<Decimal>
 
-    init(node: Stellar.Node, account: String, balance: Decimal? = nil, asset: Asset) {
+    init(node: Stellar.Node, account: String, balance: Decimal? = nil) {
         var balance = balance ?? Decimal(0)
 
         self.txWatch = Stellar.txWatch(account: account, lastEventId: "now", node: node)
@@ -54,7 +55,7 @@ public class BalanceWatch {
                             case .LEDGER_ENTRY_REMOVED: break
                             case .LEDGER_ENTRY_UPDATED(let le):
                                 if case let LedgerEntry.Data.TRUSTLINE(trustlineEntry) = le.data {
-                                    if trustlineEntry.account == account && trustlineEntry.asset == asset {
+                                    if trustlineEntry.account == account {
                                         balance = Decimal(Double(trustlineEntry.balance) / Double(AssetUnitDivisor))
                                         return balance
                                     }

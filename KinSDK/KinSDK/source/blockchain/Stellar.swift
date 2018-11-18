@@ -36,7 +36,6 @@ public enum Stellar {
      - Parameter source: The account from which the payment will be made.
      - Parameter destination: The public key of the receiving account, as a base32 string.
      - Parameter amount: The amount to be sent.
-     - Parameter asset: The `Asset` to be sent.  Defaults to the `Asset` specified in the initializer.
      - Parameter memo: A short string placed in the MEMO field of the transaction.
      - Parameter node: An object describing the network endpoint.
 
@@ -45,14 +44,13 @@ public enum Stellar {
     public static func transaction(source: Account,
                                    destination: String,
                                    amount: Int64,
-                                   asset: Asset = .ASSET_TYPE_NATIVE,
                                    memo: Memo = .MEMO_NONE,
                                    node: Node) -> Promise<TransactionEnvelope> {
-        return balance(account: destination, asset: asset, node: node)
+        return balance(account: destination, node: node)
             .then { _ -> Promise<TransactionEnvelope> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
-                                           asset: asset,
+                                           asset: .ASSET_TYPE_NATIVE,
                                            source: source)
                 
                 return TxBuilder(source: source, node: node)
@@ -63,7 +61,7 @@ public enum Stellar {
             .transformError({ error -> Error in
                 switch error {
                 case StellarError.missingAccount, StellarError.missingBalance:
-                    return StellarError.destinationNotReadyForAsset(error, asset.assetCode)
+                    return StellarError.destinationNotReadyForAsset(error, Asset.ASSET_TYPE_NATIVE.assetCode)
                 default:
                     return error
                 }
@@ -90,7 +88,7 @@ public enum Stellar {
                                asset: Asset = .ASSET_TYPE_NATIVE,
                                memo: Memo = .MEMO_NONE,
                                node: Node) -> Promise<String> {
-        return balance(account: destination, asset: asset, node: node)
+        return balance(account: destination, node: node)
             .then { _ -> Promise<Transaction> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
@@ -125,17 +123,14 @@ public enum Stellar {
     }
     
     /**
-     Obtain the balance for a given asset.
+     Obtain the balance.
      
      - parameter account: The `Account` whose balance will be retrieved.
-     - parameter asset: The `Asset` whose balance will be obtained.  Defaults to the `Asset` specified in the initializer.
      - parameter node: An object describing the network endpoint.
      
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func balance(account: String,
-                               asset: Asset = .ASSET_TYPE_NATIVE,
-                               node: Node) -> Promise<Decimal> {
+    public static func balance(account: String, node: Node) -> Promise<Decimal> {
         return accountDetails(account: account, node: node)
             .then { accountDetails in
                 let p = Promise<Decimal>()
@@ -144,12 +139,11 @@ public enum Stellar {
                     let code = balance.assetCode
                     let issuer = balance.assetIssuer
                     
-                    if (balance.assetType == "native" && asset.assetCode == "native") {
+                    if (balance.assetType == "native") {
                         return p.signal(balance.balanceNum)
                     }
                     
-                    if let issuer = issuer, let code = code,
-                        Asset(assetCode: code, issuer: issuer) == asset {
+                    if let issuer = issuer, let code = code, Asset(assetCode: code, issuer: issuer) == .ASSET_TYPE_NATIVE {
                         return p.signal(balance.balanceNum)
                     }
                 }
@@ -248,17 +242,13 @@ public enum Stellar {
         }
     }
 
-    public static func sign(transaction tx: Transaction,
-                            signer: Account,
-                            node: Node) throws -> TransactionEnvelope {
+    public static func sign(transaction tx: Transaction, signer: Account, node: Node) throws -> TransactionEnvelope {
         guard let publicKey = signer.publicKey else {
             throw StellarError.missingPublicKey
         }
-        
-        return try KinSDK.sign(transaction: tx,
-                               signer: signer,
-                               hint: Data(BCKeyUtils.key(base32: publicKey).suffix(4)),
-                               networkId: node.network.id)
+
+        let hint = Data(BCKeyUtils.key(base32: publicKey).suffix(4))
+        return try KinSDK.sign(transaction: tx, signer: signer, hint: hint, networkId: node.network.id)
     }
     
     public static func postTransaction(envelope: TransactionEnvelope, node: Node) -> Promise<String> {
@@ -286,13 +276,13 @@ public enum Stellar {
             .then { data in
                 if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data),
                     let resultXDR = horizonError.extras?.resultXDR,
-                    let error = errorFromResponse(resultXDR: resultXDR) {
+                    let error = errorFromResponse(resultXDR: resultXDR)
+                {
                     throw error
                 }
                 
                 do {
-                    let txResponse = try JSONDecoder().decode(TransactionResponse.self,
-                                                              from: data)
+                    let txResponse = try JSONDecoder().decode(TransactionResponse.self, from: data)
                     
                     return Promise<String>(txResponse.hash)
                 }
