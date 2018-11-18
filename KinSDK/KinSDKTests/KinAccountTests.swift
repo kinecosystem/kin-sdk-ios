@@ -20,10 +20,10 @@ class KinAccountTests: XCTestCase {
     var issuer: StellarAccount?
 
     let endpoint = "http://localhost:8000"
-    let sNetwork: Network = .custom("private testnet")
+    let sNetwork: Network = .testNet
     lazy var node = Stellar.Node(baseURL: URL(string: endpoint)!, network: sNetwork)
 
-    lazy var kNetwork = KinSDK.Network.custom(sNetwork)
+    lazy var kNetwork: Network = .testNet
 
     override func setUp() {
         super.setUp()
