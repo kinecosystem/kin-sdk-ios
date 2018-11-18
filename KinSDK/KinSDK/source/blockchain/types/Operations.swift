@@ -70,29 +70,6 @@ public struct PathPaymentOp: XDRCodable, XDREncodableStruct {
     }
 }
 
-public struct AllowTrustOp: XDRCodable, XDREncodableStruct {
-    let trustor: PublicKey
-    let asset: Data
-    let authorize: Bool
-
-    public init(from decoder: XDRDecoder) throws {
-        trustor = try decoder.decode(PublicKey.self)
-
-        let discriminant = try decoder.decode(Int32.self)
-        if discriminant == AssetType.ASSET_TYPE_CREDIT_ALPHANUM4 {
-            asset = try decodeData(from: decoder, capacity: 4)
-        }
-        else if discriminant == AssetType.ASSET_TYPE_CREDIT_ALPHANUM12 {
-            asset = try decodeData(from: decoder, capacity: 12)
-        }
-        else {
-            fatalError("Unsupported asset type: \(discriminant)")
-        }
-
-        authorize = try decoder.decode(Bool.self)
-    }
-}
-
 public struct SetOptionsOp: XDRCodable, XDREncodableStruct {
     let inflationDest: PublicKey?
     let clearFlags: UInt32?

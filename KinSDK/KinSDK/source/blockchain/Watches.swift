@@ -74,7 +74,7 @@ extension TxEvent {
                 return Payment(source: op.sourceAccount?.publicKey ?? source_account,
                                destination: cOP.destination.publicKey!,
                                amount: Decimal(cOP.balance),
-                               asset: .ASSET_TYPE_NATIVE)
+                               asset: .native)
             }
 
             return nil
@@ -135,11 +135,7 @@ extension PaymentEvent {
 
     public var asset: Asset {
         if type_i == OperationType.CREATE_ACCOUNT || asset_type == "native" {
-            return .ASSET_TYPE_NATIVE
-        }
-
-        if let asset_code = asset_code, let asset_issuer = asset_issuer {
-            return Asset(assetCode: asset_code, issuer: asset_issuer)!
+            return .native
         }
 
         fatalError("Could not determine asset from payment: \(self)")

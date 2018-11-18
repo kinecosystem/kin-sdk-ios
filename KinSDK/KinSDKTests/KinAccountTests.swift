@@ -135,7 +135,7 @@ class KinAccountTests: XCTestCase {
                 return Stellar.payment(source: issuer,
                                        destination: account.stellarAccount.publicKey!,
                                        amount: Int64(100 * AssetUnitDivisor),
-                                       asset: .ASSET_TYPE_NATIVE,
+                                       asset: .native,
                                        node: self.node)
                     .error { error in
                         e = error

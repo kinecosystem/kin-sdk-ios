@@ -50,7 +50,7 @@ public enum Stellar {
             .then { _ -> Promise<TransactionEnvelope> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
-                                           asset: .ASSET_TYPE_NATIVE,
+                                           asset: .native,
                                            source: source)
                 
                 return TxBuilder(source: source, node: node)
@@ -61,7 +61,7 @@ public enum Stellar {
             .transformError({ error -> Error in
                 switch error {
                 case StellarError.missingAccount, StellarError.missingBalance:
-                    return StellarError.destinationNotReadyForAsset(error, Asset.ASSET_TYPE_NATIVE.assetCode)
+                    return StellarError.destinationNotReadyForAsset(error, Asset.native.assetCode)
                 default:
                     return error
                 }
@@ -85,7 +85,7 @@ public enum Stellar {
     public static func payment(source: Account,
                                destination: String,
                                amount: Int64,
-                               asset: Asset = .ASSET_TYPE_NATIVE,
+                               asset: Asset = .native,
                                memo: Memo = .MEMO_NONE,
                                node: Node) -> Promise<String> {
         return balance(account: destination, node: node)
@@ -136,14 +136,7 @@ public enum Stellar {
                 let p = Promise<Decimal>()
                 
                 for balance in accountDetails.balances {
-                    let code = balance.assetCode
-                    let issuer = balance.assetIssuer
-                    
-                    if (balance.assetType == "native") {
-                        return p.signal(balance.balanceNum)
-                    }
-                    
-                    if let issuer = issuer, let code = code, Asset(assetCode: code, issuer: issuer) == .ASSET_TYPE_NATIVE {
+                    if balance.assetType == "native" { // ???: why is assetType and assetCode both "native"
                         return p.signal(balance.balanceNum)
                     }
                 }

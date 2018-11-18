@@ -48,25 +48,19 @@ public struct AccountDetails: Decodable, CustomStringConvertible {
         public let balance: String
         public let assetType: String
         public let assetCode: String?
-        public let assetIssuer: String?
 
         public var balanceNum: Decimal {
             return Decimal(string: balance) ?? Decimal()
         }
 
-        public var asset: Asset? {
-            if let assetCode = assetCode, let assetIssuer = assetIssuer {
-                return Asset(assetCode: assetCode, issuer: assetIssuer)
-            }
-
-            return Asset.ASSET_TYPE_NATIVE
+        public var asset: Asset {
+            return .native
         }
 
         public var description: String {
             return """
             balance: \(balance)
                 code: \(assetCode ?? "native")
-                issuer: \(assetIssuer ?? "n/a")
             """
         }
 
@@ -74,7 +68,6 @@ public struct AccountDetails: Decodable, CustomStringConvertible {
             case balance
             case assetType = "asset_type"
             case assetCode = "asset_code"
-            case assetIssuer = "asset_issuer"
         }
     }
 
