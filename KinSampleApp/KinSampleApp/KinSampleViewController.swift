@@ -118,11 +118,6 @@ extension KinSampleViewController: KinClientCellDelegate {
 
         self.createAccount(user_id: user_id)
             .then { result -> Promise<Bool> in
-                print("Activating account.")
-
-                return self.activate()
-            }
-            .then { result -> Promise<Bool> in
                 print("Funding account")
 
                 return self.fund(user_id: user_id)
@@ -142,7 +137,6 @@ extension KinSampleViewController: KinClientCellDelegate {
     enum OnBoardingError: Error {
         case invalidResponse
         case errorResponse
-        case activationFailed
     }
 
     private func createAccount(user_id: String) -> Promise<Bool> {
@@ -166,25 +160,6 @@ extension KinSampleViewController: KinClientCellDelegate {
 
             p.signal(true)
         }).resume()
-
-        return p
-    }
-
-    // TODO: remove this func
-    private func activate() -> Promise<Bool> {
-        let p = Promise<Bool>()
-
-        kinAccount.activate(completion: { txHash, error in
-            if let error = error {
-                print("Activation failed: \(error)")
-
-                p.signal(OnBoardingError.activationFailed)
-
-                return
-            }
-
-            p.signal(true)
-        })
 
         return p
     }

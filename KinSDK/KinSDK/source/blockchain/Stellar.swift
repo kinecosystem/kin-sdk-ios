@@ -29,7 +29,19 @@ public enum Stellar {
             self.network = network
         }
     }
-    
+
+    /**
+     Generate a transaction envelope for the given account.
+
+     - Parameter source: The account from which the payment will be made.
+     - Parameter destination: The public key of the receiving account, as a base32 string.
+     - Parameter amount: The amount to be sent.
+     - Parameter asset: The `Asset` to be sent.  Defaults to the `Asset` specified in the initializer.
+     - Parameter memo: A short string placed in the MEMO field of the transaction.
+     - Parameter node: An object describing the network endpoint.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
     public static func transaction(source: Account,
                                    destination: String,
                                    amount: Int64,
@@ -71,6 +83,7 @@ public enum Stellar {
      - Returns: A promise which will be signalled with the result of the operation.
      */
     // TODO: can be removed
+    @available(*, deprecated)
     public static func payment(source: Account,
                                destination: String,
                                amount: Int64,
@@ -109,59 +122,6 @@ public enum Stellar {
                 
                 return error
             })
-    }
-    
-    /**
-     Establishes trust for a non-native asset.
-     
-     - parameter asset: The `Asset` to trust.
-     - parameter account: The `Account` which will trust the given asset.
-     - parameter node: An object describing the network endpoint.
-     
-     - Returns: A promise which will be signalled with the result of the operation.
-     */
-    public static func trust(asset: Asset,
-                             account: Account,
-                             node: Node) -> Promise<String> {
-        let p = Promise<String>()
-        
-        guard let destination = account.publicKey else {
-            p.signal(StellarError.missingPublicKey)
-            
-            return p
-        }
-        
-        balance(account: destination, asset: asset, node: node)
-            .then { _ -> Void in
-                p.signal("-na-")
-            }
-            .error { error in
-                if case StellarError.missingAccount = error {
-                    p.signal(error)
-                    
-                    return
-                }
-
-
-                TxBuilder(source: account, node: node)
-                    .add(operation: Operation.changeTrust(asset: asset))
-                    .tx()
-                    .then { tx -> Promise<String> in
-                        let envelope = try self.sign(transaction: tx,
-                                                     signer: account,
-                                                     node: node)
-                        
-                        return self.postTransaction(envelope: envelope, node: node)
-                    }
-                    .then { txHash in
-                        p.signal(txHash)
-                    }
-                    .error { error in
-                        p.signal(error)
-                }
-        }
-        
-        return p
     }
     
     /**

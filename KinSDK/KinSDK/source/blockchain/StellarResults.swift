@@ -100,7 +100,6 @@ enum OperationResult: XDRCodable {
     // Add cases as necessary.
     enum Tr: XDRCodable {
         case CREATE_ACCOUNT (CreateAccountResult)
-        case CHANGE_TRUST (ChangeTrustResult)
         case PAYMENT (PaymentResult)
         case unknown
 
@@ -112,8 +111,6 @@ enum OperationResult: XDRCodable {
                 self = .PAYMENT(try decoder.decode(PaymentResult.self))
             case OperationType.CREATE_ACCOUNT:
                 self = .CREATE_ACCOUNT(try decoder.decode(CreateAccountResult.self))
-            case OperationType.CHANGE_TRUST:
-                self = .CHANGE_TRUST(try decoder.decode(ChangeTrustResult.self))
             default:
                 self = .unknown
             }
@@ -195,40 +192,6 @@ enum CreateAccountResult: XDRCodable {
         switch self {
         case .success:
             return CreateAccountResultCode.CREATE_ACCOUNT_SUCCESS
-        case .failure (let code):
-            return code
-        }
-    }
-
-    public func encode(to encoder: XDREncoder) throws {
-        try encoder.encode(discriminant())
-    }
-
-    init(from decoder: XDRDecoder) throws {
-        let value = try decoder.decode(Int32.self)
-
-        self = value == 0 ? .success : .failure(value)
-    }
-}
-
-struct ChangeTrustResultCode {
-    static let CHANGE_TRUST_SUCCESS: Int32 = 0
-
-    static let CHANGE_TRUST_MALFORMED: Int32 = -1           // bad input
-    static let CHANGE_TRUST_NO_ISSUER: Int32 = -2           // could not find issuer
-    static let CHANGE_TRUST_INVALID_LIMIT: Int32 = -3       // cannot drop limit below balance
-    static let CHANGE_TRUST_LOW_RESERVE: Int32 = -4         // not enough funds to create a new trust line,
-    static let CHANGE_TRUST_SELF_NOT_ALLOWED: Int32 = -5    // trusting self is not allowed
-};
-
-enum ChangeTrustResult: XDRCodable {
-    case success
-    case failure (Int32)
-
-    private func discriminant() -> Int32 {
-        switch self {
-        case .success:
-            return ChangeTrustResultCode.CHANGE_TRUST_SUCCESS
         case .failure (let code):
             return code
         }

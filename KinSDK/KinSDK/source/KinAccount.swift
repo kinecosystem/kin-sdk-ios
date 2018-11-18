@@ -31,20 +31,6 @@ public protocol KinAccount: class {
      **/
     func export(passphrase: String) throws -> String
 
-    /**
-     Allow an account to receive KIN.
-
-     - parameter completion: A block which receives the results of the activation
-     */
-    func activate(completion: @escaping (String?, Error?) -> Void)
-
-    /**
-     Allow an account to receive KIN.
-
-     - return: A promise which is signalled with the resulting transaction hash.
-     */
-    func activate() -> Promise<String>
-
     func status(completion: @escaping (AccountStatus?, Error?) -> Void)
 
     func status() -> Promise<AccountStatus>
@@ -176,31 +162,6 @@ final class KinStellarAccount: KinAccount {
         }
 
         return jsonString
-    }
-
-    // TODO: activate shouldn't be needed any more
-    public func activate(completion: @escaping (String?, Error?) -> Void) {
-        stellarAccount.sign = { message in
-            return try self.stellarAccount.sign(message: message, passphrase: "")
-        }
-        
-        Stellar.trust(asset: asset,
-                      account: stellarAccount,
-                      node: node)
-            .then { txHash -> Void in
-                self.stellarAccount.sign = nil
-
-                completion(txHash, nil)
-            }
-            .error { error in
-                self.stellarAccount.sign = nil
-
-                completion(nil, KinError.activationFailed(error))
-        }
-    }
-
-    public func activate() -> Promise<String> {
-        return promise(activate)
     }
 
     func status(completion: @escaping (AccountStatus?, Error?) -> Void) {

@@ -48,7 +48,6 @@ public struct Operation: XDRCodable {
         case MANAGE_OFFER (ManageOfferOp)
         case CREATE_PASSIVE_OFFER (CreatePassiveOfferOp)
         case SET_OPTIONS (SetOptionsOp)
-        case CHANGE_TRUST (ChangeTrustOp)
         case ALLOW_TRUST (AllowTrustOp)
         case ACCOUNT_MERGE (AccountMergeOp)
         case INFLATION
@@ -68,8 +67,6 @@ public struct Operation: XDRCodable {
                 self = .MANAGE_OFFER(try decoder.decode(ManageOfferOp.self))
             case OperationType.CREATE_PASSIVE_OFFER:
                 self = .CREATE_PASSIVE_OFFER(try decoder.decode(CreatePassiveOfferOp.self))
-            case OperationType.CHANGE_TRUST:
-                self = .CHANGE_TRUST(try decoder.decode(ChangeTrustOp.self))
             case OperationType.ALLOW_TRUST:
                 self = .ALLOW_TRUST(try decoder.decode(AllowTrustOp.self))
             case OperationType.SET_OPTIONS:
@@ -92,7 +89,6 @@ public struct Operation: XDRCodable {
             case .PATH_PAYMENT: return OperationType.PATH_PAYMENT
             case .MANAGE_OFFER: return OperationType.MANAGE_OFFER
             case .CREATE_PASSIVE_OFFER: return OperationType.CREATE_PASSIVE_OFFER
-            case .CHANGE_TRUST: return OperationType.CHANGE_TRUST
             case .ALLOW_TRUST: return OperationType.ALLOW_TRUST
             case .SET_OPTIONS: return OperationType.SET_OPTIONS
             case .ACCOUNT_MERGE: return OperationType.ACCOUNT_MERGE
@@ -118,9 +114,6 @@ public struct Operation: XDRCodable {
                 try encoder.encode(op)
 
             case .CREATE_PASSIVE_OFFER(let op):
-                try encoder.encode(op)
-
-            case .CHANGE_TRUST (let op):
                 try encoder.encode(op)
 
             case .ALLOW_TRUST (let op):

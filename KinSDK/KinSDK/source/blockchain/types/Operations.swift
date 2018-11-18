@@ -70,21 +70,6 @@ public struct PathPaymentOp: XDRCodable, XDREncodableStruct {
     }
 }
 
-public struct ChangeTrustOp: XDRCodable, XDREncodableStruct {
-    let asset: Asset
-    let limit: Int64
-
-    public init(from decoder: XDRDecoder) throws {
-        asset = try decoder.decode(Asset.self)
-        limit = try decoder.decode(Int64.self)
-    }
-
-    public init(asset: Asset, limit: Int64 = Int64.max) {
-        self.asset = asset
-        self.limit = limit
-    }
-}
-
 public struct AllowTrustOp: XDRCodable, XDREncodableStruct {
     let trustor: PublicKey
     let asset: Data

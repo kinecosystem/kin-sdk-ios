@@ -127,31 +127,21 @@ class KinAccountTests: XCTestCase {
 
         fund(account: account.stellarAccount.publicKey!)
             .then { txHash -> Void in
-                account.activate() { txHash, error in
-                    if let error = error {
+                issuer.sign = { message in
+                    return try issuer.sign(message: message,
+                                           passphrase: self.passphrase)
+                }
+
+                return Stellar.payment(source: issuer,
+                                       destination: account.stellarAccount.publicKey!,
+                                       amount: Int64(100 * AssetUnitDivisor),
+                                       asset: .ASSET_TYPE_NATIVE,
+                                       node: self.node)
+                    .error { error in
                         e = error
-
+                    }
+                    .finally {
                         group.leave()
-
-                        return
-                    }
-
-                    issuer.sign = { message in
-                        return try issuer.sign(message: message,
-                                               passphrase: self.passphrase)
-                    }
-
-                    return Stellar.payment(source: issuer,
-                                           destination: account.stellarAccount.publicKey!,
-                                           amount: Int64(100 * AssetUnitDivisor),
-                                           asset: .ASSET_TYPE_NATIVE,
-                                           node: self.node)
-                        .error { error in
-                            e = error
-                        }
-                        .finally {
-                            group.leave()
-                    }
                 }
             }
             .error { error in
