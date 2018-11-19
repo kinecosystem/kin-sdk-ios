@@ -131,7 +131,7 @@ public enum Stellar {
                 let p = Promise<Kin>()
                 
                 for balance in accountDetails.balances {
-                    if balance.assetType == AssetType.native.description {
+                    if balance.assetType == Asset.native.description {
                         return p.signal(balance.balanceNum)
                     }
                 }

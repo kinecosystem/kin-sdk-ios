@@ -8,18 +8,8 @@
 
 import Foundation
 
-struct AssetType {
-    static let native: Int32 = 0
-}
-
-extension AssetType: CustomStringConvertible {
-    var description: String {
-        return "native"
-    }
-}
-
-public enum Asset {
-    case native
+public enum Asset: Int32 {
+    case native = 0
 }
 
 extension Asset: XDRCodable {
@@ -28,6 +18,12 @@ extension Asset: XDRCodable {
     }
 
     public func encode(to encoder: XDREncoder) throws {
-        try encoder.encode(AssetType.native)
+        try encoder.encode(Asset.native.rawValue)
+    }
+}
+
+extension Asset: CustomStringConvertible {
+    public var description: String {
+        return "native"
     }
 }
