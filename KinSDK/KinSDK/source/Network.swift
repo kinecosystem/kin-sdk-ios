@@ -36,7 +36,7 @@ public enum Network {
 extension Network {
     public typealias Id = String
 
-    private enum CodingKeys: String, CodingKey {
+    fileprivate enum CodingKeys: String, CodingKey {
         case mainNet
         case testNet
         case playground

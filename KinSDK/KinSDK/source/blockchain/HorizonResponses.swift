@@ -47,7 +47,6 @@ public struct AccountDetails: Decodable, CustomStringConvertible {
     public struct Balance: Decodable, CustomStringConvertible {
         public let balance: String
         public let assetType: String
-        public let assetCode: String?
 
         public var balanceNum: Decimal {
             return Decimal(string: balance) ?? Decimal()
@@ -58,16 +57,12 @@ public struct AccountDetails: Decodable, CustomStringConvertible {
         }
 
         public var description: String {
-            return """
-            balance: \(balance)
-                code: \(assetCode ?? "native")
-            """
+            return "balance: \(balance)"
         }
 
         enum CodingKeys: String, CodingKey {
             case balance
             case assetType = "asset_type"
-            case assetCode = "asset_code"
         }
     }
 

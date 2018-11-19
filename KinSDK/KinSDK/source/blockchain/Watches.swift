@@ -134,7 +134,7 @@ extension PaymentEvent {
     }
 
     public var asset: Asset {
-        if type_i == OperationType.CREATE_ACCOUNT || asset_type == "native" {
+        if type_i == OperationType.CREATE_ACCOUNT || asset_type == AssetType.native.description {
             return .native
         }
 

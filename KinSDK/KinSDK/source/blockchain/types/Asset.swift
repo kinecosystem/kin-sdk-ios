@@ -12,13 +12,17 @@ struct AssetType {
     static let native: Int32 = 0
 }
 
-public enum Asset: XDRCodable {
-    case native
-
-    public var assetCode: String {
+extension AssetType: CustomStringConvertible {
+    var description: String {
         return "native"
     }
+}
 
+public enum Asset {
+    case native
+}
+
+extension Asset: XDRCodable {
     public init(from decoder: XDRDecoder) throws {
         self = .native
     }

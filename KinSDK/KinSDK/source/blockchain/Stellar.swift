@@ -61,7 +61,7 @@ public enum Stellar {
             .transformError({ error -> Error in
                 switch error {
                 case StellarError.missingAccount, StellarError.missingBalance:
-                    return StellarError.destinationNotReadyForAsset(error, Asset.native.assetCode)
+                    return StellarError.destinationNotReadyForAsset(error)
                 default:
                     return error
                 }
@@ -108,17 +108,12 @@ public enum Stellar {
                 return self.postTransaction(envelope: envelope, node: node)
             }
             .transformError({ error -> Error in
-                if case StellarError.missingAccount = error {
-                    return StellarError
-                        .destinationNotReadyForAsset(error, asset.assetCode)
+                switch error {
+                case StellarError.missingAccount, StellarError.missingBalance:
+                    return StellarError.destinationNotReadyForAsset(error)
+                default:
+                    return error
                 }
-                
-                if case StellarError.missingBalance = error {
-                    return StellarError
-                        .destinationNotReadyForAsset(error, asset.assetCode)
-                }
-                
-                return error
             })
     }
     
@@ -136,7 +131,7 @@ public enum Stellar {
                 let p = Promise<Decimal>()
                 
                 for balance in accountDetails.balances {
-                    if balance.assetType == "native" { // ???: why is assetType and assetCode both "native"
+                    if balance.assetType == AssetType.native.description {
                         return p.signal(balance.balanceNum)
                     }
                 }
