@@ -125,17 +125,18 @@ public enum Stellar {
      
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func balance(account: String, node: Node) -> Promise<Decimal> {
+    public static func balance(account: String, node: Node) -> Promise<Kin> {
         return accountDetails(account: account, node: node)
             .then { accountDetails in
-                let p = Promise<Decimal>()
+                let p = Promise<Kin>()
                 
                 for balance in accountDetails.balances {
                     if balance.assetType == AssetType.native.description {
                         return p.signal(balance.balanceNum)
                     }
                 }
-                
+
+                // ???: is this a possible error with the change to native asset
                 return p.signal(StellarError.missingBalance)
         }
     }

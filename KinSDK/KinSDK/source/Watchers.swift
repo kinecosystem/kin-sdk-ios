@@ -38,9 +38,9 @@ public class BalanceWatch {
     private let txWatch: EventWatcher<TxEvent>
     private let linkBag = LinkBag()
 
-    public let emitter: StatefulObserver<Decimal>
+    public let emitter: StatefulObserver<Kin>
 
-    init(node: Stellar.Node, account: String, balance: Decimal? = nil) {
+    init(node: Stellar.Node, account: String, balance: Kin? = nil) {
         var balance = balance ?? Decimal(0)
 
         self.txWatch = Stellar.txWatch(account: account, lastEventId: "now", node: node)

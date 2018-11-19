@@ -24,7 +24,6 @@ public protocol ServiceProvider {
     var network: Network { get }
 }
 
-public typealias Balance = Decimal
 public typealias TransactionId = String
 
 /**
@@ -43,11 +42,10 @@ public typealias SendTransactionCompletion = (TransactionId?, Error?) -> Void
  Closure type used by the balance API upon completion, which contains the `Balance` in case of
  success, or an error in case of failure.
  */
-public typealias BalanceCompletion = (Balance?, Error?) -> Void
+public typealias BalanceCompletion = (Kin?, Error?) -> Void
 
 public enum AccountStatus: Int {
     case notCreated
-    case notActivated
     case activated
 }
 
@@ -87,7 +85,7 @@ public struct PaymentInfo {
         return txEvent.hash
     }
 
-    public var amount: Decimal {
+    public var amount: Kin {
         if let amount = txEvent.payments.first?.amount {
             return amount / Decimal(AssetUnitDivisor)
         }

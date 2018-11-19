@@ -88,9 +88,10 @@ public protocol KinAccount: class {
 
     /**
      Retrieve the current Kin balance.
+
+     - Note: The closure is invoked on a background thread.
      
-     - parameter completion: A closure to be invoked once the request completes.  The closure is
-     invoked on a background thread.
+     - Parameter completion: A closure to be invoked once the request completes.
      */
     func balance(completion: @escaping BalanceCompletion)
 
@@ -99,9 +100,9 @@ public protocol KinAccount: class {
 
      - returns: A `Promise` which is signalled with the current balance.
      */
-    func balance() -> Promise<Balance>
+    func balance() -> Promise<Kin>
 
-    func watchBalance(_ balance: Decimal?) throws -> BalanceWatch
+    func watchBalance(_ balance: Kin?) throws -> BalanceWatch
 
     func watchPayments(cursor: String?) throws -> PaymentWatch
 
@@ -165,12 +166,12 @@ final class KinStellarAccount: KinAccount {
     func status(completion: @escaping (AccountStatus?, Error?) -> Void) {
         balance { balance, error in
             if let error = error {
-                if case let KinError.balanceQueryFailed(e) = error,
-                    let stellarError = e as? StellarError {
+                if case let KinError.balanceQueryFailed(e) = error, let stellarError = e as? StellarError {
                     switch stellarError {
-                    case .missingAccount: completion(.notCreated, nil)
-                    case .missingBalance: completion(.notActivated, nil)
-                    default: completion(nil, error)
+                    case .missingAccount, .missingBalance:
+                        completion(.notCreated, nil)
+                    default:
+                        completion(nil, error)
                     }
                 }
                 else {
@@ -293,11 +294,11 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-    func balance() -> Promise<Balance> {
+    func balance() -> Promise<Kin> {
         return promise(balance)
     }
     
-    public func watchBalance(_ balance: Decimal?) throws -> BalanceWatch {
+    public func watchBalance(_ balance: Kin?) throws -> BalanceWatch {
         guard deleted == false else {
             throw KinError.accountDeleted
         }
