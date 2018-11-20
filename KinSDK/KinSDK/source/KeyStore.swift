@@ -265,27 +265,28 @@ private struct KeychainStorage {
         }
     }
 
-    @discardableResult
-    static func save(_ accountData: Data, forKey key: String) -> Bool {
-        return keychain.set(accountData, forKey: key, withAccess: .accessibleAfterFirstUnlock)
+    static func account(at index: Int) -> StellarAccount? {
+        let keys = self.keys
+
+        guard index < keys.count, let indexStr = removePrefix(keys[index]) else {
+            return nil
+        }
+
+        return StellarAccount(storageKey: String(indexStr))
     }
 
     static func retrieve(_ key: String) -> Data? {
         return keychain.getData(key)
     }
 
-    static func delete(_ key: String) -> Bool {
-        return keychain.delete(key)
+    @discardableResult
+    static func save(_ accountData: Data, forKey key: String) -> Bool {
+        return keychain.set(accountData, forKey: key, withAccess: .accessibleAfterFirstUnlock)
     }
 
-    static func account(at index: Int) -> StellarAccount? {
-        let keys = self.keys
-        
-        guard index < keys.count, let indexStr = removePrefix(keys[index]) else {
-            return nil
-        }
-        
-        return StellarAccount(storageKey: String(indexStr))
+    @discardableResult
+    static func remove(_ key: String) -> Bool {
+        return keychain.delete(key)
     }
     
     @discardableResult
@@ -296,7 +297,11 @@ private struct KeychainStorage {
             return false
         }
         
-        return delete(String(indexStr))
+        return remove(String(indexStr))
+    }
+
+    fileprivate static func clear() {
+        keychain.clear()
     }
 
     static var count: Int {
@@ -307,10 +312,6 @@ private struct KeychainStorage {
         return (keychain.getAllKeys() ?? [])
             .filter { $0.starts(with: keychainPrefix) }
             .sorted()
-    }
-
-    fileprivate static func clear() {
-        keychain.clear()
     }
 
     static func removePrefix(_ key: String) -> String? {
@@ -341,6 +342,7 @@ extension KeychainStorage {
 
         for key in keys {
             if let data = retrieve(key) {
+                remove(key)
                 save(data, forKey: key)
             }
         }
