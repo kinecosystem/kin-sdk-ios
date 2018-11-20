@@ -19,18 +19,6 @@ enum KeyStoreErrors: Error {
     case encryptionFailed
 }
 
-protocol AccountStorage {
-    static func nextStorageKey() -> String
-    static func save(_ accountData: Data, forKey key: String) -> Bool
-    static func retrieve(_ key: String) -> Data?
-    static func account(at index: Int) -> StellarAccount?
-    static func remove(at index: Int) -> Bool
-    static func count() -> Int
-    static func clear()
-}
-
-private let StorageClass: AccountStorage.Type = KeychainStorage.self
-
 public struct AccountData: Codable {
     let pkey: String
     let seed: String
@@ -80,7 +68,7 @@ public class StellarAccount: Account {
     }
 
     fileprivate func accountData() throws -> AccountData {
-        guard let data = StorageClass.retrieve(storageKey) else {
+        guard let data = KeychainStorage.retrieve(storageKey) else {
             throw KeyStoreErrors.loadFailed
         }
 
@@ -108,7 +96,7 @@ public class StellarAccount: Account {
 
 public struct KeyStore {
     public static func newAccount(passphrase: String) throws -> StellarAccount {
-        let storageKey = StorageClass.nextStorageKey()
+        let storageKey = KeychainStorage.nextStorageKey()
 
         try save(accountData: try accountData(passphrase: passphrase), key: storageKey)
 
@@ -118,7 +106,7 @@ public struct KeyStore {
     }
 
     public static func account(at index: Int) -> StellarAccount? {
-        return StorageClass.account(at: index)
+        return KeychainStorage.account(at: index)
     }
 
     public static func set(extra: Data?, for account: StellarAccount) throws {
@@ -134,18 +122,18 @@ public struct KeyStore {
 
     @discardableResult
     public static func remove(at index: Int) -> Bool {
-        return StorageClass.remove(at: index)
+        return KeychainStorage.remove(at: index)
     }
 
     public static func count() -> Int {
-        return StorageClass.count()
+        return KeychainStorage.count
     }
 
     @discardableResult
     public static func importSecretSeed(_ seed: String, passphrase: String) throws -> StellarAccount {
         let seedData = BCKeyUtils.key(base32: seed)
 
-        let storageKey = StorageClass.nextStorageKey()
+        let storageKey = KeychainStorage.nextStorageKey()
 
         try save(accountData: try accountData(passphrase: passphrase, seed: seedData), key: storageKey)
 
@@ -162,7 +150,7 @@ public struct KeyStore {
                                         passphrase: passphrase,
                                         newPassphrase: newPassphrase)
 
-        try save(accountData: accountData, key: StorageClass.nextStorageKey())
+        try save(accountData: accountData, key: KeychainStorage.nextStorageKey())
     }
 
     public static func exportAccount(account: StellarAccount,
@@ -238,7 +226,7 @@ public struct KeyStore {
     private static func save(accountData: AccountData, key: String) throws {
         let data = try JSONEncoder().encode(accountData)
 
-        guard StorageClass.save(data, forKey: key) else {
+        guard KeychainStorage.save(data, forKey: key) else {
             throw KeyStoreErrors.storeFailed
         }
     }
@@ -247,91 +235,116 @@ public struct KeyStore {
 extension KeyStore {
     /**
      **WARNING!  WARNING!  WARNING!  WARNING!  WARNING!  WARNING!**
+
      This is for internal use, only.  It will delete _ALL_ keychain entries for the app, not just
      those used by this SDK.
 
-     *It is intended for use by unit tests.*
+     - Warning: For unit tests only!
      */
     static func removeAll() {
-        StorageClass.clear()
+        KeychainStorage.clear()
     }
 }
 
-private struct KeychainStorage: AccountStorage {
-    private static let keychainPrefix = "__swifty_stellar_"
-    private static let keychain = KeychainSwift(keyPrefix: keychainPrefix)
+private struct KeychainStorage {
+    static let keychainPrefix = "__swifty_stellar_"
+    static let keychain = KeychainSwift(keyPrefix: keychainPrefix)
 
     static func nextStorageKey() -> String {
-        let keys = self.keys()
+        let keys = self.keys
 
         if keys.count == 0 {
             return String(format: "%06d", 0)
         }
+        else if let key = keys.last, let indexStr = removePrefix(key), let last = Int(indexStr) {
+            let index = last + 1
+            return String(format: "%06d", index)
+        }
         else {
-            if
-                let key = keys.last,
-                let indexStr = key.split(separator: "_").last,
-                let last = Int(indexStr) {
-                let index = last + 1
-
-                return String(format: "%06d", index)
-            }
-            else {
-                return ""
-            }
+            return ""
         }
     }
 
-    static func save(_ accountData: Data, forKey key: String) -> Bool {
-        return keychain.set(accountData, forKey: key)
+    static func account(at index: Int) -> StellarAccount? {
+        let keys = self.keys
+
+        guard index < keys.count, let indexStr = removePrefix(keys[index]) else {
+            return nil
+        }
+
+        return StellarAccount(storageKey: String(indexStr))
     }
 
     static func retrieve(_ key: String) -> Data? {
         return keychain.getData(key)
     }
 
-    static func delete(_ key: String) -> Bool {
-        return keychain.delete(key)
+    @discardableResult
+    static func save(_ accountData: Data, forKey key: String) -> Bool {
+        return keychain.set(accountData, forKey: key, withAccess: .accessibleAfterFirstUnlock)
     }
 
-    static func account(at index: Int) -> StellarAccount? {
-        let keys = self.keys()
-        
-        guard index < keys.count else {
-            return nil
-        }
-        
-        guard let indexStr = keys[index].split(separator: "_").last else {
-            return nil
-        }
-        
-        return StellarAccount(storageKey: String(indexStr))
+    @discardableResult
+    static func remove(_ key: String) -> Bool {
+        return keychain.delete(key)
     }
     
     @discardableResult
     static func remove(at index: Int) -> Bool {
-        let key = keys()[index]
+        let keys = self.keys
         
-        guard
-            index < keys().count,
-            let indexStr = key.split(separator: "_").last else {
-                return false
+        guard index < keys.count, let indexStr = removePrefix(keys[index]) else {
+            return false
         }
         
-        return delete(String(indexStr))
+        return remove(String(indexStr))
     }
 
-    static func count() -> Int {
-        return keys().count
+    fileprivate static func clear() {
+        keychain.clear()
     }
 
-    private static func keys() -> [String] {
+    static var count: Int {
+        return keys.count
+    }
+
+    static var keys: [String] {
         return (keychain.getAllKeys() ?? [])
             .filter { $0.starts(with: keychainPrefix) }
             .sorted()
     }
 
-    fileprivate static func clear() {
-        keychain.clear()
+    static func removePrefix(_ key: String) -> String? {
+        if let string = key.split(separator: "_").last {
+            return String(string)
+        }
+        return nil
+    }
+}
+
+// MARK: Migration
+
+extension KeyStore {
+    public static func migrateIfNeeded() {
+        KeychainStorage.migrate()
+    }
+}
+
+extension KeychainStorage {
+    /**
+     Migrate the keychain entries access type.
+
+     Previous versions of the keychain storage were saving data with the default access type.
+     In order to update the access type, the existing keys need to simply be resaved. 
+     */
+    fileprivate static func migrate() {
+        let keys = self.keys.compactMap { removePrefix($0) }
+
+        for key in keys {
+            if let data = retrieve(key) {
+                remove(key)
+                save(data, forKey: key)
+            }
+        }
     }
 }
