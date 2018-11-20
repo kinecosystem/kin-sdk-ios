@@ -112,7 +112,7 @@ public struct TimeBounds: XDRCodable, XDREncodableStruct {
 public struct Transaction: XDRCodable {
     public static let MaxMemoLength = 28
     let sourceAccount: PublicKey
-    let fee: UInt32
+    let fee: Stroop
     let seqNum: UInt64
     let timeBounds: TimeBounds?
     let memo: Memo
@@ -131,7 +131,7 @@ public struct Transaction: XDRCodable {
                 seqNum: UInt64,
                 timeBounds: TimeBounds?,
                 memo: Memo,
-                fee: UInt32? = nil,
+                fee: Stroop? = nil,
                 operations: [Operation]) {
         self.init(sourceAccount: .PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourceAccount))),
                   seqNum: seqNum,
@@ -145,7 +145,7 @@ public struct Transaction: XDRCodable {
          seqNum: UInt64,
          timeBounds: TimeBounds?,
          memo: Memo,
-         fee: UInt32? = nil,
+         fee: Stroop? = nil,
          operations: [Operation]) {
         self.sourceAccount = sourceAccount
         self.seqNum = seqNum
