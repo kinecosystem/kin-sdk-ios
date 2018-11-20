@@ -142,7 +142,7 @@ extension KinSampleViewController: KinClientCellDelegate {
     private func createAccount(user_id: String) -> Promise<Bool> {
         let p = Promise<Bool>()
 
-        let url = URL(string: "http://10.4.59.1:8001?addr=\(kinAccount.publicAddress)")!
+        let url = URL(string: "http://18.206.35.110:8001?addr=\(kinAccount.publicAddress)")!
         let request = URLRequest(url: url)
 
         URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
@@ -167,7 +167,7 @@ extension KinSampleViewController: KinClientCellDelegate {
     private func fund(user_id: String) -> Promise<Bool> {
         let p = Promise<Bool>()
 
-        let url = URL(string: "http://10.4.59.1:3000/fund?account=\(kinAccount.publicAddress)&amount=6000")!
+        let url = URL(string: "http://159.65.84.173:5000/fund?account=\(kinAccount.publicAddress)&amount=6000")!
         let request = URLRequest(url: url)
 
         URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
