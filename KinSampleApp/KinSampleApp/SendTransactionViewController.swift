@@ -47,15 +47,13 @@ class SendTransactionViewController: UIViewController {
                 return
             }
 
-            guard let data = data else {
+            guard let data = data, let d = Data(base64Encoded: data) else {
                 promise.signal(KinError.unknown) // Error: no returned data
                 return
             }
 
-//            let string = String(data: data, encoding: .utf8) // !!!!: debug
-
             do {
-                let envelope = try XDRDecoder.decode(TransactionEnvelope.self, data: data)
+                let envelope = try XDRDecoder.decode(TransactionEnvelope.self, data: d)
                 promise.signal(envelope)
             }
             catch {

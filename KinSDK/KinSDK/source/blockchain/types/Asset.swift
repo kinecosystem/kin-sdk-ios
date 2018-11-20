@@ -14,6 +14,7 @@ public enum Asset: Int32 {
 
 extension Asset: XDRCodable {
     public init(from decoder: XDRDecoder) throws {
+        _ = try decoder.decode(UInt32.self)
         self = .native
     }
 
