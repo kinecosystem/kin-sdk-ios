@@ -31,6 +31,23 @@ class SendTransactionViewController: UIViewController {
         super.viewDidAppear(animated)
 
         amountTextField.becomeFirstResponder()
+
+        // !!!: DEBUG
+//        addressTextField.text = "GDV2F33AFV4KCQP3QQ66YZ43RW7NLPVUV3XCFPRDQMAQD2FUY6GGUWID"
+//
+//
+//        let dataString = "AAAAADKEwt/5mMPDT6zuFrRrFH5tCKGYpaQo79WASAk8EP+sAAAAZAAABFoAAAABAAAAAAAAAAEAAAAHMS10ZXN0LQAAAAABAAAAAQAAAAAyhMLf+ZjDw0+s7ha0axR+bQihmKWkKO/VgEgJPBD/rAAAAAEAAAAA66LvYC14oUH7hD3sZ5uNvtW+tK7uIr4jgwEB6LTHjGoAAAAAAAAAAAAPQkAAAAAAAAAAAjwQ/6wAAABAs5eYVtHoOwsc120ikJ38m9O8u6s6HaqWyYWMBF6FZES3Usg8JiXB3HmJ+dzvKh3TqBm14J71PlcUPSc5BLI4BrTHjGoAAABA/dORXEEXriRB8Qa4abP8wbUkcw546fMSUmg8aYZ7VkU2hww+xVDgmUcpHV/GTvJCkuK7PjXlT++0Nm515x/EAQ=="
+//
+//        if let data = Data(base64Encoded: dataString) {
+//            do {
+//                let envelope = try XDRDecoder.decode(TransactionEnvelope.self, data: data)
+//                print(envelope)
+//            }
+//            catch {
+//                print(error)
+//            }
+//        }
+
     }
 
     func whitelistTransaction(to url: URL, whitelistEnvelope: WhitelistEnvelope) -> Promise<TransactionEnvelope> {
@@ -52,8 +69,8 @@ class SendTransactionViewController: UIViewController {
                 return
             }
 
-//            let string = String(data: data, encoding: .utf8) // !!!!: debug
-
+            let string = String(data: data, encoding: .utf8) // !!!!: debug
+            
             do {
                 let envelope = try XDRDecoder.decode(TransactionEnvelope.self, data: data)
                 promise.signal(envelope)
