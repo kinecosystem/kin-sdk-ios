@@ -46,7 +46,7 @@ public typealias BalanceCompletion = (Kin?, Error?) -> Void
 
 public enum AccountStatus: Int {
     case notCreated
-    case activated
+    case created
 }
 
 internal let AssetUnitDivisor: UInt64 = 100_000
