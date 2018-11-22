@@ -10,7 +10,7 @@ import Foundation
 import KinUtil
 
 /**
- A protocol to encapsulate the formation of the endpoint `URL` and the `NetworkId`.
+ A protocol to encapsulate the formation of the endpoint `URL` and the `Network`.
  */
 public protocol ServiceProvider {
     /**
@@ -19,19 +19,18 @@ public protocol ServiceProvider {
     var url: URL { get }
 
     /**
-     The `NetworkId` to be used.
+     The `Network` to be used.
      */
-    var networkId: NetworkId { get }
+    var network: Network { get }
 }
 
-public typealias Balance = Decimal
 public typealias TransactionId = String
 
 /**
- Closure type used by the generate transaction API upon completion, which contains a `Transaction` in
- case of success, or an error in case of failure.
+ Closure type used by the generate transaction API upon completion, which contains a `TransactionEnvelope`
+ in case of success, or an error in case of failure.
  */
-public typealias GenerateTransactionCompletion = (Transaction?, Error?) -> Void
+public typealias GenerateTransactionCompletion = (TransactionEnvelope?, Error?) -> Void
 
 /**
  Closure type used by the send transaction API upon completion, which contains a `TransactionId` in
@@ -43,20 +42,28 @@ public typealias SendTransactionCompletion = (TransactionId?, Error?) -> Void
  Closure type used by the balance API upon completion, which contains the `Balance` in case of
  success, or an error in case of failure.
  */
-public typealias BalanceCompletion = (Balance?, Error?) -> Void
+public typealias BalanceCompletion = (Kin?, Error?) -> Void
 
 public enum AccountStatus: Int {
     case notCreated
-    case notActivated
     case activated
 }
 
-internal let AssetUnitDivisor: UInt64 = 10_000
+internal let AssetUnitDivisor: UInt64 = 100_000
+
+/**
+ Kin is the native currency of the network.
+ */
+public typealias Kin = Decimal
+
+/**
+ Stroop is the smallest amount unit. It is one-hundred-thousandth: `1/100000` or `0.00001`.
+ */
+public typealias Stroop = UInt32
 
 public struct PaymentInfo {
     private let txEvent: TxEvent
     private let account: String
-    private let asset: Asset
 
     public var createdAt: Date {
         return txEvent.created_at
@@ -71,22 +78,22 @@ public struct PaymentInfo {
     }
 
     public var source: String {
-        return txEvent.payments.filter({ $0.asset == asset }).first?.source ?? txEvent.source_account
+        return txEvent.payments.first?.source ?? txEvent.source_account
     }
 
     public var hash: String {
         return txEvent.hash
     }
 
-    public var amount: Decimal {
-        if let amount = txEvent.payments.filter({ $0.asset == asset }).first?.amount {
+    public var amount: Kin {
+        if let amount = txEvent.payments.first?.amount {
             return amount / Decimal(AssetUnitDivisor)
         }
         return Decimal(0)
     }
 
     public var destination: String {
-        return txEvent.payments.filter({ $0.asset == asset }).first?.destination ?? ""
+        return txEvent.payments.first?.destination ?? ""
     }
 
     public var memoText: String? {
@@ -97,10 +104,9 @@ public struct PaymentInfo {
         return txEvent.memoData
     }
 
-    init(txEvent: TxEvent, account: String, asset: Asset) {
+    init(txEvent: TxEvent, account: String) {
         self.txEvent = txEvent
         self.account = account
-        self.asset = asset
     }
 }
 

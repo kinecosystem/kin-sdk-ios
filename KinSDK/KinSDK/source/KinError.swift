@@ -24,11 +24,6 @@ public enum KinError: Error {
     case accountDeletionFailed (Error)
 
     /**
-     Account activation failed.
-     */
-    case activationFailed (Error)
-
-    /**
      Transaction creation failed.
      */
     case transactionCreationFailed (Error)
@@ -88,8 +83,6 @@ extension KinError: LocalizedError {
             return "Account creation failed"
         case .accountDeletionFailed:
             return "Account deletion failed"
-        case .activationFailed:
-            return "Account activation failed"
         case .transactionCreationFailed:
             return "Transaction creation failed"
         case .paymentFailed:

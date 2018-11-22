@@ -31,14 +31,6 @@ public enum CreateAccountError: Int32, Error {
     case CREATE_ACCOUNT_ALREADY_EXIST = -4 // account already exists
 }
 
-public enum ChangeTrustError: Int32, Error {
-    case CHANGE_TRUST_MALFORMED = -1         // bad input
-    case CHANGE_TRUST_NO_ISSUER = -2         // could not find issuer
-    case CHANGE_TRUST_INVALID_LIMIT = -3     // cannot drop limit below balance
-    case CHANGE_TRUST_LOW_RESERVE = -4       // not enough funds to create a new trust line,
-    case CHANGE_TRUST_SELF_NOT_ALLOWED = -5  // trusting self is not allowed
-}
-
 public enum PaymentError: Int32, Error {
     case PAYMENT_MALFORMED = -1          // bad input
     case PAYMENT_UNDERFUNDED = -2        // not enough funds in source account
@@ -98,17 +90,6 @@ func errorFromResponse(resultXDR: String) -> Error? {
                         }
 
                         return StellarError.unknownError(resultXDR)
-
-                    default:
-                        break
-                    }
-
-                case .CHANGE_TRUST(let result):
-                    switch result {
-                    case .failure (let code):
-                        if let error = ChangeTrustError(rawValue: code) {
-                            return error
-                        }
 
                     default:
                         break

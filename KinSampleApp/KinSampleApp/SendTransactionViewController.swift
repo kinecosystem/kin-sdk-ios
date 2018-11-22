@@ -11,6 +11,8 @@ import KinSDK
 import KinUtil
 
 class SendTransactionViewController: UIViewController {
+
+    var kinClient: KinClient!
     var kinAccount: KinAccount!
 
     @IBOutlet weak var sendButton: UIButton!
@@ -31,18 +33,65 @@ class SendTransactionViewController: UIViewController {
         amountTextField.becomeFirstResponder()
     }
 
+    func whitelistTransaction(to url: URL, whitelistEnvelope: WhitelistEnvelope) -> Promise<TransactionEnvelope> {
+        let promise: Promise<TransactionEnvelope> = Promise()
+
+        var request = URLRequest(url: url)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONEncoder().encode(whitelistEnvelope)
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                promise.signal(error)
+                return
+            }
+
+            guard let data = data, let d = Data(base64Encoded: data) else {
+                promise.signal(KinError.unknown) // Error: no returned data
+                return
+            }
+
+            do {
+                let envelope = try XDRDecoder.decode(TransactionEnvelope.self, data: d)
+                promise.signal(envelope)
+            }
+            catch {
+                promise.signal(error)
+            }
+        }
+
+        task.resume()
+
+        return promise
+    }
+
     @IBAction func sendTapped(_ sender: Any) {
         let amount = Decimal(UInt64(amountTextField.text ?? "0") ?? 0)
         let address = addressTextField.text ?? ""
         
         promise(curry(kinAccount.generateTransaction)(address)(amount)(memoTextField.text))
-            .then(on: .main) { [weak self] transaction -> Promise<TransactionId> in
-                guard let strongSelf = self else {
-                    return Promise().signal(KinError.unknown) // TODO: update with correct error
+            .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionEnvelope> in
+//                let urlString = "http://18.206.35.110:3000/whitelist"
+                let urlString = "http://10.4.59.1:3000/whitelist"
+
+                guard let strongSelf = self, let url = URL(string: urlString) else {
+                    return Promise().signal(KinError.unknown)
                 }
-                return promise(curry(strongSelf.kinAccount.sendTransaction)(transaction))
+
+                let networkId = Network.testNet.id
+                let whitelistEnvelope = WhitelistEnvelope(transactionEnvelope: transactionEnvelope, networkId: networkId)
+
+                return strongSelf.whitelistTransaction(to: url, whitelistEnvelope: whitelistEnvelope)
             }
-            .then(on: DispatchQueue.main, { [weak self] transactionId in
+            .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionId> in
+                guard let strongSelf = self else {
+                    return Promise().signal(KinError.unknown)
+                }
+
+                return promise(curry(strongSelf.kinAccount.sendTransaction)(transactionEnvelope))
+            }
+            .then(on: .main, { [weak self] transactionId in
                 let message = "Transaction with ID \(transactionId) sent to \(address)"
                 let alertController = UIAlertController(title: "Transaction Sent", message: message, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Copy Transaction ID", style: .default, handler: { _ in

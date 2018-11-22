@@ -25,6 +25,15 @@ struct HorizonError: Decodable {
     }
 }
 
+public struct NetworkParameters: Decodable {
+    private let _links: Links
+    private let _embedded: [String: [LedgerResponse]]
+
+    public var baseFee: Stroop {
+        return _embedded["records"]!.first!.base_fee
+    }
+}
+
 public struct AccountDetails: Decodable, CustomStringConvertible {
     public let id: String
     public let accountId: String
@@ -38,34 +47,22 @@ public struct AccountDetails: Decodable, CustomStringConvertible {
     public struct Balance: Decodable, CustomStringConvertible {
         public let balance: String
         public let assetType: String
-        public let assetCode: String?
-        public let assetIssuer: String?
 
-        public var balanceNum: Decimal {
+        public var balanceNum: Kin {
             return Decimal(string: balance) ?? Decimal()
         }
 
-        public var asset: Asset? {
-            if let assetCode = assetCode, let assetIssuer = assetIssuer {
-                return Asset(assetCode: assetCode, issuer: assetIssuer)
-            }
-
-            return Asset.ASSET_TYPE_NATIVE
+        public var asset: Asset {
+            return .native
         }
 
         public var description: String {
-            return """
-            balance: \(balance)
-                code: \(assetCode ?? "native")
-                issuer: \(assetIssuer ?? "n/a")
-            """
+            return "balance: \(balance)"
         }
 
         enum CodingKeys: String, CodingKey {
             case balance
             case assetType = "asset_type"
-            case assetCode = "asset_code"
-            case assetIssuer = "asset_issuer"
         }
     }
 
@@ -96,3 +93,28 @@ struct TransactionResponse: Decodable {
     }
 }
 
+struct LedgerResponse: Decodable {
+    let _links: Links?
+    let id: String
+    let hash: String
+    let base_fee: Stroop
+    let base_reserve: String
+    let max_tx_set_size: Int
+}
+
+struct Links: Decodable {
+    let `self`: Link
+
+    let next: Link?
+    let prev: Link?
+
+    let transactions: Link?
+    let operations: Link?
+    let payments: Link?
+    let effects: Link?
+}
+
+struct Link: Decodable {
+    let href: String
+    let templated: Bool?
+}

@@ -42,16 +42,6 @@ extension Operation {
 
     }
 
-    public static func changeTrust(asset: Asset, source: Account? = nil) -> Operation {
-        var sourcePK: PublicKey? = nil
-        if let source = source, let pk = source.publicKey {
-            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: pk)))
-        }
-
-        return Operation(sourceAccount: sourcePK,
-                         body: Operation.Body.CHANGE_TRUST(ChangeTrustOp(asset: asset)))
-    }
-
     public static func manageData(key: String, value: Data?, source: Account? = nil) -> Operation {
         var sourcePK: PublicKey? = nil
         if let source = source, let pk = source.publicKey {

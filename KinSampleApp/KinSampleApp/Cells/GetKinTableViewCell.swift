@@ -29,6 +29,6 @@ class GetKinTableViewCell: KinClientCell {
     }
 
     func verifyGetKinButtonAvailability() {
-        getKinButton.isEnabled = kinClient.networkId != .mainNet
+        getKinButton.isEnabled = kinClient.network != .mainNet
     }
 }

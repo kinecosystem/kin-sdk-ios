@@ -37,7 +37,7 @@ class KinSampleViewController: UITableViewController {
 
         self.watch = try? self.kinAccount.watchBalance(nil)
         self.watch?.emitter.on(queue: .main, next: { [weak self] balance in
-            if let balanceCell = self?.tableView.visibleCells.flatMap({ $0 as? BalanceTableViewCell }).first {
+            if let balanceCell = self?.tableView.visibleCells.compactMap({ $0 as? BalanceTableViewCell }).first {
                 balanceCell.balance = balance
             }
         })
@@ -74,6 +74,7 @@ extension KinSampleViewController: KinClientCellDelegate {
         }
 
         txViewController.view.tintColor = view.tintColor
+        txViewController.kinClient = kinClient
         txViewController.kinAccount = kinAccount
         navigationController?.pushViewController(txViewController, animated: true)
     }
@@ -117,11 +118,6 @@ extension KinSampleViewController: KinClientCellDelegate {
 
         self.createAccount(user_id: user_id)
             .then { result -> Promise<Bool> in
-                print("Activating account.")
-
-                return self.activate()
-            }
-            .then { result -> Promise<Bool> in
                 print("Funding account")
 
                 return self.fund(user_id: user_id)
@@ -141,13 +137,12 @@ extension KinSampleViewController: KinClientCellDelegate {
     enum OnBoardingError: Error {
         case invalidResponse
         case errorResponse
-        case activationFailed
     }
 
     private func createAccount(user_id: String) -> Promise<Bool> {
         let p = Promise<Bool>()
 
-        let url = URL(string: "http://friendbot-kik.kininfrastructure.com?addr=\(kinAccount.publicAddress)")!
+        let url = URL(string: "http://18.206.35.110:8001?addr=\(kinAccount.publicAddress)")!
         let request = URLRequest(url: url)
 
         URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
@@ -165,24 +160,6 @@ extension KinSampleViewController: KinClientCellDelegate {
 
             p.signal(true)
         }).resume()
-
-        return p
-    }
-
-    private func activate() -> Promise<Bool> {
-        let p = Promise<Bool>()
-
-        kinAccount.activate(completion: { txHash, error in
-            if let error = error {
-                print("Activation failed: \(error)")
-
-                p.signal(OnBoardingError.activationFailed)
-
-                return
-            }
-
-            p.signal(true)
-        })
 
         return p
     }

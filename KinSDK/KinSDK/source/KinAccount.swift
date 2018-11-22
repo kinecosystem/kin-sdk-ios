@@ -31,74 +31,67 @@ public protocol KinAccount: class {
      **/
     func export(passphrase: String) throws -> String
 
-    /**
-     Allow an account to receive KIN.
-
-     - parameter completion: A block which receives the results of the activation
-     */
-    func activate(completion: @escaping (String?, Error?) -> Void)
-
-    /**
-     Allow an account to receive KIN.
-
-     - return: A promise which is signalled with the resulting transaction hash.
-     */
-    func activate() -> Promise<String>
-
     func status(completion: @escaping (AccountStatus?, Error?) -> Void)
 
     func status() -> Promise<AccountStatus>
 
     /**
-     // TODO: update this comment
-
      Generate a Kin transaction for a specific address.
 
      The completion block is called after the transaction is posted on the network, which is prior
      to confirmation.
 
-     The completion block **is not dispatched on the main thread**.
+     - Attention: The completion block **is not dispatched on the main thread**.
 
-     - parameter recipient: The recipient's public address
-     - parameter kin: The amount of Kin to be sent
-     - parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter recipient: The recipient's public address.
+     - Parameter kin: The amount of Kin to be sent.
+     - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter completion: A completion with the `TransactionEnvelope` or an `Error`.
      */
     func generateTransaction(to recipient: String,
-                             kin: Decimal,
+                             kin: Kin,
                              memo: String?,
                              completion: @escaping GenerateTransactionCompletion)
 
-    func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<Transaction>
+    /**
+     Generate a Kin transaction for a specific address.
+
+     - Parameter recipient: The recipient's public address.
+     - Parameter kin: The amount of Kin to be sent.
+     - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+
+     - Returns: A promise which is signalled with the `TransactionEnvelope` or an `Error`.
+     */
+    func generateTransaction(to recipient: String, kin: Kin, memo: String?) -> Promise<TransactionEnvelope>
 
     /**
-     // TODO: update this comment
-     
-     Posts a Kin transaction to a specific address.
+     Send a Kin transaction.
      
      The completion block is called after the transaction is posted on the network, which is prior
      to confirmation.
      
-     The completion block **is not dispatched on the main thread**.
+     - Attention: The completion block **is not dispatched on the main thread**.
      
-     - parameter recipient: The recipient's public address
-     - parameter kin: The amount of Kin to be sent
-     - parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter transactionEnvelope: The `TransactionEnvelope` to send.
+     - Parameter completion: A completion with the `TransactionId` or an `Error`.
      */
-    func sendTransaction(_ transaction: Transaction, completion: @escaping SendTransactionCompletion)
+    func sendTransaction(_ transactionEnvelope: TransactionEnvelope, completion: @escaping SendTransactionCompletion)
     
     /**
-     Posts a Kin transaction to a specific address.
+     Send a Kin transaction.
 
-     - Parameter transaction: The transaction to send.
-     - Returns: A promise which is signalled with the `TransactionId`.
+     - Parameter transactionEnvelope: The `TransactionEnvelope` to send.
+
+     - Returns: A promise which is signalled with the `TransactionId` or an `Error`.
      */
-    func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId>
+    func sendTransaction(_ transactionEnvelope: TransactionEnvelope) -> Promise<TransactionId>
 
     /**
      Retrieve the current Kin balance.
+
+     - Note: The closure is invoked on a background thread.
      
-     - parameter completion: A closure to be invoked once the request completes.  The closure is
-     invoked on a background thread.
+     - Parameter completion: A closure to be invoked once the request completes.
      */
     func balance(completion: @escaping BalanceCompletion)
 
@@ -107,9 +100,9 @@ public protocol KinAccount: class {
 
      - returns: A `Promise` which is signalled with the current balance.
      */
-    func balance() -> Promise<Balance>
+    func balance() -> Promise<Kin>
 
-    func watchBalance(_ balance: Decimal?) throws -> BalanceWatch
+    func watchBalance(_ balance: Kin?) throws -> BalanceWatch
 
     func watchPayments(cursor: String?) throws -> PaymentWatch
 
@@ -129,17 +122,8 @@ public protocol KinAccount: class {
 }
 
 final class KinStellarAccount: KinAccount {
-    func generateTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<Transaction> {
-        return Promise()
-    }
-
-    func sendTransaction(_ transaction: Transaction) -> Promise<TransactionId> {
-        return Promise()
-    }
-
     internal let stellarAccount: StellarAccount
     fileprivate let node: Stellar.Node
-    fileprivate let asset: Asset = .ASSET_TYPE_NATIVE
     fileprivate let appId: AppId
 
     var deleted = false
@@ -156,7 +140,6 @@ final class KinStellarAccount: KinAccount {
 
             return extra
         }
-
         set {
             try? KeyStore.set(extra: newValue, for: stellarAccount)
         }
@@ -180,39 +163,15 @@ final class KinStellarAccount: KinAccount {
         return jsonString
     }
 
-    public func activate(completion: @escaping (String?, Error?) -> Void) {
-        stellarAccount.sign = { message in
-            return try self.stellarAccount.sign(message: message, passphrase: "")
-        }
-        
-        Stellar.trust(asset: asset,
-                      account: stellarAccount,
-                      node: node)
-            .then { txHash -> Void in
-                self.stellarAccount.sign = nil
-
-                completion(txHash, nil)
-            }
-            .error { error in
-                self.stellarAccount.sign = nil
-
-                completion(nil, KinError.activationFailed(error))
-        }
-    }
-
-    public func activate() -> Promise<String> {
-        return promise(activate)
-    }
-
     func status(completion: @escaping (AccountStatus?, Error?) -> Void) {
         balance { balance, error in
             if let error = error {
-                if case let KinError.balanceQueryFailed(e) = error,
-                    let stellarError = e as? StellarError {
+                if case let KinError.balanceQueryFailed(e) = error, let stellarError = e as? StellarError {
                     switch stellarError {
-                    case .missingAccount: completion(.notCreated, nil)
-                    case .missingBalance: completion(.notActivated, nil)
-                    default: completion(nil, error)
+                    case .missingAccount, .missingBalance:
+                        completion(.notCreated, nil)
+                    default:
+                        completion(nil, error)
                     }
                 }
                 else {
@@ -236,7 +195,7 @@ final class KinStellarAccount: KinAccount {
     }
     
     func generateTransaction(to recipient: String,
-                             kin: Decimal,
+                             kin: Kin,
                              memo: String? = nil,
                              completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
@@ -257,53 +216,24 @@ final class KinStellarAccount: KinAccount {
             completion(nil, StellarError.memoTooLong(prefixedMemo))
             return
         }
-        
-        do {
-            Stellar.transaction(source: stellarAccount,
-                            destination: recipient,
-                            amount: kinInt,
-                            asset: asset,
-                            memo: try Memo(prefixedMemo),
-                            node: node)
-                .then { transaction -> Void in
-                    completion(transaction, nil)
-                }
-                .error { error in
-                    completion(nil, KinError.transactionCreationFailed(error))
-            }
-        }
-        catch {
-            completion(nil, error)
-        }
-    }
-
-    func sendTransaction(_ transaction: Transaction, completion: @escaping SendTransactionCompletion) {
-        guard deleted == false else {
-            completion(nil, KinError.accountDeleted)
-            return
-        }
 
         stellarAccount.sign = { message in
             return try self.stellarAccount.sign(message: message, passphrase: "")
         }
 
         do {
-            let enveloper = try Stellar.sign(transaction: transaction, signer: stellarAccount, node: node)
-
-            Stellar.postTransaction(envelope: enveloper, node: node)
-                .then { txHash -> Void in
+            Stellar.transaction(source: stellarAccount,
+                            destination: recipient,
+                            amount: kinInt,
+                            memo: try Memo(prefixedMemo),
+                            node: node)
+                .then { transactionEnvelope -> Void in
                     self.stellarAccount.sign = nil
-                    completion(txHash, nil)
+                    completion(transactionEnvelope, nil)
                 }
                 .error { error in
                     self.stellarAccount.sign = nil
-
-                    if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
-                        completion(nil, KinError.insufficientFunds)
-                        return
-                    }
-
-                    completion(nil, KinError.paymentFailed(error))
+                    completion(nil, KinError.transactionCreationFailed(error))
             }
         }
         catch {
@@ -312,13 +242,41 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-//    func sendTransaction(to recipient: String, kin: Decimal, memo: String?) -> Promise<TransactionId> {
-//        let txClosure = { (txComp: @escaping SendTransactionCompletion) in
-//            self.sendTransaction(to: recipient, kin: kin, memo: memo, completion: txComp)
-//        }
-//
-//        return promise(txClosure)
-//    }
+    func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil) -> Promise<TransactionEnvelope> {
+        let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
+            self.generateTransaction(to: recipient, kin: kin, memo: memo, completion: txComp)
+        }
+
+        return promise(txClosure)
+    }
+
+    func sendTransaction(_ transactionEnvelope: TransactionEnvelope, completion: @escaping SendTransactionCompletion) {
+        guard deleted == false else {
+            completion(nil, KinError.accountDeleted)
+            return
+        }
+
+        Stellar.postTransaction(envelope: transactionEnvelope, node: node)
+            .then { txHash -> Void in
+                completion(txHash, nil)
+            }
+            .error { error in
+                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
+                    completion(nil, KinError.insufficientFunds)
+                    return
+                }
+
+                completion(nil, KinError.paymentFailed(error))
+        }
+    }
+
+    func sendTransaction(_ transactionEnvelope: TransactionEnvelope) -> Promise<TransactionId> {
+        let txClosure = { (txComp: @escaping SendTransactionCompletion) in
+            self.sendTransaction(transactionEnvelope, completion: txComp)
+        }
+
+        return promise(txClosure)
+    }
 
     func balance(completion: @escaping BalanceCompletion) {
         guard deleted == false else {
@@ -327,7 +285,7 @@ final class KinStellarAccount: KinAccount {
             return
         }
         
-        Stellar.balance(account: stellarAccount.publicKey!, asset: asset, node: node)
+        Stellar.balance(account: stellarAccount.publicKey!, node: node)
             .then { balance -> Void in
                 completion(balance, nil)
             }
@@ -336,19 +294,16 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-    func balance() -> Promise<Balance> {
+    func balance() -> Promise<Kin> {
         return promise(balance)
     }
     
-    public func watchBalance(_ balance: Decimal?) throws -> BalanceWatch {
+    public func watchBalance(_ balance: Kin?) throws -> BalanceWatch {
         guard deleted == false else {
             throw KinError.accountDeleted
         }
 
-        return BalanceWatch(node: node,
-                            account: stellarAccount.publicKey!,
-                            balance: balance,
-                            asset: asset)
+        return BalanceWatch(node: node, account: stellarAccount.publicKey!, balance: balance)
     }
 
     public func watchPayments(cursor: String?) throws -> PaymentWatch {
@@ -356,10 +311,7 @@ final class KinStellarAccount: KinAccount {
             throw KinError.accountDeleted
         }
 
-        return PaymentWatch(node: node,
-                            account: stellarAccount.publicKey!,
-                            asset: asset,
-                            cursor: cursor)
+        return PaymentWatch(node: node, account: stellarAccount.publicKey!, cursor: cursor)
     }
 
     public func watchCreation() throws -> Promise<Void> {
@@ -378,8 +330,7 @@ final class KinStellarAccount: KinAccount {
             linkBag = LinkBag()
             
             p.signal(())
-        })
-            .add(to: linkBag)
+        }).add(to: linkBag)
 
         return p
     }
@@ -392,10 +343,8 @@ final class KinStellarAccount: KinAccount {
             throw KinError.internalInconsistency
         }
         
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: store,
-                                                         options: [.prettyPrinted])
-            else {
-                return nil
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: store, options: [.prettyPrinted]) else {
+            return nil
         }
         
         return String(data: jsonData, encoding: .utf8)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		680F7838219C0FA90064DA26 /* WhitelistEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */; };
 		688D2C382173694E00CF5A2C /* AppIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686759EC21736844001E9626 /* AppIdTests.swift */; };
 		68D04A2321940FA500F27492 /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0A21940FA500F27492 /* SHA256.swift */; };
 		68D04A2421940FA500F27492 /* StellarErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0D21940FA500F27492 /* StellarErrors.swift */; };
@@ -31,7 +32,7 @@
 		68D04A3721940FA500F27492 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A2221940FA500F27492 /* Endpoint.swift */; };
 		68D04A442194121600F27492 /* KinUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04A3F219411FB00F27492 /* KinUtil.framework */; };
 		68D04A462194134F00F27492 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A452194134F00F27492 /* Errors.swift */; };
-		68D04A8E2194533F00F27492 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04A852194533300F27492 /* Sodium.framework */; };
+		68D04AC02197EC4A00F27492 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04ABF2197EC4A00F27492 /* Sodium.framework */; };
 		82140EBA1FA88E5B00FAF19B /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 82140EAC1FA88E5B00FAF19B /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82140EC41FA88EAF00FAF19B /* KinTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82140EC31FA88EAF00FAF19B /* KinTypes.swift */; };
 		822107A41FD66DC80007D63F /* KinAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822107A31FD66DC80007D63F /* KinAccounts.swift */; };
@@ -50,147 +51,8 @@
 		82BA1F13204D22AB00396AE2 /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED1204D22AB00396AE2 /* KeychainSwift.swift */; };
 		82BA1F14204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED2204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift */; };
 		82BA1F15204D22AB00396AE2 /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED3204D22AB00396AE2 /* TegKeychainConstants.swift */; };
-		82BA1FC4204D22C500396AE2 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F49204D22C400396AE2 /* core.h */; };
-		82BA1FC5204D22C500396AE2 /* crypto_aead_aes256gcm.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4A204D22C400396AE2 /* crypto_aead_aes256gcm.h */; };
-		82BA1FC6204D22C500396AE2 /* crypto_aead_chacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4B204D22C400396AE2 /* crypto_aead_chacha20poly1305.h */; };
-		82BA1FC7204D22C500396AE2 /* crypto_aead_xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4C204D22C400396AE2 /* crypto_aead_xchacha20poly1305.h */; };
-		82BA1FC8204D22C500396AE2 /* crypto_auth.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4D204D22C400396AE2 /* crypto_auth.h */; };
-		82BA1FC9204D22C500396AE2 /* crypto_auth_hmacsha256.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4E204D22C400396AE2 /* crypto_auth_hmacsha256.h */; };
-		82BA1FCA204D22C500396AE2 /* crypto_auth_hmacsha512.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4F204D22C400396AE2 /* crypto_auth_hmacsha512.h */; };
-		82BA1FCB204D22C500396AE2 /* crypto_auth_hmacsha512256.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F50204D22C400396AE2 /* crypto_auth_hmacsha512256.h */; };
-		82BA1FCC204D22C500396AE2 /* crypto_box.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F51204D22C400396AE2 /* crypto_box.h */; };
-		82BA1FCD204D22C500396AE2 /* crypto_box_curve25519xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F52204D22C400396AE2 /* crypto_box_curve25519xchacha20poly1305.h */; };
-		82BA1FCE204D22C500396AE2 /* crypto_box_curve25519xsalsa20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F53204D22C400396AE2 /* crypto_box_curve25519xsalsa20poly1305.h */; };
-		82BA1FCF204D22C500396AE2 /* crypto_core_curve25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F54204D22C400396AE2 /* crypto_core_curve25519.h */; };
-		82BA1FD0204D22C500396AE2 /* crypto_core_ed25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F55204D22C400396AE2 /* crypto_core_ed25519.h */; };
-		82BA1FD1204D22C500396AE2 /* crypto_core_hchacha20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F56204D22C400396AE2 /* crypto_core_hchacha20.h */; };
-		82BA1FD2204D22C500396AE2 /* crypto_core_hsalsa20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F57204D22C400396AE2 /* crypto_core_hsalsa20.h */; };
-		82BA1FD3204D22C500396AE2 /* crypto_core_salsa20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F58204D22C400396AE2 /* crypto_core_salsa20.h */; };
-		82BA1FD4204D22C500396AE2 /* crypto_core_salsa2012.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F59204D22C400396AE2 /* crypto_core_salsa2012.h */; };
-		82BA1FD5204D22C500396AE2 /* crypto_core_salsa208.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5A204D22C400396AE2 /* crypto_core_salsa208.h */; };
-		82BA1FD6204D22C500396AE2 /* crypto_generichash.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5B204D22C400396AE2 /* crypto_generichash.h */; };
-		82BA1FD7204D22C500396AE2 /* crypto_generichash_blake2b.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5C204D22C400396AE2 /* crypto_generichash_blake2b.h */; };
-		82BA1FD8204D22C500396AE2 /* crypto_hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5D204D22C400396AE2 /* crypto_hash.h */; };
-		82BA1FD9204D22C500396AE2 /* crypto_hash_sha256.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5E204D22C400396AE2 /* crypto_hash_sha256.h */; };
-		82BA1FDA204D22C500396AE2 /* crypto_hash_sha512.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5F204D22C400396AE2 /* crypto_hash_sha512.h */; };
-		82BA1FDB204D22C500396AE2 /* crypto_kdf.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F60204D22C400396AE2 /* crypto_kdf.h */; };
-		82BA1FDC204D22C500396AE2 /* crypto_kdf_blake2b.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F61204D22C400396AE2 /* crypto_kdf_blake2b.h */; };
-		82BA1FDD204D22C500396AE2 /* crypto_kx.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F62204D22C400396AE2 /* crypto_kx.h */; };
-		82BA1FDE204D22C500396AE2 /* crypto_onetimeauth.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F63204D22C400396AE2 /* crypto_onetimeauth.h */; };
-		82BA1FDF204D22C500396AE2 /* crypto_onetimeauth_poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F64204D22C400396AE2 /* crypto_onetimeauth_poly1305.h */; };
-		82BA1FE0204D22C500396AE2 /* crypto_pwhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F65204D22C400396AE2 /* crypto_pwhash.h */; };
-		82BA1FE1204D22C500396AE2 /* crypto_pwhash_argon2i.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F66204D22C400396AE2 /* crypto_pwhash_argon2i.h */; };
-		82BA1FE2204D22C500396AE2 /* crypto_pwhash_argon2id.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F67204D22C400396AE2 /* crypto_pwhash_argon2id.h */; };
-		82BA1FE3204D22C500396AE2 /* crypto_pwhash_scryptsalsa208sha256.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F68204D22C400396AE2 /* crypto_pwhash_scryptsalsa208sha256.h */; };
-		82BA1FE4204D22C500396AE2 /* crypto_scalarmult.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F69204D22C400396AE2 /* crypto_scalarmult.h */; };
-		82BA1FE5204D22C500396AE2 /* crypto_scalarmult_curve25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6A204D22C400396AE2 /* crypto_scalarmult_curve25519.h */; };
-		82BA1FE6204D22C500396AE2 /* crypto_scalarmult_ed25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6B204D22C400396AE2 /* crypto_scalarmult_ed25519.h */; };
-		82BA1FE7204D22C500396AE2 /* crypto_secretbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6C204D22C400396AE2 /* crypto_secretbox.h */; };
-		82BA1FE8204D22C500396AE2 /* crypto_secretbox_xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6D204D22C400396AE2 /* crypto_secretbox_xchacha20poly1305.h */; };
-		82BA1FE9204D22C500396AE2 /* crypto_secretbox_xsalsa20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6E204D22C400396AE2 /* crypto_secretbox_xsalsa20poly1305.h */; };
-		82BA1FEA204D22C500396AE2 /* crypto_secretstream_xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6F204D22C400396AE2 /* crypto_secretstream_xchacha20poly1305.h */; };
-		82BA1FEB204D22C500396AE2 /* crypto_shorthash.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F70204D22C400396AE2 /* crypto_shorthash.h */; };
-		82BA1FEC204D22C500396AE2 /* crypto_shorthash_siphash24.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F71204D22C400396AE2 /* crypto_shorthash_siphash24.h */; };
-		82BA1FED204D22C500396AE2 /* crypto_sign.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F72204D22C400396AE2 /* crypto_sign.h */; };
-		82BA1FEE204D22C500396AE2 /* crypto_sign_ed25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F73204D22C400396AE2 /* crypto_sign_ed25519.h */; };
-		82BA1FEF204D22C500396AE2 /* crypto_sign_edwards25519sha512batch.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F74204D22C400396AE2 /* crypto_sign_edwards25519sha512batch.h */; };
-		82BA1FF0204D22C500396AE2 /* crypto_stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F75204D22C400396AE2 /* crypto_stream.h */; };
-		82BA1FF1204D22C500396AE2 /* crypto_stream_chacha20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F76204D22C400396AE2 /* crypto_stream_chacha20.h */; };
-		82BA1FF2204D22C500396AE2 /* crypto_stream_salsa20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F77204D22C400396AE2 /* crypto_stream_salsa20.h */; };
-		82BA1FF3204D22C500396AE2 /* crypto_stream_salsa2012.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F78204D22C400396AE2 /* crypto_stream_salsa2012.h */; };
-		82BA1FF4204D22C500396AE2 /* crypto_stream_salsa208.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F79204D22C400396AE2 /* crypto_stream_salsa208.h */; };
-		82BA1FF5204D22C500396AE2 /* crypto_stream_xchacha20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7A204D22C400396AE2 /* crypto_stream_xchacha20.h */; };
-		82BA1FF6204D22C500396AE2 /* crypto_stream_xsalsa20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7B204D22C400396AE2 /* crypto_stream_xsalsa20.h */; };
-		82BA1FF7204D22C500396AE2 /* crypto_verify_16.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7C204D22C400396AE2 /* crypto_verify_16.h */; };
-		82BA1FF8204D22C500396AE2 /* crypto_verify_32.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7D204D22C400396AE2 /* crypto_verify_32.h */; };
-		82BA1FF9204D22C500396AE2 /* crypto_verify_64.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7E204D22C400396AE2 /* crypto_verify_64.h */; };
-		82BA1FFA204D22C500396AE2 /* export.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7F204D22C400396AE2 /* export.h */; };
-		82BA1FFD204D22C500396AE2 /* randombytes.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F83204D22C400396AE2 /* randombytes.h */; };
-		82BA1FFE204D22C500396AE2 /* randombytes_salsa20_random.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F84204D22C400396AE2 /* randombytes_salsa20_random.h */; };
-		82BA1FFF204D22C500396AE2 /* randombytes_sysrandom.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F85204D22C400396AE2 /* randombytes_sysrandom.h */; };
-		82BA2000204D22C500396AE2 /* runtime.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F86204D22C400396AE2 /* runtime.h */; };
-		82BA2001204D22C500396AE2 /* sodium_lib.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F87204D22C400396AE2 /* sodium_lib.h */; };
-		82BA2002204D22C500396AE2 /* utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F88204D22C400396AE2 /* utils.h */; };
-		82BA2003204D22C500396AE2 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F89204D22C400396AE2 /* version.h */; };
-		82BA20AD204D867200396AE2 /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED3204D22AB00396AE2 /* TegKeychainConstants.swift */; };
-		82BA20AF204D867200396AE2 /* NetworkId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9148CE4F1FCACF9C0005D603 /* NetworkId.swift */; };
-		82BA20B0204D867200396AE2 /* KinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4395B1FC410630006FEB5 /* KinClient.swift */; };
-		82BA20B5204D867200396AE2 /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED2204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift */; };
-		82BA20B7204D867200396AE2 /* KinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DDFDFB1FC6ED99004B0903 /* KinError.swift */; };
-		82BA20B8204D867200396AE2 /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED1204D22AB00396AE2 /* KeychainSwift.swift */; };
-		82BA20BB204D867200396AE2 /* KinTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82140EC31FA88EAF00FAF19B /* KinTypes.swift */; };
-		82BA20C0204D867200396AE2 /* KinAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4395D1FC410860006FEB5 /* KinAccount.swift */; };
-		82BA20C3204D867200396AE2 /* KeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1EBC204D211300396AE2 /* KeyUtils.swift */; };
-		82BA20C4204D867200396AE2 /* Watchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261EF322043F390001848CB /* Watchers.swift */; };
-		82BA20C5204D867200396AE2 /* KinAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822107A31FD66DC80007D63F /* KinAccounts.swift */; };
-		82BA20C7204D867200396AE2 /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268D8EE2014431D005CF79E /* KeyStore.swift */; };
-		82BA20C9204D867200396AE2 /* libsodium-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BA2013204D231600396AE2 /* libsodium-osx.a */; };
-		82BA20CB204D867200396AE2 /* KinUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8261EF28204333A1001848CB /* KinUtil.framework */; };
-		82BA20CE204D867200396AE2 /* randombytes.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F83204D22C400396AE2 /* randombytes.h */; };
-		82BA20CF204D867200396AE2 /* crypto_core_hsalsa20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F57204D22C400396AE2 /* crypto_core_hsalsa20.h */; };
-		82BA20D0204D867200396AE2 /* crypto_hash_sha512.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5F204D22C400396AE2 /* crypto_hash_sha512.h */; };
-		82BA20D1204D867200396AE2 /* crypto_auth_hmacsha512.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4F204D22C400396AE2 /* crypto_auth_hmacsha512.h */; };
-		82BA20D2204D867200396AE2 /* crypto_auth_hmacsha512256.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F50204D22C400396AE2 /* crypto_auth_hmacsha512256.h */; };
-		82BA20D3204D867200396AE2 /* crypto_kdf.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F60204D22C400396AE2 /* crypto_kdf.h */; };
-		82BA20D4204D867200396AE2 /* crypto_scalarmult_ed25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6B204D22C400396AE2 /* crypto_scalarmult_ed25519.h */; };
-		82BA20D5204D867200396AE2 /* crypto_sign_ed25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F73204D22C400396AE2 /* crypto_sign_ed25519.h */; };
-		82BA20D6204D867200396AE2 /* crypto_scalarmult.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F69204D22C400396AE2 /* crypto_scalarmult.h */; };
-		82BA20D7204D867200396AE2 /* crypto_secretbox_xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6D204D22C400396AE2 /* crypto_secretbox_xchacha20poly1305.h */; };
-		82BA20D8204D867200396AE2 /* crypto_kdf_blake2b.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F61204D22C400396AE2 /* crypto_kdf_blake2b.h */; };
-		82BA20D9204D867200396AE2 /* crypto_secretstream_xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6F204D22C400396AE2 /* crypto_secretstream_xchacha20poly1305.h */; };
-		82BA20DA204D867200396AE2 /* crypto_kx.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F62204D22C400396AE2 /* crypto_kx.h */; };
-		82BA20DB204D867200396AE2 /* crypto_core_salsa208.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5A204D22C400396AE2 /* crypto_core_salsa208.h */; };
-		82BA20DC204D867200396AE2 /* utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F88204D22C400396AE2 /* utils.h */; };
-		82BA20DD204D867200396AE2 /* crypto_stream_salsa2012.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F78204D22C400396AE2 /* crypto_stream_salsa2012.h */; };
-		82BA20DE204D867200396AE2 /* randombytes_salsa20_random.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F84204D22C400396AE2 /* randombytes_salsa20_random.h */; };
-		82BA20DF204D867200396AE2 /* sodium_lib.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F87204D22C400396AE2 /* sodium_lib.h */; };
-		82BA20E0204D867200396AE2 /* crypto_stream_xchacha20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7A204D22C400396AE2 /* crypto_stream_xchacha20.h */; };
-		82BA20E1204D867200396AE2 /* crypto_sign_edwards25519sha512batch.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F74204D22C400396AE2 /* crypto_sign_edwards25519sha512batch.h */; };
-		82BA20E2204D867200396AE2 /* crypto_core_ed25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F55204D22C400396AE2 /* crypto_core_ed25519.h */; };
-		82BA20E3204D867200396AE2 /* crypto_secretbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6C204D22C400396AE2 /* crypto_secretbox.h */; };
-		82BA20E4204D867200396AE2 /* crypto_verify_64.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7E204D22C400396AE2 /* crypto_verify_64.h */; };
-		82BA20E5204D867200396AE2 /* crypto_stream_chacha20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F76204D22C400396AE2 /* crypto_stream_chacha20.h */; };
-		82BA20E6204D867200396AE2 /* crypto_box.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F51204D22C400396AE2 /* crypto_box.h */; };
-		82BA20E7204D867200396AE2 /* crypto_pwhash_scryptsalsa208sha256.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F68204D22C400396AE2 /* crypto_pwhash_scryptsalsa208sha256.h */; };
-		82BA20E8204D867200396AE2 /* crypto_shorthash.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F70204D22C400396AE2 /* crypto_shorthash.h */; };
-		82BA20E9204D867200396AE2 /* crypto_verify_16.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7C204D22C400396AE2 /* crypto_verify_16.h */; };
-		82BA20EA204D867200396AE2 /* crypto_aead_xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4C204D22C400396AE2 /* crypto_aead_xchacha20poly1305.h */; };
-		82BA20EB204D867200396AE2 /* crypto_box_curve25519xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F52204D22C400396AE2 /* crypto_box_curve25519xchacha20poly1305.h */; };
-		82BA20EC204D867200396AE2 /* crypto_generichash.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5B204D22C400396AE2 /* crypto_generichash.h */; };
-		82BA20ED204D867200396AE2 /* crypto_core_hchacha20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F56204D22C400396AE2 /* crypto_core_hchacha20.h */; };
-		82BA20EE204D867200396AE2 /* crypto_secretbox_xsalsa20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6E204D22C400396AE2 /* crypto_secretbox_xsalsa20poly1305.h */; };
-		82BA20EF204D867200396AE2 /* export.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7F204D22C400396AE2 /* export.h */; };
-		82BA20F0204D867200396AE2 /* randombytes_sysrandom.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F85204D22C400396AE2 /* randombytes_sysrandom.h */; };
-		82BA20F1204D867200396AE2 /* crypto_aead_aes256gcm.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4A204D22C400396AE2 /* crypto_aead_aes256gcm.h */; };
-		82BA20F2204D867200396AE2 /* crypto_pwhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F65204D22C400396AE2 /* crypto_pwhash.h */; };
-		82BA20F3204D867200396AE2 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F49204D22C400396AE2 /* core.h */; };
-		82BA20F4204D867200396AE2 /* crypto_pwhash_argon2id.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F67204D22C400396AE2 /* crypto_pwhash_argon2id.h */; };
-		82BA20F5204D867200396AE2 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F89204D22C400396AE2 /* version.h */; };
-		82BA20F6204D867200396AE2 /* crypto_verify_32.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7D204D22C400396AE2 /* crypto_verify_32.h */; };
-		82BA20F7204D867200396AE2 /* crypto_stream_salsa208.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F79204D22C400396AE2 /* crypto_stream_salsa208.h */; };
-		82BA20F8204D867200396AE2 /* crypto_stream_salsa20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F77204D22C400396AE2 /* crypto_stream_salsa20.h */; };
-		82BA20F9204D867200396AE2 /* crypto_shorthash_siphash24.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F71204D22C400396AE2 /* crypto_shorthash_siphash24.h */; };
-		82BA20FA204D867200396AE2 /* crypto_hash_sha256.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5E204D22C400396AE2 /* crypto_hash_sha256.h */; };
-		82BA20FB204D867200396AE2 /* crypto_core_curve25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F54204D22C400396AE2 /* crypto_core_curve25519.h */; };
-		82BA20FC204D867200396AE2 /* crypto_aead_chacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4B204D22C400396AE2 /* crypto_aead_chacha20poly1305.h */; };
-		82BA20FD204D867200396AE2 /* crypto_stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F75204D22C400396AE2 /* crypto_stream.h */; };
-		82BA20FE204D867200396AE2 /* crypto_pwhash_argon2i.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F66204D22C400396AE2 /* crypto_pwhash_argon2i.h */; };
-		82BA20FF204D867200396AE2 /* crypto_hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5D204D22C400396AE2 /* crypto_hash.h */; };
-		82BA2100204D867200396AE2 /* crypto_core_salsa20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F58204D22C400396AE2 /* crypto_core_salsa20.h */; };
-		82BA2101204D867200396AE2 /* crypto_auth_hmacsha256.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4E204D22C400396AE2 /* crypto_auth_hmacsha256.h */; };
-		82BA2102204D867200396AE2 /* crypto_stream_xsalsa20.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F7B204D22C400396AE2 /* crypto_stream_xsalsa20.h */; };
-		82BA2103204D867200396AE2 /* crypto_generichash_blake2b.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F5C204D22C400396AE2 /* crypto_generichash_blake2b.h */; };
-		82BA2104204D867200396AE2 /* crypto_scalarmult_curve25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F6A204D22C400396AE2 /* crypto_scalarmult_curve25519.h */; };
-		82BA2105204D867200396AE2 /* runtime.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F86204D22C400396AE2 /* runtime.h */; };
-		82BA2107204D867200396AE2 /* crypto_auth.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F4D204D22C400396AE2 /* crypto_auth.h */; };
-		82BA2108204D867200396AE2 /* crypto_box_curve25519xsalsa20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F53204D22C400396AE2 /* crypto_box_curve25519xsalsa20poly1305.h */; };
-		82BA2109204D867200396AE2 /* crypto_onetimeauth.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F63204D22C400396AE2 /* crypto_onetimeauth.h */; };
-		82BA210A204D867200396AE2 /* crypto_core_salsa2012.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F59204D22C400396AE2 /* crypto_core_salsa2012.h */; };
-		82BA210B204D867200396AE2 /* crypto_sign.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F72204D22C400396AE2 /* crypto_sign.h */; };
-		82BA210C204D867200396AE2 /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 82140EAC1FA88E5B00FAF19B /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BA210D204D867200396AE2 /* crypto_onetimeauth_poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BA1F64204D22C400396AE2 /* crypto_onetimeauth_poly1305.h */; };
 		82F6D8051FB2112B00AEE17D /* KinSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82140EA91FA88E5B00FAF19B /* KinSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9148CE501FCACF9C0005D603 /* NetworkId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9148CE4F1FCACF9C0005D603 /* NetworkId.swift */; };
+		9148CE501FCACF9C0005D603 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9148CE4F1FCACF9C0005D603 /* Network.swift */; };
 		91D4395C1FC410630006FEB5 /* KinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4395B1FC410630006FEB5 /* KinClient.swift */; };
 		91D4395E1FC410860006FEB5 /* KinAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4395D1FC410860006FEB5 /* KinAccount.swift */; };
 		91DDFDFC1FC6ED99004B0903 /* KinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DDFDFB1FC6ED99004B0903 /* KinError.swift */; };
@@ -219,35 +81,35 @@
 			remoteGlobalIDString = 82BA2040204D84AA00396AE2;
 			remoteInfo = "KinUtil-macos";
 		};
-		68D04A842194533300F27492 /* PBXContainerItemProxy */ = {
+		68D04ACC2197EE5300F27492 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 09A943C71A4EB5F500C8A04F;
 			remoteInfo = Sodium_iOS;
 		};
-		68D04A862194533300F27492 /* PBXContainerItemProxy */ = {
+		68D04ACE2197EE5300F27492 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 09A943D21A4EB5F500C8A04F;
 			remoteInfo = SodiumTests;
 		};
-		68D04A882194533300F27492 /* PBXContainerItemProxy */ = {
+		68D04AD02197EE5300F27492 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 90C75E941AE3571900F1E749;
 			remoteInfo = Sodium_OSX;
 		};
-		68D04A8A2194533300F27492 /* PBXContainerItemProxy */ = {
+		68D04AD22197EE5300F27492 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 901644B61AE36EA700163E3E;
 			remoteInfo = "Example iOS";
 		};
-		68D04A8C2194533300F27492 /* PBXContainerItemProxy */ = {
+		68D04AD42197EE5300F27492 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
 			proxyType = 2;
@@ -285,6 +147,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitelistEnvelope.swift; sourceTree = "<group>"; };
 		686759EC21736844001E9626 /* AppIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdTests.swift; sourceTree = "<group>"; };
 		68D04A0A21940FA500F27492 /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
 		68D04A0D21940FA500F27492 /* StellarErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarErrors.swift; sourceTree = "<group>"; };
@@ -309,14 +172,8 @@
 		68D04A2221940FA500F27492 /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		68D04A38219411FB00F27492 /* KinUtil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KinUtil.xcodeproj; path = "../../kin-util-ios/KinUtil/KinUtil.xcodeproj"; sourceTree = "<group>"; };
 		68D04A452194134F00F27492 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		68D04A6A219452C000F27492 /* Aead.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aead.swift; sourceTree = "<group>"; };
-		68D04A6F219452C000F27492 /* KeyPairGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPairGenerator.swift; sourceTree = "<group>"; };
-		68D04A70219452C000F27492 /* NonceGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonceGenerator.swift; sourceTree = "<group>"; };
-		68D04A71219452C000F27492 /* SecretKeyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretKeyGenerator.swift; sourceTree = "<group>"; };
-		68D04A72219452C000F27492 /* KeyPairProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPairProtocol.swift; sourceTree = "<group>"; };
-		68D04A73219452C000F27492 /* ExitCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExitCode.swift; sourceTree = "<group>"; };
-		68D04A74219452C000F27492 /* Bytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bytes.swift; sourceTree = "<group>"; };
-		68D04A7C2194533300F27492 /* Sodium.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sodium.xcodeproj; path = "source/third-party/swift-sodium/Sodium.xcodeproj"; sourceTree = "<group>"; };
+		68D04A7C2194533300F27492 /* Sodium.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sodium.xcodeproj; path = "swift-sodium/Sodium.xcodeproj"; sourceTree = "<group>"; };
+		68D04ABF2197EC4A00F27492 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82140EA91FA88E5B00FAF19B /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82140EAC1FA88E5B00FAF19B /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
 		82140EAD1FA88E5B00FAF19B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -341,90 +198,10 @@
 		82BA1ED1204D22AB00396AE2 /* KeychainSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
 		82BA1ED2204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwiftAccessOptions.swift; sourceTree = "<group>"; };
 		82BA1ED3204D22AB00396AE2 /* TegKeychainConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TegKeychainConstants.swift; sourceTree = "<group>"; };
-		82BA1F42204D22C400396AE2 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
-		82BA1F43204D22C400396AE2 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
-		82BA1F44204D22C400396AE2 /* GenericHash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericHash.swift; sourceTree = "<group>"; };
-		82BA1F45204D22C400396AE2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82BA1F46204D22C400396AE2 /* KeyDerivation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyDerivation.swift; sourceTree = "<group>"; };
-		82BA1F47204D22C400396AE2 /* KeyExchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyExchange.swift; sourceTree = "<group>"; };
-		82BA1F49204D22C400396AE2 /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
-		82BA1F4A204D22C400396AE2 /* crypto_aead_aes256gcm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_aes256gcm.h; sourceTree = "<group>"; };
-		82BA1F4B204D22C400396AE2 /* crypto_aead_chacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_chacha20poly1305.h; sourceTree = "<group>"; };
-		82BA1F4C204D22C400396AE2 /* crypto_aead_xchacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_xchacha20poly1305.h; sourceTree = "<group>"; };
-		82BA1F4D204D22C400396AE2 /* crypto_auth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_auth.h; sourceTree = "<group>"; };
-		82BA1F4E204D22C400396AE2 /* crypto_auth_hmacsha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_auth_hmacsha256.h; sourceTree = "<group>"; };
-		82BA1F4F204D22C400396AE2 /* crypto_auth_hmacsha512.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_auth_hmacsha512.h; sourceTree = "<group>"; };
-		82BA1F50204D22C400396AE2 /* crypto_auth_hmacsha512256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_auth_hmacsha512256.h; sourceTree = "<group>"; };
-		82BA1F51204D22C400396AE2 /* crypto_box.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_box.h; sourceTree = "<group>"; };
-		82BA1F52204D22C400396AE2 /* crypto_box_curve25519xchacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_box_curve25519xchacha20poly1305.h; sourceTree = "<group>"; };
-		82BA1F53204D22C400396AE2 /* crypto_box_curve25519xsalsa20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_box_curve25519xsalsa20poly1305.h; sourceTree = "<group>"; };
-		82BA1F54204D22C400396AE2 /* crypto_core_curve25519.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_core_curve25519.h; sourceTree = "<group>"; };
-		82BA1F55204D22C400396AE2 /* crypto_core_ed25519.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_core_ed25519.h; sourceTree = "<group>"; };
-		82BA1F56204D22C400396AE2 /* crypto_core_hchacha20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_core_hchacha20.h; sourceTree = "<group>"; };
-		82BA1F57204D22C400396AE2 /* crypto_core_hsalsa20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_core_hsalsa20.h; sourceTree = "<group>"; };
-		82BA1F58204D22C400396AE2 /* crypto_core_salsa20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_core_salsa20.h; sourceTree = "<group>"; };
-		82BA1F59204D22C400396AE2 /* crypto_core_salsa2012.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_core_salsa2012.h; sourceTree = "<group>"; };
-		82BA1F5A204D22C400396AE2 /* crypto_core_salsa208.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_core_salsa208.h; sourceTree = "<group>"; };
-		82BA1F5B204D22C400396AE2 /* crypto_generichash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_generichash.h; sourceTree = "<group>"; };
-		82BA1F5C204D22C400396AE2 /* crypto_generichash_blake2b.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_generichash_blake2b.h; sourceTree = "<group>"; };
-		82BA1F5D204D22C400396AE2 /* crypto_hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_hash.h; sourceTree = "<group>"; };
-		82BA1F5E204D22C400396AE2 /* crypto_hash_sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_hash_sha256.h; sourceTree = "<group>"; };
-		82BA1F5F204D22C400396AE2 /* crypto_hash_sha512.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_hash_sha512.h; sourceTree = "<group>"; };
-		82BA1F60204D22C400396AE2 /* crypto_kdf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_kdf.h; sourceTree = "<group>"; };
-		82BA1F61204D22C400396AE2 /* crypto_kdf_blake2b.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_kdf_blake2b.h; sourceTree = "<group>"; };
-		82BA1F62204D22C400396AE2 /* crypto_kx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_kx.h; sourceTree = "<group>"; };
-		82BA1F63204D22C400396AE2 /* crypto_onetimeauth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_onetimeauth.h; sourceTree = "<group>"; };
-		82BA1F64204D22C400396AE2 /* crypto_onetimeauth_poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_onetimeauth_poly1305.h; sourceTree = "<group>"; };
-		82BA1F65204D22C400396AE2 /* crypto_pwhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_pwhash.h; sourceTree = "<group>"; };
-		82BA1F66204D22C400396AE2 /* crypto_pwhash_argon2i.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_pwhash_argon2i.h; sourceTree = "<group>"; };
-		82BA1F67204D22C400396AE2 /* crypto_pwhash_argon2id.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_pwhash_argon2id.h; sourceTree = "<group>"; };
-		82BA1F68204D22C400396AE2 /* crypto_pwhash_scryptsalsa208sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_pwhash_scryptsalsa208sha256.h; sourceTree = "<group>"; };
-		82BA1F69204D22C400396AE2 /* crypto_scalarmult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_scalarmult.h; sourceTree = "<group>"; };
-		82BA1F6A204D22C400396AE2 /* crypto_scalarmult_curve25519.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_scalarmult_curve25519.h; sourceTree = "<group>"; };
-		82BA1F6B204D22C400396AE2 /* crypto_scalarmult_ed25519.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_scalarmult_ed25519.h; sourceTree = "<group>"; };
-		82BA1F6C204D22C400396AE2 /* crypto_secretbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_secretbox.h; sourceTree = "<group>"; };
-		82BA1F6D204D22C400396AE2 /* crypto_secretbox_xchacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_secretbox_xchacha20poly1305.h; sourceTree = "<group>"; };
-		82BA1F6E204D22C400396AE2 /* crypto_secretbox_xsalsa20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_secretbox_xsalsa20poly1305.h; sourceTree = "<group>"; };
-		82BA1F6F204D22C400396AE2 /* crypto_secretstream_xchacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_secretstream_xchacha20poly1305.h; sourceTree = "<group>"; };
-		82BA1F70204D22C400396AE2 /* crypto_shorthash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_shorthash.h; sourceTree = "<group>"; };
-		82BA1F71204D22C400396AE2 /* crypto_shorthash_siphash24.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_shorthash_siphash24.h; sourceTree = "<group>"; };
-		82BA1F72204D22C400396AE2 /* crypto_sign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_sign.h; sourceTree = "<group>"; };
-		82BA1F73204D22C400396AE2 /* crypto_sign_ed25519.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_sign_ed25519.h; sourceTree = "<group>"; };
-		82BA1F74204D22C400396AE2 /* crypto_sign_edwards25519sha512batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_sign_edwards25519sha512batch.h; sourceTree = "<group>"; };
-		82BA1F75204D22C400396AE2 /* crypto_stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_stream.h; sourceTree = "<group>"; };
-		82BA1F76204D22C400396AE2 /* crypto_stream_chacha20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_stream_chacha20.h; sourceTree = "<group>"; };
-		82BA1F77204D22C400396AE2 /* crypto_stream_salsa20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_stream_salsa20.h; sourceTree = "<group>"; };
-		82BA1F78204D22C400396AE2 /* crypto_stream_salsa2012.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_stream_salsa2012.h; sourceTree = "<group>"; };
-		82BA1F79204D22C400396AE2 /* crypto_stream_salsa208.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_stream_salsa208.h; sourceTree = "<group>"; };
-		82BA1F7A204D22C400396AE2 /* crypto_stream_xchacha20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_stream_xchacha20.h; sourceTree = "<group>"; };
-		82BA1F7B204D22C400396AE2 /* crypto_stream_xsalsa20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_stream_xsalsa20.h; sourceTree = "<group>"; };
-		82BA1F7C204D22C400396AE2 /* crypto_verify_16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_verify_16.h; sourceTree = "<group>"; };
-		82BA1F7D204D22C400396AE2 /* crypto_verify_32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_verify_32.h; sourceTree = "<group>"; };
-		82BA1F7E204D22C400396AE2 /* crypto_verify_64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_verify_64.h; sourceTree = "<group>"; };
-		82BA1F7F204D22C400396AE2 /* export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = export.h; sourceTree = "<group>"; };
-		82BA1F82204D22C400396AE2 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		82BA1F83204D22C400396AE2 /* randombytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = randombytes.h; sourceTree = "<group>"; };
-		82BA1F84204D22C400396AE2 /* randombytes_salsa20_random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = randombytes_salsa20_random.h; sourceTree = "<group>"; };
-		82BA1F85204D22C400396AE2 /* randombytes_sysrandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = randombytes_sysrandom.h; sourceTree = "<group>"; };
-		82BA1F86204D22C400396AE2 /* runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = runtime.h; sourceTree = "<group>"; };
-		82BA1F87204D22C400396AE2 /* sodium_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sodium_lib.h; sourceTree = "<group>"; };
-		82BA1F88204D22C400396AE2 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
-		82BA1F89204D22C400396AE2 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
-		82BA1F8A204D22C400396AE2 /* PWHash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PWHash.swift; sourceTree = "<group>"; };
-		82BA1F8B204D22C400396AE2 /* RandomBytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomBytes.swift; sourceTree = "<group>"; };
-		82BA1F8C204D22C400396AE2 /* SecretBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretBox.swift; sourceTree = "<group>"; };
-		82BA1F8D204D22C400396AE2 /* SecretStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretStream.swift; sourceTree = "<group>"; };
-		82BA1F8E204D22C400396AE2 /* ShortHash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortHash.swift; sourceTree = "<group>"; };
-		82BA1F8F204D22C400396AE2 /* Sign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sign.swift; sourceTree = "<group>"; };
-		82BA1F90204D22C400396AE2 /* Sodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sodium.h; sourceTree = "<group>"; };
-		82BA1F91204D22C400396AE2 /* Sodium.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sodium.swift; sourceTree = "<group>"; };
-		82BA1F92204D22C400396AE2 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
-		82BA1F93204D22C400396AE2 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		82BA2013204D231600396AE2 /* libsodium-osx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsodium-osx.a"; path = "KinSDK/source/third-party/swift-sodium/Sodium/libsodium/libsodium-osx.a"; sourceTree = "<group>"; };
 		82BA2014204D231600396AE2 /* libsodium-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsodium-ios.a"; path = "KinSDK/source/third-party/swift-sodium/Sodium/libsodium/libsodium-ios.a"; sourceTree = "<group>"; };
-		82BA2113204D867200396AE2 /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82BA2114204D867200396AE2 /* KinSDK-macos-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KinSDK-macos-Info.plist"; sourceTree = "<group>"; };
-		9148CE4F1FCACF9C0005D603 /* NetworkId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkId.swift; sourceTree = "<group>"; };
+		9148CE4F1FCACF9C0005D603 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		91D4395B1FC410630006FEB5 /* KinClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinClient.swift; sourceTree = "<group>"; };
 		91D4395D1FC410860006FEB5 /* KinAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinAccount.swift; sourceTree = "<group>"; };
 		91DDFDFB1FC6ED99004B0903 /* KinError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinError.swift; sourceTree = "<group>"; };
@@ -435,7 +212,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68D04A8E2194533F00F27492 /* Sodium.framework in Frameworks */,
+				68D04AC02197EC4A00F27492 /* Sodium.framework in Frameworks */,
 				68D04A442194121600F27492 /* KinUtil.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,15 +230,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				824539411FAACFC6009117B4 /* KinSDK.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82BA20C8204D867200396AE2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82BA20C9204D867200396AE2 /* libsodium-osx.a in Frameworks */,
-				82BA20CB204D867200396AE2 /* KinUtil.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,25 +290,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		68D04A6E219452C000F27492 /* Generators */ = {
+		68D04AC22197EE5300F27492 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				68D04A6F219452C000F27492 /* KeyPairGenerator.swift */,
-				68D04A70219452C000F27492 /* NonceGenerator.swift */,
-				68D04A71219452C000F27492 /* SecretKeyGenerator.swift */,
-				68D04A72219452C000F27492 /* KeyPairProtocol.swift */,
-			);
-			path = Generators;
-			sourceTree = "<group>";
-		};
-		68D04A7D2194533300F27492 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				68D04A852194533300F27492 /* Sodium.framework */,
-				68D04A872194533300F27492 /* SodiumTests.xctest */,
-				68D04A892194533300F27492 /* Sodium.framework */,
-				68D04A8B2194533300F27492 /* Example iOS.app */,
-				68D04A8D2194533300F27492 /* Example OSX.app */,
+				68D04ACD2197EE5300F27492 /* Sodium.framework */,
+				68D04ACF2197EE5300F27492 /* SodiumTests.xctest */,
+				68D04AD12197EE5300F27492 /* Sodium.framework */,
+				68D04AD32197EE5300F27492 /* Example iOS.app */,
+				68D04AD52197EE5300F27492 /* Example OSX.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -563,7 +320,6 @@
 				82140EA91FA88E5B00FAF19B /* KinSDK.framework */,
 				8278352E1FA9B5F20006C3DF /* KinTestHost.app */,
 				827835411FA9B5F20006C3DF /* KinSDKTests.xctest */,
-				82BA2113204D867200396AE2 /* KinSDK.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -571,7 +327,6 @@
 		82140EAB1FA88E5B00FAF19B /* KinSDK */ = {
 			isa = PBXGroup;
 			children = (
-				68D04A7C2194533300F27492 /* Sodium.xcodeproj */,
 				68D04A38219411FB00F27492 /* KinUtil.xcodeproj */,
 				8246E7231FC836F30087140A /* source */,
 				82140EAD1FA88E5B00FAF19B /* Info.plist */,
@@ -583,6 +338,7 @@
 		82140EC51FA89A6A00FAF19B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				68D04ABF2197EC4A00F27492 /* Sodium.framework */,
 				82BA2014204D231600396AE2 /* libsodium-ios.a */,
 				82BA2013204D231600396AE2 /* libsodium-osx.a */,
 				8261EF28204333A1001848CB /* KinUtil.framework */,
@@ -602,8 +358,9 @@
 				91D4395B1FC410630006FEB5 /* KinClient.swift */,
 				91DDFDFB1FC6ED99004B0903 /* KinError.swift */,
 				82140EC31FA88EAF00FAF19B /* KinTypes.swift */,
-				9148CE4F1FCACF9C0005D603 /* NetworkId.swift */,
+				9148CE4F1FCACF9C0005D603 /* Network.swift */,
 				8261EF322043F390001848CB /* Watchers.swift */,
+				680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -636,8 +393,8 @@
 		82BA1E2B204D062800396AE2 /* third-party */ = {
 			isa = PBXGroup;
 			children = (
+				68D04A7C2194533300F27492 /* Sodium.xcodeproj */,
 				68D04A0A21940FA500F27492 /* SHA256.swift */,
-				82BA1F28204D22C400396AE2 /* swift-sodium */,
 				82BA1EBE204D22AB00396AE2 /* keychain-swift */,
 			);
 			path = "third-party";
@@ -661,112 +418,6 @@
 			path = KeychainSwift;
 			sourceTree = "<group>";
 		};
-		82BA1F28204D22C400396AE2 /* swift-sodium */ = {
-			isa = PBXGroup;
-			children = (
-				82BA1F41204D22C400396AE2 /* Sodium */,
-			);
-			path = "swift-sodium";
-			sourceTree = "<group>";
-		};
-		82BA1F41204D22C400396AE2 /* Sodium */ = {
-			isa = PBXGroup;
-			children = (
-				68D04A6A219452C000F27492 /* Aead.swift */,
-				68D04A74219452C000F27492 /* Bytes.swift */,
-				68D04A73219452C000F27492 /* ExitCode.swift */,
-				68D04A6E219452C000F27492 /* Generators */,
-				82BA1F42204D22C400396AE2 /* Auth.swift */,
-				82BA1F43204D22C400396AE2 /* Box.swift */,
-				82BA1F44204D22C400396AE2 /* GenericHash.swift */,
-				82BA1F45204D22C400396AE2 /* Info.plist */,
-				82BA1F46204D22C400396AE2 /* KeyDerivation.swift */,
-				82BA1F47204D22C400396AE2 /* KeyExchange.swift */,
-				82BA1F48204D22C400396AE2 /* libsodium */,
-				82BA1F8A204D22C400396AE2 /* PWHash.swift */,
-				82BA1F8B204D22C400396AE2 /* RandomBytes.swift */,
-				82BA1F8C204D22C400396AE2 /* SecretBox.swift */,
-				82BA1F8D204D22C400396AE2 /* SecretStream.swift */,
-				82BA1F8E204D22C400396AE2 /* ShortHash.swift */,
-				82BA1F8F204D22C400396AE2 /* Sign.swift */,
-				82BA1F90204D22C400396AE2 /* Sodium.h */,
-				82BA1F91204D22C400396AE2 /* Sodium.swift */,
-				82BA1F92204D22C400396AE2 /* Stream.swift */,
-				82BA1F93204D22C400396AE2 /* Utils.swift */,
-			);
-			path = Sodium;
-			sourceTree = "<group>";
-		};
-		82BA1F48204D22C400396AE2 /* libsodium */ = {
-			isa = PBXGroup;
-			children = (
-				82BA1F49204D22C400396AE2 /* core.h */,
-				82BA1F4A204D22C400396AE2 /* crypto_aead_aes256gcm.h */,
-				82BA1F4B204D22C400396AE2 /* crypto_aead_chacha20poly1305.h */,
-				82BA1F4C204D22C400396AE2 /* crypto_aead_xchacha20poly1305.h */,
-				82BA1F4D204D22C400396AE2 /* crypto_auth.h */,
-				82BA1F4E204D22C400396AE2 /* crypto_auth_hmacsha256.h */,
-				82BA1F4F204D22C400396AE2 /* crypto_auth_hmacsha512.h */,
-				82BA1F50204D22C400396AE2 /* crypto_auth_hmacsha512256.h */,
-				82BA1F51204D22C400396AE2 /* crypto_box.h */,
-				82BA1F52204D22C400396AE2 /* crypto_box_curve25519xchacha20poly1305.h */,
-				82BA1F53204D22C400396AE2 /* crypto_box_curve25519xsalsa20poly1305.h */,
-				82BA1F54204D22C400396AE2 /* crypto_core_curve25519.h */,
-				82BA1F55204D22C400396AE2 /* crypto_core_ed25519.h */,
-				82BA1F56204D22C400396AE2 /* crypto_core_hchacha20.h */,
-				82BA1F57204D22C400396AE2 /* crypto_core_hsalsa20.h */,
-				82BA1F58204D22C400396AE2 /* crypto_core_salsa20.h */,
-				82BA1F59204D22C400396AE2 /* crypto_core_salsa2012.h */,
-				82BA1F5A204D22C400396AE2 /* crypto_core_salsa208.h */,
-				82BA1F5B204D22C400396AE2 /* crypto_generichash.h */,
-				82BA1F5C204D22C400396AE2 /* crypto_generichash_blake2b.h */,
-				82BA1F5D204D22C400396AE2 /* crypto_hash.h */,
-				82BA1F5E204D22C400396AE2 /* crypto_hash_sha256.h */,
-				82BA1F5F204D22C400396AE2 /* crypto_hash_sha512.h */,
-				82BA1F60204D22C400396AE2 /* crypto_kdf.h */,
-				82BA1F61204D22C400396AE2 /* crypto_kdf_blake2b.h */,
-				82BA1F62204D22C400396AE2 /* crypto_kx.h */,
-				82BA1F63204D22C400396AE2 /* crypto_onetimeauth.h */,
-				82BA1F64204D22C400396AE2 /* crypto_onetimeauth_poly1305.h */,
-				82BA1F65204D22C400396AE2 /* crypto_pwhash.h */,
-				82BA1F66204D22C400396AE2 /* crypto_pwhash_argon2i.h */,
-				82BA1F67204D22C400396AE2 /* crypto_pwhash_argon2id.h */,
-				82BA1F68204D22C400396AE2 /* crypto_pwhash_scryptsalsa208sha256.h */,
-				82BA1F69204D22C400396AE2 /* crypto_scalarmult.h */,
-				82BA1F6A204D22C400396AE2 /* crypto_scalarmult_curve25519.h */,
-				82BA1F6B204D22C400396AE2 /* crypto_scalarmult_ed25519.h */,
-				82BA1F6C204D22C400396AE2 /* crypto_secretbox.h */,
-				82BA1F6D204D22C400396AE2 /* crypto_secretbox_xchacha20poly1305.h */,
-				82BA1F6E204D22C400396AE2 /* crypto_secretbox_xsalsa20poly1305.h */,
-				82BA1F6F204D22C400396AE2 /* crypto_secretstream_xchacha20poly1305.h */,
-				82BA1F70204D22C400396AE2 /* crypto_shorthash.h */,
-				82BA1F71204D22C400396AE2 /* crypto_shorthash_siphash24.h */,
-				82BA1F72204D22C400396AE2 /* crypto_sign.h */,
-				82BA1F73204D22C400396AE2 /* crypto_sign_ed25519.h */,
-				82BA1F74204D22C400396AE2 /* crypto_sign_edwards25519sha512batch.h */,
-				82BA1F75204D22C400396AE2 /* crypto_stream.h */,
-				82BA1F76204D22C400396AE2 /* crypto_stream_chacha20.h */,
-				82BA1F77204D22C400396AE2 /* crypto_stream_salsa20.h */,
-				82BA1F78204D22C400396AE2 /* crypto_stream_salsa2012.h */,
-				82BA1F79204D22C400396AE2 /* crypto_stream_salsa208.h */,
-				82BA1F7A204D22C400396AE2 /* crypto_stream_xchacha20.h */,
-				82BA1F7B204D22C400396AE2 /* crypto_stream_xsalsa20.h */,
-				82BA1F7C204D22C400396AE2 /* crypto_verify_16.h */,
-				82BA1F7D204D22C400396AE2 /* crypto_verify_32.h */,
-				82BA1F7E204D22C400396AE2 /* crypto_verify_64.h */,
-				82BA1F7F204D22C400396AE2 /* export.h */,
-				82BA1F82204D22C400396AE2 /* module.modulemap */,
-				82BA1F83204D22C400396AE2 /* randombytes.h */,
-				82BA1F84204D22C400396AE2 /* randombytes_salsa20_random.h */,
-				82BA1F85204D22C400396AE2 /* randombytes_sysrandom.h */,
-				82BA1F86204D22C400396AE2 /* runtime.h */,
-				82BA1F87204D22C400396AE2 /* sodium_lib.h */,
-				82BA1F88204D22C400396AE2 /* utils.h */,
-				82BA1F89204D22C400396AE2 /* version.h */,
-			);
-			path = libsodium;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -774,139 +425,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82BA1FFD204D22C500396AE2 /* randombytes.h in Headers */,
-				82BA1FD2204D22C500396AE2 /* crypto_core_hsalsa20.h in Headers */,
-				82BA1FDA204D22C500396AE2 /* crypto_hash_sha512.h in Headers */,
-				82BA1FCA204D22C500396AE2 /* crypto_auth_hmacsha512.h in Headers */,
-				82BA1FCB204D22C500396AE2 /* crypto_auth_hmacsha512256.h in Headers */,
-				82BA1FDB204D22C500396AE2 /* crypto_kdf.h in Headers */,
-				82BA1FE6204D22C500396AE2 /* crypto_scalarmult_ed25519.h in Headers */,
-				82BA1FEE204D22C500396AE2 /* crypto_sign_ed25519.h in Headers */,
-				82BA1FE4204D22C500396AE2 /* crypto_scalarmult.h in Headers */,
-				82BA1FE8204D22C500396AE2 /* crypto_secretbox_xchacha20poly1305.h in Headers */,
-				82BA1FDC204D22C500396AE2 /* crypto_kdf_blake2b.h in Headers */,
-				82BA1FEA204D22C500396AE2 /* crypto_secretstream_xchacha20poly1305.h in Headers */,
-				82BA1FDD204D22C500396AE2 /* crypto_kx.h in Headers */,
-				82BA1FD5204D22C500396AE2 /* crypto_core_salsa208.h in Headers */,
-				82BA2002204D22C500396AE2 /* utils.h in Headers */,
-				82BA1FF3204D22C500396AE2 /* crypto_stream_salsa2012.h in Headers */,
-				82BA1FFE204D22C500396AE2 /* randombytes_salsa20_random.h in Headers */,
-				82BA2001204D22C500396AE2 /* sodium_lib.h in Headers */,
-				82BA1FF5204D22C500396AE2 /* crypto_stream_xchacha20.h in Headers */,
-				82BA1FEF204D22C500396AE2 /* crypto_sign_edwards25519sha512batch.h in Headers */,
-				82BA1FD0204D22C500396AE2 /* crypto_core_ed25519.h in Headers */,
-				82BA1FE7204D22C500396AE2 /* crypto_secretbox.h in Headers */,
-				82BA1FF9204D22C500396AE2 /* crypto_verify_64.h in Headers */,
-				82BA1FF1204D22C500396AE2 /* crypto_stream_chacha20.h in Headers */,
-				82BA1FCC204D22C500396AE2 /* crypto_box.h in Headers */,
-				82BA1FE3204D22C500396AE2 /* crypto_pwhash_scryptsalsa208sha256.h in Headers */,
-				82BA1FEB204D22C500396AE2 /* crypto_shorthash.h in Headers */,
-				82BA1FF7204D22C500396AE2 /* crypto_verify_16.h in Headers */,
-				82BA1FC7204D22C500396AE2 /* crypto_aead_xchacha20poly1305.h in Headers */,
-				82BA1FCD204D22C500396AE2 /* crypto_box_curve25519xchacha20poly1305.h in Headers */,
-				82BA1FD6204D22C500396AE2 /* crypto_generichash.h in Headers */,
-				82BA1FD1204D22C500396AE2 /* crypto_core_hchacha20.h in Headers */,
-				82BA1FE9204D22C500396AE2 /* crypto_secretbox_xsalsa20poly1305.h in Headers */,
-				82BA1FFA204D22C500396AE2 /* export.h in Headers */,
-				82BA1FFF204D22C500396AE2 /* randombytes_sysrandom.h in Headers */,
-				82BA1FC5204D22C500396AE2 /* crypto_aead_aes256gcm.h in Headers */,
-				82BA1FE0204D22C500396AE2 /* crypto_pwhash.h in Headers */,
-				82BA1FC4204D22C500396AE2 /* core.h in Headers */,
-				82BA1FE2204D22C500396AE2 /* crypto_pwhash_argon2id.h in Headers */,
-				82BA2003204D22C500396AE2 /* version.h in Headers */,
-				82BA1FF8204D22C500396AE2 /* crypto_verify_32.h in Headers */,
-				82BA1FF4204D22C500396AE2 /* crypto_stream_salsa208.h in Headers */,
-				82BA1FF2204D22C500396AE2 /* crypto_stream_salsa20.h in Headers */,
-				82BA1FEC204D22C500396AE2 /* crypto_shorthash_siphash24.h in Headers */,
-				82BA1FD9204D22C500396AE2 /* crypto_hash_sha256.h in Headers */,
-				82BA1FCF204D22C500396AE2 /* crypto_core_curve25519.h in Headers */,
-				82BA1FC6204D22C500396AE2 /* crypto_aead_chacha20poly1305.h in Headers */,
-				82BA1FF0204D22C500396AE2 /* crypto_stream.h in Headers */,
-				82BA1FE1204D22C500396AE2 /* crypto_pwhash_argon2i.h in Headers */,
-				82BA1FD8204D22C500396AE2 /* crypto_hash.h in Headers */,
-				82BA1FD3204D22C500396AE2 /* crypto_core_salsa20.h in Headers */,
-				82BA1FC9204D22C500396AE2 /* crypto_auth_hmacsha256.h in Headers */,
-				82BA1FF6204D22C500396AE2 /* crypto_stream_xsalsa20.h in Headers */,
-				82BA1FD7204D22C500396AE2 /* crypto_generichash_blake2b.h in Headers */,
-				82BA1FE5204D22C500396AE2 /* crypto_scalarmult_curve25519.h in Headers */,
-				82BA2000204D22C500396AE2 /* runtime.h in Headers */,
-				82BA1FC8204D22C500396AE2 /* crypto_auth.h in Headers */,
-				82BA1FCE204D22C500396AE2 /* crypto_box_curve25519xsalsa20poly1305.h in Headers */,
-				82BA1FDE204D22C500396AE2 /* crypto_onetimeauth.h in Headers */,
-				82BA1FD4204D22C500396AE2 /* crypto_core_salsa2012.h in Headers */,
-				82BA1FED204D22C500396AE2 /* crypto_sign.h in Headers */,
 				82140EBA1FA88E5B00FAF19B /* KinSDK.h in Headers */,
-				82BA1FDF204D22C500396AE2 /* crypto_onetimeauth_poly1305.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82BA20CD204D867200396AE2 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82BA20CE204D867200396AE2 /* randombytes.h in Headers */,
-				82BA20CF204D867200396AE2 /* crypto_core_hsalsa20.h in Headers */,
-				82BA20D0204D867200396AE2 /* crypto_hash_sha512.h in Headers */,
-				82BA20D1204D867200396AE2 /* crypto_auth_hmacsha512.h in Headers */,
-				82BA20D2204D867200396AE2 /* crypto_auth_hmacsha512256.h in Headers */,
-				82BA20D3204D867200396AE2 /* crypto_kdf.h in Headers */,
-				82BA20D4204D867200396AE2 /* crypto_scalarmult_ed25519.h in Headers */,
-				82BA20D5204D867200396AE2 /* crypto_sign_ed25519.h in Headers */,
-				82BA20D6204D867200396AE2 /* crypto_scalarmult.h in Headers */,
-				82BA20D7204D867200396AE2 /* crypto_secretbox_xchacha20poly1305.h in Headers */,
-				82BA20D8204D867200396AE2 /* crypto_kdf_blake2b.h in Headers */,
-				82BA20D9204D867200396AE2 /* crypto_secretstream_xchacha20poly1305.h in Headers */,
-				82BA20DA204D867200396AE2 /* crypto_kx.h in Headers */,
-				82BA20DB204D867200396AE2 /* crypto_core_salsa208.h in Headers */,
-				82BA20DC204D867200396AE2 /* utils.h in Headers */,
-				82BA20DD204D867200396AE2 /* crypto_stream_salsa2012.h in Headers */,
-				82BA20DE204D867200396AE2 /* randombytes_salsa20_random.h in Headers */,
-				82BA20DF204D867200396AE2 /* sodium_lib.h in Headers */,
-				82BA20E0204D867200396AE2 /* crypto_stream_xchacha20.h in Headers */,
-				82BA20E1204D867200396AE2 /* crypto_sign_edwards25519sha512batch.h in Headers */,
-				82BA20E2204D867200396AE2 /* crypto_core_ed25519.h in Headers */,
-				82BA20E3204D867200396AE2 /* crypto_secretbox.h in Headers */,
-				82BA20E4204D867200396AE2 /* crypto_verify_64.h in Headers */,
-				82BA20E5204D867200396AE2 /* crypto_stream_chacha20.h in Headers */,
-				82BA20E6204D867200396AE2 /* crypto_box.h in Headers */,
-				82BA20E7204D867200396AE2 /* crypto_pwhash_scryptsalsa208sha256.h in Headers */,
-				82BA20E8204D867200396AE2 /* crypto_shorthash.h in Headers */,
-				82BA20E9204D867200396AE2 /* crypto_verify_16.h in Headers */,
-				82BA20EA204D867200396AE2 /* crypto_aead_xchacha20poly1305.h in Headers */,
-				82BA20EB204D867200396AE2 /* crypto_box_curve25519xchacha20poly1305.h in Headers */,
-				82BA20EC204D867200396AE2 /* crypto_generichash.h in Headers */,
-				82BA20ED204D867200396AE2 /* crypto_core_hchacha20.h in Headers */,
-				82BA20EE204D867200396AE2 /* crypto_secretbox_xsalsa20poly1305.h in Headers */,
-				82BA20EF204D867200396AE2 /* export.h in Headers */,
-				82BA20F0204D867200396AE2 /* randombytes_sysrandom.h in Headers */,
-				82BA20F1204D867200396AE2 /* crypto_aead_aes256gcm.h in Headers */,
-				82BA20F2204D867200396AE2 /* crypto_pwhash.h in Headers */,
-				82BA20F3204D867200396AE2 /* core.h in Headers */,
-				82BA20F4204D867200396AE2 /* crypto_pwhash_argon2id.h in Headers */,
-				82BA20F5204D867200396AE2 /* version.h in Headers */,
-				82BA20F6204D867200396AE2 /* crypto_verify_32.h in Headers */,
-				82BA20F7204D867200396AE2 /* crypto_stream_salsa208.h in Headers */,
-				82BA20F8204D867200396AE2 /* crypto_stream_salsa20.h in Headers */,
-				82BA20F9204D867200396AE2 /* crypto_shorthash_siphash24.h in Headers */,
-				82BA20FA204D867200396AE2 /* crypto_hash_sha256.h in Headers */,
-				82BA20FB204D867200396AE2 /* crypto_core_curve25519.h in Headers */,
-				82BA20FC204D867200396AE2 /* crypto_aead_chacha20poly1305.h in Headers */,
-				82BA20FD204D867200396AE2 /* crypto_stream.h in Headers */,
-				82BA20FE204D867200396AE2 /* crypto_pwhash_argon2i.h in Headers */,
-				82BA20FF204D867200396AE2 /* crypto_hash.h in Headers */,
-				82BA2100204D867200396AE2 /* crypto_core_salsa20.h in Headers */,
-				82BA2101204D867200396AE2 /* crypto_auth_hmacsha256.h in Headers */,
-				82BA2102204D867200396AE2 /* crypto_stream_xsalsa20.h in Headers */,
-				82BA2103204D867200396AE2 /* crypto_generichash_blake2b.h in Headers */,
-				82BA2104204D867200396AE2 /* crypto_scalarmult_curve25519.h in Headers */,
-				82BA2105204D867200396AE2 /* runtime.h in Headers */,
-				82BA2107204D867200396AE2 /* crypto_auth.h in Headers */,
-				82BA2108204D867200396AE2 /* crypto_box_curve25519xsalsa20poly1305.h in Headers */,
-				82BA2109204D867200396AE2 /* crypto_onetimeauth.h in Headers */,
-				82BA210A204D867200396AE2 /* crypto_core_salsa2012.h in Headers */,
-				82BA210B204D867200396AE2 /* crypto_sign.h in Headers */,
-				82BA210C204D867200396AE2 /* KinSDK.h in Headers */,
-				82BA210D204D867200396AE2 /* crypto_onetimeauth_poly1305.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,25 +488,6 @@
 			productReference = 827835411FA9B5F20006C3DF /* KinSDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		82BA20A8204D867200396AE2 /* KinSDK-macos */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 82BA2110204D867200396AE2 /* Build configuration list for PBXNativeTarget "KinSDK-macos" */;
-			buildPhases = (
-				82BA20AB204D867200396AE2 /* Lint with SwiftLint */,
-				82BA20AC204D867200396AE2 /* Sources */,
-				82BA20C8204D867200396AE2 /* Frameworks */,
-				82BA20CD204D867200396AE2 /* Headers */,
-				82BA210E204D867200396AE2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "KinSDK-macos";
-			productName = KinSDK;
-			productReference = 82BA2113204D867200396AE2 /* KinSDK.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1012,9 +512,6 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 8278352D1FA9B5F20006C3DF;
 					};
-					82BA20A8204D867200396AE2 = {
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 82140EA31FA88E5B00FAF19B /* Build configuration list for PBXProject "KinSDK" */;
@@ -1034,7 +531,7 @@
 					ProjectRef = 68D04A38219411FB00F27492 /* KinUtil.xcodeproj */;
 				},
 				{
-					ProductGroup = 68D04A7D2194533300F27492 /* Products */;
+					ProductGroup = 68D04AC22197EE5300F27492 /* Products */;
 					ProjectRef = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
 				},
 			);
@@ -1043,7 +540,6 @@
 				82140EA81FA88E5B00FAF19B /* KinSDK */,
 				8278352D1FA9B5F20006C3DF /* KinTestHost */,
 				827835401FA9B5F20006C3DF /* KinSDKTests */,
-				82BA20A8204D867200396AE2 /* KinSDK-macos */,
 			);
 		};
 /* End PBXProject section */
@@ -1070,39 +566,39 @@
 			remoteRef = 68D04A42219411FB00F27492 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		68D04A852194533300F27492 /* Sodium.framework */ = {
+		68D04ACD2197EE5300F27492 /* Sodium.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Sodium.framework;
-			remoteRef = 68D04A842194533300F27492 /* PBXContainerItemProxy */;
+			remoteRef = 68D04ACC2197EE5300F27492 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		68D04A872194533300F27492 /* SodiumTests.xctest */ = {
+		68D04ACF2197EE5300F27492 /* SodiumTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = SodiumTests.xctest;
-			remoteRef = 68D04A862194533300F27492 /* PBXContainerItemProxy */;
+			remoteRef = 68D04ACE2197EE5300F27492 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		68D04A892194533300F27492 /* Sodium.framework */ = {
+		68D04AD12197EE5300F27492 /* Sodium.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Sodium.framework;
-			remoteRef = 68D04A882194533300F27492 /* PBXContainerItemProxy */;
+			remoteRef = 68D04AD02197EE5300F27492 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		68D04A8B2194533300F27492 /* Example iOS.app */ = {
+		68D04AD32197EE5300F27492 /* Example iOS.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = "Example iOS.app";
-			remoteRef = 68D04A8A2194533300F27492 /* PBXContainerItemProxy */;
+			remoteRef = 68D04AD22197EE5300F27492 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		68D04A8D2194533300F27492 /* Example OSX.app */ = {
+		68D04AD52197EE5300F27492 /* Example OSX.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = "Example OSX.app";
-			remoteRef = 68D04A8C2194533300F27492 /* PBXContainerItemProxy */;
+			remoteRef = 68D04AD42197EE5300F27492 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1132,30 +628,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82BA210E204D867200396AE2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		82BA20AB204D867200396AE2 /* Lint with SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Lint with SwiftLint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "exit 0\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed. Checkout install options at at https://github.com/realm/SwiftLint\"\nfi";
-		};
 		91EB959B1FC5D2E4000AE5B1 /* Lint with SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1181,7 +656,7 @@
 				82BA1F15204D22AB00396AE2 /* TegKeychainConstants.swift in Sources */,
 				68D04A2621940FA500F27492 /* WrappedData.swift in Sources */,
 				68D04A462194134F00F27492 /* Errors.swift in Sources */,
-				9148CE501FCACF9C0005D603 /* NetworkId.swift in Sources */,
+				9148CE501FCACF9C0005D603 /* Network.swift in Sources */,
 				91D4395C1FC410630006FEB5 /* KinClient.swift in Sources */,
 				68D04A2321940FA500F27492 /* SHA256.swift in Sources */,
 				68D04A2B21940FA500F27492 /* Operation.swift in Sources */,
@@ -1202,6 +677,7 @@
 				82140EC41FA88EAF00FAF19B /* KinTypes.swift in Sources */,
 				68D04A2421940FA500F27492 /* StellarErrors.swift in Sources */,
 				68D04A3021940FA500F27492 /* StellarOps.swift in Sources */,
+				680F7838219C0FA90064DA26 /* WhitelistEnvelope.swift in Sources */,
 				68D04A2521940FA500F27492 /* PublicKey.swift in Sources */,
 				91D4395E1FC410860006FEB5 /* KinAccount.swift in Sources */,
 				68D04A2E21940FA500F27492 /* StellarResults.swift in Sources */,
@@ -1231,25 +707,6 @@
 				827835461FA9B5F20006C3DF /* KinClientTests.swift in Sources */,
 				8268D8F420144339005CF79E /* KeyStoreTests.swift in Sources */,
 				824539431FAB0102009117B4 /* KinAccountTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82BA20AC204D867200396AE2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82BA20AD204D867200396AE2 /* TegKeychainConstants.swift in Sources */,
-				82BA20AF204D867200396AE2 /* NetworkId.swift in Sources */,
-				82BA20B0204D867200396AE2 /* KinClient.swift in Sources */,
-				82BA20B5204D867200396AE2 /* KeychainSwiftAccessOptions.swift in Sources */,
-				82BA20B7204D867200396AE2 /* KinError.swift in Sources */,
-				82BA20B8204D867200396AE2 /* KeychainSwift.swift in Sources */,
-				82BA20BB204D867200396AE2 /* KinTypes.swift in Sources */,
-				82BA20C0204D867200396AE2 /* KinAccount.swift in Sources */,
-				82BA20C3204D867200396AE2 /* KeyUtils.swift in Sources */,
-				82BA20C4204D867200396AE2 /* Watchers.swift in Sources */,
-				82BA20C5204D867200396AE2 /* KinAccounts.swift in Sources */,
-				82BA20C7204D867200396AE2 /* KeyStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1560,79 +1017,6 @@
 			};
 			name = Release;
 		};
-		82BA2111204D867200396AE2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Z37J743B3H;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = "KinSDK-macos-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)",
-					"$(PROJECT_DIR)/KinSDK/source/third-party/swift-sodium/Sodium/libsodium",
-				);
-				MACH_O_TYPE = mh_dylib;
-				"OTHER_LDFLAGS[arch=i386]" = (
-					"-read_only_relocs",
-					suppress,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinSDK;
-				PRODUCT_NAME = KinSDK;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		82BA2112204D867200396AE2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Z37J743B3H;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = "KinSDK-macos-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)",
-					"$(PROJECT_DIR)/KinSDK/source/third-party/swift-sodium/Sodium/libsodium",
-				);
-				MACH_O_TYPE = mh_dylib;
-				"OTHER_LDFLAGS[arch=i386]" = (
-					"-read_only_relocs",
-					suppress,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinSDK;
-				PRODUCT_NAME = KinSDK;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1668,15 +1052,6 @@
 			buildConfigurations = (
 				8278354C1FA9B5F20006C3DF /* Debug */,
 				8278354D1FA9B5F20006C3DF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		82BA2110204D867200396AE2 /* Build configuration list for PBXNativeTarget "KinSDK-macos" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				82BA2111204D867200396AE2 /* Debug */,
-				82BA2112204D867200396AE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

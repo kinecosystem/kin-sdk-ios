@@ -15,33 +15,6 @@ public protocol Account {
     var sign: (([UInt8]) throws -> [UInt8])? { get }
 }
 
-private let testId = "Test SDF Network ; September 2015"
-private let mainId = "Public Global Stellar Network ; September 2015"
-
-public enum BCNetworkId {
-    case test
-    case main
-    case custom(String)
-}
-
-extension BCNetworkId: CustomStringConvertible {
-    public init(_ description: String) {
-        switch description {
-        case testId: self = .test
-        case mainId: self = .main
-        default: self = .custom(description)
-        }
-    }
-    
-    public var description: String {
-        switch self {
-        case .test: return testId
-        case .main: return mainId
-        case .custom(let identifier): return identifier
-        }
-    }
-}
-
 /**
  `Stellar` provides an API for communicating with Stellar Horizon servers, with an emphasis on
  supporting non-native assets.
@@ -49,36 +22,46 @@ extension BCNetworkId: CustomStringConvertible {
 public enum Stellar {
     public struct Node {
         public let baseURL: URL
-        public let networkId: BCNetworkId
+        public let network: Network
         
-        public init(baseURL: URL, networkId: BCNetworkId = .test) {
+        public init(baseURL: URL, network: Network = .testNet) {
             self.baseURL = baseURL
-            self.networkId = networkId
+            self.network = network
         }
     }
-    
+
+    /**
+     Generate a transaction envelope for the given account.
+
+     - Parameter source: The account from which the payment will be made.
+     - Parameter destination: The public key of the receiving account, as a base32 string.
+     - Parameter amount: The amount to be sent.
+     - Parameter memo: A short string placed in the MEMO field of the transaction.
+     - Parameter node: An object describing the network endpoint.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
     public static func transaction(source: Account,
                                    destination: String,
                                    amount: Int64,
-                                   asset: Asset = .ASSET_TYPE_NATIVE,
                                    memo: Memo = .MEMO_NONE,
-                                   node: Node) -> Promise<Transaction> {
-        return balance(account: destination, asset: asset, node: node)
-            .then { _ -> Promise<Transaction> in
+                                   node: Node) -> Promise<TransactionEnvelope> {
+        return balance(account: destination, node: node)
+            .then { _ -> Promise<TransactionEnvelope> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
-                                           asset: asset,
+                                           asset: .native,
                                            source: source)
                 
                 return TxBuilder(source: source, node: node)
                     .set(memo: memo)
                     .add(operation: op)
-                    .tx()
+                    .envelope(networkId: node.network.id)
             }
             .transformError({ error -> Error in
                 switch error {
                 case StellarError.missingAccount, StellarError.missingBalance:
-                    return StellarError.destinationNotReadyForAsset(error, asset.assetCode)
+                    return StellarError.destinationNotReadyForAsset(error)
                 default:
                     return error
                 }
@@ -98,13 +81,14 @@ public enum Stellar {
      - Returns: A promise which will be signalled with the result of the operation.
      */
     // TODO: can be removed
+    @available(*, deprecated)
     public static func payment(source: Account,
                                destination: String,
                                amount: Int64,
-                               asset: Asset = .ASSET_TYPE_NATIVE,
+                               asset: Asset = .native,
                                memo: Memo = .MEMO_NONE,
                                node: Node) -> Promise<String> {
-        return balance(account: destination, asset: asset, node: node)
+        return balance(account: destination, node: node)
             .then { _ -> Promise<Transaction> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
@@ -124,103 +108,35 @@ public enum Stellar {
                 return self.postTransaction(envelope: envelope, node: node)
             }
             .transformError({ error -> Error in
-                if case StellarError.missingAccount = error {
-                    return StellarError
-                        .destinationNotReadyForAsset(error, asset.assetCode)
+                switch error {
+                case StellarError.missingAccount, StellarError.missingBalance:
+                    return StellarError.destinationNotReadyForAsset(error)
+                default:
+                    return error
                 }
-                
-                if case StellarError.missingBalance = error {
-                    return StellarError
-                        .destinationNotReadyForAsset(error, asset.assetCode)
-                }
-                
-                return error
             })
     }
     
     /**
-     Establishes trust for a non-native asset.
-     
-     - parameter asset: The `Asset` to trust.
-     - parameter account: The `Account` which will trust the given asset.
-     - parameter node: An object describing the network endpoint.
-     
-     - Returns: A promise which will be signalled with the result of the operation.
-     */
-    public static func trust(asset: Asset,
-                             account: Account,
-                             node: Node) -> Promise<String> {
-        let p = Promise<String>()
-        
-        guard let destination = account.publicKey else {
-            p.signal(StellarError.missingPublicKey)
-            
-            return p
-        }
-        
-        balance(account: destination, asset: asset, node: node)
-            .then { _ -> Void in
-                p.signal("-na-")
-            }
-            .error { error in
-                if case StellarError.missingAccount = error {
-                    p.signal(error)
-                    
-                    return
-                }
-
-
-                TxBuilder(source: account, node: node)
-                    .add(operation: Operation.changeTrust(asset: asset))
-                    .tx()
-                    .then { tx -> Promise<String> in
-                        let envelope = try self.sign(transaction: tx,
-                                                     signer: account,
-                                                     node: node)
-                        
-                        return self.postTransaction(envelope: envelope, node: node)
-                    }
-                    .then { txHash in
-                        p.signal(txHash)
-                    }
-                    .error { error in
-                        p.signal(error)
-                }
-        }
-        
-        return p
-    }
-    
-    /**
-     Obtain the balance for a given asset.
+     Obtain the balance.
      
      - parameter account: The `Account` whose balance will be retrieved.
-     - parameter asset: The `Asset` whose balance will be obtained.  Defaults to the `Asset` specified in the initializer.
      - parameter node: An object describing the network endpoint.
      
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func balance(account: String,
-                               asset: Asset = .ASSET_TYPE_NATIVE,
-                               node: Node) -> Promise<Decimal> {
+    public static func balance(account: String, node: Node) -> Promise<Kin> {
         return accountDetails(account: account, node: node)
             .then { accountDetails in
-                let p = Promise<Decimal>()
+                let p = Promise<Kin>()
                 
                 for balance in accountDetails.balances {
-                    let code = balance.assetCode
-                    let issuer = balance.assetIssuer
-                    
-                    if (balance.assetType == "native" && asset.assetCode == "native") {
-                        return p.signal(balance.balanceNum)
-                    }
-                    
-                    if let issuer = issuer, let code = code,
-                        Asset(assetCode: code, issuer: issuer) == asset {
+                    if balance.assetType == Asset.native.description {
                         return p.signal(balance.balanceNum)
                     }
                 }
-                
+
+                // ???: is this a possible error with the change to native asset
                 return p.signal(StellarError.missingBalance)
         }
     }
@@ -234,7 +150,7 @@ public enum Stellar {
      - Returns: A promise which will be signalled with the result of the operation.
      */
     public static func accountDetails(account: String, node: Node) -> Promise<AccountDetails> {
-        let url = Endpoint(url: node.baseURL).account(account).url
+        let url = Endpoint(node.baseURL).account(account).url
         
         return issue(request: URLRequest(url: url))
             .then { data in
@@ -265,7 +181,7 @@ public enum Stellar {
     public static func txWatch(account: String? = nil,
                                lastEventId: String?,
                                node: Node) -> EventWatcher<TxEvent> {
-        let url = Endpoint(url: node.baseURL).account(account).transactions().cursor(lastEventId).url
+        let url = Endpoint(node.baseURL).account(account).transactions().cursor(lastEventId).url
         
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
@@ -284,7 +200,7 @@ public enum Stellar {
     public static func paymentWatch(account: String? = nil,
                                     lastEventId: String?,
                                     node: Node) -> EventWatcher<PaymentEvent> {
-        let url = Endpoint(url: node.baseURL).account(account).payments().cursor(lastEventId).url
+        let url = Endpoint(node.baseURL).account(account).payments().cursor(lastEventId).url
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
@@ -302,17 +218,26 @@ public enum Stellar {
         }
     }
 
-    public static func sign(transaction tx: Transaction,
-                            signer: Account,
-                            node: Node) throws -> TransactionEnvelope {
+    public static func networkParameters(node: Node) -> Promise<NetworkParameters> {
+        let url = Endpoint(node.baseURL).ledgers().order(.descending).limit(1).url
+
+        return issue(request: URLRequest(url: url))
+            .then { data in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    throw StellarError.unknownError(horizonError)
+                }
+
+                return try Promise(JSONDecoder().decode(NetworkParameters.self, from: data))
+        }
+    }
+
+    public static func sign(transaction tx: Transaction, signer: Account, node: Node) throws -> TransactionEnvelope {
         guard let publicKey = signer.publicKey else {
             throw StellarError.missingPublicKey
         }
-        
-        return try KinSDK.sign(transaction: tx,
-                               signer: signer,
-                               hint: Data(BCKeyUtils.key(base32: publicKey).suffix(4)),
-                               networkId: node.networkId.description)
+
+        let hint = Data(BCKeyUtils.key(base32: publicKey).suffix(4))
+        return try KinSDK.sign(transaction: tx, signer: signer, hint: hint, networkId: node.network.id)
     }
     
     public static func postTransaction(envelope: TransactionEnvelope, node: Node) -> Promise<String> {
@@ -332,7 +257,7 @@ public enum Stellar {
             return Promise<String>(StellarError.dataEncodingFailed)
         }
         
-        var request = URLRequest(url: Endpoint(url: node.baseURL).transactions().url)
+        var request = URLRequest(url: Endpoint(node.baseURL).transactions().url)
         request.httpMethod = "POST"
         request.httpBody = httpBody
         
@@ -340,13 +265,13 @@ public enum Stellar {
             .then { data in
                 if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data),
                     let resultXDR = horizonError.extras?.resultXDR,
-                    let error = errorFromResponse(resultXDR: resultXDR) {
+                    let error = errorFromResponse(resultXDR: resultXDR)
+                {
                     throw error
                 }
                 
                 do {
-                    let txResponse = try JSONDecoder().decode(TransactionResponse.self,
-                                                              from: data)
+                    let txResponse = try JSONDecoder().decode(TransactionResponse.self, from: data)
                     
                     return Promise<String>(txResponse.hash)
                 }
