@@ -47,7 +47,6 @@ extension Network {
         switch self {
         case .mainNet:
             return "Public Global Kin Ecosystem Network ; June 2018"
-//            return "Public Global Stellar Network ; September 2015"
         case .testNet:
             return "Integration Test Network ; zulucrypto"
 //            return "Test SDF Network ; September 2015"
