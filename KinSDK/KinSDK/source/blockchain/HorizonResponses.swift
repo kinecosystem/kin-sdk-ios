@@ -29,8 +29,8 @@ public struct NetworkParameters: Decodable {
     private let _links: Links
     private let _embedded: [String: [LedgerResponse]]
 
-    public var baseFee: UInt32 {
-        return _embedded["records"]!.first!.base_fee_in_stroops
+    public var baseFee: Stroop {
+        return _embedded["records"]!.first!.base_fee
     }
 }
 
@@ -48,7 +48,7 @@ public struct AccountDetails: Decodable, CustomStringConvertible {
         public let balance: String
         public let assetType: String
 
-        public var balanceNum: Decimal {
+        public var balanceNum: Kin {
             return Decimal(string: balance) ?? Decimal()
         }
 
@@ -97,8 +97,8 @@ struct LedgerResponse: Decodable {
     let _links: Links?
     let id: String
     let hash: String
-    let base_fee_in_stroops: UInt32
-    let base_reserve_in_stroops: Double
+    let base_fee: Stroop
+    let base_reserve: String
     let max_tx_set_size: Int
 }
 
