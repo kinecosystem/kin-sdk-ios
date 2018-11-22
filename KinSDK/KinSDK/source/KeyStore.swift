@@ -321,30 +321,3 @@ private struct KeychainStorage {
         return nil
     }
 }
-
-// MARK: Migration
-
-extension KeyStore {
-    public static func migrateIfNeeded() {
-        KeychainStorage.migrate()
-    }
-}
-
-extension KeychainStorage {
-    /**
-     Migrate the keychain entries access type.
-
-     Previous versions of the keychain storage were saving data with the default access type.
-     In order to update the access type, the existing keys need to simply be resaved. 
-     */
-    fileprivate static func migrate() {
-        let keys = self.keys.compactMap { removePrefix($0) }
-
-        for key in keys {
-            if let data = retrieve(key) {
-                remove(key)
-                save(data, forKey: key)
-            }
-        }
-    }
-}
