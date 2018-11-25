@@ -247,7 +247,7 @@ extension KeyStore {
 }
 
 private struct KeychainStorage {
-    static let keychainPrefix = "__swifty_stellar_"
+    static let keychainPrefix = "KinSDK_"
     static let keychain = KeychainSwift(keyPrefix: keychainPrefix)
 
     static func nextStorageKey() -> String {
