@@ -182,7 +182,7 @@ final class KinStellarAccount: KinAccount {
             }
 
             if balance != nil {
-                completion(.activated, nil)
+                completion(.created, nil)
             }
             else {
                 completion(nil, KinError.internalInconsistency)
