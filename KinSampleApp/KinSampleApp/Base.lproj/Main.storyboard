@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="27D-Pp-7YL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="27D-Pp-7YL">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -59,19 +57,19 @@
                                         <rect key="frame" x="11.5" y="519" width="320.5" height="44"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" image="GitHubIcon" translatesAutoresizingMaskIntoConstraints="NO" id="oB0-N8-CCo">
-                                                <rect key="frame" x="0.5" y="0.0" width="30" height="44"/>
+                                                <rect key="frame" x="0.0" y="9.5" width="30" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="jxG-U6-FBq"/>
                                                 </constraints>
                                             </imageView>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" image="KinIcon" translatesAutoresizingMaskIntoConstraints="NO" id="YqI-i8-RFY">
-                                                <rect key="frame" x="30.5" y="0.0" width="40" height="44"/>
+                                                <rect key="frame" x="30" y="0.0" width="40" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="40" id="h6p-Gj-bcB"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="https://github.com/kinfoundation" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MaS-gI-4Bb">
-                                                <rect key="frame" x="70.5" y="12" width="250.5" height="20.5"/>
+                                                <rect key="frame" x="70" y="12" width="250.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -277,7 +275,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYQ-Ky-ijI">
-                                                    <rect key="frame" x="16" y="20" width="343" height="44"/>
+                                                    <rect key="frame" x="16" y="20.5" width="343" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="kTx-tb-H7b"/>
                                                     </constraints>
@@ -308,7 +306,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j4h-YA-wCz">
-                                                    <rect key="frame" x="16" y="20" width="343" height="44"/>
+                                                    <rect key="frame" x="16" y="20.5" width="343" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="qKn-GG-XAm"/>
                                                     </constraints>
@@ -370,7 +368,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="abH-nb-2Xl">
-                                                    <rect key="frame" x="16" y="20" width="343" height="44"/>
+                                                    <rect key="frame" x="16" y="20.5" width="343" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="5Uz-IP-BdG"/>
                                                     </constraints>
@@ -415,7 +413,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Juz-mf-7Ef">
-                                <rect key="frame" x="20" y="30" width="335" height="337"/>
+                                <rect key="frame" x="20" y="30" width="335" height="401"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fv3-Mb-UIB">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
@@ -510,8 +508,22 @@
                                             <constraint firstAttribute="height" constant="20" id="5Tr-pn-H69"/>
                                         </constraints>
                                     </view>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3Bi-ab-BiU">
+                                        <rect key="frame" x="0.0" y="293" width="335" height="29"/>
+                                        <segments>
+                                            <segment title="Whitelist Enabled"/>
+                                            <segment title="Whitelist Disabled"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q2g-ha-HsT">
+                                        <rect key="frame" x="0.0" y="329" width="335" height="20"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="KJ1-G1-zRq"/>
+                                        </constraints>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yxj-D5-YV8">
-                                        <rect key="frame" x="0.0" y="293" width="335" height="44"/>
+                                        <rect key="frame" x="0.0" y="357" width="335" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="dl8-Sd-Lho"/>
                                         </constraints>
@@ -543,6 +555,7 @@
                         <outlet property="amountTextField" destination="bkQ-bq-Su2" id="pgo-tj-Mnj"/>
                         <outlet property="memoTextField" destination="kKd-K5-Bc0" id="9aJ-nx-mPy"/>
                         <outlet property="sendButton" destination="Yxj-D5-YV8" id="0d3-Ky-g5r"/>
+                        <outlet property="whitelistSegmentedControl" destination="3Bi-ab-BiU" id="sQf-nr-EF9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbm-t0-nIv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -772,7 +785,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="GitHubIcon" width="48" height="48"/>
+        <image name="GitHubIcon" width="25.600000381469727" height="25.600000381469727"/>
         <image name="KinIcon" width="156" height="146"/>
     </resources>
 </document>

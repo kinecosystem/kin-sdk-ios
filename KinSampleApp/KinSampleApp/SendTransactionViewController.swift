@@ -20,6 +20,7 @@ class SendTransactionViewController: UIViewController {
     @IBOutlet weak var addressTextField: UITextField!
     @IBOutlet weak var amountTextField: UITextField!
     @IBOutlet weak var memoTextField: UITextField!
+    @IBOutlet weak var whitelistSegmentedControl: UISegmentedControl!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -62,21 +63,23 @@ class SendTransactionViewController: UIViewController {
         
         promise(curry(kinAccount.generateTransaction)(address)(amount)(memoTextField.text))
             .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionEnvelope> in
-//                let urlString = "http://18.206.35.110:3000/whitelist"
-                let urlString = "http://10.4.59.1:3000/whitelist"
+                guard let strongSelf = self else {
+                    return Promise(KinError.unknown)
+                }
 
-                guard let strongSelf = self, let url = URL(string: urlString) else {
-                    return Promise().signal(KinError.unknown)
+                guard strongSelf.whitelistSegmentedControl.selectedSegmentIndex == 0 else {
+                    return Promise(transactionEnvelope)
                 }
 
                 let networkId = Network.testNet.id
                 let whitelistEnvelope = WhitelistEnvelope(transactionEnvelope: transactionEnvelope, networkId: networkId)
+                let url = URL(string: "http://10.4.59.1:3000/whitelist")!
 
                 return strongSelf.whitelistTransaction(to: url, whitelistEnvelope: whitelistEnvelope)
             }
             .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionId> in
                 guard let strongSelf = self else {
-                    return Promise().signal(KinError.unknown)
+                    return Promise(KinError.unknown)
                 }
 
                 return promise(curry(strongSelf.kinAccount.sendTransaction)(transactionEnvelope))
