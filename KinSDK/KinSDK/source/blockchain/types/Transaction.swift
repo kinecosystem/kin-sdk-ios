@@ -245,3 +245,22 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
         self.signatures = signatures
     }
 }
+
+public extension TransactionEnvelope {
+    public static func decodeResponse(data: Data?, error: Error?) throws -> TransactionEnvelope {
+        if let error = error {
+            throw error
+        }
+
+        guard let data = data, let d = Data(base64Encoded: data) else {
+            throw StellarError.internalInconsistency
+        }
+
+        do {
+            return try XDRDecoder.decode(TransactionEnvelope.self, data: d)
+        }
+        catch {
+            throw error
+        }
+    }
+}
