@@ -142,7 +142,7 @@ extension KinSampleViewController: KinClientCellDelegate {
     private func createAccount(user_id: String) -> Promise<Bool> {
         let p = Promise<Bool>()
 
-        let url = URL(string: "http://18.206.35.110:8001?addr=\(kinAccount.publicAddress)")!
+        let url = URL(string: "http://friendbot-testnet.kininfrastructure.com?addr=\(kinAccount.publicAddress)")!
         let request = URLRequest(url: url)
 
         URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
@@ -151,7 +151,7 @@ extension KinSampleViewController: KinClientCellDelegate {
                 let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
                 let _ = jsonOpt as? [String: Any]
                 else {
-                    print("Unable to parse json.")
+                    print("Unable to parse json for createAccount().")
 
                     p.signal(OnBoardingError.invalidResponse)
 
@@ -176,7 +176,7 @@ extension KinSampleViewController: KinClientCellDelegate {
                 let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = jsonOpt as? [String: Any]
                 else {
-                    print("Unable to parse json.")
+                    print("Unable to parse json for fund().")
 
                     p.signal(OnBoardingError.invalidResponse)
 

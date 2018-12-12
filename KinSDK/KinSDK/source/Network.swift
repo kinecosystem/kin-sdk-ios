@@ -48,8 +48,7 @@ extension Network {
         case .mainNet:
             return "Public Global Kin Ecosystem Network ; June 2018"
         case .testNet:
-            return "Integration Test Network ; zulucrypto"
-//            return "Test SDF Network ; September 2015"
+            return "Kin Testnet ; December 2018"
         case .playground:
             return "Kin Playground Network ; June 2018"
         case .custom(let id):
