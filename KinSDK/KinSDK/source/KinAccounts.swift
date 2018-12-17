@@ -111,15 +111,7 @@ public final class KinAccounts {
 
 extension KinAccounts: Sequence {
     public func makeIterator() -> AnyIterator<KinAccount?> {
-        var index = 0
-
-        return AnyIterator {
-            let account = index <= self.count ? self[index] : nil
-
-            index += 1
-            
-            return account
-        }
+        return AnyIterator(stride(from: 0, to: self.count, by: 1).lazy.map { self[$0] }.makeIterator())
     }
 }
 
