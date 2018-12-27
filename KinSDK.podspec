@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
                        'KinSDK/KinSDK/source/third-party/SHA256.swift',
                        'KinSDK/KinSDK/source/third-party/keychain-swift/KeychainSwift/*.swift'
 
-  s.dependency 'KinUtil'
-  s.dependency 'Sodium'
+  s.dependency 'KinUtil', '0.0.13'
+  s.dependency 'Sodium', '0.7.0'
 
   s.ios.deployment_target = '8.0'
   s.swift_version = "3.2"

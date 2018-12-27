@@ -58,7 +58,7 @@ public enum Stellar {
                     .add(operation: op)
                     .envelope(networkId: node.network.id)
             }
-            .transformError({ error -> Error in
+            .mapError({ error -> Error in
                 switch error {
                 case StellarError.missingAccount, StellarError.missingBalance:
                     return StellarError.destinationNotReadyForAsset(error)
