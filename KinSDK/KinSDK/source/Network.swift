@@ -50,7 +50,7 @@ extension Network {
         case .testNet:
             return "Kin Testnet ; December 2018"
         case .playground:
-            return "Kin Playground Network ; June 2018"
+            return ""
         case .custom(let id):
             return id
         }
