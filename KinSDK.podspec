@@ -7,10 +7,10 @@ Pod::Spec.new do |s|
   Initial pod for the KIN SDK.
                        DESC
 
-  s.homepage         = 'https://github.com/kinfoundation/kin-sdk-ios'
+  s.homepage         = 'https://github.com/kinecosystem/kin-sdk-ios'
   s.license          = { :type => 'MIT', :file => 'LICENSE.md' }
   s.author           = { 'Kin Foundation' => 'kin@kik.com' }
-  s.source           = { :git => 'https://github.com/kinfoundation/kin-sdk-ios.git', :tag => "#{s.version}", :submodules => true }
+  s.source           = { :git => 'https://github.com/kinecosystem/kin-sdk-ios.git', :tag => "#{s.version}", :submodules => true }
 
   s.source_files     = 'KinSDK/KinSDK/source/*.swift',
                        'KinSDK/KinSDK/source/blockchain/**/*.swift',
