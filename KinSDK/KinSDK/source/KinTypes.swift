@@ -117,7 +117,7 @@ public struct PaymentInfo {
  of lowercase letters, uppercase letters and digits.
  */
 public struct AppId {
-    let value: String
+    public let value: String
     
     public init(_ value: String) throws {
         // Lowercase and uppercase letters + numbers
