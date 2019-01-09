@@ -136,7 +136,6 @@ public enum Stellar {
                     }
                 }
 
-                // ???: is this a possible error with the change to native asset
                 return p.signal(StellarError.missingBalance)
         }
     }
