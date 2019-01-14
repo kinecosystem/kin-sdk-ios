@@ -38,6 +38,7 @@ public enum Stellar {
      - Parameter amount: The amount to be sent.
      - Parameter memo: A short string placed in the MEMO field of the transaction.
      - Parameter node: An object describing the network endpoint.
+     - Parameter fee: The fee in `Stroop`s used when the transaction is not whitelisted.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
@@ -45,7 +46,8 @@ public enum Stellar {
                                    destination: String,
                                    amount: Int64,
                                    memo: Memo = .MEMO_NONE,
-                                   node: Node) -> Promise<TransactionEnvelope> {
+                                   node: Node,
+                                   fee: Stroop) -> Promise<TransactionEnvelope> {
         return balance(account: destination, node: node)
             .then { _ -> Promise<TransactionEnvelope> in
                 let op = Operation.payment(destination: destination,
@@ -55,6 +57,7 @@ public enum Stellar {
                 
                 return TxBuilder(source: source, node: node)
                     .set(memo: memo)
+                    .set(fee: fee)
                     .add(operation: op)
                     .envelope(networkId: node.network.id)
             }
@@ -136,7 +139,6 @@ public enum Stellar {
                     }
                 }
 
-                // ???: is this a possible error with the change to native asset
                 return p.signal(StellarError.missingBalance)
         }
     }
@@ -279,5 +281,26 @@ public enum Stellar {
                     throw error
                 }
         }
+    }
+
+    /**
+     Get the minimum fee for sending a transaction.
+
+     - Parameter node: An object describing the network endpoint.
+
+     - Returns: The minimum fee needed to send a transaction.
+     */
+    public static func minFee(node: Node) -> Promise<Stroop> {
+        let promise = Promise<Stroop>()
+
+        Stellar.networkParameters(node: node)
+            .then { networkParameters in
+                promise.signal(networkParameters.baseFee)
+            }
+            .error { error in
+                promise.signal(error)
+        }
+
+        return promise
     }
 }
