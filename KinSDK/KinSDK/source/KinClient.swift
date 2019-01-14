@@ -139,10 +139,10 @@ public final class KinClient {
             promise.signal(minFee)
         }
         else {
-            Stellar.networkParameters(node: node)
-                .then { [weak self] networkParameters in
-                    self?._minFee = networkParameters.baseFee
-                    promise.signal(networkParameters.baseFee)
+            Stellar.minFee(node: node)
+                .then { [weak self] fee in
+                    self?._minFee = fee
+                    promise.signal(fee)
                 }
                 .error { error in
                     promise.signal(error)

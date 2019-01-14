@@ -46,11 +46,13 @@ public protocol KinAccount: class {
      - Parameter recipient: The recipient's public address.
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter fee: The fee in `Stroop`s used if the transaction is not whitelisted.
      - Parameter completion: A completion with the `TransactionEnvelope` or an `Error`.
      */
     func generateTransaction(to recipient: String,
                              kin: Kin,
                              memo: String?,
+                             fee: Stroop,
                              completion: @escaping GenerateTransactionCompletion)
 
     /**
@@ -62,7 +64,7 @@ public protocol KinAccount: class {
 
      - Returns: A promise which is signalled with the `TransactionEnvelope` or an `Error`.
      */
-    func generateTransaction(to recipient: String, kin: Kin, memo: String?) -> Promise<TransactionEnvelope>
+    func generateTransaction(to recipient: String, kin: Kin, fee: Stroop, memo: String?) -> Promise<TransactionEnvelope>
 
     /**
      Send a Kin transaction.
@@ -197,6 +199,7 @@ final class KinStellarAccount: KinAccount {
     func generateTransaction(to recipient: String,
                              kin: Kin,
                              memo: String? = nil,
+                             fee: Stroop = 0,
                              completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
@@ -226,7 +229,8 @@ final class KinStellarAccount: KinAccount {
                             destination: recipient,
                             amount: kinInt,
                             memo: try Memo(prefixedMemo),
-                            node: node)
+                            node: node,
+                            fee: fee)
                 .then { transactionEnvelope -> Void in
                     self.stellarAccount.sign = nil
                     completion(transactionEnvelope, nil)
@@ -242,9 +246,9 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-    func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil) -> Promise<TransactionEnvelope> {
+    func generateTransaction(to recipient: String, kin: Kin, fee: Stroop, memo: String? = nil) -> Promise<TransactionEnvelope> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
-            self.generateTransaction(to: recipient, kin: kin, memo: memo, completion: txComp)
+            self.generateTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
         }
 
         return promise(txClosure)
