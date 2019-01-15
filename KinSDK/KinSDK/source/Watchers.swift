@@ -51,16 +51,23 @@ public class BalanceWatch {
                     for op in opsMeta {
                         for change in op.changes {
                             switch change {
-                            case .LEDGER_ENTRY_CREATED: break
-                            case .LEDGER_ENTRY_REMOVED: break
-                            case .LEDGER_ENTRY_UPDATED(let le):
+                            case .LEDGER_ENTRY_CREATED(let le),
+                                 .LEDGER_ENTRY_UPDATED(let le):
                                 if case let LedgerEntry.Data.TRUSTLINE(trustlineEntry) = le.data {
                                     if trustlineEntry.account == account {
                                         balance = Decimal(Double(trustlineEntry.balance) / Double(AssetUnitDivisor))
                                         return balance
                                     }
                                 }
-                            case .LEDGER_ENTRY_STATE: break
+                                else if case let LedgerEntry.Data.ACCOUNT(accountEntry) = le.data {
+                                    if accountEntry.accountID.publicKey == account {
+                                        balance = Decimal(Double(accountEntry.balance) / Double(AssetUnitDivisor))
+                                        return balance
+                                    }
+                                }
+                            case .LEDGER_ENTRY_STATE,
+                                 .LEDGER_ENTRY_REMOVED:
+                                break
                             }
                         }
                     }

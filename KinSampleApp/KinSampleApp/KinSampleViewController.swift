@@ -112,21 +112,12 @@ extension KinSampleViewController: KinClientCellDelegate {
 
         getKinCell.getKinButton.isEnabled = false
 
-        let user_id = UUID().uuidString
-
         print("Creating account.")
 
-        self.createAccount(user_id: user_id)
-            .then { result -> Promise<Bool> in
-                print("Funding account")
-
-                return self.fund(user_id: user_id)
-            }
-            .finally {
-                DispatchQueue.main.async {
-                    getKinCell.getKinButton.isEnabled = true
-                }
-        }
+        self.createAccount()
+            .then(on: .main, { _ in
+                getKinCell.getKinButton.isEnabled = true
+            })
 
         try! kinAccount.watchCreation()
             .finally({
@@ -139,13 +130,11 @@ extension KinSampleViewController: KinClientCellDelegate {
         case errorResponse
     }
 
-    private func createAccount(user_id: String) -> Promise<Bool> {
+    private func createAccount() -> Promise<Bool> {
         let p = Promise<Bool>()
-
         let url = URL(string: "http://friendbot-testnet.kininfrastructure.com?addr=\(kinAccount.publicAddress)")!
-        let request = URLRequest(url: url)
 
-        URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             guard
                 let data = data,
                 let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
@@ -164,13 +153,11 @@ extension KinSampleViewController: KinClientCellDelegate {
         return p
     }
 
-    private func fund(user_id: String) -> Promise<Bool> {
+    private func fund(amount: Kin) -> Promise<Bool> {
         let p = Promise<Bool>()
+        let url = URL(string: "http://friendbot-testnet.kininfrastructure.com/fund?addr=\(kinAccount.publicAddress)&amount=\(amount)")!
 
-        let url = URL(string: "http://159.65.84.173:5000/fund?account=\(kinAccount.publicAddress)&amount=6000")!
-        let request = URLRequest(url: url)
-
-        URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             guard
                 let data = data,
                 let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
