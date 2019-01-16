@@ -61,10 +61,11 @@ public protocol KinAccount: class {
      - Parameter recipient: The recipient's public address.
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter fee: The fee in `Stroop`s used if the transaction is not whitelisted.
 
      - Returns: A promise which is signalled with the `TransactionEnvelope` or an `Error`.
      */
-    func generateTransaction(to recipient: String, kin: Kin, fee: Stroop, memo: String?) -> Promise<TransactionEnvelope>
+    func generateTransaction(to recipient: String, kin: Kin, memo: String?, fee: Stroop) -> Promise<TransactionEnvelope>
 
     /**
      Send a Kin transaction.
@@ -246,7 +247,7 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-    func generateTransaction(to recipient: String, kin: Kin, fee: Stroop, memo: String? = nil) -> Promise<TransactionEnvelope> {
+    func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Stroop) -> Promise<TransactionEnvelope> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
             self.generateTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
         }
