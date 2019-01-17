@@ -31,8 +31,18 @@ public protocol KinAccount: class {
      **/
     func export(passphrase: String) throws -> String
 
+    /**
+    Query the status of the account on the blockchain.
+
+    - parameter completion: the completion handler function with the `AccountStatus` or an `Error.
+    */
     func status(completion: @escaping (AccountStatus?, Error?) -> Void)
 
+    /**
+    Query the status of the account on the blockchain using promises.
+
+    - Returns: a promise which will be signalled the `AccountStatus` value.
+    */
     func status() -> Promise<AccountStatus>
 
     /**
@@ -105,10 +115,30 @@ public protocol KinAccount: class {
      */
     func balance() -> Promise<Kin>
 
+    /**
+    Returns a watcher object that will notify of any balance change.
+
+    - parameter: optional `Kin` balance that the watcher will notify first.
+
+    - Returns: `BalanceWatch`
+    */
     func watchBalance(_ balance: Kin?) throws -> BalanceWatch
 
+    /**
+    Returns a watcher object that will notify of any payment change.
+
+    - parameter: optional `cursor` that specifies the id of the last payment after which the watcher will notify new
+    payments.
+
+    - Returns: `PaymentWatch`
+    */
     func watchPayments(cursor: String?) throws -> PaymentWatch
 
+    /**
+    Returns a `Promise` that signals when the account is detected to have the `.created` `AccountStatus`.
+
+    - Returns: `Promise`
+    */
     func watchCreation() throws -> Promise<Void>
 
     /**

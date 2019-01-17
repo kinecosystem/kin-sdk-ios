@@ -8,10 +8,27 @@
 
 import Foundation
 
+/**
+`WhitelistEnvelope` wraps a `TransactionEnvelope` and the `Network.Id`.
+*/
 public struct WhitelistEnvelope {
+    
+    /**
+    The `TransactionEnvelope`.
+    */
     public let transactionEnvelope: TransactionEnvelope
+
+    /**
+    The `Network.Id`.
+    */
     public let networkId: Network.Id
 
+    /**
+    Initializes the `WhitelistEnvelope`.
+
+    - parameter transactionEnvelope
+    - parameter networkId
+    */
     public init(transactionEnvelope: TransactionEnvelope, networkId: Network.Id) {
         self.transactionEnvelope = transactionEnvelope
         self.networkId = networkId
@@ -26,6 +43,11 @@ extension WhitelistEnvelope {
 }
 
 extension WhitelistEnvelope: Decodable {
+    /**
+    Initializes the `WhitelistEnvelope` with a Decoder.
+
+    - parameter from: the Decoder object to decode from
+    */
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -37,6 +59,13 @@ extension WhitelistEnvelope: Decodable {
 }
 
 extension WhitelistEnvelope: Encodable {
+    /**
+    Encode the `WhitelistEnvelope` into the given Encoder.
+
+    - parameter to: The Encoder
+
+    - Throws
+    */
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
