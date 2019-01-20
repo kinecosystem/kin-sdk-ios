@@ -44,8 +44,8 @@ extension Network {
     }
 
     /**
-    Id of this network
-    */
+     Id of this network
+     */
     public var id: Id {
         switch self {
         case .mainNet:
@@ -61,13 +61,6 @@ extension Network {
 }
 
 extension Network: Decodable {
-
-    /**
-    Initialize a `Network` from a `Decoder`. 
-    
-    - Throws: `StellarError.dataDencodingFailed`
-                if no `Network` could be decoded from the given `Decoder`.
-    */
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -103,12 +96,6 @@ extension Network: Decodable {
 }
 
 extension Network: Encodable {
-    
-    /**
-    Encodes the `Network` to the given `Encoder`.
-
-    - Throws:
-    */
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 

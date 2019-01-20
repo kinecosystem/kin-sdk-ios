@@ -9,8 +9,8 @@
 import Foundation
 
 /**
-`KinAccounts` wraps the list of `KinAccount`.
-*/
+ `KinAccounts` wraps the `KinAccount` list.
+ */
 public final class KinAccounts {
     private var cache = [Int: KinAccount]()
     private let cacheLock = NSLock()
@@ -19,19 +19,19 @@ public final class KinAccounts {
     private let appId: AppId
 
     /**
-    Number of `KinAccount` objects.
-    */
+     Number of `KinAccount` objects.
+     */
     public var count: Int {
         return KeyStore.count()
     }
 
     /**
-    Returns the account at `index` if it exists.
+     Retrieve a `KinAccount` at a given index.
 
-    - parameter index: The element of the list of accounts to return.
+     - Parameter index: The index of the list of accounts to return.
 
-    - returns: The `KinAccount` at `index` if it exists, nil otherwise.
-    */
+     - Returns: The `KinAccount` at index if it exists, nil otherwise.
+     */
     public subscript(_ index: Int) -> KinAccount? {
         self.cacheLock.lock()
         defer {
@@ -124,10 +124,10 @@ public final class KinAccounts {
 
 extension KinAccounts: Sequence {
     /**
-    Provides an `AnyIterator` for the list of `KinAccount`.
+     Provides an `AnyIterator` for the list of `KinAccount`'s.
 
-    - returns: the iterator of `KinAccount?`
-    */
+     - Returns: An iterator for the list of `KinAccount`'s.
+     */
     public func makeIterator() -> AnyIterator<KinAccount?> {
         return AnyIterator(stride(from: 0, to: self.count, by: 1).lazy.map { self[$0] }.makeIterator())
     }
@@ -135,15 +135,15 @@ extension KinAccounts: Sequence {
 
 extension KinAccounts: RandomAccessCollection {
     /**
-    The start index of the list of `KinAccount`.
-    */
+     The start index of the list of `KinAccount`.
+     */
     public var startIndex: Int {
         return 0
     }
 
     /**
-    The upper end index of the list of `KinAccount`.
-    */
+     The upper end index of the list of `KinAccount`.
+     */
     public var endIndex: Int {
         return KeyStore.count()
     }
@@ -151,15 +151,15 @@ extension KinAccounts: RandomAccessCollection {
 
 extension KinAccounts {
     /**
-    The first `KinAccount` object if it exists.
-    */
+     The first `KinAccount` object if it exists.
+     */
     public var first: KinAccount? {
         return count > 0 ? self[0] : nil
     }
 
     /**
-    The last `KinAccount` object if it exists.
-    */
+     The last `KinAccount` object if it exists.
+     */
     public var last: KinAccount? {
         return count > 0 ? self[self.count - 1] : nil
     }

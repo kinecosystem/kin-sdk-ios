@@ -9,8 +9,8 @@
 import Foundation
 
 /**
-Error types associated to the execution of a `Transaction`.
-*/
+ Error types associated to the execution of a `Transaction`.
+ */
 public enum TransactionError: Int32, Error {
     /** One of the operations failed (none were applied) */
     case txFAILED = -1
@@ -39,8 +39,8 @@ public enum TransactionError: Int32, Error {
 }
 
 /**
-Error types associated to the creation of an account on the blockchain network.
-*/
+ Error types associated to the creation of an account on the blockchain network.
+ */
 public enum CreateAccountError: Int32, Error {
     /** invalid destination */
     case CREATE_ACCOUNT_MALFORMED = -1
@@ -53,8 +53,8 @@ public enum CreateAccountError: Int32, Error {
 }
 
 /**
-Error types associated to the execution of a payment `Transaction`.
-*/
+ Error types associated to the execution of a payment `Transaction`.
+ */
 public enum PaymentError: Int32, Error {
     /** bad input */
     case PAYMENT_MALFORMED = -1

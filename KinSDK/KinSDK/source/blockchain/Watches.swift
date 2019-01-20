@@ -152,8 +152,8 @@ private let formatter: DateFormatter = {
 }()
 
 /**
-`EventWatcher<EventType>` is a generic class for Stellar event watcher classes.
-*/
+ `EventWatcher<EventType>` is a generic class for Stellar event watcher classes.
+ */
 public final class EventWatcher<EventType> where EventType: Decodable {
     public let eventSource: StellarEventSource
     public let emitter: Observable<EventType>

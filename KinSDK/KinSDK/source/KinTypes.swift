@@ -25,8 +25,8 @@ public protocol ServiceProvider {
 }
 
 /**
-Type for `Transaction` ids.
-*/
+ Type for `Transaction` identifier.
+ */
 public typealias TransactionId = String
 
 /**
@@ -48,18 +48,18 @@ public typealias SendTransactionCompletion = (TransactionId?, Error?) -> Void
 public typealias BalanceCompletion = (Kin?, Error?) -> Void
 
 /**
-`AccountStatus` indicates the status of a `KinAccount`.
-*/
+ `AccountStatus` indicates the status of a `KinAccount`.
+ */
 public enum AccountStatus: Int {
 
     /**
-    The `KinAccount` has not been created on the blockchain network
-    */
+     The `KinAccount` has not been created on the blockchain network.
+     */
     case notCreated
 
     /**
-    The `KinAccount` has been created on the blockchain network
-    */
+     The `KinAccount` has been created on the blockchain network.
+     */
     case created
 }
 
@@ -71,57 +71,57 @@ internal let AssetUnitDivisor: UInt64 = 100_000
 public typealias Kin = Decimal
 
 /**
- Stroop is the smallest amount unit. It is one-hundred-thousandth: `1/100000` or `0.00001`.
+ Stroop is the smallest amount unit. It is one-hundred-thousandth of a Kin: `1/100000` or `0.00001`.
  */
 public typealias Stroop = UInt32
 
 /**
-`PaymentInfo` wraps all information related to a payment transaction.
-*/
+ `PaymentInfo` wraps all information related to a payment transaction.
+ */
 public struct PaymentInfo {
     private let txEvent: TxEvent
     private let account: String
 
     /**
-    Date of creation of the transaction
-    */
+     Date of creation of the transaction.
+     */
     public var createdAt: Date {
         return txEvent.created_at
     }
 
     /**
-    True if this account received this payment.
-    False if this account sent this payment.
-    */
+     True if this account received this payment.
+     False if this account sent this payment.
+     */
     public var credit: Bool {
         return account == destination
     }
 
     /**
-    True if this account sent this payment.
-    False if this account received this payment.
-    */
+     True if this account sent this payment.
+     False if this account received this payment.
+     */
     public var debit: Bool {
         return !credit
     }
 
     /**
-    Public address of the account from which this payment originates.
-    */
+     Public address of the account from which this payment originates.
+     */
     public var source: String {
         return txEvent.payments.first?.source ?? txEvent.source_account
     }
 
     /**
-    Identification of this `PaymentInfo` transaction.
-    */
+     Identification of this `PaymentInfo` transaction.
+     */
     public var hash: String {
         return txEvent.hash
     }
 
     /**
-    Amount in `Kin` of the payment
-    */
+     Amount in `Kin` of the payment
+     */
     public var amount: Kin {
         if let amount = txEvent.payments.first?.amount {
             return amount / Decimal(AssetUnitDivisor)
@@ -130,22 +130,22 @@ public struct PaymentInfo {
     }
 
     /**
-    Public address of the destination account of this payment.
-    */
+     Public address of the destination account of this payment.
+     */
     public var destination: String {
         return txEvent.payments.first?.destination ?? ""
     }
 
     /**
-    Memo information - if any - as a `String` attached to this payment.
-    */
+     Memo information - if any - as a `String` attached to this payment.
+     */
     public var memoText: String? {
         return txEvent.memoText
     }
 
     /**
-    Memo information - if any - as a `Data` object attached to this payment.
-    */
+     Memo information - if any - as a `Data` object attached to this payment.
+     */
     public var memoData: Data? {
         return txEvent.memoData
     }
@@ -165,18 +165,17 @@ public struct PaymentInfo {
 public struct AppId {
 
     /**
-    Value of the `AppId`
-    */
+     Value of the `AppId`
+     */
     public let value: String
 
     /**
-    Initialize the `AppId`
+     Initialize the `AppId`
 
-    - parameter: a string value that can only be 4 characters long and only contain alphanumeric characters.
+     - Parameter value: a string value that can only be 4 characters long and only contain alphanumeric characters.
 
-    - throws: `KinError.invalidAppId`
-                if the string parameter does not meet the requirements
-    */
+     - Throws: `KinError.invalidAppId` if the string parameter does not meet the requirements
+     */
     public init(_ value: String) throws {
         // Lowercase and uppercase letters + numbers
         let charSet = CharacterSet.lowercaseLetters.union(.uppercaseLetters).union(.decimalDigits)
@@ -193,25 +192,23 @@ public struct AppId {
 }
 
 extension AppId {
-
     /**
-    Returns the prefix vased on the `AppId` value used to create the `Memo` of payment transactions.
-    */
+     Returns the prefix vased on the `AppId` value used to create the `Memo` of payment transactions.
+     */
     public var memoPrefix: String {
         return "1-\(value)-"
     }
 }
 
 extension Memo {
-
     /**
-    Prefixes the given `Memo` of the given `AppId` if it's not there already.
+     Prefixes the given `Memo` of the given `AppId` if it's not there already.
 
-    - parameter: `AppId` to prefix the `Memo` with.
-    - parameter to: `String` value to prefix.
+     - Parameter appId: `AppId` to prefix the `Memo` with.
+     - Parameter to: `String` value to prefix.
 
-    - Returns: the `Memo` value prefixed with the "1-[appId]" if the value does not contain it already.
-    */
+     - Returns: the `Memo` value prefixed with the "1-[appId]" if the value does not contain it already.
+     */
     public static func prependAppIdIfNeeded(_ appId: AppId, to memo: String) -> String {
         if let regex = try? NSRegularExpression(pattern: "^1-[A-z0-9]{3,4}-.*") {
             let range = NSRange(location: 0, length: memo.count)
@@ -226,16 +223,16 @@ extension Memo {
 }
 
 /**
-Convenience type for `KinUtil.LinkBag`
-*/
+ Convenience type for `KinUtil.LinkBag`.
+ */
 public typealias LinkBag = KinUtil.LinkBag
 
 /**
-Convenience type for `KinUtil.Promise`
-*/
+ Convenience type for `KinUtil.Promise`.
+ */
 public typealias Promise = KinUtil.Promise
 
 /**
-Convenience type for `KinUtil.Observable`
-*/
+ Convenience type for `KinUtil.Observable`.
+ */
 public typealias Observable<T> = KinUtil.Observable<T>

@@ -9,26 +9,26 @@
 import Foundation
 
 /**
-`WhitelistEnvelope` wraps a `TransactionEnvelope` and the `Network.Id`.
-*/
+ `WhitelistEnvelope` wraps a `TransactionEnvelope` and the `Network.Id`.
+ */
 public struct WhitelistEnvelope {
     
     /**
-    The `TransactionEnvelope`.
-    */
+     The `TransactionEnvelope`.
+     */
     public let transactionEnvelope: TransactionEnvelope
 
     /**
-    The `Network.Id`.
-    */
+     The `Network.Id`.
+     */
     public let networkId: Network.Id
 
     /**
-    Initializes the `WhitelistEnvelope`.
+     Initializes the `WhitelistEnvelope`.
 
-    - parameter transactionEnvelope
-    - parameter networkId
-    */
+     - Parameter transactionEnvelope:
+     - Parameter networkId:
+     */
     public init(transactionEnvelope: TransactionEnvelope, networkId: Network.Id) {
         self.transactionEnvelope = transactionEnvelope
         self.networkId = networkId
@@ -44,10 +44,10 @@ extension WhitelistEnvelope {
 
 extension WhitelistEnvelope: Decodable {
     /**
-    Initializes the `WhitelistEnvelope` with a Decoder.
+     Initializes the `WhitelistEnvelope` with a Decoder.
 
-    - parameter from: the Decoder object to decode from
-    */
+     - Parameter from: The `Decoder` object to decode from.
+     */
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -60,12 +60,12 @@ extension WhitelistEnvelope: Decodable {
 
 extension WhitelistEnvelope: Encodable {
     /**
-    Encode the `WhitelistEnvelope` into the given Encoder.
+     Encode the `WhitelistEnvelope` into the given Encoder.
 
-    - parameter to: The Encoder
+     - Parameter to: The `Encoder`.
 
-    - Throws
-    */
+     - Throws:
+     */
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 

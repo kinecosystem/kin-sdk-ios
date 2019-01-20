@@ -15,8 +15,8 @@ public final class KinClient {
     /**
      Convenience initializer to instantiate a `KinClient` with a `ServiceProvider`.
 
-     - parameter provider: The `ServiceProvider` instance that provides the `URL` and `Network`.
-     - parameter appId: The `AppId` of the host application.
+     - Parameter provider: The `ServiceProvider` instance that provides the `URL` and `Network`.
+     - Parameter appId: The `AppId` of the host application.
      */
     public convenience init(provider: ServiceProvider, appId: AppId) {
         self.init(with: provider.url, network: provider.network, appId: appId)
@@ -25,9 +25,9 @@ public final class KinClient {
     /**
      Instantiates a `KinClient` with a `URL` and a `Network`.
 
-     - parameter nodeProviderUrl: The `URL` of the node this client will communicate to.
-     - parameter network: The `Network` to be used.
-     - parameter appId: The `AppId` of the host application.
+     - Parameter nodeProviderUrl: The `URL` of the node this client will communicate to.
+     - Parameter network: The `Network` to be used.
+     - Parameter appId: The `AppId` of the host application.
      */
     public init(with nodeProviderUrl: URL, network: Network, appId: AppId) {
         self.node = Stellar.Node(baseURL: nodeProviderUrl, network: network)
@@ -38,15 +38,15 @@ public final class KinClient {
     }
 
     /**
-    The `URL` of the node this client communicates to.
-    */
+     The `URL` of the node this client communicates to.
+     */
     public var url: URL {
         return node.baseURL
     }
 
     /**
-    The list of `KinAccount` objects this client is managing.
-    */
+     The list of `KinAccount` objects this client is managing.
+     */
     public private(set) var accounts: KinAccounts
 
     internal let node: Stellar.Node
@@ -59,8 +59,7 @@ public final class KinClient {
     /**
      Adds an account associated to this client, and returns it.
 
-     - throws: `KinError.accountCreationFailed`
-                if creating the account fails.
+     - Throws: `KinError.accountCreationFailed` if creating the account fails.
 
      - Returns: The newly added `KinAccount` which only exists locally.
      */
@@ -97,13 +96,12 @@ public final class KinClient {
     /**
      Import an account from a JSON-formatted string.
 
-     - parameter passphrase: The passphrase to decrypt the secret key.
+     - Parameter passphrase: The passphrase to decrypt the secret key.
 
-     - Throws: `KinError.internalInconsistency`
-                if the given `jsonString` could not be parsed or if the import does not work.
+     - Throws: `KinError.internalInconsistency` if the given `jsonString` could not be parsed or if the import does not work.
 
-     - return: The imported account
-     **/
+     - Returns: The imported account
+     */
     public func importAccount(_ jsonString: String,
                               passphrase: String) throws -> KinAccount {
         guard let data = jsonString.data(using: .utf8) else {

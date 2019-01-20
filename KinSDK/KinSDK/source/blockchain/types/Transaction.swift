@@ -17,8 +17,8 @@ struct MemoType {
 }
 
 /**
-`Memo` is a encodable data type used to attach arbitrary details `Transaction` such as an order number.
-*/
+ `Memo` is a encodable data type used to attach arbitrary details `Transaction` such as an order number.
+ */
 public enum Memo: XDRCodable {
     case MEMO_NONE
     case MEMO_TEXT (String)
@@ -27,9 +27,8 @@ public enum Memo: XDRCodable {
     case MEMO_RETURN (Data)
 
     /**
-    The `String` representation of the `Memo`, either text when the `Memo` is of type text, or the hash value for other
-    data types.
-    */
+     The `String` representation of the `Memo`, either text when the `Memo` is of type text, or the hash value for other data types.
+     */
     public var text: String? {
         if case let .MEMO_TEXT(text) = self {
             return text
@@ -43,8 +42,8 @@ public enum Memo: XDRCodable {
     }
 
     /**
-    The `Data` representation of the `Memo`.
-    */
+     The `Data` representation of the `Memo`.
+     */
     public var data: Data? {
         if case let .MEMO_HASH(data) = self {
             return data
@@ -54,13 +53,12 @@ public enum Memo: XDRCodable {
     }
 
     /**
-    Initializer to instantiate a `Memo` of the text type with a `String`
+     Initializer to instantiate a `Memo` of the text type with a `String`
 
-    - parameter string: the text string.
+     - Parameter string: the text string.
 
-    - throws: `StellarError.memoTooLong`
-              if the `String` provided is longer than 28 characters.
-    */
+     - Throws: `StellarError.memoTooLong` if the `String` provided is longer than 28 characters.
+     */
     public init(_ string: String) throws {
         guard string.utf8.count <= 28 else {
             throw StellarError.memoTooLong(string)
@@ -70,13 +68,12 @@ public enum Memo: XDRCodable {
     }
 
     /**
-    Initializer to instantiate a `Memo` of the data type with a `Data`.
+     Initializer to instantiate a `Memo` of the data type with a `Data`.
 
-    - parameter data: the `Data` object.
+     - Parameter data: the `Data` object.
 
-    - throws: `StellarError.memoTooLong`
-              if the `Data` provided is longer than 32.
-    */
+     - Throws: `StellarError.memoTooLong` if the `Data` provided is longer than 32.
+     */
     public init(_ data: Data) throws {
         guard data.count <= 32 else {
             throw StellarError.memoTooLong(data)
@@ -96,12 +93,12 @@ public enum Memo: XDRCodable {
     }
 
     /**
-    Initializer to instantiate a `Memo` of the data type corresponding to the `XDRDecoder`.
+     Initializer to instantiate a `Memo` of the data type corresponding to the `XDRDecoder`.
 
-    - parameter from: the `XDRDecoder` object.
+     - Parameter from: the `XDRDecoder` object.
 
-    - throws:
-    */
+     - Throws:
+     */
     public init(from decoder: XDRDecoder) throws {
         let discriminant = try decoder.decode(Int32.self)
 
@@ -143,14 +140,14 @@ public struct TimeBounds: XDRCodable, XDREncodableStruct {
 }
 
 /**
-A `Transaction` represents a transaction that modifies the ledger in the blockchain network.
-A Kin `Transaction` is used to send payments.
-*/
+ A `Transaction` represents a transaction that modifies the ledger in the blockchain network.
+ A Kin `Transaction` is used to send payments.
+ */
 public struct Transaction: XDRCodable {
 
     /**
-    Maximum length of a `Memo` object.
-    */
+     Maximum length of a `Memo` object.
+     */
     public static let MaxMemoLength = 28
     let sourceAccount: PublicKey
     let fee: Stroop
@@ -169,18 +166,16 @@ public struct Transaction: XDRCodable {
     }
 
     /**
-    Initialize a `Transaction`.
+     Initialize a `Transaction`.
 
-    See [Transactions in the Stellar network](https://www.stellar.org/developers/guides/concepts/transactions.html).
+     - SeeAlso: [Transactions in the Stellar network](https://www.stellar.org/developers/guides/concepts/transactions.html).
 
-    - parameter sourceAccount: The public address of the source account.
-    - parameter seqNum: Each transaction has a sequence number.
-    - parameter timeBounds: optional UNIX timestamp (in seconds) of a lower and upper bound of when this transaction
-    will be valid. If a transaction is submitted too early or too late, it will fail to make it into the transaction set. maxTime equal 0 means that it’s not set.
-    - parameter memo: optional extra information such as an order number.
-    - parameter fee: Each transaction sets a fee in `Stroop` that is paid by the source account.
-    - parameter operations: Transactions contain an arbitrary list of operations inside them. Typically there is just
-     1 operation.
+     - Parameter sourceAccount: The public address of the source account.
+     - Parameter seqNum: Each transaction has a sequence number.
+     - Parameter timeBounds: optional UNIX timestamp (in seconds) of a lower and upper bound of when this transaction will be valid. If a transaction is submitted too early or too late, it will fail to make it into the transaction set. maxTime equal 0 means that it’s not set.
+     - Parameter memo: optional extra information such as an order number.
+     - Parameter fee: Each transaction sets a fee in `Stroop` that is paid by the source account.
+     - Parameter operations: Transactions contain an arbitrary list of operations inside them. Typically there is just 1 operation.
     */
     public init(sourceAccount: String,
                 seqNum: UInt64,
@@ -212,12 +207,12 @@ public struct Transaction: XDRCodable {
     }
 
     /**
-    Initializes a `Transaction` from a `XDRDecoder`.
+     Initializes a `Transaction` from a `XDRDecoder`.
 
-    - parameter from: The `XDRDecoder` containing all the transaction information.
+     - Parameter from: The `XDRDecoder` containing all the transaction information.
 
-    - Throws:
-    */
+     - Throws:
+     */
     public init(from decoder: XDRDecoder) throws {
         sourceAccount = try decoder.decode(PublicKey.self)
         fee = try decoder.decode(UInt32.self)
@@ -231,9 +226,9 @@ public struct Transaction: XDRCodable {
     /**
     Encodes this `Transaction` to the given XDREncoder.
 
-    - parameter to: the `XDREncoder` to encode to.
+    - Parameter to: the `XDREncoder` to encode to.
 
-    - Throws
+     - Throws:
     */
     public func encode(to encoder: XDREncoder) throws {
         try encoder.encode(sourceAccount)
@@ -246,15 +241,14 @@ public struct Transaction: XDRCodable {
     }
 
     /**
-    Hash representing the signature of the payload of the `Transaction`.
+     Hash representing the signature of the payload of the `Transaction`.
 
-    - parameter networkId: the Network Id on which this `Transaction` is executed on.
+     - Parameter networkId: the Network Id on which this `Transaction` is executed on.
 
-    - Returns: the hash `Data`
+     - Returns: the hash `Data`
 
-    - Throws: `StellarError.dataEncodingFailed`
-                if the network id could not be encoded.
-                */
+     - Throws: `StellarError.dataEncodingFailed` if the network id could not be encoded.
+     */
     public func hash(networkId: Network.Id) throws -> Data {
         guard let data = networkId.data(using: .utf8)?.sha256 else {
             throw StellarError.dataEncodingFailed
@@ -311,19 +305,19 @@ struct DecoratedSignature: XDRCodable, XDREncodableStruct {
 }
 
 /**
-`TransactionEnvelope` wraps a `Transaction` and its signature.
-*/
+ `TransactionEnvelope` wraps a `Transaction` and its signature.
+ */
 public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
     let tx: Transaction
     let signatures: [DecoratedSignature]
 
     /**
-    Initializes a `TransactionEnvelope` from a `XDRDecoder`.
+     Initializes a `TransactionEnvelope` from a `XDRDecoder`.
 
-    - parameter from: the `XDRDecoder` to decode.
+     - Parameter from: the `XDRDecoder` to decode.
 
-    - Throws:
-    */
+     - Throws:
+     */
     public init(from decoder: XDRDecoder) throws {
         tx = try decoder.decode(Transaction.self)
         signatures = try decoder.decodeArray(DecoratedSignature.self)
@@ -337,15 +331,15 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
 
 public extension TransactionEnvelope {
     /**
-    Decodes the given `Data` to return the decoded `TransactionEnvelope`.
+     Decodes the given `Data` to return the decoded `TransactionEnvelope`.
 
-    - parameter data: the `Data` to decode
-    - parameter error: throws this error if it exists
+     - Parameter data: the `Data` to decode
+     - Parameter error: throws this error if it exists
 
-    - returns: TransactionEnvelope
+     - Returns: TransactionEnvelope
 
-    - Throws:
-    */
+     - Throws:
+     */
     public static func decodeResponse(data: Data?, error: Error?) throws -> TransactionEnvelope {
         if let error = error {
             throw error

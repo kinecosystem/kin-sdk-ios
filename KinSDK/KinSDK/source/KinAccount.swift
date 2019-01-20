@@ -25,24 +25,24 @@ public protocol KinAccount: class {
     /**
      Export the account data as a JSON string.  The seed is encrypted.
 
-     - parameter passphrase: The passphrase with which to encrypt the seed
+     - Parameter passphrase: The passphrase with which to encrypt the seed
 
-     - return: A JSON representation of the data as a string
-     **/
+     - Returns: A JSON representation of the data as a string
+     */
     func export(passphrase: String) throws -> String
 
     /**
-    Query the status of the account on the blockchain.
+     Query the status of the account on the blockchain.
 
-    - parameter completion: the completion handler function with the `AccountStatus` or an `Error.
-    */
+     - Parameter completion: The completion handler function with the `AccountStatus` or an `Error.
+     */
     func status(completion: @escaping (AccountStatus?, Error?) -> Void)
 
     /**
-    Query the status of the account on the blockchain using promises.
+     Query the status of the account on the blockchain using promises.
 
-    - Returns: a promise which will be signalled the `AccountStatus` value.
-    */
+     - Returns: A promise which will signal the `AccountStatus` value.
+     */
     func status() -> Promise<AccountStatus>
 
     /**
@@ -116,29 +116,28 @@ public protocol KinAccount: class {
     func balance() -> Promise<Kin>
 
     /**
-    Returns a watcher object that will notify of any balance change.
+     Watch for changes on the account balance.
 
-    - parameter: optional `Kin` balance that the watcher will notify first.
+     - Parameter balance: An optional `Kin` balance that the watcher will be notified of first.
 
-    - Returns: `BalanceWatch`
-    */
+     - Returns: A `BalanceWatch` object that will notify of any balance changes.
+     */
     func watchBalance(_ balance: Kin?) throws -> BalanceWatch
 
     /**
-    Returns a watcher object that will notify of any payment change.
+     Watch for changes of account payments.
 
-    - parameter: optional `cursor` that specifies the id of the last payment after which the watcher will notify new
-    payments.
+     - Parameter cursor: An optional `cursor` that specifies the id of the last payment after which the watcher will be notified of the new payments.
 
-    - Returns: `PaymentWatch`
+     - Returns: A `PaymentWatch` object that will notify of any payment changes.
     */
     func watchPayments(cursor: String?) throws -> PaymentWatch
 
     /**
-    Returns a `Promise` that signals when the account is detected to have the `.created` `AccountStatus`.
+     Watch for the creation of an account.
 
-    - Returns: `Promise`
-    */
+     - Returns: A `Promise` that signals when the account is detected to have the `.created` `AccountStatus`.
+     */
     func watchCreation() throws -> Promise<Void>
 
     /**
