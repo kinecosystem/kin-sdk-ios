@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- `KinClient` is a factory class for managing an instance of `KinAccount`.
+ `KinClient` is a factory class for managing instances of `KinAccount`.
  */
 public final class KinClient {
     /**
@@ -37,10 +37,16 @@ public final class KinClient {
         self.network = network
     }
 
+    /**
+    The `URL` of the node this client communicates to.
+    */
     public var url: URL {
         return node.baseURL
     }
 
+    /**
+    The list of `KinAccount` objects this client is managing.
+    */
     public private(set) var accounts: KinAccounts
 
     internal let node: Stellar.Node
@@ -53,7 +59,10 @@ public final class KinClient {
     /**
      Adds an account associated to this client, and returns it.
 
-     - throws: If creating the account fails.
+     - throws: `KinError.accountCreationFailed`
+                if creating the account fails.
+
+     - Returns: The newly added `KinAccount` which only exists locally.
      */
     public func addAccount() throws -> KinAccount {
         do {
@@ -89,6 +98,9 @@ public final class KinClient {
      Import an account from a JSON-formatted string.
 
      - parameter passphrase: The passphrase to decrypt the secret key.
+
+     - Throws: `KinError.internalInconsistency`
+                if the given `jsonString` could not be parsed or if the import does not work.
 
      - return: The imported account
      **/
