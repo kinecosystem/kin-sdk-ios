@@ -308,7 +308,7 @@ struct DecoratedSignature: XDRCodable, XDREncodableStruct {
  `TransactionEnvelope` wraps a `Transaction` and its signature.
  */
 public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
-    let tx: Transaction
+    public let tx: Transaction
     let signatures: [DecoratedSignature]
 
     /**
