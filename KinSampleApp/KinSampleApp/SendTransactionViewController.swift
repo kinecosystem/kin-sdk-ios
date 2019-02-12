@@ -73,7 +73,7 @@ class SendTransactionViewController: UIViewController {
 
                 let networkId = Network.testNet.id
                 let whitelistEnvelope = WhitelistEnvelope(transactionEnvelope: transactionEnvelope, networkId: networkId)
-                let url = URL(string: "http://10.4.59.1:3000/whitelist")!
+                let url = URL(string: "http://34.239.111.38:3000/whitelist")!
 
                 return strongSelf.whitelistTransaction(to: url, whitelistEnvelope: whitelistEnvelope)
             }
