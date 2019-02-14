@@ -9,7 +9,7 @@
 import Foundation
 import Sodium
 
-enum KeyUtilsError: Error {
+public enum KeyUtilsError: Error {
     case encodingFailed (String)
     case decodingFailed (String)
     case hashingFailed
