@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'KinSDK'
-  s.version      = '0.8.4'
+  s.version      = '0.8.5'
   s.summary      = 'Pod for the KIN SDK.'
   s.description  = "Initial pod for the KIN SDK."
   s.homepage     = 'https://github.com/kinecosystem/kin-sdk-ios'
