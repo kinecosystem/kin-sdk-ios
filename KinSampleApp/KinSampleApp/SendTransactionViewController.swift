@@ -43,9 +43,13 @@ class SendTransactionViewController: UIViewController {
         request.httpBody = try? JSONEncoder().encode(whitelistEnvelope)
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data, let d = Data(base64Encoded: data) else {
+                promise.signal(KinError.internalInconsistency)
+                return
+            }
+
             do {
-                let envelope = try TransactionEnvelope.decodeResponse(data: data, error: error)
-                promise.signal(envelope)
+                promise.signal(try XDRDecoder.decode(TransactionEnvelope.self, data: d))
             }
             catch {
                 promise.signal(error)
