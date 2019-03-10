@@ -37,7 +37,7 @@ public struct WhitelistEnvelope {
 
 extension WhitelistEnvelope {
     enum CodingKeys: String, CodingKey {
-        case transactionEnvelope = "envelope"
+        case transactionEnvelope = "tx_envelope"
         case networkId = "network_id"
     }
 }
