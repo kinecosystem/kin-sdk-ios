@@ -49,7 +49,7 @@ extension Network {
     public var id: Id {
         switch self {
         case .mainNet:
-            return "Public Global Kin Ecosystem Network ; June 2018"
+            return "Kin Mainnet ; December 2018"
         case .testNet:
             return "Kin Testnet ; December 2018"
         case .playground:
