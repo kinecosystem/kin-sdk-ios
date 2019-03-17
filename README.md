@@ -17,7 +17,7 @@ pod 'KinSDK'
 
 1. Clone this repo (as a submodule or in a different directory, it's up to you).
 ```
-git clone --recursive https://github.com/kinfoundation/kin-sdk-ios
+git clone --recursive https://github.com/kinecosystem/kin-sdk-ios
 ```
 2. Drag `KinSDK.xcodeproj` as a subproject.
 3. In your main `.xcodeproj` file, select the desired target(s).
