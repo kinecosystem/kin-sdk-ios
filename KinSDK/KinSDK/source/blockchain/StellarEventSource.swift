@@ -237,7 +237,7 @@ public final class StellarEventSource: NSObject, URLSessionDataDelegate {
             }
         }
         else {
-            emitter.finish()
+            emitter?.finish()
         }
     }
 }

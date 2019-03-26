@@ -160,8 +160,8 @@ final class KinStellarAccount: KinAccount {
 
     var deleted = false
     
-    var publicAddress: String {
-        return stellarAccount.publicKey!
+    var publicAddress: String? {
+        return stellarAccount.publicKey
     }
 
     var extra: Data? {
@@ -313,7 +313,7 @@ final class KinStellarAccount: KinAccount {
     }
 
     func balance(completion: @escaping BalanceCompletion) {
-        guard deleted == false else {
+        guard deleted == false && stellarAccount.publicKey != nil else {
             completion(nil, KinError.accountDeleted)
             
             return
@@ -333,7 +333,7 @@ final class KinStellarAccount: KinAccount {
     }
     
     public func watchBalance(_ balance: Kin?) throws -> BalanceWatch {
-        guard deleted == false else {
+        guard deleted == false && stellarAccount.publicKey != nil else {
             throw KinError.accountDeleted
         }
 
@@ -341,7 +341,7 @@ final class KinStellarAccount: KinAccount {
     }
 
     public func watchPayments(cursor: String?) throws -> PaymentWatch {
-        guard deleted == false else {
+        guard deleted == false && stellarAccount.publicKey != nil else {
             throw KinError.accountDeleted
         }
 
@@ -349,7 +349,7 @@ final class KinStellarAccount: KinAccount {
     }
 
     public func watchCreation() throws -> Promise<Void> {
-        guard deleted == false else {
+        guard deleted == false && stellarAccount.publicKey != nil else {
             throw KinError.accountDeleted
         }
 
