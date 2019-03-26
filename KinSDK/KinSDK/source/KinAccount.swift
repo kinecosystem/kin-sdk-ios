@@ -18,7 +18,7 @@ public protocol KinAccount: class {
      The public address of this account. If the user wants to receive KIN by sending his address
      manually to someone, or if you want to display the public address, use this property.
      */
-    var publicAddress: String { get }
+    var publicAddress: String? { get }
 
     var extra: Data? { get set }
 
