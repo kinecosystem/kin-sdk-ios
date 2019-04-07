@@ -10,3 +10,5 @@ KinSDK/build
 
 Docs/Output
 *.xcuserdatad
+
+Pods/
