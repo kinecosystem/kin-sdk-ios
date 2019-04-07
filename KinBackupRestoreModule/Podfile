@@ -7,7 +7,7 @@ inhibit_all_warnings!
 workspace 'KinBackupRestoreModule'
 
 def pods
-  pod 'KinSDK', '0.8.5'
+  pod 'KinSDK'
 end
 
 target 'KinBackupRestoreModule' do
