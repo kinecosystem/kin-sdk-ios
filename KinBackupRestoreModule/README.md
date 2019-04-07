@@ -1,8 +1,8 @@
 # Backup and Restore Standalone Module
 
-This module is an optional way to back up and/or restore your account.
-The module wraps the Kin SDK iOS import and export functionalities with a UI that includes two flows - backup and restore.
-The UI uses a password to create a QR code, which is then used to back up the account and to restore it.
+This module is an optional way to backup and/or restore your account.
+The module wraps the Kin SDK iOS import and export functionalities with a UI that includes two operations - backup and restore.
+The UI uses a password to create a QR code, which is then used to backup the account and to restore it.
 
 It is implemented as an iOS framework that can be incorporated into your code.
 This framework is dependent on the kin-sdk framework, and we assume that whoever needs to use it is already familiar with the kin-sdk framework.  
@@ -79,7 +79,7 @@ let appId = try! AppId("test")
 let kinClient = KinClient(with: url, network: .testNet, appId: appId)
 ```
 
-If you want to backup, you need the `KinAccount` object, which represents the account that you want to back up.
+If you want to backup, you need the `KinAccount` object, which represents the account that you want to backup.
 
 ###### Example of how to get a `KinAccount` object:
 
@@ -124,14 +124,14 @@ backupRestoreManager.restore(kinClient, pushedOnto: navigationController)
 
 For a full list of tests, see:
 
-- https://github.com/kinecosystem/kin-backup-restore-module-ios/tree/master/KinBackupRestoreModule/KinBackupRestoreModuleTests
+- https://github.com/kinecosystem/kin-sdk-ios/tree/master/KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModuleTests
 
 ### Building from Source
 
 To build from source, clone the repo:
 
 ```bash
-$ git clone https://github.com/kinecosystem/kin-backup-restore-module-ios.git
+$ git clone https://github.com/kinecosystem/kin-sdk-ios.git
 ```
 
 Now you can build the library using gradle or open the project using Android Studio.
@@ -139,4 +139,4 @@ Now you can build the library using gradle or open the project using Android Stu
 ## Sample App Code
 
 The `KinBackupRestoreSampleApp` covers the entire functionality of the `KinBackupRestoreModule` and serves as a detailed example of how to use the library.
-The sample app source code can be found [here](https://github.com/kinecosystem/kin-backup-restore-module-ios/tree/master/KinBackupRestoreSampleApp).
+The sample app source code can be found [here](https://github.com/kinecosystem/kin-sdk-ios/tree/master/KinBackupRestoreModule/KinBackupRestoreSampleApp).
