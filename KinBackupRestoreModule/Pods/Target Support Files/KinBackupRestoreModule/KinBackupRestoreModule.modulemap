@@ -1,0 +1,6 @@
+framework module KinBackupRestoreModule {
+  umbrella header "KinBackupRestoreModule-umbrella.h"
+
+  export *
+  module * { export * }
+}

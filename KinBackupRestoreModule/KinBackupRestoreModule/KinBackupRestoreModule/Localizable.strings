@@ -1,0 +1,59 @@
+/* 
+  Localizable.strings
+  KinBackupRestoreModule
+
+  Created by Corey Werner on 05/02/2019.
+  Copyright © 2019 Kin Foundation. All rights reserved.
+*/
+
+"generic.ok" = "Ok";
+"generic.cancel" = "Cancel";
+"generic.next" = "Next";
+"generic.alert_error.title" = "Something went wrong";
+"generic.alert_error.message" = "Try again.";
+
+"reminder.title" = "Remember!";
+"reminder.description" = "Keep your password in a safe place\nand the QR code handy.";
+
+"qr.title" = "Save your QR Code";
+"qr.description" = "You will need it to restore your Kin.\nSend it to yourself by email.";
+"qr.save" = "Send QR code via Email";
+"qr.saved" = "I've copied my QR code";
+"qr.email.subject" = "Kin Backup QR Code";
+"qr.alert_no_client.title" = "No email client";
+"qr.alert_no_client.message" = "You need to set up an email client first in the settings app.";
+
+"qr_picker.alert_error.title" = "QR not recognized";
+"qr_picker.alert_error.message" = "A QR code could not be detected in the image.";
+
+"backup_intro.title" = "Backup Kin";
+"backup_intro.header" = "Keep your Kin safe";
+"backup_intro.description" = "Backing up your current balance will allow you to recover it in case you switch phones, delete the app or clear your data.";
+"backup_intro.next" = "Let's Go";
+
+"backup_completed.header" = "Well done,\nyour Kin is safe!";
+"backup_completed.description" = "In order to restore your Kin, you will need the QR code and the password you've created.";
+
+"password_entry.title" = "Create Password";
+"password_entry.password.placeholder" = "Password";
+"password_entry.password_confirm.placeholder" = "Confirm Password";
+"password_entry.instructions" = "Create a strong password to backup your Kin. The password must include:\n9 characters, 1 uppercase, 1 digit, 1 special charcter \"#, !, @\"";
+"password_entry.mismatch" = "Passwords do not match";
+"password_entry.invalid_warning" = "Make sure to include the following:";
+"password_entry.invalid_info" = "9 characters, 1 uppercase, 1 digit, 1 special charcter “#, !, @“";
+"password_entry.confirmation" = "I understand this password is required to restore my Kin and can’t be recovered if lost.";
+
+"restore_intro.title" = "Restore Kin";
+"restore_intro.header" = "Import your Kin";
+"restore_intro.description" = "All you need is to upload the QR code we provided you.";
+"restore_intro.next" = "Upload your QR code";
+"restore_intro.alert.title" = "Are you sure you want to restore your previous balance?";
+"restore_intro.alert.message" = "Restoring your old balance will replace your current Kin balance.";
+
+"restore.title" = "Restore Previous Wallet";
+"restore.description" = "Great, we’re almost there!\nPlease enter your password";
+"restore.password.placeholder" = "Enter Password";
+"restore.alert_error.title" = "Try Again";
+"restore.error.wrong_password" = "The password is incorrect.";
+"restore.error.invalid_image" = "The QR image could not be identified.";
+"restore.error.internal_issue" = "Something went wrong. Try again.";
