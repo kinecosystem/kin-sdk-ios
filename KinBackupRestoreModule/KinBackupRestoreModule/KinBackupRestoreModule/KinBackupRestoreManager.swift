@@ -41,13 +41,12 @@ public protocol KinBackupRestoreManagerDelegate: NSObjectProtocol {
 
 public class KinBackupRestoreManager: NSObject {
     public weak var delegate: KinBackupRestoreManagerDelegate?
+
 //    public weak var biDelegate: KinBackupRestoreBIDelegate? {
 //        didSet {
 //            KinBackupRestoreBI.shared.delegate = biDelegate
 //        }
 //    }
-
-    private var instance: Instance?
 
     /**
      Backup an account by pushing the view controllers onto a navigation controller.
@@ -107,6 +106,51 @@ public class KinBackupRestoreManager: NSObject {
         return start(with: .client(kinClient), presentor: .presentedOnto(viewController))
     }
 
+    private var instance: Instance?
+}
+
+// MARK: - Appearance
+
+extension KinBackupRestoreManager {
+    public var primaryColor: UIColor {
+        get {
+            return Appearance.shared.primary
+        }
+        set {
+            Appearance.shared.primary = newValue
+        }
+    }
+}
+
+// MARK: - Types
+
+extension KinBackupRestoreManager {
+    fileprivate enum Connector {
+        case client(_ kinClient: KinClient)
+        case account(_ kinAccount: KinAccount)
+    }
+
+    fileprivate enum Presentor {
+        case pushedOnto(_ navigationController: UINavigationController)
+        case presentedOnto(_ viewController: UIViewController)
+    }
+
+    fileprivate class Instance {
+        let connector: Connector
+        let presentor: Presentor
+        let flowController: FlowController
+
+        init(connector: Connector, presentor: Presentor, flowController: FlowController) {
+            self.connector = connector
+            self.presentor = presentor
+            self.flowController = flowController
+        }
+    }
+}
+
+// MARK: - Setup
+
+extension KinBackupRestoreManager {
     private func start(with connector: Connector, presentor: Presentor) -> Bool {
         guard instance == nil else {
             return false
@@ -155,32 +199,6 @@ public class KinBackupRestoreManager: NSObject {
         flowController.entryViewController.navigationItem.leftBarButtonItem = dismissItem
         flowController.navigationController.viewControllers = [flowController.entryViewController]
         viewController.present(flowController.navigationController, animated: true)
-    }
-}
-
-// MARK: - Types
-
-extension KinBackupRestoreManager {
-    fileprivate enum Connector {
-        case client(_ kinClient: KinClient)
-        case account(_ kinAccount: KinAccount)
-    }
-
-    fileprivate enum Presentor {
-        case pushedOnto(_ navigationController: UINavigationController)
-        case presentedOnto(_ viewController: UIViewController)
-    }
-
-    fileprivate class Instance {
-        let connector: Connector
-        let presentor: Presentor
-        let flowController: FlowController
-
-        init(connector: Connector, presentor: Presentor, flowController: FlowController) {
-            self.connector = connector
-            self.presentor = presentor
-            self.flowController = flowController
-        }
     }
 }
 

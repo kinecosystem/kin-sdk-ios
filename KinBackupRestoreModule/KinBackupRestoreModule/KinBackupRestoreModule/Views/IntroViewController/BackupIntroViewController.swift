@@ -22,8 +22,6 @@ class BackupIntroViewController: ExplanationTemplateViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .kinPrimary
-        
         imageView.image = UIImage(named: "Safe", in: .backupRestore, compatibleWith: nil)
 
         titleLabel.text = "backup_intro.header".localized()

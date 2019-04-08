@@ -1,5 +1,5 @@
 PODS:
-  - KinBackupRestoreModule (0.0.2):
+  - KinBackupRestoreModule (0.0.1):
     - KinSDK (= 0.8.6)
   - KinSDK (0.8.6):
     - KinUtil (= 0.0.18)
@@ -22,7 +22,7 @@ EXTERNAL SOURCES:
     :path: "./"
 
 SPEC CHECKSUMS:
-  KinBackupRestoreModule: 7c6120a4d3d0654f4c3689eae9582ed96e33c805
+  KinBackupRestoreModule: cec4e5d6a1f73987af5c273c5ff74a920e28aafa
   KinSDK: 162a6b27e299015aaff845a74b0b73ba7a569b80
   KinUtil: ffcdec211f59a5fbb7fd68a13fcfc403f62596e0
   Sodium: c5510cc6f5e1b27858e5f260b5cac80d4a3f9379

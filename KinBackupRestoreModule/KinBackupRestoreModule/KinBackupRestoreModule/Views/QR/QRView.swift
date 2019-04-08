@@ -19,7 +19,7 @@ class QRView: KeyboardAdjustingScrollView {
 
     // MARK: Lifecycle
 
-    required override init(frame: CGRect) {
+    required init(frame: CGRect) {
         super.init(frame: frame)
 
         let imageViewStackView = UIStackView()

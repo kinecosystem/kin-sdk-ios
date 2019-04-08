@@ -16,7 +16,7 @@ class ExplanationTemplateView: KeyboardAdjustingScrollView {
 
     // MARK: Lifecycle
 
-    required override init(frame: CGRect) {
+    required init(frame: CGRect) {
         super.init(frame: frame)
 
         backgroundColor = .kinPrimary
