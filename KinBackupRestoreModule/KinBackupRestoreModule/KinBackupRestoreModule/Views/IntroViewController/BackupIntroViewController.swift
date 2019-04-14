@@ -22,7 +22,7 @@ class BackupIntroViewController: ExplanationTemplateViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        imageView.image = UIImage(named: "Safe", in: .backupRestore, compatibleWith: nil)
+        imageView.image = UIImage(named: "Safe", in: .backupRestore, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
         titleLabel.text = "backup_intro.header".localized()
 

@@ -16,11 +16,11 @@ class CheckboxImageView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        tintColor = .kinPrimary
+        tintColor = Appearance.shared.primary
         highlightedImage = UIImage(named: "Checkmark", in: .backupRestore, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-        layer.borderColor = UIColor.kinGray.cgColor
-        layer.borderWidth = 1
-        layer.cornerRadius = 4
+        layer.borderColor = UIColor.kinDarkGray.cgColor
+        layer.borderWidth = .borderWidth
+        layer.cornerRadius = .cornerRadius
         layer.masksToBounds = true
         setContentHuggingPriority(.required, for: .horizontal)
         setContentHuggingPriority(.required, for: .vertical)

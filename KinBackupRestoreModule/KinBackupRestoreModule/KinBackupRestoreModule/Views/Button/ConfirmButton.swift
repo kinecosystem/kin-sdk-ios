@@ -10,16 +10,6 @@ import UIKit
 
 class ConfirmButton: RoundButton {
     fileprivate var transitionToConfirmedCompletion: (()->())?
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        appearance = .blue
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     func transitionToConfirmed(completion: (()->())? = nil) {
         backgroundColor = .clear
@@ -29,7 +19,7 @@ class ConfirmButton: RoundButton {
 
         let shape = CAShapeLayer()
         shape.frame = bounds
-        shape.fillColor = UIColor.kinPrimary.cgColor
+        shape.fillColor = Appearance.shared.primary.cgColor
         shape.strokeColor = UIColor.clear.cgColor
         shape.path = UIBezierPath(roundedRect: shape.bounds, cornerRadius: shape.bounds.height / 2).cgPath
         layer.addSublayer(shape)

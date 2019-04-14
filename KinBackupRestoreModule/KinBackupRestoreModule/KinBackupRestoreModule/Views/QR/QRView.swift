@@ -49,7 +49,7 @@ class QRView: KeyboardAdjustingScrollView {
 
         instructionsLabel.text = "qr.description".localized()
         instructionsLabel.font = .preferredFont(forTextStyle: .body)
-        instructionsLabel.textColor = .kinGray
+        instructionsLabel.textColor = .kinDarkGray
         instructionsLabel.textAlignment = .center
         instructionsLabel.numberOfLines = 0
         instructionsLabel.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -87,12 +87,11 @@ class QRView: KeyboardAdjustingScrollView {
         let confirmLabel = UILabel()
         confirmLabel.text = "qr.saved".localized()
         confirmLabel.font = .preferredFont(forTextStyle: .body)
-        confirmLabel.textColor = .kinGray
+        confirmLabel.textColor = .kinDarkGray
         confirmStackView.addArrangedSubview(confirmLabel)
 
         addArrangedVerticalSpaceSubview(to: contentStackView)
 
-        doneButton.appearance = .blue
         doneButton.setTitle("qr.save".localized(), for: .normal)
         doneButton.setTitle("generic.next".localized(), for: .selected)
         doneButton.setContentCompressionResistancePriority(.required, for: .vertical)

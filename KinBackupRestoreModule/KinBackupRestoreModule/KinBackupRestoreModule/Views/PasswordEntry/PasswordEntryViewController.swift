@@ -30,10 +30,6 @@ class PasswordEntryViewController: ViewController {
         return _view.passwordConfirmTextField
     }
 
-    private var confirmLabel: UILabel {
-        return _view.confirmLabel
-    }
-
     private var doneButton: RoundButton {
         return _view.doneButton
     }
@@ -65,30 +61,11 @@ class PasswordEntryViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        passwordInfoLabel.instructionsAttributedString = NSAttributedString(string: "password_entry.instructions".localized(), attributes: [.foregroundColor: UIColor.kinGray])
-        passwordInfoLabel.mismatchAttributedString = NSAttributedString(string: "password_entry.mismatch".localized(), attributes: [.foregroundColor: UIColor.kinWarning])
-        passwordInfoLabel.invalidAttributedString = {
-            let attributedString1 = NSAttributedString(string: "password_entry.invalid_warning".localized(), attributes: [.foregroundColor: UIColor.kinWarning])
-
-            let attributedString2 = NSAttributedString(string: "password_entry.invalid_info".localized(), attributes: [.foregroundColor: UIColor.kinGray])
-
-            let attributedString = NSMutableAttributedString()
-            attributedString.append(attributedString1)
-            attributedString.append(NSAttributedString(string: "\n"))
-            attributedString.append(attributedString2)
-            return attributedString
-        }()
-
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "password_entry.password.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
         passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         passwordTextField.becomeFirstResponder()
 
-        passwordConfirmTextField.attributedPlaceholder = NSAttributedString(string: "password_entry.password_confirm.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
         passwordConfirmTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
-        confirmLabel.text = "password_entry.confirmation".localized()
-
-        doneButton.setTitle("generic.next".localized(), for: .normal)
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 

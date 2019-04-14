@@ -9,8 +9,6 @@
 import UIKit
 
 class PasswordEntryTextField: UITextField {
-    private let paddingView = UIView()
-
     // MARK: Lifecycle
 
     override init(frame: CGRect) {
@@ -21,21 +19,23 @@ class PasswordEntryTextField: UITextField {
         autocorrectionType = .no
         spellCheckingType = .no
         backgroundColor = .white
+        tintColor = Appearance.shared.primary
 
-        layer.borderWidth = 1
+        layer.borderWidth = .borderWidth
+        layer.cornerRadius = .cornerRadius
         layer.masksToBounds = true
 
-        leftView = paddingView
+        let horizontalPadding: CGFloat = 20
+
+        leftView = UIView(frame: CGRect(x: 0, y: 0, width: horizontalPadding, height: 0))
         leftViewMode = .always
 
         let revealButton = UIButton()
+        revealButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: horizontalPadding, bottom: 0, right: horizontalPadding)
         revealButton.setImage(UIImage(named: "Eye", in: .backupRestore, compatibleWith: nil), for: .normal)
         revealButton.addTarget(self, action: #selector(showPassword), for: .touchDown)
         revealButton.addTarget(self, action: #selector(hidePassword), for: [.touchUpInside, .touchUpOutside, .touchCancel])
         revealButton.sizeToFit()
-        var revealButtonFrame = revealButton.frame
-        revealButtonFrame.size.width += 10
-        revealButton.frame = revealButtonFrame
         rightView = revealButton
         rightViewMode = .whileEditing
 
@@ -48,21 +48,9 @@ class PasswordEntryTextField: UITextField {
 
     // MARK: Layout
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        let halfHeight = bounds.height / 2
-
-        layer.cornerRadius = halfHeight
-
-        var paddingViewFrame = paddingView.frame
-        paddingViewFrame.size.width = halfHeight
-        paddingView.frame = paddingViewFrame
-    }
-
     override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
-        size.height = 44
+        size.height = .minTapSurface
         return size
     }
 
@@ -77,9 +65,9 @@ class PasswordEntryTextField: UITextField {
     private func updateState() {
         switch entryState {
         case .default:
-            layer.borderColor = UIColor.kinGray.cgColor
+            layer.borderColor = UIColor.kinDarkGray.cgColor
         case .valid:
-            layer.borderColor = UIColor.kinPrimary.cgColor
+            layer.borderColor = Appearance.shared.primary.cgColor
         case .invalid:
             layer.borderColor = UIColor.kinWarning.cgColor
         }
