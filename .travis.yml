@@ -1,0 +1,12 @@
+language: swift
+osx_image: xcode9.2
+xcode_project: StellarKit.xcodeproj
+xcode_scheme: StellarKit
+xcode_sdk: iphonesimulator8.4
+
+script:
+  - cd KinSDK
+  - xcodebuild test -scheme KinSDK -destination 'platform=iOS Simulator,name=iPhone 8 Plus'
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
