@@ -65,10 +65,13 @@ class PasswordEntryTextField: UITextField {
     private func updateState() {
         switch entryState {
         case .default:
+            textColor = .kinDarkGray
             layer.borderColor = UIColor.kinDarkGray.cgColor
         case .valid:
+            textColor = .kinDarkGray
             layer.borderColor = Appearance.shared.primary.cgColor
         case .invalid:
+            textColor = .kinGray
             layer.borderColor = UIColor.kinWarning.cgColor
         }
     }

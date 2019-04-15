@@ -21,7 +21,7 @@ class PasswordEntryView: KeyboardAdjustingScrollView {
     required init(frame: CGRect) {
         super.init(frame: frame)
 
-        addArrangedVerticalSpaceSubview(height: 30)
+        addArrangedVerticalSpaceSubview(spacing: .medium)
 
         let titleLabel = UILabel()
         titleLabel.text = "password_entry.title".localized()
@@ -32,13 +32,14 @@ class PasswordEntryView: KeyboardAdjustingScrollView {
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         contentView.addArrangedSubview(titleLabel)
 
-        addArrangedVerticalSpaceSubview(height: 20)
-
         passwordInfoLabel.instructionsAttributedString = NSAttributedString(attributedStrings: [
             NSAttributedString(string: "password_entry.instructions".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray]),
             NSAttributedString(string: "password_entry.pattern".localized(), attributes: [.foregroundColor: UIColor.kinGray])
             ])
-        passwordInfoLabel.mismatchAttributedString = NSAttributedString(string: "password_entry.mismatch".localized(), attributes: [.foregroundColor: UIColor.kinWarning])
+        passwordInfoLabel.mismatchAttributedString = NSAttributedString(attributedStrings: [
+            NSAttributedString(string: "password_entry.mismatch".localized(), attributes: [.foregroundColor: UIColor.kinWarning]),
+            NSAttributedString(string: "password_entry.pattern".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray])
+            ])
         passwordInfoLabel.invalidAttributedString = NSAttributedString(attributedStrings: [
             NSAttributedString(string: "password_entry.invalid".localized(), attributes: [.foregroundColor: UIColor.kinWarning]),
             NSAttributedString(string: "password_entry.pattern".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray])
@@ -49,20 +50,18 @@ class PasswordEntryView: KeyboardAdjustingScrollView {
         passwordInfoLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         contentView.addArrangedSubview(passwordInfoLabel)
 
-        addArrangedVerticalSpaceSubview(height: 20)
+        addArrangedVerticalSpaceSubview()
 
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "password_entry.password.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
-        passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         passwordTextField.setContentCompressionResistancePriority(.required, for: .vertical)
         contentView.addArrangedSubview(passwordTextField)
 
         passwordConfirmTextField.attributedPlaceholder = NSAttributedString(string: "password_entry.password_confirm.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
-        passwordConfirmTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         passwordConfirmTextField.setContentCompressionResistancePriority(.required, for: .vertical)
         contentView.addArrangedSubview(passwordConfirmTextField)
 
-        confirmStackView.alignment = .center
-        confirmStackView.spacing = contentView.spacing
+        confirmStackView.alignment = .top
+        confirmStackView.spacing = 10
         contentView.addArrangedSubview(confirmStackView)
 
         confirmStackView.addArrangedSubview(confirmImageView)
@@ -75,7 +74,7 @@ class PasswordEntryView: KeyboardAdjustingScrollView {
         confirmLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         confirmStackView.addArrangedSubview(confirmLabel)
 
-        addArrangedVerticalLayoutSubview()
+        addArrangedVerticalSpaceSubview()
 
         let doneButtonStackView = UIStackView()
         doneButtonStackView.axis = .vertical
@@ -88,7 +87,7 @@ class PasswordEntryView: KeyboardAdjustingScrollView {
         doneButtonStackView.addArrangedSubview(doneButton)
         doneButton.widthAnchor.constraint(equalTo: passwordTextField.widthAnchor).isActive = true
 
-        addArrangedVerticalLayoutSubview()
+        addArrangedVerticalSpaceSubview(spacing: .medium)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -111,12 +110,9 @@ class PasswordEntryView: KeyboardAdjustingScrollView {
 
     // MARK: View Updates
 
-    @objc
-    func textFieldDidChange(_ textField: UITextField) {
-        updateDoneButton()
-    }
-
     func updateDoneButton() {
-        doneButton.isEnabled = passwordTextField.hasText && passwordConfirmTextField.hasText && confirmImageView.isHighlighted
+        let isPasswordTextFieldEnabled = passwordTextField.hasText && passwordTextField.entryState != .invalid
+        let isConfirmPasswordTextFieldEnabled = passwordConfirmTextField.hasText && passwordConfirmTextField.entryState != .invalid
+        doneButton.isEnabled = isPasswordTextFieldEnabled && isConfirmPasswordTextFieldEnabled && confirmImageView.isHighlighted
     }
 }

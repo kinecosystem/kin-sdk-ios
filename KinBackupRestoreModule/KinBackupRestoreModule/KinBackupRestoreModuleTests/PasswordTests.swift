@@ -16,7 +16,7 @@ class PasswordTests: XCTestCase {
 
     func testInvalidPassword() {
         XCTAssertFalse(try Password.matches(""))
-        XCTAssertFalse(try Password.matches("aaaaaaA1"))
+        XCTAssertFalse(try Password.matches("aaaaaA1!"))
         XCTAssertFalse(try Password.matches("aaaaaaA1 "))
         XCTAssertFalse(try Password.matches("aaaaaaA1a"))
         XCTAssertFalse(try Password.matches("aaaaaaAa!"))

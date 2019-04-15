@@ -62,9 +62,11 @@ class PasswordEntryViewController: ViewController {
         super.viewDidLoad()
 
         passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textFieldDidEnd), for: .editingDidEnd)
         passwordTextField.becomeFirstResponder()
 
         passwordConfirmTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        passwordConfirmTextField.addTarget(self, action: #selector(textFieldDidEnd), for: .editingDidEnd)
 
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
@@ -96,40 +98,51 @@ class PasswordEntryViewController: ViewController {
     }
 
     // MARK: Text Field
-    
-    @IBAction
-    func textFieldDidChange(_ textField: UITextField) {
-        if passwordTextField.hasText,
-            let delegate = delegate,
-            let password = passwordTextField.text,
-            delegate.passwordEntryViewController(self, validate: password)
-        {
-            passwordTextField.entryState = .valid
 
-            if passwordConfirmTextField.text == password {
-                passwordConfirmTextField.entryState = .valid
+    @objc
+    private func textFieldDidChange(_ textField: PasswordEntryTextField) {
+        passwordInfoLabel.state = .instructions
+        textField.entryState = .default
+
+        _view.updateDoneButton()
+    }
+
+    @objc
+    private func textFieldDidEnd(_ textField: PasswordEntryTextField) {
+        if let password = textField.text, !password.isEmpty {
+            if let delegate = delegate, delegate.passwordEntryViewController(self, validate: password) {
+                textField.entryState = .valid
             }
             else {
-                passwordConfirmTextField.entryState = .default
+                passwordInfoLabel.state = .invalid
+                textField.entryState = .invalid
             }
         }
         else {
-            passwordTextField.entryState = .default
+            textField.entryState = .default
         }
 
-        passwordInfoLabel.state = .instructions
+        _view.updateDoneButton()
     }
 
     // MARK: Done Button
     
-    @IBAction
-    func doneButtonTapped(_ button: UIButton) {
+    @objc
+    private func doneButtonTapped(_ button: UIButton) {
         guard let password = passwordTextField.text, passwordTextField.hasText && passwordConfirmTextField.hasText else {
             return // Shouldn't happen
         }
 
         guard passwordTextField.text == passwordConfirmTextField.text else {
-            alertPasswordsDontMatch()
+            passwordInfoLabel.state = .mismatch
+
+            passwordTextField.becomeFirstResponder()
+            passwordTextField.entryState = .invalid
+
+            passwordConfirmTextField.text = ""
+            passwordConfirmTextField.entryState = .invalid
+
+            _view.updateDoneButton()
             return
         }
 
@@ -138,21 +151,16 @@ class PasswordEntryViewController: ViewController {
         }
         
         guard delegate.passwordEntryViewController(self, validate: password) else {
-            alertPasswordsConformance()
+            passwordInfoLabel.state = .invalid
+
+            passwordTextField.entryState = .invalid
+            passwordConfirmTextField.entryState = .invalid
+
+            _view.updateDoneButton()
             return
         }
 
         delegate.passwordEntryViewControllerDidComplete(self, with: password)
-    }
-
-    func alertPasswordsDontMatch() {
-        passwordInfoLabel.state = .mismatch
-        passwordConfirmTextField.text = ""
-        passwordTextField.becomeFirstResponder()
-    }
-    
-    func alertPasswordsConformance() {
-        passwordInfoLabel.state = .invalid
     }
 }
 

@@ -38,10 +38,10 @@
 "password_entry.password.placeholder" = "Password";
 "password_entry.password_confirm.placeholder" = "Confirm Password";
 "password_entry.instructions" = "Create a strong password to backup your Kin. Password must include the following:";
-"password_entry.mismatch" = "Passwords do not match";
-"password_entry.invalid" = "Make sure to include the following:";
+"password_entry.mismatch" = "Password doesn't match:";
+"password_entry.invalid" = "Make sure to the password has:";
 "password_entry.pattern" = "9 characters, 1 uppercase, 1 digit, 1 special charcter \"#, !, @\"";
-"password_entry.confirmation" = "I understand this password is required to restore my Kin and can’t be recovered if lost.";
+"password_entry.confirmation" = "I understand that I won’t be able to restore my Kin without this password.";
 
 "restore_intro.title" = "Restore Kin";
 "restore_intro.header" = "Import your Kin";

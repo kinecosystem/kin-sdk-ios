@@ -16,7 +16,7 @@ extension NSAttributedString {
             attributedString.append(attributedStrings[i])
 
             if i < attributedStrings.count - 1 {
-                attributedString.append(NSAttributedString(string: " "))
+                attributedString.append(NSAttributedString(string: "\n"))
             }
         }
 
