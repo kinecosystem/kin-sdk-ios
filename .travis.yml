@@ -1,7 +1,7 @@
 language: swift
 osx_image: xcode10.1
-xcode_project: StellarKit.xcodeproj
-xcode_scheme: StellarKit
+xcode_project: KinSampleApp.xcodeproj
+xcode_scheme: KinSampleApp
 xcode_sdk: iphonesimulator8.4
 
 env:
@@ -11,8 +11,6 @@ env:
 script:
   - |
     if [ $TEST_MATRIX == "build" ]; then 
-      xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinUtil -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO;
-      xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO;
       xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSampleApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO;
     fi
   - |
