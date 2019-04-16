@@ -43,15 +43,13 @@
 "password_entry.pattern" = "9 characters, 1 uppercase, 1 digit, 1 special charcter \"#, !, @\"";
 "password_entry.confirmation" = "I understand that I won't be able to restore my Kin without this password.";
 
-"restore_intro.title" = "Restore Kin";
-"restore_intro.header" = "Import your Kin";
-"restore_intro.description" = "All you need is to upload the QR code we provided you.";
-"restore_intro.next" = "Upload your QR code";
+"restore_intro.description" = "First, upload the QR code you saved\n(Hint: Check your email to find it)";
+"restore_intro.next" = "Upload QR code";
 "restore_intro.alert.title" = "Are you sure you want to restore your previous balance?";
 "restore_intro.alert.message" = "Restoring your old balance will replace your current Kin balance.";
 
-"restore.title" = "Restore Previous Wallet";
-"restore.description" = "Great, we're almost there!\nPlease enter your password";
+"restore.title" = "Load your Kin from a backup";
+"restore.description" = "Now, enter your password";
 "restore.password.placeholder" = "Enter Password";
 "restore.alert_error.title" = "Try Again";
 "restore.error.wrong_password" = "The password is incorrect.";

@@ -1,5 +1,5 @@
 //
-//  PasswordEntryTextField.swift
+//  PasswordTextField.swift
 //  KinBackupRestoreModule
 //
 //  Created by Corey Werner on 20/02/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PasswordEntryTextField: UITextField {
+class PasswordTextField: UITextField {
     // MARK: Lifecycle
 
     override init(frame: CGRect) {
@@ -101,9 +101,19 @@ class PasswordEntryTextField: UITextField {
             becomeFirstResponder()
         }
     }
+
+    // MARK: Placeholder
+
+    override var placeholder: String? {
+        didSet {
+            if let placeholder = placeholder {
+                attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor.kinGray])
+            }
+        }
+    }
 }
 
-extension PasswordEntryTextField {
+extension PasswordTextField {
     enum PasswordState {
         case `default`
         case valid

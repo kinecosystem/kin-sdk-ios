@@ -22,11 +22,11 @@ class PasswordEntryViewController: ViewController {
         return _view.passwordInfoLabel
     }
 
-    private var passwordTextField: PasswordEntryTextField {
+    private var passwordTextField: PasswordTextField {
         return _view.passwordTextField
     }
 
-    private var passwordConfirmTextField: PasswordEntryTextField {
+    private var passwordConfirmTextField: PasswordTextField {
         return _view.passwordConfirmTextField
     }
 
@@ -101,7 +101,7 @@ class PasswordEntryViewController: ViewController {
     // MARK: Text Field
 
     @objc
-    private func textFieldDidChange(_ textField: PasswordEntryTextField) {
+    private func textFieldDidChange(_ textField: PasswordTextField) {
         passwordInfoLabel.state = .instructions
         textField.entryState = .default
 
@@ -109,7 +109,7 @@ class PasswordEntryViewController: ViewController {
     }
 
     @objc
-    private func textFieldDidEnd(_ textField: PasswordEntryTextField) {
+    private func textFieldDidEnd(_ textField: PasswordTextField) {
         if let password = textField.text, !password.isEmpty {
             if let delegate = delegate, delegate.passwordEntryViewController(self, validate: password) {
                 textField.entryState = .valid

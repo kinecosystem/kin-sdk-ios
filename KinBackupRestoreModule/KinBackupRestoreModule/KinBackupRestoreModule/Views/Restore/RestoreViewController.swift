@@ -24,8 +24,8 @@ class RestoreViewController: ViewController {
         return _view.imageView
     }
 
-    private var passwordInput: PasswordEntryTextField {
-        return _view.passwordInput
+    private var passwordTextField: PasswordTextField {
+        return _view.passwordTextField
     }
 
     private var doneButton: ConfirmButton {
@@ -63,15 +63,15 @@ class RestoreViewController: ViewController {
 
         imageView.image = qrImage
 
-        passwordInput.addTarget(self, action: #selector(passwordInputChanges), for: .editingChanged)
-        passwordInput.becomeFirstResponder()
+        passwordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange), for: .editingChanged)
+        passwordTextField.becomeFirstResponder()
 
         doneButton.isEnabled = false
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 
     @objc
-    private func passwordInputChanges(_ textField: PasswordEntryTextField) {
+    private func passwordTextFieldDidChange(_ textField: PasswordTextField) {
         doneButton.isEnabled = textField.hasText
     }
     
@@ -89,7 +89,7 @@ class RestoreViewController: ViewController {
         button.isEnabled = false
         navigationItem.hidesBackButton = true
         
-        let importResult = delegate.restoreViewController(self, importWith: passwordInput.text ?? "")
+        let importResult = delegate.restoreViewController(self, importWith: passwordTextField.text ?? "")
 
         if importResult == .success {
             button.transitionToConfirmed { () -> () in

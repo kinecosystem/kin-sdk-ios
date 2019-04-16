@@ -10,8 +10,8 @@ import UIKit
 
 class PasswordEntryView: KeyboardAdjustingScrollView {
     let passwordInfoLabel = PasswordEntryLabel()
-    let passwordTextField = PasswordEntryTextField()
-    let passwordConfirmTextField = PasswordEntryTextField()
+    let passwordTextField = PasswordTextField()
+    let passwordConfirmTextField = PasswordTextField()
     private let confirmStackView = UIStackView()
     private let confirmImageView = CheckboxImageView()
     let doneButton = RoundButton()
@@ -52,11 +52,11 @@ class PasswordEntryView: KeyboardAdjustingScrollView {
 
         addArrangedVerticalSpaceSubview()
 
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "password_entry.password.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
+        passwordTextField.placeholder = "password_entry.password.placeholder".localized()
         passwordTextField.setContentCompressionResistancePriority(.required, for: .vertical)
         contentView.addArrangedSubview(passwordTextField)
 
-        passwordConfirmTextField.attributedPlaceholder = NSAttributedString(string: "password_entry.password_confirm.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
+        passwordConfirmTextField.placeholder = "password_entry.password_confirm.placeholder".localized()
         passwordConfirmTextField.setContentCompressionResistancePriority(.required, for: .vertical)
         contentView.addArrangedSubview(passwordConfirmTextField)
 

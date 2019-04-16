@@ -9,10 +9,18 @@
 import UIKit
 
 class BackupCompletedViewController: ExplanationTemplateViewController {
+    override init() {
+        super.init()
+
+        navigationItem.hidesBackButton = true
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.hidesBackButton = true
 
         contentView.alignment = .center
         

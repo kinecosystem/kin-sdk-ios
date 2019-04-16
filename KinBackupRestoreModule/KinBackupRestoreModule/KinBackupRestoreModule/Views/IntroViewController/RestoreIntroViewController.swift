@@ -19,7 +19,7 @@ class RestoreIntroViewController: ExplanationTemplateViewController {
     override init() {
         super.init()
 
-        title = "restore_intro.title".localized()
+        navigationItem.backBarButtonItem = UIBarButtonItem()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -31,7 +31,7 @@ class RestoreIntroViewController: ExplanationTemplateViewController {
 
         imageView.image = UIImage(named: "QRCode", in: .backupRestore, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
-        titleLabel.text = "restore_intro.header".localized()
+        titleLabel.text = "restore.title".localized()
 
         descriptionLabel.text = "restore_intro.description".localized()
 
