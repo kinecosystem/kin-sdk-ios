@@ -20,8 +20,7 @@ class BackupFlowController: FlowController {
     private lazy var _entryViewController: UIViewController = {
         let viewController = BackupIntroViewController()
         viewController.lifeCycleDelegate = self
-//        viewController.doneButton.addTarget(self, action: #selector(pushPasswordViewController), for: .touchUpInside)
-        viewController.doneButton.addTarget(self, action: #selector(test), for: .touchUpInside)
+        viewController.doneButton.addTarget(self, action: #selector(pushPasswordViewController), for: .touchUpInside)
         return viewController
     }()
     
@@ -43,11 +42,12 @@ extension BackupFlowController: LifeCycleProtocol {
 // MARK: - Navigation
 
 extension BackupFlowController {
+    // !!!: DEBUG
     @objc
     func test() {
-        let s = "{\"pkey\":\"GB2FKV3UT7HC4QCCRKZWNAYLTADH32HTUL3QMWA2IX44LUGVVH7CYENZ\",\"seed\":\"d4be9cabd685cf1c551122f9bf285ee2993d17ed8a7b68092cce7f976b2c5e50eb71b3231102289c06d7d1d4bff39effb07b85aef9c55953f833b4477643d1b482c7c38cbfdaed4f\",\"salt\":\"f8c47b5e960d1f13516fd2f136e358a5\"}"
+//        let s = "{\"pkey\":\"GB2FKV3UT7HC4QCCRKZWNAYLTADH32HTUL3QMWA2IX44LUGVVH7CYENZ\",\"seed\":\"d4be9cabd685cf1c551122f9bf285ee2993d17ed8a7b68092cce7f976b2c5e50eb71b3231102289c06d7d1d4bff39effb07b85aef9c55953f833b4477643d1b482c7c38cbfdaed4f\",\"salt\":\"f8c47b5e960d1f13516fd2f136e358a5\"}"
 
-        pushQRViewController(with: s)
+        pushCompletedViewController()
     }
 
     @objc

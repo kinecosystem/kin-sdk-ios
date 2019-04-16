@@ -9,14 +9,14 @@
 import Foundation
 
 extension NSAttributedString {
-    convenience init(attributedStrings: [NSAttributedString]) {
+    convenience init(attributedStrings: [NSAttributedString], separator: String = "\n") {
         let attributedString = NSMutableAttributedString()
 
         for i in 0..<attributedStrings.count {
             attributedString.append(attributedStrings[i])
 
             if i < attributedStrings.count - 1 {
-                attributedString.append(NSAttributedString(string: "\n"))
+                attributedString.append(NSAttributedString(string: separator))
             }
         }
 

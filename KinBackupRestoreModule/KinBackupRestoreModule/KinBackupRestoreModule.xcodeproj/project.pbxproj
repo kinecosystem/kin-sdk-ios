@@ -35,7 +35,6 @@
 		68005B1F220979CE004F791A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68005B1E220979CE004F791A /* Localizable.strings */; };
 		68005B23220AA4B9004F791A /* KinBackupRestoreBI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68005B22220AA4B9004F791A /* KinBackupRestoreBI.swift */; };
 		6804B1022242332100208AE0 /* QRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6804B1012242332100208AE0 /* QRView.swift */; };
-		6804B1042242440E00208AE0 /* ReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6804B1032242440E00208AE0 /* ReminderView.swift */; };
 		6804B1062248C10200208AE0 /* ExplanationTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6804B1052248C10200208AE0 /* ExplanationTemplateView.swift */; };
 		6804B129224A08C900208AE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6804B128224A08C900208AE0 /* AppDelegate.swift */; };
 		6804B12B224A08C900208AE0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6804B12A224A08C900208AE0 /* ViewController.swift */; };
@@ -111,7 +110,6 @@
 		68005B1E220979CE004F791A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		68005B22220AA4B9004F791A /* KinBackupRestoreBI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinBackupRestoreBI.swift; sourceTree = "<group>"; };
 		6804B1012242332100208AE0 /* QRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRView.swift; sourceTree = "<group>"; };
-		6804B1032242440E00208AE0 /* ReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderView.swift; sourceTree = "<group>"; };
 		6804B1052248C10200208AE0 /* ExplanationTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationTemplateView.swift; sourceTree = "<group>"; };
 		6804B126224A08C900208AE0 /* KinBackupRestoreModuleTestsHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KinBackupRestoreModuleTestsHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6804B128224A08C900208AE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 				68005ADB22070793004F791A /* IntroViewController */,
 				682EA3652222D4AA00D4ADEC /* KeyboardAdjustingScrollView.swift */,
 				68005ACE22070793004F791A /* PasswordEntry */,
-				6804B1032242440E00208AE0 /* ReminderView.swift */,
 				68005AD222070793004F791A /* Restore */,
 				68005AD522070793004F791A /* QR */,
 				68005ACB22070793004F791A /* ViewController.swift */,
@@ -611,7 +608,6 @@
 				6804B1022242332100208AE0 /* QRView.swift in Sources */,
 				68005AE322070793004F791A /* FlowController.swift in Sources */,
 				682EA3642222CEA200D4ADEC /* RestoreView.swift in Sources */,
-				6804B1042242440E00208AE0 /* ReminderView.swift in Sources */,
 				68005AF022070793004F791A /* BackupIntroViewController.swift in Sources */,
 				6897C70A225B3AA400502C1C /* Appearance.swift in Sources */,
 				6804B1062248C10200208AE0 /* ExplanationTemplateView.swift in Sources */,

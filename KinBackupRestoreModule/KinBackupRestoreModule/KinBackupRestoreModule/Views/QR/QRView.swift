@@ -105,7 +105,7 @@ class QRView: KeyboardAdjustingScrollView {
         doneButton.setContentHuggingPriority(.required, for: .vertical)
         contentView.addArrangedSubview(doneButton)
 
-        addArrangedVerticalSpaceSubview(spacing: .large)
+        addArrangedVerticalSpaceSubview(spacing: .medium)
     }
 
     required init?(coder aDecoder: NSCoder) {
