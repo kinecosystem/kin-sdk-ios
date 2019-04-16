@@ -11,6 +11,7 @@ env:
 script:
   - |
     if [ $TEST_MATRIX == "build" ]; then 
+      xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinUtil -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO;
       xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO;
       xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSampleApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO;
     fi
