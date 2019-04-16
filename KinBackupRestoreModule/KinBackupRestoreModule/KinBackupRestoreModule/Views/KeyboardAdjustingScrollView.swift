@@ -112,6 +112,7 @@ class KeyboardAdjustingScrollView: UIScrollView {
     func addArrangedVerticalSpaceSubview(to stackView: UIStackView? = nil, spacing: Spacing = .small) {
         let spaceView = UIView()
         spaceView.setContentHuggingPriority(.required, for: .vertical)
+        spaceView.setContentCompressionResistancePriority(.required, for: .vertical)
         (stackView ?? contentView).addArrangedSubview(spaceView)
         let constraint = spaceView.heightAnchor.constraint(equalToConstant: spacing.constant)
         applyVerticalView(spaceView, constraint: constraint, sizeClass: .unspecified)
@@ -192,9 +193,9 @@ extension KeyboardAdjustingScrollView.Spacing {
         case .small:
             return 0
         case .medium:
-            return 5
+            return 14
         case .large:
-            return 10
+            return 28
         }
     }
 }

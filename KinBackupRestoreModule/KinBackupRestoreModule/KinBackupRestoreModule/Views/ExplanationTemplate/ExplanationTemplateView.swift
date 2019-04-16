@@ -19,22 +19,15 @@ class ExplanationTemplateView: KeyboardAdjustingScrollView {
     required override init(frame: CGRect) {
         super.init(frame: frame)
 
-//        let imageViewStackView = UIStackView()
-//        imageViewStackView.axis = .vertical
-//        imageViewStackView.alignment = .center
-//        imageViewStackView.spacing = contentView.spacing
-//        contentView.addArrangedSubview(imageViewStackView)
+        addArrangedVerticalSpaceSubview(spacing: .large)
 
-        addArrangedVerticalSpaceSubview(height: 30)
-
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = Appearance.shared.primary
         imageView.setContentHuggingPriority(.required, for: .horizontal)
         imageView.setContentHuggingPriority(.required, for: .vertical)
         contentView.addArrangedSubview(imageView)
 
-        addArrangedVerticalSpaceSubview(height: 20)
+        addArrangedVerticalSpaceSubview()
 
         titleLabel.font = .preferredFont(forTextStyle: .title1)
         titleLabel.textColor = .kinDarkGray
@@ -44,8 +37,6 @@ class ExplanationTemplateView: KeyboardAdjustingScrollView {
         titleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
         contentView.addArrangedSubview(titleLabel)
 
-        addArrangedVerticalSpaceSubview(height: 10)
-
         descriptionLabel.font = .preferredFont(forTextStyle: .body)
         descriptionLabel.textColor = .kinDarkGray
         descriptionLabel.textAlignment = .center
@@ -54,13 +45,13 @@ class ExplanationTemplateView: KeyboardAdjustingScrollView {
         descriptionLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
         contentView.addArrangedSubview(descriptionLabel)
 
-        addArrangedVerticalSpaceSubview(height: 20)
+        addArrangedVerticalSpaceSubview()
 
         doneButton.setContentCompressionResistancePriority(.required, for: .vertical)
         doneButton.setContentHuggingPriority(.required, for: .vertical)
         contentView.addArrangedSubview(doneButton)
 
-        addArrangedVerticalSpaceSubview(height: 30)
+        addArrangedVerticalSpaceSubview(spacing: .large)
     }
 
     required init?(coder aDecoder: NSCoder) {

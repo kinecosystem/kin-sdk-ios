@@ -16,8 +16,11 @@ class RoundButton: UIButton {
 
         syncAppearance()
 
+        let whiteAlpha = UIColor(white: 1, alpha: 0.5)
+
         setTitleColor(.white, for: .normal)
-        setTitleColor(UIColor(white: 1, alpha: 0.5), for: .highlighted)
+        setTitleColor(whiteAlpha, for: .highlighted)
+        setTitleColor(whiteAlpha, for: [.selected, .highlighted])
         setTitleColor(.kinGray, for: .disabled)
 
         layer.cornerRadius = .cornerRadius

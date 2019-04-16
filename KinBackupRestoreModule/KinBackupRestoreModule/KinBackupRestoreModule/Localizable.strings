@@ -8,17 +8,17 @@
 
 "generic.ok" = "Ok";
 "generic.cancel" = "Cancel";
+"generic.done" = "Done";
 "generic.next" = "Next";
 "generic.alert_error.title" = "Something went wrong";
 "generic.alert_error.message" = "Try again.";
 
-"reminder.title" = "Remember!";
-"reminder.description" = "Keep your password in a safe place\nand the QR code handy.";
+"reminder.title" = "Be sure to save your password and keep your QR code handy";
 
 "qr.title" = "Save your QR Code";
-"qr.description" = "You will need it to restore your Kin.\nSend it to yourself by email.";
-"qr.save" = "Send QR code via Email";
-"qr.saved" = "I've copied my QR code";
+"qr.description" = "Now, save your unique QR code by emailing it to yourself. You'll need it to load your Kin from a backup later on.";
+"qr.save" = "Email QR code";
+"qr.saved" = "I've saved my QR code";
 "qr.email.subject" = "Kin Backup QR Code";
 "qr.alert_no_client.title" = "No email client";
 "qr.alert_no_client.message" = "You need to set up an email client first in the settings app.";
@@ -26,9 +26,9 @@
 "qr_picker.alert_error.title" = "QR not recognized";
 "qr_picker.alert_error.message" = "A QR code could not be detected in the image.";
 
-"backup_intro.title" = "Backup Kin";
-"backup_intro.header" = "Keep your Kin safe";
-"backup_intro.description" = "Backing up your current balance will allow you to recover it in case you switch phones, delete the app or clear your data.";
+"backup.title" = "Keep your Kin safe";
+
+"backup_intro.description" = "Back up your wallet so that you don’t lose your Kin if you change phones, delete the app or clear your data.\n\nTo do this, you’ll first need to create a password and save your unique QR code somewhere you can access it later.";
 "backup_intro.next" = "Let's Go";
 
 "backup_completed.header" = "Well done,\nyour Kin is safe!";

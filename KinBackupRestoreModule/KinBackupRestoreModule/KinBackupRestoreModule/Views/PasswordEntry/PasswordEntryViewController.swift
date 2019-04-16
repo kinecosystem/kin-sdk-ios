@@ -51,7 +51,8 @@ class PasswordEntryViewController: ViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
 
-        title = "password_entry.title".localized()
+        title = "backup.title".localized()
+        navigationItem.backBarButtonItem = UIBarButtonItem()
     }
 
     required init?(coder aDecoder: NSCoder) {
