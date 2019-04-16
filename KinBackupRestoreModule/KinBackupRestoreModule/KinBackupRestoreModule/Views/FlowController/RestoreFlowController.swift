@@ -21,7 +21,9 @@ class RestoreFlowController: FlowController {
     private var qrPickerController: QRPickerController?
     
     private lazy var _entryViewController: UIViewController = {
-        let viewController = RestoreIntroViewController()
+        let s = "{\"pkey\":\"GB2FKV3UT7HC4QCCRKZWNAYLTADH32HTUL3QMWA2IX44LUGVVH7CYENZ\",\"seed\":\"074ebbc98b25b6d092ae47f8227a722f224146157b06aeb8c395936550121a957bc3a6ffd54adb5ce601bd5c5ac4addf413cc8faee57bb900c657043aa701a9323e9e33d13ac09bb\",\"salt\":\"d401a4a91a08d2450ef49dbc39ad48e4\"}"
+
+        let viewController = RestoreViewController(qrString: s) // RestoreIntroViewController()
         viewController.delegate = self
         viewController.lifeCycleDelegate = self
         return viewController
@@ -90,6 +92,10 @@ extension RestoreFlowController: RestoreViewControllerDelegate {
             return .invalidImage
         }
 
+        if let result = isAccountInClient(json: json) {
+            return result
+        }
+
         do {
             importedKinAccount = try kinClient.importAccount(json, passphrase: password)
             return .success
@@ -111,5 +117,45 @@ extension RestoreFlowController: RestoreViewControllerDelegate {
             self.delegate?.flowControllerDidComplete(self)
             self.importedKinAccount = nil
         }
+    }
+}
+
+// MARK: - Account Duplication
+
+extension RestoreFlowController {
+    // This code needs to be in the KinSDK. Until then it's handled here.
+
+    fileprivate struct AccountData: Codable {
+        let pkey: String
+        let seed: String
+        let salt: String
+        let extra: Data?
+    }
+
+    fileprivate func publicKey(in json: String) throws -> String? {
+        guard let data = json.data(using: .utf8) else {
+            return nil
+        }
+
+        return try JSONDecoder().decode(AccountData.self, from: data).pkey
+    }
+
+    fileprivate func isAccountInClient(json: String) -> RestoreViewController.ImportResult? {
+        let publicAddress: String?
+
+        do {
+            publicAddress = try publicKey(in: json)
+        }
+        catch {
+            return .internalIssue
+        }
+
+        let foundAccount = kinClient.accounts.makeIterator().first { $0?.publicAddress == publicAddress }
+
+        if foundAccount != nil {
+            return .success
+        }
+
+        return nil
     }
 }
