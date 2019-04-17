@@ -24,6 +24,11 @@ class PasswordEntryLabel: UILabel {
             syncState()
         }
     }
+    var successAttributedString: NSAttributedString? {
+        didSet {
+            syncState()
+        }
+    }
 
     // MARK: State
 
@@ -41,6 +46,8 @@ class PasswordEntryLabel: UILabel {
             attributedText = mismatchAttributedString
         case .invalid:
             attributedText = invalidAttributedString
+        case .success:
+            attributedText = successAttributedString
         }
     }
 
@@ -49,6 +56,7 @@ class PasswordEntryLabel: UILabel {
     private var instructionsHeight: CGFloat = 0
     private var mismatchHeight: CGFloat = 0
     private var invalidHeight: CGFloat = 0
+    private var successHeight: CGFloat = 0
 
     private func syncSize() {
         func height(with attributedString: NSAttributedString?) -> CGFloat {
@@ -60,6 +68,7 @@ class PasswordEntryLabel: UILabel {
         instructionsHeight = height(with: instructionsAttributedString)
         mismatchHeight = height(with: mismatchAttributedString)
         invalidHeight = height(with: invalidAttributedString)
+        successHeight = height(with: successAttributedString)
     }
 
     override func layoutSubviews() {
@@ -71,7 +80,7 @@ class PasswordEntryLabel: UILabel {
     override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
 
-        for height in [instructionsHeight, mismatchHeight, invalidHeight] {
+        for height in [instructionsHeight, mismatchHeight, invalidHeight, successHeight] {
             size.height = max(size.height, height)
         }
 
@@ -86,5 +95,6 @@ extension PasswordEntryLabel {
         case instructions
         case mismatch
         case invalid
+        case success
     }
 }

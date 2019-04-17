@@ -10,6 +10,7 @@ import UIKit
 
 class RestoreView: KeyboardAdjustingScrollView {
     let imageView = UIImageView()
+    let passwordLabel = PasswordEntryLabel()
     let passwordTextField = PasswordTextField()
     let doneButton = ConfirmButton()
 
@@ -67,14 +68,15 @@ class RestoreView: KeyboardAdjustingScrollView {
 
         addArrangedVerticalSpaceSubview()
 
-        let descriptionLabel = UILabel()
-        descriptionLabel.text = "restore.description".localized()
-        descriptionLabel.font = .preferredFont(forTextStyle: .body)
-        descriptionLabel.textColor = .kinDarkGray
-        descriptionLabel.textAlignment = .center
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-        contentView.addArrangedSubview(descriptionLabel)
+        passwordLabel.instructionsAttributedString = NSAttributedString(string: "restore.instructions".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray])
+        passwordLabel.invalidAttributedString = NSAttributedString(string: "restore.invalid".localized(), attributes: [.foregroundColor: UIColor.kinWarning])
+        passwordLabel.successAttributedString = NSAttributedString(string: "restore.success".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray])
+        passwordLabel.font = .preferredFont(forTextStyle: .body)
+        passwordLabel.textColor = .kinDarkGray
+        passwordLabel.textAlignment = .center
+        passwordLabel.numberOfLines = 0
+        passwordLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        contentView.addArrangedSubview(passwordLabel)
 
         addArrangedVerticalSpaceSubview()
 

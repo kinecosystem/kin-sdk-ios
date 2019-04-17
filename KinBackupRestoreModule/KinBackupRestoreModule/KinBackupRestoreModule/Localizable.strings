@@ -49,7 +49,9 @@
 "restore_intro.alert.message" = "Restoring your old balance will replace your current Kin balance.";
 
 "restore.title" = "Load your Kin from a backup";
-"restore.description" = "Now, enter your password";
+"restore.instructions" = "Now, enter your password";
+"restore.invalid" = "Password doesn't match QR code.\nPlease try again.";
+"restore.success" = "All set!\nYour Kin balance is updated";
 "restore.password.placeholder" = "Enter Password";
 "restore.alert_error.title" = "Try Again";
 "restore.error.wrong_password" = "The password is incorrect.";

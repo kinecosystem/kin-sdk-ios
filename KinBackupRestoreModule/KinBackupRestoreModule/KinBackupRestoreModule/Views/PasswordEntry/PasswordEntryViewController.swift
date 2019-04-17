@@ -18,8 +18,8 @@ class PasswordEntryViewController: ViewController {
 
     // MARK: View
 
-    private var passwordInfoLabel: PasswordEntryLabel {
-        return _view.passwordInfoLabel
+    private var passwordLabel: PasswordEntryLabel {
+        return _view.passwordLabel
     }
 
     private var passwordTextField: PasswordTextField {
@@ -102,7 +102,7 @@ class PasswordEntryViewController: ViewController {
 
     @objc
     private func textFieldDidChange(_ textField: PasswordTextField) {
-        passwordInfoLabel.state = .instructions
+        passwordLabel.state = .instructions
         textField.entryState = .default
 
         _view.updateDoneButton()
@@ -115,7 +115,7 @@ class PasswordEntryViewController: ViewController {
                 textField.entryState = .valid
             }
             else {
-                passwordInfoLabel.state = .invalid
+                passwordLabel.state = .invalid
                 textField.entryState = .invalid
             }
         }
@@ -135,7 +135,7 @@ class PasswordEntryViewController: ViewController {
         }
 
         guard passwordTextField.text == passwordConfirmTextField.text else {
-            passwordInfoLabel.state = .mismatch
+            passwordLabel.state = .mismatch
 
             passwordTextField.becomeFirstResponder()
             passwordTextField.entryState = .invalid
@@ -152,7 +152,7 @@ class PasswordEntryViewController: ViewController {
         }
         
         guard delegate.passwordEntryViewController(self, validate: password) else {
-            passwordInfoLabel.state = .invalid
+            passwordLabel.state = .invalid
 
             passwordTextField.entryState = .invalid
             passwordConfirmTextField.entryState = .invalid

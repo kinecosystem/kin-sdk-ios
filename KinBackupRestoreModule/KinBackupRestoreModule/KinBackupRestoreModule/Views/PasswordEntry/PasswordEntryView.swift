@@ -9,7 +9,7 @@
 import UIKit
 
 class PasswordEntryView: KeyboardAdjustingScrollView {
-    let passwordInfoLabel = PasswordEntryLabel()
+    let passwordLabel = PasswordEntryLabel()
     let passwordTextField = PasswordTextField()
     let passwordConfirmTextField = PasswordTextField()
     private let confirmStackView = UIStackView()
@@ -32,23 +32,23 @@ class PasswordEntryView: KeyboardAdjustingScrollView {
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         contentView.addArrangedSubview(titleLabel)
 
-        passwordInfoLabel.instructionsAttributedString = NSAttributedString(attributedStrings: [
+        passwordLabel.instructionsAttributedString = NSAttributedString(attributedStrings: [
             NSAttributedString(string: "password_entry.instructions".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray]),
             NSAttributedString(string: "password_entry.pattern".localized(), attributes: [.foregroundColor: UIColor.kinGray])
             ])
-        passwordInfoLabel.mismatchAttributedString = NSAttributedString(attributedStrings: [
+        passwordLabel.mismatchAttributedString = NSAttributedString(attributedStrings: [
             NSAttributedString(string: "password_entry.mismatch".localized(), attributes: [.foregroundColor: UIColor.kinWarning]),
             NSAttributedString(string: "password_entry.pattern".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray])
             ])
-        passwordInfoLabel.invalidAttributedString = NSAttributedString(attributedStrings: [
+        passwordLabel.invalidAttributedString = NSAttributedString(attributedStrings: [
             NSAttributedString(string: "password_entry.invalid".localized(), attributes: [.foregroundColor: UIColor.kinWarning]),
             NSAttributedString(string: "password_entry.pattern".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray])
             ])
-        passwordInfoLabel.font = .preferredFont(forTextStyle: .body)
-        passwordInfoLabel.numberOfLines = 0
-        passwordInfoLabel.textAlignment = .center
-        passwordInfoLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-        contentView.addArrangedSubview(passwordInfoLabel)
+        passwordLabel.font = .preferredFont(forTextStyle: .body)
+        passwordLabel.numberOfLines = 0
+        passwordLabel.textAlignment = .center
+        passwordLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        contentView.addArrangedSubview(passwordLabel)
 
         addArrangedVerticalSpaceSubview()
 

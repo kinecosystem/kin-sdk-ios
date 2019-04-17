@@ -24,6 +24,10 @@ class RestoreViewController: ViewController {
         return _view.imageView
     }
 
+    private var passwordLabel: PasswordEntryLabel {
+        return _view.passwordLabel
+    }
+
     private var passwordTextField: PasswordTextField {
         return _view.passwordTextField
     }
@@ -72,6 +76,8 @@ class RestoreViewController: ViewController {
 
     @objc
     private func passwordTextFieldDidChange(_ textField: PasswordTextField) {
+        passwordLabel.state = .instructions
+        passwordTextField.entryState = .default
         doneButton.isEnabled = textField.hasText
     }
     
@@ -92,14 +98,26 @@ class RestoreViewController: ViewController {
         let importResult = delegate.restoreViewController(self, importWith: passwordTextField.text ?? "")
 
         if importResult == .success {
-            button.transitionToConfirmed { () -> () in
-                delegate.restoreViewControllerDidComplete(self)
+            passwordLabel.state = .success
+            passwordTextField.entryState = .valid
+            passwordTextField.isEnabled = false
+
+            button.transitionToConfirmed {
+                // !!!: DEBUG
+//                delegate.restoreViewControllerDidComplete(self)
             }
         }
         else {
+            passwordTextField.entryState = .invalid
             button.isEnabled = true
             navigationItem.hidesBackButton = false
-            presentErrorAlertController(result: importResult)
+
+            if importResult == .wrongPassword {
+                passwordLabel.state = .invalid
+            }
+            else {
+                presentErrorAlertController(result: importResult)
+            }
         }
     }
 }

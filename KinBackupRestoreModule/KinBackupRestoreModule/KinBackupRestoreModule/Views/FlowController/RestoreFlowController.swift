@@ -132,25 +132,36 @@ extension RestoreFlowController {
         let extra: Data?
     }
 
-    fileprivate func publicKey(in json: String) throws -> String? {
+    fileprivate func accountData(in json: String) throws -> AccountData? {
         guard let data = json.data(using: .utf8) else {
             return nil
         }
 
-        return try JSONDecoder().decode(AccountData.self, from: data).pkey
+        return try JSONDecoder().decode(AccountData.self, from: data)
     }
 
     fileprivate func isAccountInClient(json: String) -> RestoreViewController.ImportResult? {
-        let publicAddress: String?
+        var data: AccountData?
 
         do {
-            publicAddress = try publicKey(in: json)
+            data = try accountData(in: json)
         }
         catch {
             return .internalIssue
         }
 
-        let foundAccount = kinClient.accounts.makeIterator().first { $0?.publicAddress == publicAddress }
+        guard let d = data else {
+            return .internalIssue
+        }
+
+        do {
+            _ = try KeyUtils.seed(from: d.pkey, encryptedSeed: d.seed, salt: d.salt)
+        }
+        catch {
+            return .wrongPassword
+        }
+
+        let foundAccount = kinClient.accounts.makeIterator().first { $0?.publicAddress == d.pkey }
 
         if foundAccount != nil {
             return .success
