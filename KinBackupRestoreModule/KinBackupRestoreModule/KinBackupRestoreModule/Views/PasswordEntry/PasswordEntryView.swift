@@ -9,7 +9,7 @@
 import UIKit
 
 class PasswordEntryView: KeyboardAdjustingScrollView {
-    let passwordLabel = PasswordEntryLabel()
+    let passwordLabel = PasswordLabel()
     let passwordTextField = PasswordTextField()
     let passwordConfirmTextField = PasswordTextField()
     private let confirmStackView = UIStackView()

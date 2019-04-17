@@ -18,7 +18,7 @@ class PasswordEntryViewController: ViewController {
 
     // MARK: View
 
-    private var passwordLabel: PasswordEntryLabel {
+    private var passwordLabel: PasswordLabel {
         return _view.passwordLabel
     }
 

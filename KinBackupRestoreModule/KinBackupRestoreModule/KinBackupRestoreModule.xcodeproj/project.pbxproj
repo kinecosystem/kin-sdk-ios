@@ -53,9 +53,9 @@
 		6897C7122263525500502C1C /* CGGeometry+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6897C7112263525500502C1C /* CGGeometry+Appearance.swift */; };
 		6897C7162263629800502C1C /* NSAttributedString+AttributedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6897C7152263629800502C1C /* NSAttributedString+AttributedStrings.swift */; };
 		6897C7182266010100502C1C /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6897C7172266010100502C1C /* PasswordTextField.swift */; };
+		6897C71B226714A000502C1C /* PasswordLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6897C71A226714A000502C1C /* PasswordLabel.swift */; };
 		68A430C32219669000D3B193 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A430C22219669000D3B193 /* Animations.swift */; };
 		68A430C52219930900D3B193 /* UIFont+PreferredFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A430C42219930900D3B193 /* UIFont+PreferredFont.swift */; };
-		68A430C72219A03F00D3B193 /* PasswordEntryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A430C62219A03F00D3B193 /* PasswordEntryLabel.swift */; };
 		68A430D0221C325600D3B193 /* PasswordEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A430CF221C325600D3B193 /* PasswordEntryView.swift */; };
 		BA884B6F3A47E6FE5D47841F /* Pods_KinBackupRestoreModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E022A76B1DD4F948915AF2C2 /* Pods_KinBackupRestoreModule.framework */; };
 /* End PBXBuildFile section */
@@ -130,9 +130,9 @@
 		6897C7112263525500502C1C /* CGGeometry+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGGeometry+Appearance.swift"; sourceTree = "<group>"; };
 		6897C7152263629800502C1C /* NSAttributedString+AttributedStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+AttributedStrings.swift"; sourceTree = "<group>"; };
 		6897C7172266010100502C1C /* PasswordTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
+		6897C71A226714A000502C1C /* PasswordLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordLabel.swift; sourceTree = "<group>"; };
 		68A430C22219669000D3B193 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		68A430C42219930900D3B193 /* UIFont+PreferredFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+PreferredFont.swift"; sourceTree = "<group>"; };
-		68A430C62219A03F00D3B193 /* PasswordEntryLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntryLabel.swift; sourceTree = "<group>"; };
 		68A430CF221C325600D3B193 /* PasswordEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntryView.swift; sourceTree = "<group>"; };
 		6930B6AE5D9BF6E83FAE65D8 /* Pods-KinBackupRestoreModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinBackupRestoreModule.release.xcconfig"; path = "../Pods/Target Support Files/Pods-KinBackupRestoreModule/Pods-KinBackupRestoreModule.release.xcconfig"; sourceTree = "<group>"; };
 		804F09987432C25F46737269 /* Pods-KinBackupRestoreModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinBackupRestoreModule.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-KinBackupRestoreModule/Pods-KinBackupRestoreModule.debug.xcconfig"; sourceTree = "<group>"; };
@@ -262,6 +262,7 @@
 				68005ADB22070793004F791A /* IntroViewController */,
 				682EA3652222D4AA00D4ADEC /* KeyboardAdjustingScrollView.swift */,
 				68005ACE22070793004F791A /* PasswordEntry */,
+				6897C71A226714A000502C1C /* PasswordLabel.swift */,
 				6897C7172266010100502C1C /* PasswordTextField.swift */,
 				68005AD222070793004F791A /* Restore */,
 				68005AD522070793004F791A /* QR */,
@@ -284,7 +285,6 @@
 			isa = PBXGroup;
 			children = (
 				68005ACF22070793004F791A /* PasswordEntryViewController.swift */,
-				68A430C62219A03F00D3B193 /* PasswordEntryLabel.swift */,
 				68A430CF221C325600D3B193 /* PasswordEntryView.swift */,
 			);
 			path = PasswordEntry;
@@ -597,7 +597,6 @@
 				68A430D0221C325600D3B193 /* PasswordEntryView.swift in Sources */,
 				68005AC122070789004F791A /* KinBackupRestoreManager.swift in Sources */,
 				68005AE922070793004F791A /* RoundButton.swift in Sources */,
-				68A430C72219A03F00D3B193 /* PasswordEntryLabel.swift in Sources */,
 				68005AED22070793004F791A /* QRViewController.swift in Sources */,
 				6897C7182266010100502C1C /* PasswordTextField.swift in Sources */,
 				68005B12220945C2004F791A /* UIColor+Appearance.swift in Sources */,
@@ -610,6 +609,7 @@
 				68005AE322070793004F791A /* FlowController.swift in Sources */,
 				682EA3642222CEA200D4ADEC /* RestoreView.swift in Sources */,
 				68005AF022070793004F791A /* BackupIntroViewController.swift in Sources */,
+				6897C71B226714A000502C1C /* PasswordLabel.swift in Sources */,
 				6897C70A225B3AA400502C1C /* Appearance.swift in Sources */,
 				6804B1062248C10200208AE0 /* ExplanationTemplateView.swift in Sources */,
 				68005AEA22070793004F791A /* RestoreViewController.swift in Sources */,

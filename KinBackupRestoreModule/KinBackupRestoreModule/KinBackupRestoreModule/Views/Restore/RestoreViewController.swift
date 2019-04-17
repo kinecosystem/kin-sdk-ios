@@ -24,7 +24,7 @@ class RestoreViewController: ViewController {
         return _view.imageView
     }
 
-    private var passwordLabel: PasswordEntryLabel {
+    private var passwordLabel: PasswordLabel {
         return _view.passwordLabel
     }
 

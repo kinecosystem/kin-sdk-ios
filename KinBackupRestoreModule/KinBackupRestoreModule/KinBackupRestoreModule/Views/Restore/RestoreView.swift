@@ -10,7 +10,7 @@ import UIKit
 
 class RestoreView: KeyboardAdjustingScrollView {
     let imageView = UIImageView()
-    let passwordLabel = PasswordEntryLabel()
+    let passwordLabel = PasswordLabel()
     let passwordTextField = PasswordTextField()
     let doneButton = ConfirmButton()
 

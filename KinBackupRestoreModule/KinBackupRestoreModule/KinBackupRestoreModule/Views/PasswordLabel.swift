@@ -1,5 +1,5 @@
 //
-//  PasswordEntryLabel.swift
+//  PasswordLabel.swift
 //  KinBackupRestoreModule
 //
 //  Created by Corey Werner on 17/02/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PasswordEntryLabel: UILabel {
+class PasswordLabel: UILabel {
     var instructionsAttributedString: NSAttributedString? {
         didSet {
             syncState()
@@ -90,7 +90,7 @@ class PasswordEntryLabel: UILabel {
 
 // MARK: - State
 
-extension PasswordEntryLabel {
+extension PasswordLabel {
     enum State {
         case instructions
         case mismatch
