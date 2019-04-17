@@ -68,44 +68,6 @@ class KeyboardAdjustingScrollView: UIScrollView {
 
     // MARK: Layout
 
-    private var firstVerticalLayoutViewMap: [UIUserInterfaceSizeClass: UIView] = [:]
-    private var regularVerticalViews: [UIView] = []
-    private var compactVerticalViews: [UIView] = []
-    private var regularConstraints: [NSLayoutConstraint] = []
-    private var compactConstraints: [NSLayoutConstraint] = []
-
-    /**
-     Add subview with a dynamic height.
-     */
-    func addArrangedVerticalLayoutSubview(to stackView: UIStackView? = nil, sizeClass: UIUserInterfaceSizeClass = .unspecified) {
-        let layoutView = UIView()
-        (stackView ?? contentView).addArrangedSubview(layoutView)
-        let constraint: NSLayoutConstraint
-
-        if let firstVerticalLayoutView = firstVerticalLayoutViewMap[sizeClass] {
-            constraint = layoutView.heightAnchor.constraint(equalTo: firstVerticalLayoutView.heightAnchor)
-        }
-        else {
-            firstVerticalLayoutViewMap[sizeClass] = layoutView
-
-            constraint = layoutView.heightAnchor.constraint(equalTo: layoutMarginsGuide.heightAnchor, multiplier: 0.1)
-            constraint.priority = .defaultLow
-        }
-
-        applyVerticalView(layoutView, constraint: constraint, sizeClass: sizeClass)
-    }
-
-    /**
-     Add subview with a static height.
-     */
-    func addArrangedVerticalSpaceSubview(to stackView: UIStackView? = nil, height: CGFloat = 0, sizeClass: UIUserInterfaceSizeClass = .unspecified) {
-        let spaceView = UIView()
-        spaceView.setContentHuggingPriority(.required, for: .vertical)
-        (stackView ?? contentView).addArrangedSubview(spaceView)
-        let constraint = spaceView.heightAnchor.constraint(equalToConstant: height)
-        applyVerticalView(spaceView, constraint: constraint, sizeClass: sizeClass)
-    }
-
     /**
      Add subview with a static height.
      */
@@ -114,38 +76,7 @@ class KeyboardAdjustingScrollView: UIScrollView {
         spaceView.setContentHuggingPriority(.required, for: .vertical)
         spaceView.setContentCompressionResistancePriority(.required, for: .vertical)
         (stackView ?? contentView).addArrangedSubview(spaceView)
-        let constraint = spaceView.heightAnchor.constraint(equalToConstant: spacing.constant)
-        applyVerticalView(spaceView, constraint: constraint, sizeClass: .unspecified)
-    }
-
-    private func applyVerticalView(_ verticalView: UIView, constraint: NSLayoutConstraint, sizeClass: UIUserInterfaceSizeClass) {
-        switch sizeClass {
-        case .regular:
-            regularVerticalViews.append(verticalView)
-            regularConstraints.append(constraint)
-        case .compact:
-            compactVerticalViews.append(verticalView)
-            compactConstraints.append(constraint)
-        case .unspecified:
-            constraint.isActive = true
-        }
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.verticalSizeClass == .compact {
-            NSLayoutConstraint.deactivate(regularConstraints)
-            NSLayoutConstraint.activate(compactConstraints)
-            regularVerticalViews.forEach({ $0.isHidden = true })
-            compactVerticalViews.forEach({ $0.isHidden = false })
-        }
-        else {
-            NSLayoutConstraint.deactivate(compactConstraints)
-            NSLayoutConstraint.activate(regularConstraints)
-            compactVerticalViews.forEach({ $0.isHidden = true })
-            regularVerticalViews.forEach({ $0.isHidden = false })
-        }
+        spaceView.heightAnchor.constraint(equalToConstant: spacing.constant).isActive = true
     }
 
     // MARK: Keyboard
