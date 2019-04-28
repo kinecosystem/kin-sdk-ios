@@ -11,21 +11,25 @@ import UIKit
 class PasswordLabel: UILabel {
     var instructionsAttributedString: NSAttributedString? {
         didSet {
+            needsResetHeight = true
             syncState()
         }
     }
     var mismatchAttributedString: NSAttributedString? {
         didSet {
+            needsResetHeight = true
             syncState()
         }
     }
     var invalidAttributedString: NSAttributedString? {
         didSet {
+            needsResetHeight = true
             syncState()
         }
     }
     var successAttributedString: NSAttributedString? {
         didSet {
+            needsResetHeight = true
             syncState()
         }
     }
@@ -53,12 +57,19 @@ class PasswordLabel: UILabel {
 
     // MARK: Size
 
+    private var needsResetHeight = true
     private var instructionsHeight: CGFloat = 0
     private var mismatchHeight: CGFloat = 0
     private var invalidHeight: CGFloat = 0
     private var successHeight: CGFloat = 0
 
     private func syncSize() {
+        guard needsResetHeight else {
+            return
+        }
+
+        needsResetHeight = false
+
         func height(with attributedString: NSAttributedString?) -> CGFloat {
             let string = attributedString?.string ?? ""
             let size = CGSize(width: bounds.width, height: .greatestFiniteMagnitude)
@@ -78,6 +89,10 @@ class PasswordLabel: UILabel {
     }
 
     override var intrinsicContentSize: CGSize {
+        if bounds.isEmpty {
+            layoutIfNeeded()
+        }
+
         var size = super.intrinsicContentSize
 
         for height in [instructionsHeight, mismatchHeight, invalidHeight, successHeight] {
