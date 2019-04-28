@@ -40,6 +40,7 @@ class MainNavigationController: UINavigationController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         brManager.delegate = self
+//        brManager.primaryColor = UIColor(red: 100/255, green: 200/255, blue: 50/255, alpha: 1)
 
         accountListViewController.title = "Accounts"
         accountListViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Restore", style: .plain, target: self, action: #selector(restoreAction))
