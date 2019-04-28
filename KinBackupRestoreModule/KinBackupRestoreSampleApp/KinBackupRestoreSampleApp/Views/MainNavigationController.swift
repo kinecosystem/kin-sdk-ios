@@ -12,7 +12,8 @@ import KinBackupRestoreModule
 
 class MainNavigationController: UINavigationController {
     let network: Network = .testNet
-    var brManager = KinBackupRestoreManager()
+    let brManager = KinBackupRestoreManager()
+    let accountListViewController: AccountListViewController
     let kinClient: KinClient
     var brAccount: KinAccount?
 
@@ -34,11 +35,12 @@ class MainNavigationController: UINavigationController {
 
         kinClient = KinClient(with: .blockchain(network), network: network, appId: appId)
 
+        accountListViewController = AccountListViewController(with: kinClient)
+
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         brManager.delegate = self
 
-        let accountListViewController = AccountListViewController(with: kinClient)
         accountListViewController.title = "Accounts"
         accountListViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Restore", style: .plain, target: self, action: #selector(restoreAction))
         accountListViewController.delegate = self
@@ -82,11 +84,12 @@ extension MainNavigationController: AccountViewControllerDelegate {
 
 extension MainNavigationController: KinBackupRestoreManagerDelegate {
     func kinBackupRestoreManagerDidComplete(_ manager: KinBackupRestoreManager, kinAccount: KinAccount?) {
-        self.brAccount = nil
+        brAccount = nil
+        accountListViewController.tableView.reloadData()
     }
 
     func kinBackupRestoreManagerDidCancel(_ manager: KinBackupRestoreManager) {
-        self.brAccount = nil
+        brAccount = nil
     }
 
     func kinBackupRestoreManager(_ manager: KinBackupRestoreManager, error: Error) {
