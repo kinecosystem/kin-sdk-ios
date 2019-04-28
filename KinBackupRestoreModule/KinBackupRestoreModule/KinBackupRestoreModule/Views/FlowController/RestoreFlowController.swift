@@ -21,9 +21,7 @@ class RestoreFlowController: FlowController {
     private var qrPickerController: QRPickerController?
     
     private lazy var _entryViewController: UIViewController = {
-        let s = "{\"pkey\":\"GB2FKV3UT7HC4QCCRKZWNAYLTADH32HTUL3QMWA2IX44LUGVVH7CYENZ\",\"seed\":\"074ebbc98b25b6d092ae47f8227a722f224146157b06aeb8c395936550121a957bc3a6ffd54adb5ce601bd5c5ac4addf413cc8faee57bb900c657043aa701a9323e9e33d13ac09bb\",\"salt\":\"d401a4a91a08d2450ef49dbc39ad48e4\"}"
-
-        let viewController = RestoreViewController(qrString: s) // RestoreIntroViewController()
+        let viewController = RestoreIntroViewController()
         viewController.delegate = self
         viewController.lifeCycleDelegate = self
         return viewController
@@ -92,7 +90,7 @@ extension RestoreFlowController: RestoreViewControllerDelegate {
             return .invalidImage
         }
 
-        if let result = isAccountInClient(json: json) {
+        if let result = isAccountInClient(json: json, password: password) {
             return result
         }
 
@@ -140,7 +138,7 @@ extension RestoreFlowController {
         return try JSONDecoder().decode(AccountData.self, from: data)
     }
 
-    fileprivate func isAccountInClient(json: String) -> RestoreViewController.ImportResult? {
+    fileprivate func isAccountInClient(json: String, password: String) -> RestoreViewController.ImportResult? {
         var data: AccountData?
 
         do {
@@ -155,7 +153,7 @@ extension RestoreFlowController {
         }
 
         do {
-            _ = try KeyUtils.seed(from: d.pkey, encryptedSeed: d.seed, salt: d.salt)
+            _ = try KeyUtils.seed(from: password, encryptedSeed: d.seed, salt: d.salt)
         }
         catch {
             return .wrongPassword

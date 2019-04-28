@@ -103,8 +103,7 @@ class RestoreViewController: ViewController {
             passwordTextField.isEnabled = false
 
             button.transitionToConfirmed {
-                // !!!: DEBUG
-//                delegate.restoreViewControllerDidComplete(self)
+                delegate.restoreViewControllerDidComplete(self)
             }
         }
         else {
