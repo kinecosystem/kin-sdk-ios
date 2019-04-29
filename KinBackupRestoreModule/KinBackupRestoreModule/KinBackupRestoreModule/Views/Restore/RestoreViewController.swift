@@ -24,8 +24,12 @@ class RestoreViewController: ViewController {
         return _view.imageView
     }
 
-    private var passwordInput: PasswordEntryTextField {
-        return _view.passwordInput
+    private var passwordLabel: PasswordLabel {
+        return _view.passwordLabel
+    }
+
+    private var passwordTextField: PasswordTextField {
+        return _view.passwordTextField
     }
 
     private var doneButton: ConfirmButton {
@@ -63,15 +67,17 @@ class RestoreViewController: ViewController {
 
         imageView.image = qrImage
 
-        passwordInput.addTarget(self, action: #selector(passwordInputChanges), for: .editingChanged)
-        passwordInput.becomeFirstResponder()
+        passwordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange), for: .editingChanged)
+        passwordTextField.becomeFirstResponder()
 
         doneButton.isEnabled = false
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 
     @objc
-    private func passwordInputChanges(_ textField: PasswordEntryTextField) {
+    private func passwordTextFieldDidChange(_ textField: PasswordTextField) {
+        passwordLabel.state = .instructions
+        passwordTextField.entryState = .default
         doneButton.isEnabled = textField.hasText
     }
     
@@ -89,17 +95,28 @@ class RestoreViewController: ViewController {
         button.isEnabled = false
         navigationItem.hidesBackButton = true
         
-        let importResult = delegate.restoreViewController(self, importWith: passwordInput.text ?? "")
+        let importResult = delegate.restoreViewController(self, importWith: passwordTextField.text ?? "")
 
         if importResult == .success {
-            button.transitionToConfirmed { () -> () in
+            passwordLabel.state = .success
+            passwordTextField.entryState = .valid
+            passwordTextField.isEnabled = false
+
+            button.transitionToConfirmed {
                 delegate.restoreViewControllerDidComplete(self)
             }
         }
         else {
+            passwordTextField.entryState = .invalid
             button.isEnabled = true
             navigationItem.hidesBackButton = false
-            presentErrorAlertController(result: importResult)
+
+            if importResult == .wrongPassword {
+                passwordLabel.state = .invalid
+            }
+            else {
+                presentErrorAlertController(result: importResult)
+            }
         }
     }
 }

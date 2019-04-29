@@ -33,10 +33,6 @@ class QRViewController: ViewController {
         return _view.doneButton
     }
 
-    private var isConfirmed: Bool {
-        return _view.isConfirmed
-    }
-
     var _view: QRView {
         return view as! QRView
     }
@@ -56,7 +52,8 @@ class QRViewController: ViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        title = "qr.title".localized()
+        title = "backup.title".localized()
+        navigationItem.backBarButtonItem = UIBarButtonItem()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,10 +69,11 @@ class QRViewController: ViewController {
 
         imageView.image = qrImage
 
-        confirmControl.isHidden = true
         confirmControl.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
 
         doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
+
+        syncState()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -93,7 +91,28 @@ class QRViewController: ViewController {
     @objc
     private func applicationDidTakeScreenshot() {
         if isViewLoaded && view.window != nil {
+            state = .saved
+        }
+    }
+
+    // MARK: State
+
+    private var state: State = .default {
+        didSet {
+            syncState()
+        }
+    }
+
+    private func syncState() {
+        switch state {
+        case .default:
+            confirmControl.isHidden = true
+            doneButton.isSelected = false
+            doneButton.isEnabled = true
+        case .saved:
             confirmControl.isHidden = false
+            doneButton.isSelected = true
+            doneButton.isEnabled = false
         }
     }
 
@@ -101,7 +120,7 @@ class QRViewController: ViewController {
 
     @objc
     private func doneAction() {
-        if isConfirmed {
+        if state == .saved {
             delegate.qrViewControllerDidComplete(self)
         }
         else {
@@ -111,7 +130,16 @@ class QRViewController: ViewController {
     
     @objc
     private func confirmAction() {
-        doneButton.isSelected = isConfirmed
+        doneButton.isEnabled = _view.isConfirmed
+    }
+}
+
+// MARK: - State
+
+extension QRViewController {
+    fileprivate enum State {
+        case `default`
+        case saved
     }
 }
 
@@ -174,7 +202,7 @@ extension QRViewController {
 extension QRViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         dismiss(animated: true) { [weak self] in
-            self?.confirmControl.isHidden = false
+            self?.state = .saved
         }
         mailViewController = nil
     }

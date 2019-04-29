@@ -1,5 +1,5 @@
 //
-//  PasswordEntryLabel.swift
+//  PasswordLabel.swift
 //  KinBackupRestoreModule
 //
 //  Created by Corey Werner on 17/02/2019.
@@ -8,19 +8,28 @@
 
 import UIKit
 
-class PasswordEntryLabel: UILabel {
+class PasswordLabel: UILabel {
     var instructionsAttributedString: NSAttributedString? {
         didSet {
+            needsResetHeight = true
             syncState()
         }
     }
     var mismatchAttributedString: NSAttributedString? {
         didSet {
+            needsResetHeight = true
             syncState()
         }
     }
     var invalidAttributedString: NSAttributedString? {
         didSet {
+            needsResetHeight = true
+            syncState()
+        }
+    }
+    var successAttributedString: NSAttributedString? {
+        didSet {
+            needsResetHeight = true
             syncState()
         }
     }
@@ -41,16 +50,26 @@ class PasswordEntryLabel: UILabel {
             attributedText = mismatchAttributedString
         case .invalid:
             attributedText = invalidAttributedString
+        case .success:
+            attributedText = successAttributedString
         }
     }
 
     // MARK: Size
 
+    private var needsResetHeight = true
     private var instructionsHeight: CGFloat = 0
     private var mismatchHeight: CGFloat = 0
     private var invalidHeight: CGFloat = 0
+    private var successHeight: CGFloat = 0
 
     private func syncSize() {
+        guard needsResetHeight else {
+            return
+        }
+
+        needsResetHeight = false
+
         func height(with attributedString: NSAttributedString?) -> CGFloat {
             let string = attributedString?.string ?? ""
             let size = CGSize(width: bounds.width, height: .greatestFiniteMagnitude)
@@ -60,6 +79,7 @@ class PasswordEntryLabel: UILabel {
         instructionsHeight = height(with: instructionsAttributedString)
         mismatchHeight = height(with: mismatchAttributedString)
         invalidHeight = height(with: invalidAttributedString)
+        successHeight = height(with: successAttributedString)
     }
 
     override func layoutSubviews() {
@@ -69,9 +89,13 @@ class PasswordEntryLabel: UILabel {
     }
 
     override var intrinsicContentSize: CGSize {
+        if bounds.isEmpty {
+            layoutIfNeeded()
+        }
+
         var size = super.intrinsicContentSize
 
-        for height in [instructionsHeight, mismatchHeight, invalidHeight] {
+        for height in [instructionsHeight, mismatchHeight, invalidHeight, successHeight] {
             size.height = max(size.height, height)
         }
 
@@ -81,10 +105,11 @@ class PasswordEntryLabel: UILabel {
 
 // MARK: - State
 
-extension PasswordEntryLabel {
+extension PasswordLabel {
     enum State {
         case instructions
         case mismatch
         case invalid
+        case success
     }
 }

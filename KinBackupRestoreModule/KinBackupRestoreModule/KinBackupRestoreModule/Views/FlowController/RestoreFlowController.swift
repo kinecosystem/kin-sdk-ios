@@ -90,6 +90,10 @@ extension RestoreFlowController: RestoreViewControllerDelegate {
             return .invalidImage
         }
 
+        if let result = isAccountInClient(json: json, password: password) {
+            return result
+        }
+
         do {
             importedKinAccount = try kinClient.importAccount(json, passphrase: password)
             return .success
@@ -111,5 +115,56 @@ extension RestoreFlowController: RestoreViewControllerDelegate {
             self.delegate?.flowControllerDidComplete(self)
             self.importedKinAccount = nil
         }
+    }
+}
+
+// MARK: - Account Duplication
+
+extension RestoreFlowController {
+    // This code needs to be in the KinSDK. Until then it's handled here.
+
+    fileprivate struct AccountData: Codable {
+        let pkey: String
+        let seed: String
+        let salt: String
+        let extra: Data?
+    }
+
+    fileprivate func accountData(in json: String) throws -> AccountData? {
+        guard let data = json.data(using: .utf8) else {
+            return nil
+        }
+
+        return try JSONDecoder().decode(AccountData.self, from: data)
+    }
+
+    fileprivate func isAccountInClient(json: String, password: String) -> RestoreViewController.ImportResult? {
+        var data: AccountData?
+
+        do {
+            data = try accountData(in: json)
+        }
+        catch {
+            return .internalIssue
+        }
+
+        guard let d = data else {
+            return .internalIssue
+        }
+
+        do {
+            _ = try KeyUtils.seed(from: password, encryptedSeed: d.seed, salt: d.salt)
+        }
+        catch {
+            return .wrongPassword
+        }
+
+        let foundAccount = kinClient.accounts.makeIterator().first { $0?.publicAddress == d.pkey }
+
+        if foundAccount != nil {
+            return .success
+        }
+
+        return nil
     }
 }

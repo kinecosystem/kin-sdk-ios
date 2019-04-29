@@ -10,85 +10,91 @@ import UIKit
 
 class RestoreView: KeyboardAdjustingScrollView {
     let imageView = UIImageView()
-    let passwordInput = PasswordEntryTextField()
+    let passwordLabel = PasswordLabel()
+    let passwordTextField = PasswordTextField()
     let doneButton = ConfirmButton()
-
-    private var regularConstraints: [NSLayoutConstraint] = []
 
     // MARK: Lifecycle
 
     required init(frame: CGRect) {
         super.init(frame: frame)
 
+        addArrangedVerticalSpaceSubview(spacing: .medium)
+
         let imageViewStackView = UIStackView()
         imageViewStackView.axis = .vertical
         imageViewStackView.alignment = .center
-        imageViewStackView.spacing = contentView.spacing
         contentView.addArrangedSubview(imageViewStackView)
 
-        addArrangedVerticalLayoutSubview(to: imageViewStackView)
+        let imageWidth: CGFloat = 100
 
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageViewStackView.addArrangedSubview(imageView)
-        imageView.widthAnchor.constraint(lessThanOrEqualToConstant: 300).isActive = true
-        regularConstraints += [
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
-        ]
+        imageView.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
 
-        let contentStackView = UIStackView()
-        contentStackView.axis = .vertical
-        contentStackView.spacing = contentView.spacing
-        contentView.addArrangedSubview(contentStackView)
+        let checkWidth: CGFloat = 24
+        let checkBorder: CGFloat = 2
+        let checkOffset: CGFloat = 4
+        let checkBorderWidth = checkWidth + (checkBorder * 2)
 
-        addArrangedVerticalSpaceSubview(to: contentStackView)
+        // Prevent aliasing from layer.border
+        let checkBorderView = UIView()
+        checkBorderView.translatesAutoresizingMaskIntoConstraints = false
+        checkBorderView.backgroundColor = .white
+        checkBorderView.layer.cornerRadius = checkBorderWidth / 2
+        checkBorderView.layer.rasterizationScale = UIScreen.main.scale
+        checkBorderView.layer.shouldRasterize = true
+        imageViewStackView.addSubview(checkBorderView)
+        checkBorderView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: checkOffset).isActive = true
+        checkBorderView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: checkOffset).isActive = true
+        checkBorderView.widthAnchor.constraint(equalToConstant: checkBorderWidth).isActive = true
+        checkBorderView.heightAnchor.constraint(equalToConstant: checkBorderWidth).isActive = true
 
-        let instructionsLabel = UILabel()
-        instructionsLabel.text = "restore.description".localized()
-        instructionsLabel.font = .preferredFont(forTextStyle: .body)
-        instructionsLabel.textColor = .kinGray
-        instructionsLabel.textAlignment = .center
-        instructionsLabel.numberOfLines = 0
-        instructionsLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-        contentStackView.addArrangedSubview(instructionsLabel)
+        let checkImageView = UIImageView()
+        checkImageView.translatesAutoresizingMaskIntoConstraints = false
+        checkImageView.image = UIImage(named: "Checkmark", in: .backupRestore, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        checkImageView.tintColor = .white
+        checkImageView.contentMode = .center
+        checkImageView.backgroundColor = Appearance.shared.primary
+        checkImageView.layer.cornerRadius = checkWidth / 2
+        checkImageView.layer.rasterizationScale = UIScreen.main.scale
+        checkImageView.layer.shouldRasterize = true
+        checkBorderView.addSubview(checkImageView)
+        checkImageView.centerXAnchor.constraint(equalTo: checkBorderView.centerXAnchor).isActive = true
+        checkImageView.centerYAnchor.constraint(equalTo: checkBorderView.centerYAnchor).isActive = true
+        checkImageView.widthAnchor.constraint(equalToConstant: checkWidth).isActive = true
+        checkImageView.heightAnchor.constraint(equalToConstant: checkWidth).isActive = true
 
-        addArrangedVerticalSpaceSubview(to: contentStackView)
+        addArrangedVerticalSpaceSubview()
 
-        passwordInput.attributedPlaceholder = NSAttributedString(string: "restore.password.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
-        passwordInput.isSecureTextEntry = true
-        passwordInput.setContentCompressionResistancePriority(.required, for: .vertical)
-        passwordInput.setContentHuggingPriority(.required, for: .vertical)
-        contentStackView.addArrangedSubview(passwordInput)
+        passwordLabel.instructionsAttributedString = NSAttributedString(string: "restore.instructions".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray])
+        passwordLabel.invalidAttributedString = NSAttributedString(string: "restore.invalid".localized(), attributes: [.foregroundColor: UIColor.kinWarning])
+        passwordLabel.successAttributedString = NSAttributedString(string: "restore.success".localized(), attributes: [.foregroundColor: UIColor.kinDarkGray])
+        passwordLabel.font = .preferredFont(forTextStyle: .body)
+        passwordLabel.textColor = .kinDarkGray
+        passwordLabel.textAlignment = .center
+        passwordLabel.numberOfLines = 0
+        passwordLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        contentView.addArrangedSubview(passwordLabel)
 
-        doneButton.appearance = .blue
+        addArrangedVerticalSpaceSubview()
+
+        passwordTextField.placeholder = "restore.password.placeholder".localized()
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.setContentCompressionResistancePriority(.required, for: .vertical)
+        passwordTextField.setContentHuggingPriority(.required, for: .vertical)
+        contentView.addArrangedSubview(passwordTextField)
+
         doneButton.setTitle("generic.next".localized(), for: .normal)
         doneButton.setContentCompressionResistancePriority(.required, for: .vertical)
         doneButton.setContentHuggingPriority(.required, for: .vertical)
-        contentStackView.addArrangedSubview(doneButton)
+        contentView.addArrangedSubview(doneButton)
 
-        addArrangedVerticalLayoutSubview(to: contentStackView)
+        addArrangedVerticalSpaceSubview(spacing: .medium)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    // MARK: Layout
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.verticalSizeClass == .compact {
-            contentView.axis = .horizontal
-            contentView.distribution = .fillEqually
-
-            NSLayoutConstraint.deactivate(regularConstraints)
-        }
-        else {
-            contentView.axis = .vertical
-            contentView.distribution = .fill
-
-            NSLayoutConstraint.activate(regularConstraints)
-        }
     }
 }

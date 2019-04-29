@@ -10,69 +10,76 @@ import UIKit
 
 class QRView: KeyboardAdjustingScrollView {
     let imageView = UIImageView()
-    private let instructionsLabel = UILabel()
     let confirmControl = UIControl()
     private let confirmImageView = CheckboxImageView()
     let doneButton = RoundButton()
-
-    private var regularConstraints: [NSLayoutConstraint] = []
 
     // MARK: Lifecycle
 
     required init(frame: CGRect) {
         super.init(frame: frame)
 
+        addArrangedVerticalSpaceSubview(spacing: .medium)
+
+        let titleLabel = UILabel()
+        titleLabel.text = "qr.title".localized()
+        titleLabel.font = .preferredFont(forTextStyle: .title1)
+        titleLabel.textColor = .kinDarkGray
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 0
+        contentView.addArrangedSubview(titleLabel)
+
+        let descriptionLabel = UILabel()
+        descriptionLabel.text = "qr.description".localized()
+        descriptionLabel.font = .preferredFont(forTextStyle: .body)
+        descriptionLabel.textColor = .kinDarkGray
+        descriptionLabel.textAlignment = .center
+        descriptionLabel.numberOfLines = 0
+        contentView.addArrangedSubview(descriptionLabel)
+
+        addArrangedVerticalSpaceSubview()
+
         let imageViewStackView = UIStackView()
         imageViewStackView.axis = .vertical
         imageViewStackView.alignment = .center
-        imageViewStackView.spacing = contentView.spacing
         contentView.addArrangedSubview(imageViewStackView)
 
-        addArrangedVerticalLayoutSubview(to: imageViewStackView, sizeClass: .regular)
+        let imageWidth: CGFloat = 280
 
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageViewStackView.addArrangedSubview(imageView)
-        imageView.widthAnchor.constraint(lessThanOrEqualToConstant: 300).isActive = true
-        regularConstraints += [
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
-        ]
+        imageView.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
 
-        addArrangedVerticalSpaceSubview(to: imageViewStackView, height: 10, sizeClass: .regular)
+        let reminderStackView = UIStackView()
+        reminderStackView.alignment = .center
+        reminderStackView.axis = .vertical
+        contentView.addArrangedSubview(reminderStackView)
 
-        let contentStackView = UIStackView()
-        contentStackView.axis = .vertical
-        contentStackView.spacing = contentView.spacing
-        contentView.addArrangedSubview(contentStackView)
+        let reminderLabel = UILabel()
+        reminderLabel.translatesAutoresizingMaskIntoConstraints = false
+        reminderLabel.text = "reminder.title".localized()
+        reminderLabel.font = .preferredFont(forTextStyle: .footnote)
+        reminderLabel.textColor = .kinWarning
+        reminderLabel.numberOfLines = 0
+        reminderLabel.textAlignment = .center
+        reminderLabel.preferredMaxLayoutWidth = imageWidth
+        reminderStackView.addArrangedSubview(reminderLabel)
+        reminderLabel.topAnchor.constraint(equalTo: reminderStackView.topAnchor).isActive = true
+        reminderLabel.leadingAnchor.constraint(greaterThanOrEqualTo: reminderStackView.leadingAnchor).isActive = true
+        reminderLabel.bottomAnchor.constraint(equalTo: reminderStackView.bottomAnchor).isActive = true
+        reminderLabel.trailingAnchor.constraint(lessThanOrEqualTo: reminderStackView.trailingAnchor).isActive = true
+        reminderLabel.centerXAnchor.constraint(equalTo: reminderStackView.centerXAnchor).isActive = true
 
-        addArrangedVerticalLayoutSubview(to: contentStackView, sizeClass: .compact)
-
-        instructionsLabel.text = "qr.description".localized()
-        instructionsLabel.font = .preferredFont(forTextStyle: .body)
-        instructionsLabel.textColor = .kinGray
-        instructionsLabel.textAlignment = .center
-        instructionsLabel.numberOfLines = 0
-        instructionsLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-        instructionsLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
-        contentStackView.addArrangedSubview(instructionsLabel)
-
-        addArrangedVerticalSpaceSubview(to: contentStackView, height: 10)
-
-        let reminderView = ReminderView()
-        reminderView.tintColor = .kinWarning
-        reminderView.setContentCompressionResistancePriority(.required, for: .vertical)
-        reminderView.setContentHuggingPriority(.required, for: .vertical)
-        contentStackView.addArrangedSubview(reminderView)
-
-        addArrangedVerticalSpaceSubview(to: contentStackView, height: 10)
+        addArrangedVerticalSpaceSubview()
 
         confirmControl.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
-        contentStackView.addArrangedSubview(confirmControl)
+        contentView.addArrangedSubview(confirmControl)
 
         let confirmStackView = UIStackView()
         confirmStackView.translatesAutoresizingMaskIntoConstraints = false
         confirmStackView.axis = .horizontal
-        confirmStackView.spacing = contentView.spacing
+        confirmStackView.spacing = 10
         confirmStackView.alignment = .center
         confirmStackView.isUserInteractionEnabled = false
         confirmControl.addSubview(confirmStackView)
@@ -87,53 +94,37 @@ class QRView: KeyboardAdjustingScrollView {
         let confirmLabel = UILabel()
         confirmLabel.text = "qr.saved".localized()
         confirmLabel.font = .preferredFont(forTextStyle: .body)
-        confirmLabel.textColor = .kinGray
+        confirmLabel.textColor = .kinDarkGray
         confirmStackView.addArrangedSubview(confirmLabel)
 
-        addArrangedVerticalSpaceSubview(to: contentStackView)
-
-        doneButton.appearance = .blue
         doneButton.setTitle("qr.save".localized(), for: .normal)
-        doneButton.setTitle("generic.next".localized(), for: .selected)
+        doneButton.setTitle("generic.done".localized(), for: .selected)
+        doneButton.setTitle("generic.done".localized(), for: [.selected, .highlighted])
+        doneButton.setTitle("generic.done".localized(), for: [.selected, .disabled])
         doneButton.setContentCompressionResistancePriority(.required, for: .vertical)
         doneButton.setContentHuggingPriority(.required, for: .vertical)
-        contentStackView.addArrangedSubview(doneButton)
+        contentView.addArrangedSubview(doneButton)
 
-        addArrangedVerticalLayoutSubview(to: contentStackView, sizeClass: .compact)
-        addArrangedVerticalLayoutSubview(to: contentStackView, sizeClass: .regular)
+        addArrangedVerticalSpaceSubview(spacing: .medium)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: Layout
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.verticalSizeClass == .compact {
-            contentView.axis = .horizontal
-            contentView.distribution = .fillEqually
-
-            NSLayoutConstraint.deactivate(regularConstraints)
-        }
-        else {
-            contentView.axis = .vertical
-            contentView.distribution = .fill
-
-            NSLayoutConstraint.activate(regularConstraints)
-        }
-    }
-
     // MARK: Confirm
 
     var isConfirmed: Bool {
-        return confirmImageView.isHighlighted
+        get {
+            return confirmImageView.isHighlighted
+        }
+        set {
+            confirmImageView.isHighlighted = newValue
+        }
     }
 
     @objc
     private func confirmAction() {
-        confirmImageView.isHighlighted = !confirmImageView.isHighlighted
+        isConfirmed = !isConfirmed
     }
 }

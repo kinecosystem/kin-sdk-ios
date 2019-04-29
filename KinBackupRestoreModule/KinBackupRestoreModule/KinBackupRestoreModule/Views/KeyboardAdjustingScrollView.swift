@@ -40,7 +40,7 @@ class KeyboardAdjustingScrollView: UIScrollView {
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.axis = .vertical
-        contentView.spacing = 10
+        contentView.spacing = 18
         addSubview(contentView)
         contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         contentView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
@@ -68,72 +68,15 @@ class KeyboardAdjustingScrollView: UIScrollView {
 
     // MARK: Layout
 
-    private var firstVerticalLayoutViewMap: [UIUserInterfaceSizeClass: UIView] = [:]
-    private var regularVerticalViews: [UIView] = []
-    private var compactVerticalViews: [UIView] = []
-    private var regularConstraints: [NSLayoutConstraint] = []
-    private var compactConstraints: [NSLayoutConstraint] = []
-
-    /**
-     Add subview with a dynamic height.
-     */
-    func addArrangedVerticalLayoutSubview(to stackView: UIStackView? = nil, sizeClass: UIUserInterfaceSizeClass = .unspecified) {
-        let layoutView = UIView()
-        (stackView ?? contentView).addArrangedSubview(layoutView)
-        let constraint: NSLayoutConstraint
-
-        if let firstVerticalLayoutView = firstVerticalLayoutViewMap[sizeClass] {
-            constraint = layoutView.heightAnchor.constraint(equalTo: firstVerticalLayoutView.heightAnchor)
-        }
-        else {
-            firstVerticalLayoutViewMap[sizeClass] = layoutView
-
-            constraint = layoutView.heightAnchor.constraint(equalTo: layoutMarginsGuide.heightAnchor, multiplier: 0.1)
-            constraint.priority = .defaultLow
-        }
-
-        applyVerticalView(layoutView, constraint: constraint, sizeClass: sizeClass)
-    }
-
     /**
      Add subview with a static height.
      */
-    func addArrangedVerticalSpaceSubview(to stackView: UIStackView? = nil, height: CGFloat = 0, sizeClass: UIUserInterfaceSizeClass = .unspecified) {
+    func addArrangedVerticalSpaceSubview(to stackView: UIStackView? = nil, spacing: Spacing = .small) {
         let spaceView = UIView()
         spaceView.setContentHuggingPriority(.required, for: .vertical)
+        spaceView.setContentCompressionResistancePriority(.required, for: .vertical)
         (stackView ?? contentView).addArrangedSubview(spaceView)
-        let constraint = spaceView.heightAnchor.constraint(equalToConstant: height)
-        applyVerticalView(spaceView, constraint: constraint, sizeClass: sizeClass)
-    }
-
-    private func applyVerticalView(_ verticalView: UIView, constraint: NSLayoutConstraint, sizeClass: UIUserInterfaceSizeClass) {
-        switch sizeClass {
-        case .regular:
-            regularVerticalViews.append(verticalView)
-            regularConstraints.append(constraint)
-        case .compact:
-            compactVerticalViews.append(verticalView)
-            compactConstraints.append(constraint)
-        case .unspecified:
-            constraint.isActive = true
-        }
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.verticalSizeClass == .compact {
-            NSLayoutConstraint.deactivate(regularConstraints)
-            NSLayoutConstraint.activate(compactConstraints)
-            regularVerticalViews.forEach({ $0.isHidden = true })
-            compactVerticalViews.forEach({ $0.isHidden = false })
-        }
-        else {
-            NSLayoutConstraint.deactivate(compactConstraints)
-            NSLayoutConstraint.activate(regularConstraints)
-            compactVerticalViews.forEach({ $0.isHidden = true })
-            regularVerticalViews.forEach({ $0.isHidden = false })
-        }
+        spaceView.heightAnchor.constraint(equalToConstant: spacing.constant).isActive = true
     }
 
     // MARK: Keyboard
@@ -161,6 +104,29 @@ class KeyboardAdjustingScrollView: UIScrollView {
         }
         else {
             bottomLayoutHeight = bottomHeight
+        }
+    }
+}
+
+// MARK: - Spacing
+
+extension KeyboardAdjustingScrollView {
+    enum Spacing {
+        case small
+        case medium
+        case large
+    }
+}
+
+extension KeyboardAdjustingScrollView.Spacing {
+    var constant: CGFloat {
+        switch self {
+        case .small:
+            return 0
+        case .medium:
+            return 14
+        case .large:
+            return 28
         }
     }
 }

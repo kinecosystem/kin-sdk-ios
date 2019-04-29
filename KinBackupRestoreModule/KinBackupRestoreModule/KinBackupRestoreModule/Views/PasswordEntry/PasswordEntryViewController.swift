@@ -18,20 +18,16 @@ class PasswordEntryViewController: ViewController {
 
     // MARK: View
 
-    private var passwordInfoLabel: PasswordEntryLabel {
-        return _view.passwordInfoLabel
+    private var passwordLabel: PasswordLabel {
+        return _view.passwordLabel
     }
 
-    private var passwordTextField: PasswordEntryTextField {
+    private var passwordTextField: PasswordTextField {
         return _view.passwordTextField
     }
 
-    private var passwordConfirmTextField: PasswordEntryTextField {
+    private var passwordConfirmTextField: PasswordTextField {
         return _view.passwordConfirmTextField
-    }
-
-    private var confirmLabel: UILabel {
-        return _view.confirmLabel
     }
 
     private var doneButton: RoundButton {
@@ -55,7 +51,8 @@ class PasswordEntryViewController: ViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
 
-        title = "password_entry.title".localized()
+        title = "backup.title".localized()
+        navigationItem.backBarButtonItem = UIBarButtonItem()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -65,30 +62,13 @@ class PasswordEntryViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        passwordInfoLabel.instructionsAttributedString = NSAttributedString(string: "password_entry.instructions".localized(), attributes: [.foregroundColor: UIColor.kinGray])
-        passwordInfoLabel.mismatchAttributedString = NSAttributedString(string: "password_entry.mismatch".localized(), attributes: [.foregroundColor: UIColor.kinWarning])
-        passwordInfoLabel.invalidAttributedString = {
-            let attributedString1 = NSAttributedString(string: "password_entry.invalid_warning".localized(), attributes: [.foregroundColor: UIColor.kinWarning])
-
-            let attributedString2 = NSAttributedString(string: "password_entry.invalid_info".localized(), attributes: [.foregroundColor: UIColor.kinGray])
-
-            let attributedString = NSMutableAttributedString()
-            attributedString.append(attributedString1)
-            attributedString.append(NSAttributedString(string: "\n"))
-            attributedString.append(attributedString2)
-            return attributedString
-        }()
-
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "password_entry.password.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
         passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textFieldDidEnd), for: .editingDidEnd)
         passwordTextField.becomeFirstResponder()
 
-        passwordConfirmTextField.attributedPlaceholder = NSAttributedString(string: "password_entry.password_confirm.placeholder".localized(), attributes: [.foregroundColor: UIColor.kinGray])
         passwordConfirmTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        passwordConfirmTextField.addTarget(self, action: #selector(textFieldDidEnd), for: .editingDidEnd)
 
-        confirmLabel.text = "password_entry.confirmation".localized()
-
-        doneButton.setTitle("generic.next".localized(), for: .normal)
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 
@@ -119,40 +99,51 @@ class PasswordEntryViewController: ViewController {
     }
 
     // MARK: Text Field
-    
-    @IBAction
-    func textFieldDidChange(_ textField: UITextField) {
-        if passwordTextField.hasText,
-            let delegate = delegate,
-            let password = passwordTextField.text,
-            delegate.passwordEntryViewController(self, validate: password)
-        {
-            passwordTextField.entryState = .valid
 
-            if passwordConfirmTextField.text == password {
-                passwordConfirmTextField.entryState = .valid
+    @objc
+    private func textFieldDidChange(_ textField: PasswordTextField) {
+        passwordLabel.state = .instructions
+        textField.entryState = .default
+
+        _view.updateDoneButton()
+    }
+
+    @objc
+    private func textFieldDidEnd(_ textField: PasswordTextField) {
+        if let password = textField.text, !password.isEmpty {
+            if let delegate = delegate, delegate.passwordEntryViewController(self, validate: password) {
+                textField.entryState = .valid
             }
             else {
-                passwordConfirmTextField.entryState = .default
+                passwordLabel.state = .invalid
+                textField.entryState = .invalid
             }
         }
         else {
-            passwordTextField.entryState = .default
+            textField.entryState = .default
         }
 
-        passwordInfoLabel.state = .instructions
+        _view.updateDoneButton()
     }
 
     // MARK: Done Button
     
-    @IBAction
-    func doneButtonTapped(_ button: UIButton) {
+    @objc
+    private func doneButtonTapped(_ button: UIButton) {
         guard let password = passwordTextField.text, passwordTextField.hasText && passwordConfirmTextField.hasText else {
             return // Shouldn't happen
         }
 
         guard passwordTextField.text == passwordConfirmTextField.text else {
-            alertPasswordsDontMatch()
+            passwordLabel.state = .mismatch
+
+            passwordTextField.becomeFirstResponder()
+            passwordTextField.entryState = .invalid
+
+            passwordConfirmTextField.text = ""
+            passwordConfirmTextField.entryState = .invalid
+
+            _view.updateDoneButton()
             return
         }
 
@@ -161,21 +152,16 @@ class PasswordEntryViewController: ViewController {
         }
         
         guard delegate.passwordEntryViewController(self, validate: password) else {
-            alertPasswordsConformance()
+            passwordLabel.state = .invalid
+
+            passwordTextField.entryState = .invalid
+            passwordConfirmTextField.entryState = .invalid
+
+            _view.updateDoneButton()
             return
         }
 
         delegate.passwordEntryViewControllerDidComplete(self, with: password)
-    }
-
-    func alertPasswordsDontMatch() {
-        passwordInfoLabel.state = .mismatch
-        passwordConfirmTextField.text = ""
-        passwordTextField.becomeFirstResponder()
-    }
-    
-    func alertPasswordsConformance() {
-        passwordInfoLabel.state = .invalid
     }
 }
 
