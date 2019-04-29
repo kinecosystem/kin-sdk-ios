@@ -1,0 +1,22 @@
+language: swift
+osx_image: xcode10.1
+xcode_project: KinSampleApp.xcodeproj
+xcode_scheme: KinSampleApp
+xcode_sdk: iphonesimulator12.1
+
+env:
+- TEST_MATRIX=build
+- TEST_MATRIX=test
+
+script:
+  - |
+    if [ $TEST_MATRIX == "build" ]; then 
+      xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSampleApp -sdk iphonesimulator12.1 -configuration "Debug"
+    fi
+  - |
+    if [ $TEST_MATRIX == "test" ]; then
+      xcodebuild test -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSDK -destination 'platform=iOS Simulator,name=iPhone 8 Plus';
+    fi
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
