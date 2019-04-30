@@ -86,7 +86,7 @@ class RestoreView: KeyboardAdjustingScrollView {
         passwordTextField.setContentHuggingPriority(.required, for: .vertical)
         contentView.addArrangedSubview(passwordTextField)
 
-        doneButton.setTitle("generic.next".localized(), for: .normal)
+        doneButton.setTitle("generic.done".localized(), for: .normal)
         doneButton.setContentCompressionResistancePriority(.required, for: .vertical)
         doneButton.setContentHuggingPriority(.required, for: .vertical)
         contentView.addArrangedSubview(doneButton)
