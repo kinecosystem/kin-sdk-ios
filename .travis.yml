@@ -2,7 +2,7 @@ language: swift
 osx_image: xcode10.2
 xcode_project: KinSampleApp.xcodeproj
 xcode_scheme: KinSampleApp
-xcode_sdk: iphonesimulator12.1
+xcode_sdk: iphonesimulator12.2
 
 env:
 - TEST_MATRIX=build
