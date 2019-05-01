@@ -73,6 +73,7 @@ class PasswordLabel: UILabel {
         func height(with attributedString: NSAttributedString?) -> CGFloat {
             let string = attributedString?.string ?? ""
             let size = CGSize(width: bounds.width, height: .greatestFiniteMagnitude)
+            let font = self.font ?? UIFont.preferredFont(forTextStyle: .body)
             return ceil(string.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil).height)
         }
 

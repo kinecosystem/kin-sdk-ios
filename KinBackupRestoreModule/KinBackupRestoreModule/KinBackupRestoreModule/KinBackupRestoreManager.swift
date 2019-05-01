@@ -223,7 +223,7 @@ extension KinBackupRestoreManager {
         let navigationController = flowController.navigationController
         let entryViewController = flowController.entryViewController
         
-        guard let index = navigationController.viewControllers.index(of: entryViewController) else {
+        guard let index = navigationController.viewControllers.firstIndex(of: entryViewController) else {
             return
         }
         

@@ -109,7 +109,7 @@ extension AccountViewController {
                 return
             }
 
-            if let error = d?["error"] as? String {
+            if let error = d["error"] as? String {
                 promise.signal(Error.invalidResponse(message: error))
                 return
             }
