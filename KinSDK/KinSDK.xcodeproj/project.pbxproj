@@ -60,6 +60,62 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		688AAF74227987680095DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 09A943C71A4EB5F500C8A04F;
+			remoteInfo = Sodium_iOS;
+		};
+		688AAF76227987680095DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 09A943D21A4EB5F500C8A04F;
+			remoteInfo = SodiumTests;
+		};
+		688AAF78227987680095DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 90C75E941AE3571900F1E749;
+			remoteInfo = Sodium_OSX;
+		};
+		688AAF7A227987680095DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D891FE9421642CB40092AA84;
+			remoteInfo = Sodium_watchOS;
+		};
+		688AAF7C227987680095DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 901644B61AE36EA700163E3E;
+			remoteInfo = "Example iOS";
+		};
+		688AAF7E227987680095DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 901644DC1AE36F2D00163E3E;
+			remoteInfo = "Example OSX";
+		};
+		688AAF80227987680095DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D87D515521647597006D2C03;
+			remoteInfo = "Example Watch";
+		};
+		688AAF82227987680095DC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D87D516121647598006D2C03;
+			remoteInfo = "Example Watch Extension";
+		};
 		68D04A3E219411FB00F27492 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68D04A38219411FB00F27492 /* KinUtil.xcodeproj */;
@@ -73,48 +129,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 82F2FAA0204309E500E754BD;
 			remoteInfo = KinUtilTests;
-		};
-		68D04A42219411FB00F27492 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68D04A38219411FB00F27492 /* KinUtil.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82BA2040204D84AA00396AE2;
-			remoteInfo = "KinUtil-macos";
-		};
-		68D04ACC2197EE5300F27492 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 09A943C71A4EB5F500C8A04F;
-			remoteInfo = Sodium_iOS;
-		};
-		68D04ACE2197EE5300F27492 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 09A943D21A4EB5F500C8A04F;
-			remoteInfo = SodiumTests;
-		};
-		68D04AD02197EE5300F27492 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 90C75E941AE3571900F1E749;
-			remoteInfo = Sodium_OSX;
-		};
-		68D04AD22197EE5300F27492 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 901644B61AE36EA700163E3E;
-			remoteInfo = "Example iOS";
-		};
-		68D04AD42197EE5300F27492 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 901644DC1AE36F2D00163E3E;
-			remoteInfo = "Example OSX";
 		};
 		827835421FA9B5F20006C3DF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -149,6 +163,7 @@
 /* Begin PBXFileReference section */
 		680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitelistEnvelope.swift; sourceTree = "<group>"; };
 		686759EC21736844001E9626 /* AppIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdTests.swift; sourceTree = "<group>"; };
+		688AAF69227987680095DC2A /* Sodium.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sodium.xcodeproj; path = "swift-sodium/Sodium.xcodeproj"; sourceTree = "<group>"; };
 		68D04A0A21940FA500F27492 /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
 		68D04A0D21940FA500F27492 /* StellarErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarErrors.swift; sourceTree = "<group>"; };
 		68D04A0F21940FA500F27492 /* PublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKey.swift; sourceTree = "<group>"; };
@@ -172,7 +187,6 @@
 		68D04A2221940FA500F27492 /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		68D04A38219411FB00F27492 /* KinUtil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KinUtil.xcodeproj; path = "../../kin-util-ios/KinUtil/KinUtil.xcodeproj"; sourceTree = "<group>"; };
 		68D04A452194134F00F27492 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		68D04A7C2194533300F27492 /* Sodium.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sodium.xcodeproj; path = "swift-sodium/Sodium.xcodeproj"; sourceTree = "<group>"; };
 		68D04ABF2197EC4A00F27492 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82140EA91FA88E5B00FAF19B /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82140EAC1FA88E5B00FAF19B /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
@@ -236,6 +250,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		688AAF6A227987680095DC2A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				688AAF75227987680095DC2A /* Sodium.framework */,
+				688AAF77227987680095DC2A /* SodiumTests.xctest */,
+				688AAF79227987680095DC2A /* Sodium.framework */,
+				688AAF7B227987680095DC2A /* Sodium.framework */,
+				688AAF7D227987680095DC2A /* Example iOS.app */,
+				688AAF7F227987680095DC2A /* Example OSX.app */,
+				688AAF81227987680095DC2A /* Example Watch.app */,
+				688AAF83227987680095DC2A /* Example Watch Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		68D04A0C21940FA500F27492 /* blockchain */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,19 +314,6 @@
 			children = (
 				68D04A3F219411FB00F27492 /* KinUtil.framework */,
 				68D04A41219411FB00F27492 /* KinUtilTests.xctest */,
-				68D04A43219411FB00F27492 /* KinUtil.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		68D04AC22197EE5300F27492 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				68D04ACD2197EE5300F27492 /* Sodium.framework */,
-				68D04ACF2197EE5300F27492 /* SodiumTests.xctest */,
-				68D04AD12197EE5300F27492 /* Sodium.framework */,
-				68D04AD32197EE5300F27492 /* Example iOS.app */,
-				68D04AD52197EE5300F27492 /* Example OSX.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -393,7 +409,7 @@
 		82BA1E2B204D062800396AE2 /* third-party */ = {
 			isa = PBXGroup;
 			children = (
-				68D04A7C2194533300F27492 /* Sodium.xcodeproj */,
+				688AAF69227987680095DC2A /* Sodium.xcodeproj */,
 				68D04A0A21940FA500F27492 /* SHA256.swift */,
 				82BA1EBE204D22AB00396AE2 /* keychain-swift */,
 			);
@@ -495,7 +511,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Kin Foundation";
 				TargetAttributes = {
 					82140EA81FA88E5B00FAF19B = {
@@ -531,8 +547,8 @@
 					ProjectRef = 68D04A38219411FB00F27492 /* KinUtil.xcodeproj */;
 				},
 				{
-					ProductGroup = 68D04AC22197EE5300F27492 /* Products */;
-					ProjectRef = 68D04A7C2194533300F27492 /* Sodium.xcodeproj */;
+					ProductGroup = 688AAF6A227987680095DC2A /* Products */;
+					ProjectRef = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -545,6 +561,62 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		688AAF75227987680095DC2A /* Sodium.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Sodium.framework;
+			remoteRef = 688AAF74227987680095DC2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		688AAF77227987680095DC2A /* SodiumTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SodiumTests.xctest;
+			remoteRef = 688AAF76227987680095DC2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		688AAF79227987680095DC2A /* Sodium.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Sodium.framework;
+			remoteRef = 688AAF78227987680095DC2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		688AAF7B227987680095DC2A /* Sodium.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Sodium.framework;
+			remoteRef = 688AAF7A227987680095DC2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		688AAF7D227987680095DC2A /* Example iOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Example iOS.app";
+			remoteRef = 688AAF7C227987680095DC2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		688AAF7F227987680095DC2A /* Example OSX.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Example OSX.app";
+			remoteRef = 688AAF7E227987680095DC2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		688AAF81227987680095DC2A /* Example Watch.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Example Watch.app";
+			remoteRef = 688AAF80227987680095DC2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		688AAF83227987680095DC2A /* Example Watch Extension.appex */ = {
+			isa = PBXReferenceProxy;
+			fileType = "wrapper.app-extension";
+			path = "Example Watch Extension.appex";
+			remoteRef = 688AAF82227987680095DC2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		68D04A3F219411FB00F27492 /* KinUtil.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -557,48 +629,6 @@
 			fileType = wrapper.cfbundle;
 			path = KinUtilTests.xctest;
 			remoteRef = 68D04A40219411FB00F27492 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68D04A43219411FB00F27492 /* KinUtil.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KinUtil.framework;
-			remoteRef = 68D04A42219411FB00F27492 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68D04ACD2197EE5300F27492 /* Sodium.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sodium.framework;
-			remoteRef = 68D04ACC2197EE5300F27492 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68D04ACF2197EE5300F27492 /* SodiumTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SodiumTests.xctest;
-			remoteRef = 68D04ACE2197EE5300F27492 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68D04AD12197EE5300F27492 /* Sodium.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sodium.framework;
-			remoteRef = 68D04AD02197EE5300F27492 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68D04AD32197EE5300F27492 /* Example iOS.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Example iOS.app";
-			remoteRef = 68D04AD22197EE5300F27492 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68D04AD52197EE5300F27492 /* Example OSX.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Example OSX.app";
-			remoteRef = 68D04AD42197EE5300F27492 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -760,6 +790,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -767,6 +798,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -804,7 +836,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KinSDK/source/third-party/swift-sodium/Sodium/libsodium";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -825,6 +857,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -832,6 +865,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -861,7 +895,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KinSDK/source/third-party/swift-sodium/Sodium/libsodium";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -949,7 +983,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinTestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -970,7 +1003,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinTestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -991,7 +1023,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinTestHostTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KinTestHost.app/KinTestHost";
 			};
@@ -1013,7 +1044,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinTestHostTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KinTestHost.app/KinTestHost";
 			};
