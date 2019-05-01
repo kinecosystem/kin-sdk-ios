@@ -1,11 +1,11 @@
 PODS:
-  - KinBackupRestoreModule (0.0.1):
-    - KinSDK (= 0.8.6)
-  - KinSDK (0.8.6):
-    - KinUtil (= 0.0.18)
-    - Sodium (= 0.7.0)
-  - KinUtil (0.0.18)
-  - Sodium (0.7.0)
+  - KinBackupRestoreModule (0.1.0):
+    - KinSDK (= 0.9.0)
+  - KinSDK (0.9.0):
+    - KinUtil (= 0.1.0)
+    - Sodium (= 0.8.0)
+  - KinUtil (0.1.0)
+  - Sodium (0.8.0)
 
 DEPENDENCIES:
   - KinBackupRestoreModule (from `./`)
@@ -22,10 +22,10 @@ EXTERNAL SOURCES:
     :path: "./"
 
 SPEC CHECKSUMS:
-  KinBackupRestoreModule: cec4e5d6a1f73987af5c273c5ff74a920e28aafa
-  KinSDK: 162a6b27e299015aaff845a74b0b73ba7a569b80
-  KinUtil: ffcdec211f59a5fbb7fd68a13fcfc403f62596e0
-  Sodium: c5510cc6f5e1b27858e5f260b5cac80d4a3f9379
+  KinBackupRestoreModule: be0a50a0e44d77735b80071b3a3d47c6e95de9dc
+  KinSDK: 24cbb5cf8b560c6025eacabc1b5aebbe5938c141
+  KinUtil: 5ba64858ba2f24156d6e229c963b37f8d808bd4c
+  Sodium: 63c0ca312a932e6da481689537d4b35568841bdc
 
 PODFILE CHECKSUM: d63416d7d906b6b83eeca1df8dace96f8dd10dbb
 
