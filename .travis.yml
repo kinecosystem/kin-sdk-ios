@@ -11,7 +11,7 @@ env:
 script:
   - |
     if [ $TEST_MATRIX == "build" ]; then 
-      xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSampleApp -sdk iphonesimulator12.1 -configuration "Debug"
+      xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSampleApp -sdk iphonesimulator12.2 -configuration "Debug"
     fi
   - |
     if [ $TEST_MATRIX == "test" ]; then
