@@ -185,7 +185,7 @@ extension String: XDRCodable {
 extension Data: XDRCodable {
     public init(from decoder: XDRDecoder) throws {
         let length = try Int32(from: decoder)
-        self = try Data(bytes: decoder.read(Int(length)))
+        self = try Data(decoder.read(Int(length)))
 
         let extra = (4 - Int(length) % 4) % 4
         for _ in 0..<extra {

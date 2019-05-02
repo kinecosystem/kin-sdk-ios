@@ -124,4 +124,4 @@ Please review our [CONTRIBUTING.md](CONTRIBUTING.md) guide before opening issues
 
 ## License
 
-This repository is licensed under the [MIT license](LICENSE.md).
+This repository is licensed under the [Kin Ecosystem SDK License](LICENSE.pdf).

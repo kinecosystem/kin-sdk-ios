@@ -19,9 +19,8 @@ class KinAccountTests: XCTestCase {
     var account1: KinAccount?
     var issuer: StellarAccount?
 
-    let endpoint = "http://localhost:8000"
+    let endpoint = "https://horizon-testnet.kininfrastructure.com"
     let sNetwork: Network = .testNet
-    lazy var node = Stellar.Node(baseURL: URL(string: endpoint)!, network: sNetwork)
 
     lazy var kNetwork: Network = .testNet
 
@@ -48,15 +47,8 @@ class KinAccountTests: XCTestCase {
             XCTAssertTrue(false, "Unable to create account(s)!")
         }
 
-        issuer = try? KeyStore.importSecretSeed("SAXSDD5YEU6GMTJ5IHA6K35VZHXFVPV6IHMWYAQPSEKJRNC5LGMUQX35",
-                                                passphrase: passphrase)
-
-        if issuer == nil {
-            XCTAssertTrue(false, "Unable to import issuer account!")
-        }
-
-        try! obtain_kin_and_lumens(for: (account0 as! KinStellarAccount))
-        try! obtain_kin_and_lumens(for: (account1 as! KinStellarAccount))
+        createAccountAndFund(kinAccount: account0!, amount: 100)
+        createAccountAndFund(kinAccount: account1!, amount: 100)
     }
 
     override func tearDown() {
@@ -77,7 +69,7 @@ class KinAccountTests: XCTestCase {
         throw KinError.unknown
     }
 
-    func getBalance(_ account: KinAccount) throws -> Balance {
+    func getBalance(_ account: KinAccount) throws -> Kin {
         if let balance: Decimal = try serialize(account.balance) {
             return balance
         }
@@ -85,79 +77,28 @@ class KinAccountTests: XCTestCase {
         throw KinError.unknown
     }
 
-    func fund(account: String) -> Promise<String> {
-        let funderPK = "GCLBBAIDP34M4JACPQJUYNSPZCQK7IRHV7ETKV6U53JPYYUIIVDVJJFQ"
-        let funderSK = "SDBDJVXHPVQGDXYHEVOBBV4XZUDD7IQTXM5XHZRLXRJVY5YMH4YUCNZC"
-
-        let keyPair = BCKeyUtils.key(base32: funderPK)
-        let sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(keyPair))
-
-        let funder = try! KeyStore.importSecretSeed(funderSK, passphrase: passphrase)
-        funder.sign = { message in
-            return try funder.sign(message: message, passphrase: self.passphrase)
-        }
-
-        return Stellar.sequence(account: funderPK, node: node)
-            .then { sequence in
-                let operation = Operation.createAccount(destination: account, balance: Int64(100 * AssetUnitDivisor))
-
-                let tx = Transaction(sourceAccount: sourcePK,
-                                     seqNum: sequence,
-                                     timeBounds: nil,
-                                     memo: .MEMO_NONE,
-                                     operations: [operation])
-
-                let envelope = try Stellar.sign(transaction: tx,
-                                                signer: funder,
-                                                node: self.node)
-
-                return Stellar.postTransaction(envelope: envelope, node: self.node)
-        }
-    }
-
-    func obtain_kin_and_lumens(for account: KinStellarAccount) throws {
+    private func createAccountAndFund(kinAccount : KinAccount, amount : Kin) {
         let group = DispatchGroup()
         group.enter()
 
-        var e: Error?
-
-        guard let issuer = issuer else {
-            throw KinError.unknown
-        }
-
-        fund(account: account.stellarAccount.publicKey!)
-            .then { txHash -> Void in
-                issuer.sign = { message in
-                    return try issuer.sign(message: message,
-                                           passphrase: self.passphrase)
-                }
-
-                return Stellar.payment(source: issuer,
-                                       destination: account.stellarAccount.publicKey!,
-                                       amount: Int64(100 * AssetUnitDivisor),
-                                       asset: .native,
-                                       node: self.node)
-                    .error { error in
-                        e = error
-                    }
-                    .finally {
-                        group.leave()
-                }
+        let url = URL(string: "http://friendbot-testnet.kininfrastructure.com?addr=\(kinAccount.publicAddress)&amount\(amount)")!
+        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+            guard
+                let data = data,
+                let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
+                let _ = jsonOpt as? [String: Any]
+                else {
+                    print("Unable to parse json for createAccount().")
+                    
+                    group.leave()
+                    return
             }
-            .error { error in
-                e = error
-
-                group.leave()
-        }
-
+            group.leave()
+        }).resume()
         group.wait()
-
-        if let error = e {
-            throw error
-        }
     }
 
-    func wait_for_non_zero_balance(account: KinAccount) throws -> Balance {
+    func wait_for_non_zero_balance(account: KinAccount) throws -> Kin {
         var balance: Decimal = try getBalance(account)
 
         let exp = expectation(for: NSPredicate(block: { _, _ in
@@ -201,7 +142,7 @@ class KinAccountTests: XCTestCase {
     }
 
     func test_balance_async() {
-        var balanceChecked: Balance? = nil
+        var balanceChecked: Kin? = nil
         let expectation = self.expectation(description: "wait for callback")
 
         do {
@@ -222,7 +163,7 @@ class KinAccountTests: XCTestCase {
     }
 
     func test_balance_promise() {
-        var balanceChecked: Balance? = nil
+        var balanceChecked: Kin? = nil
         let expectation = self.expectation(description: "wait for callback")
 
         do {
@@ -267,7 +208,7 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: nil) { (envelope, error) in
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: nil, fee: 0) { (envelope, error) in
                 let txId = try! self.sendTransaction(envelope!, from: account0)
 
                 XCTAssertNotNil(txId)
@@ -306,7 +247,7 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "memo") { (envelope, error) in
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "memo", fee: 0) { (envelope, error) in
                 let txId = try! self.sendTransaction(envelope!, from: account0)
 
                 XCTAssertNotNil(txId)
@@ -345,7 +286,7 @@ class KinAccountTests: XCTestCase {
                 startBalance1 = try wait_for_non_zero_balance(account: account1)
             }
 
-            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "") { (envelope, error) in
+            account0.generateTransaction(to: account1.publicAddress, kin: sendAmount, memo: "", fee: 0) { (envelope, error) in
                 let txId = try! self.sendTransaction(envelope!, from: account0)
 
                 XCTAssertNotNil(txId)
@@ -374,7 +315,7 @@ class KinAccountTests: XCTestCase {
             let balance: Decimal = try getBalance(account0)
             let amount = balance * Decimal(AssetUnitDivisor) + 1
 
-            account0.generateTransaction(to: account1.publicAddress, kin: amount, memo: nil) { (envelope, error) in
+            account0.generateTransaction(to: account1.publicAddress, kin: amount, memo: nil, fee: 0) { (envelope, error) in
                 do {
                     _ = try self.sendTransaction(envelope!, from: account0)
 
@@ -395,7 +336,7 @@ class KinAccountTests: XCTestCase {
         }
     }
 
-    func test_send_transaction_of_zero_kin() {
+    func test_generate_transaction_of_zero_kin() {
         guard
             let account0 = account0,
             let account1 = account1 else {
@@ -403,21 +344,14 @@ class KinAccountTests: XCTestCase {
                 return
         }
 
-        account0.generateTransaction(to: account1.publicAddress, kin: 0, memo: nil) { (envelope, error) in
-            do {
-                _ = try self.sendTransaction(envelope!, from: account0)
-
-                XCTAssertTrue(false, "Tried to send kin with insufficient funds, but didn't get an error")
-            }
-            catch {
+        account0.generateTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
                 if let kinError = error as? KinError,
                     case KinError.invalidAmount = kinError {
                 } else {
                     XCTAssertTrue(false,
-                                  "Received unexpected error: \(error.localizedDescription)")
+                                  "Received unexpected error: \(error!.localizedDescription)")
                 }
             }
-        }
     }
 
     func test_use_after_delete_balance() {
@@ -445,19 +379,17 @@ class KinAccountTests: XCTestCase {
             
             try kinClient.deleteAccount(at: 0)
 
-            account.generateTransaction(to: "", kin: 1, memo: nil) { (envelope, error) in
-                account.sendTransaction(envelope!, completion: { (txId, error) in
-                    XCTAssert(false, "An exception should have been thrown.")
-                })
+            account.generateTransaction(to: "", kin: 1, memo: nil, fee: 0) { (envelope, error) in
+                if let kinError = error as? KinError,
+                    case KinError.accountDeleted = kinError {
+                } else {
+                    XCTAssertTrue(false,
+                                  "Received unexpected error: \(error!.localizedDescription)")
+                }
             }
         }
         catch {
-            if let kinError = error as? KinError,
-                case KinError.accountDeleted = kinError {
-            } else {
-                XCTAssertTrue(false,
-                              "Received unexpected error: \(error.localizedDescription)")
-            }
+           
         }
     }
 
