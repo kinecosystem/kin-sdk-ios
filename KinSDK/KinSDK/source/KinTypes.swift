@@ -182,7 +182,7 @@ public struct AppId {
         
         guard value == value.trimmingCharacters(in: charSet.inverted),
             value.rangeOfCharacter(from: charSet) != nil,
-            value.utf8.count == 4
+            (value.utf8.count == 4 || value.utf8.count == 3)
             else {
                 throw KinError.invalidAppId
         }
