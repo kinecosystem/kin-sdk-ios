@@ -15,6 +15,8 @@ class AppIdTests: XCTestCase {
         XCTAssertThrowsError(try AppId(""))
         XCTAssertThrowsError(try AppId("a"))
         XCTAssertThrowsError(try AppId("aa"))
+        XCTAssertThrowsError(try AppId("aa "))
+        XCTAssertThrowsError(try AppId("aa_"))
         XCTAssertThrowsError(try AppId("aaa "))
         XCTAssertThrowsError(try AppId("aaa_"))
         XCTAssertThrowsError(try AppId("aaaaa"))
