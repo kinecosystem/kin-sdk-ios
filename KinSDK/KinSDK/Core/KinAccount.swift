@@ -151,6 +151,18 @@ public protocol KinAccount: class {
      - returns: a prettified JSON string of the `account` exported; `nil` if `account` is `nil`.
      */
 //    func exportKeyStore(passphrase: String, exportPassphrase: String) throws -> String?
+
+    /**
+     Link another account to the receiver account. Upon transaction approval, the receiver will be able to sign
+     transactions for the account represented by the `publicAddress` parameter.
+
+     - Parameter publicAddress: The public address of the account which will give permission to the receiver to sign for
+
+     - Parameter appBundleIdentifier: The bundle identifier of the application which the public address belongs to.
+
+     - Returns: A `Promise` containing the `TransactionEnvelope` with the two operations needed for the linking.
+     */
+    func linkAccount(to publicAddress: String, appBundleIdentifier: String) -> Promise<TransactionEnvelope>
 }
 
 final class KinStellarAccount: KinAccount {
@@ -382,5 +394,21 @@ final class KinStellarAccount: KinAccount {
         }
         
         return String(data: jsonData, encoding: .utf8)
+    }
+
+    public func linkAccount(to publicAddress: String, appBundleIdentifier: String) -> Promise<TransactionEnvelope> {
+        let signer = Signer(publicAddress: stellarAccount.publicKey!)
+        let signingOp = SetOptionsOp(signer: signer)
+        let signingSourceAccount = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(BCKeyUtils.key(base32: publicAddress)))
+
+        let manageDataOp = ManageDataOp(dataName: "__link_\(publicAddress)",
+            dataValue: appBundleIdentifier.data(using: .utf8))
+        let manageDataSourceAccount = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(BCKeyUtils.key(base32: stellarAccount.publicKey!)))
+
+        return TxBuilder(source: stellarAccount, node: node)
+            .add(operation: .init(sourceAccount: signingSourceAccount, body: .SET_OPTIONS(signingOp)))
+            .add(operation: .init(sourceAccount: manageDataSourceAccount, body: .MANAGE_DATA(manageDataOp)))
+            .add(signer: stellarAccount)
+            .envelope(networkId: node.network.id)
     }
 }
