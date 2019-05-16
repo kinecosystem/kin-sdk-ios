@@ -113,24 +113,27 @@ public class XDRDecoder {
         self.data = data
     }
 
-    fileprivate func read(_ byteCount: Int, into: UnsafeMutableRawPointer) throws {
-        if cursor + byteCount > data.count {
-            throw Errors.prematureEndOfData
-        }
+    public func read(_ count: Int) throws -> [UInt8] {
+        guard cursor + count <= data.endIndex else { throw Errors.prematureEndOfData }
 
-        data.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) -> () in
-            let from = ptr + cursor
-            memcpy(into, from, byteCount)
-        })
+        defer { advance(by: count) }
 
-        cursor += byteCount
+        return data[cursor ..< cursor + count].array
     }
 
-    fileprivate func read(_ count: Int) throws -> [UInt8] {
-        let bytes = data[cursor..<cursor + count]
-        cursor += count
+    fileprivate func read<T: FixedWidthInteger>(_ type: T.Type) throws -> T {
+        let byteCount = MemoryLayout<T>.size
 
-        return bytes.map { $0 }
+        guard cursor + byteCount <= data.endIndex else { throw Errors.prematureEndOfData }
+
+        defer { advance(by: byteCount) }
+
+        return data[cursor ..< cursor + byteCount]
+            .reduce(T(0), { $0 << 8 | T($1) })
+    }
+
+    fileprivate func advance(by count: Int) {
+        cursor += count
     }
 }
 
@@ -146,17 +149,13 @@ extension Bool: XDRCodable {
 
 extension FixedWidthInteger where Self: XDRCodable {
     public init(from decoder: XDRDecoder) throws {
-        var v = Self.init()
-        try decoder.read(Self.bitWidth / 8, into: &v)
-        self = Self.init(bigEndian: v)
+        self = try decoder.read(Self.self)
     }
 
     public func encode(to encoder: XDREncoder) throws {
         var v = self.bigEndian
 
-        withUnsafeBytes(of: &v) {
-            encoder.append($0.map { $0 })
-        }
+        withUnsafeBytes(of: &v, encoder.append)
     }
 }
 
@@ -187,10 +186,7 @@ extension Data: XDRCodable {
         let length = try Int32(from: decoder)
         self = try Data(decoder.read(Int(length)))
 
-        let extra = (4 - Int(length) % 4) % 4
-        for _ in 0..<extra {
-            _ = try decoder.decode(UInt8.self)
-        }
+        try (0 ..< (4 - Int(count) % 4) % 4).forEach { _ in _ = try decoder.decode(UInt8.self) }
     }
 
     public func encode(to encoder: XDREncoder) throws {
