@@ -35,6 +35,7 @@
 		68D04A442194121600F27492 /* KinUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04A3F219411FB00F27492 /* KinUtil.framework */; };
 		68D04A462194134F00F27492 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A452194134F00F27492 /* Errors.swift */; };
 		68D04AC02197EC4A00F27492 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04ABF2197EC4A00F27492 /* Sodium.framework */; };
+		68DC6BA12292846000D3B303 /* URLKinVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DC6BA02292846000D3B303 /* URLKinVersion.swift */; };
 		82140EBA1FA88E5B00FAF19B /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 82140EAC1FA88E5B00FAF19B /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82140EC41FA88EAF00FAF19B /* KinTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82140EC31FA88EAF00FAF19B /* KinTypes.swift */; };
 		822107A41FD66DC80007D63F /* KinAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822107A31FD66DC80007D63F /* KinAccounts.swift */; };
@@ -192,6 +193,7 @@
 		68D04A38219411FB00F27492 /* KinUtil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KinUtil.xcodeproj; path = "../../kin-util-ios/KinUtil/KinUtil.xcodeproj"; sourceTree = "<group>"; };
 		68D04A452194134F00F27492 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		68D04ABF2197EC4A00F27492 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68DC6BA02292846000D3B303 /* URLKinVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLKinVersion.swift; sourceTree = "<group>"; };
 		82140EA91FA88E5B00FAF19B /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82140EAC1FA88E5B00FAF19B /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
 		82140EAD1FA88E5B00FAF19B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 				824539421FAB0102009117B4 /* KinAccountTests.swift */,
 				827835451FA9B5F20006C3DF /* KinClientTests.swift */,
 				686759EC21736844001E9626 /* AppIdTests.swift */,
+				68DC6BA02292846000D3B303 /* URLKinVersion.swift */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 			files = (
 				688D2C382173694E00CF5A2C /* AppIdTests.swift in Sources */,
 				827835461FA9B5F20006C3DF /* KinClientTests.swift in Sources */,
+				68DC6BA12292846000D3B303 /* URLKinVersion.swift in Sources */,
 				8268D8F420144339005CF79E /* KeyStoreTests.swift in Sources */,
 				824539431FAB0102009117B4 /* KinAccountTests.swift in Sources */,
 			);

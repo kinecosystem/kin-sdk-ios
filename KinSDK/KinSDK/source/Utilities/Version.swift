@@ -17,9 +17,25 @@ extension Bundle {
 extension URLSession {
     static let versionHeaderField = "kin-sdk-ios-version"
 
+    private func applyVersion(to request: URLRequest) -> URLRequest {
+        var _request = request
+        _request.setValue(Bundle.kin.version, forHTTPHeaderField: URLSession.versionHeaderField)
+        return _request
+    }
+
+    func kinDataTask(with request: URLRequest) -> URLSessionDataTask {
+        return dataTask(with: applyVersion(to: request))
+    }
+
     func kinDataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        var kinRequest = request
-        kinRequest.setValue(Bundle.kin.version, forHTTPHeaderField: URLSession.versionHeaderField)
-        return dataTask(with: kinRequest, completionHandler: completionHandler)
+        return dataTask(with: applyVersion(to: request), completionHandler: completionHandler)
+    }
+}
+
+extension URLSessionConfiguration {
+    static func kinAdditionalHeaders(_ headers: [AnyHashable : Any]? = nil) -> [AnyHashable : Any] {
+        var _headers = headers ?? [:]
+        _headers[URLSession.versionHeaderField] = Bundle.kin.version
+        return _headers
     }
 }
