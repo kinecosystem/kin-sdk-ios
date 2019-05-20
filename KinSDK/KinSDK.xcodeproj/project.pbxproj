@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		680F7838219C0FA90064DA26 /* WhitelistEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */; };
 		688D2C382173694E00CF5A2C /* AppIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686759EC21736844001E9626 /* AppIdTests.swift */; };
+		68B32FC42292723C00D6F8D6 /* Bundle+Kin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B32FC32292723C00D6F8D6 /* Bundle+Kin.swift */; };
+		68B32FC62292794100D6F8D6 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B32FC52292794100D6F8D6 /* Version.swift */; };
 		68D04A2321940FA500F27492 /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0A21940FA500F27492 /* SHA256.swift */; };
 		68D04A2421940FA500F27492 /* StellarErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0D21940FA500F27492 /* StellarErrors.swift */; };
 		68D04A2521940FA500F27492 /* PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0F21940FA500F27492 /* PublicKey.swift */; };
@@ -33,6 +35,7 @@
 		68D04A442194121600F27492 /* KinUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04A3F219411FB00F27492 /* KinUtil.framework */; };
 		68D04A462194134F00F27492 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A452194134F00F27492 /* Errors.swift */; };
 		68D04AC02197EC4A00F27492 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04ABF2197EC4A00F27492 /* Sodium.framework */; };
+		68DC6BA12292846000D3B303 /* URLKinVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DC6BA02292846000D3B303 /* URLKinVersion.swift */; };
 		82140EBA1FA88E5B00FAF19B /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 82140EAC1FA88E5B00FAF19B /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82140EC41FA88EAF00FAF19B /* KinTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82140EC31FA88EAF00FAF19B /* KinTypes.swift */; };
 		822107A41FD66DC80007D63F /* KinAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822107A31FD66DC80007D63F /* KinAccounts.swift */; };
@@ -164,6 +167,8 @@
 		680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitelistEnvelope.swift; sourceTree = "<group>"; };
 		686759EC21736844001E9626 /* AppIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdTests.swift; sourceTree = "<group>"; };
 		688AAF69227987680095DC2A /* Sodium.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sodium.xcodeproj; path = "swift-sodium/Sodium.xcodeproj"; sourceTree = "<group>"; };
+		68B32FC32292723C00D6F8D6 /* Bundle+Kin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Kin.swift"; sourceTree = "<group>"; };
+		68B32FC52292794100D6F8D6 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		68D04A0A21940FA500F27492 /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
 		68D04A0D21940FA500F27492 /* StellarErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarErrors.swift; sourceTree = "<group>"; };
 		68D04A0F21940FA500F27492 /* PublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKey.swift; sourceTree = "<group>"; };
@@ -188,6 +193,7 @@
 		68D04A38219411FB00F27492 /* KinUtil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KinUtil.xcodeproj; path = "../../kin-util-ios/KinUtil/KinUtil.xcodeproj"; sourceTree = "<group>"; };
 		68D04A452194134F00F27492 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		68D04ABF2197EC4A00F27492 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68DC6BA02292846000D3B303 /* URLKinVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLKinVersion.swift; sourceTree = "<group>"; };
 		82140EA91FA88E5B00FAF19B /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82140EAC1FA88E5B00FAF19B /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
 		82140EAD1FA88E5B00FAF19B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -263,6 +269,15 @@
 				688AAF83227987680095DC2A /* Example Watch Extension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		68B32FB0229269AA00D6F8D6 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				68B32FC32292723C00D6F8D6 /* Bundle+Kin.swift */,
+				68B32FC52292794100D6F8D6 /* Version.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		68D04A0C21940FA500F27492 /* blockchain */ = {
@@ -365,6 +380,7 @@
 		8246E7231FC836F30087140A /* source */ = {
 			isa = PBXGroup;
 			children = (
+				68B32FB0229269AA00D6F8D6 /* Utilities */,
 				68D04A0C21940FA500F27492 /* blockchain */,
 				82BA1E2B204D062800396AE2 /* third-party */,
 				82BA1EBC204D211300396AE2 /* KeyUtils.swift */,
@@ -402,6 +418,7 @@
 				824539421FAB0102009117B4 /* KinAccountTests.swift */,
 				827835451FA9B5F20006C3DF /* KinClientTests.swift */,
 				686759EC21736844001E9626 /* AppIdTests.swift */,
+				68DC6BA02292846000D3B303 /* URLKinVersion.swift */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
@@ -692,6 +709,7 @@
 				68D04A2B21940FA500F27492 /* Operation.swift in Sources */,
 				68D04A3221940FA500F27492 /* TxBuilder.swift in Sources */,
 				68D04A2C21940FA500F27492 /* BCKeyUtils.swift in Sources */,
+				68B32FC42292723C00D6F8D6 /* Bundle+Kin.swift in Sources */,
 				68D04A2D21940FA500F27492 /* Stellar.swift in Sources */,
 				68D04A2721940FA500F27492 /* Ledger.swift in Sources */,
 				68D04A2921940FA500F27492 /* Transaction.swift in Sources */,
@@ -713,6 +731,7 @@
 				68D04A2E21940FA500F27492 /* StellarResults.swift in Sources */,
 				68D04A3721940FA500F27492 /* Endpoint.swift in Sources */,
 				68D04A2A21940FA500F27492 /* Asset.swift in Sources */,
+				68B32FC62292794100D6F8D6 /* Version.swift in Sources */,
 				82BA1EBD204D211300396AE2 /* KeyUtils.swift in Sources */,
 				8261EF332043F390001848CB /* Watchers.swift in Sources */,
 				822107A41FD66DC80007D63F /* KinAccounts.swift in Sources */,
@@ -735,6 +754,7 @@
 			files = (
 				688D2C382173694E00CF5A2C /* AppIdTests.swift in Sources */,
 				827835461FA9B5F20006C3DF /* KinClientTests.swift in Sources */,
+				68DC6BA12292846000D3B303 /* URLKinVersion.swift in Sources */,
 				8268D8F420144339005CF79E /* KeyStoreTests.swift in Sources */,
 				824539431FAB0102009117B4 /* KinAccountTests.swift in Sources */,
 			);
