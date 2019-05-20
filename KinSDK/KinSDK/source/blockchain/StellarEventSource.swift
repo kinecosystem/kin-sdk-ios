@@ -57,9 +57,10 @@ public final class StellarEventSource: NSObject, URLSessionDataDelegate {
         }
 
         var headers: [String: String] = [
+            URLSession.versionHeaderField: Bundle.kin.version,
             "Accept": "text/event-stream",
-            "Cache-Control": "no-cache",
-        ]
+            "Cache-Control": "no-cache"
+            ]
 
         if let lastEventId = lastEventId {
             headers["Last-Event-Id"] = lastEventId

@@ -44,7 +44,7 @@ func issue(request: URLRequest) -> Promise<Data> {
 
     URLSession
         .shared
-        .dataTask(with: request, completionHandler: { (data, _, error) in
+        .kinDataTask(with: request, completionHandler: { (data, r, error) in
             if let error = error {
                 p.signal(error)
 
