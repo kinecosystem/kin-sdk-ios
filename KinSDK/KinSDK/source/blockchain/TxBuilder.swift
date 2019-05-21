@@ -110,8 +110,8 @@ public final class TxBuilder {
                     p.signal(error)
                 }
             }
-            .error {
-                p.signal($0)
+            .error { error in
+                p.signal(error)
         }
 
         return p
