@@ -102,14 +102,17 @@ public final class TxBuilder {
         let p = Promise<TransactionEnvelope>()
 
         tx()
-            .then({tx in
+            .then { tx in
                 do {
                     p.signal(try self.sign(tx: tx, networkId: networkId))
                 }
                 catch {
                     p.signal(error)
                 }
-            })
+            }
+            .error { error in
+                p.signal(error)
+        }
 
         return p
     }
