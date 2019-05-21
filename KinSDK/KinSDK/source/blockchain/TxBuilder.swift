@@ -9,7 +9,13 @@
 import Foundation
 import KinUtil
 
-public final class TxBuilder {
+@available(*, deprecated, renamed: "TransactionBuilder")
+public final class TxBuilder: TransactionBuilder {
+
+}
+
+// TODO: uncomment final after removing TxBuilder
+public /*final*/ class TransactionBuilder {
     private var source: Account
     private var memo: Memo?
     private var fee: Stroop?
@@ -25,48 +31,49 @@ public final class TxBuilder {
         self.node = node
     }
 
-    public func set(memo: Memo) -> TxBuilder {
+    public func set(memo: Memo) -> TransactionBuilder {
         self.memo = memo
 
         return self
     }
 
-    public func set(fee: Stroop) -> TxBuilder {
+    public func set(fee: Stroop) -> TransactionBuilder {
         self.fee = fee
 
         return self
     }
 
-    public func set(timeBounds: TimeBounds) -> TxBuilder {
+    public func set(timeBounds: TimeBounds) -> TransactionBuilder {
         self.timeBounds = timeBounds
 
         return self
     }
 
-    public func set(sequence: UInt64) -> TxBuilder {
+    public func set(sequence: UInt64) -> TransactionBuilder {
         self.sequence = sequence
 
         return self
     }
 
-    public func add(operation: Operation) -> TxBuilder {
+    public func add(operation: Operation) -> TransactionBuilder {
         operations.append(operation)
 
         return self
     }
 
-    public func add(operations: [Operation]) -> TxBuilder {
+    public func add(operations: [Operation]) -> TransactionBuilder {
         self.operations += operations
 
         return self
     }
 
-    public func add(signer: Account) -> TxBuilder {
+    public func add(signer: Account) -> TransactionBuilder {
         opSigners.append(signer)
 
         return self
     }
 
+    // TODO: verify if this is the `build` function of Android
     public func tx() -> Promise<Transaction> {
         let p = Promise<Transaction>()
 
