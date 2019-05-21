@@ -13,6 +13,7 @@ public final class TxBuilder {
     private var source: Account
     private var memo: Memo?
     private var fee: Stroop?
+    private var timeBounds: TimeBounds?
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
     private var opSigners = [Account]()
@@ -32,6 +33,12 @@ public final class TxBuilder {
 
     public func set(fee: Stroop) -> TxBuilder {
         self.fee = fee
+
+        return self
+    }
+
+    public func set(timeBounds: TimeBounds) -> TxBuilder {
+        self.timeBounds = timeBounds
 
         return self
     }
