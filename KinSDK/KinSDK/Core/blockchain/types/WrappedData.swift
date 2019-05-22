@@ -77,7 +77,7 @@ struct WrappedData4: WrappedData {
 
     var wrapped: Data
 
-    init() {
+    public init() {
         wrapped = Data()
     }
 }

@@ -118,27 +118,23 @@ public final class TxBuilder {
     }
     
     private func sign(tx: Transaction, networkId: Network.Id) throws -> TransactionEnvelope {
-        var sigs = [DecoratedSignature]()
-
         let m = try tx.hash(networkId: networkId)
 
         var signatories = opSigners
         signatories.append(source)
 
-        try signatories.forEach({ signer in
-            try sigs.append({
-                guard let sign = signer.sign else {
-                    throw StellarError.missingSignClosure
-                }
+        let sigs: [DecoratedSignature] = try signatories.map { signer in
+            guard let sign = signer.sign else {
+                throw StellarError.missingSignClosure
+            }
 
-                guard let publicKey = signer.publicKey else {
-                    throw StellarError.missingPublicKey
-                }
+            guard let publicKey = signer.publicKey else {
+                throw StellarError.missingPublicKey
+            }
 
-                let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
-                return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
-            }())
-        })
+            let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+            return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
+        }
 
         return TransactionEnvelope(tx: tx, signatures: sigs)
     }

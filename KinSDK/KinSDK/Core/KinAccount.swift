@@ -163,6 +163,8 @@ public protocol KinAccount: class {
      - Returns: A `Promise` containing the `TransactionEnvelope` with the two operations needed for the linking.
      */
     func linkAccount(to publicAddress: String, appBundleIdentifier: String) -> Promise<TransactionEnvelope>
+
+    func signature(for txEnvelope: TransactionEnvelope) throws -> DecoratedSignature
 }
 
 final class KinStellarAccount: KinAccount {
@@ -410,5 +412,21 @@ final class KinStellarAccount: KinAccount {
             .add(operation: .init(sourceAccount: manageDataSourceAccount, body: .MANAGE_DATA(manageDataOp)))
             .add(signer: stellarAccount)
             .envelope(networkId: node.network.id)
+    }
+
+    public func signature(for txEnvelope: TransactionEnvelope) throws -> DecoratedSignature {
+        let m = try txEnvelope.tx.hash(networkId: node.network.id)
+
+        guard let sign = stellarAccount.sign else {
+            throw StellarError.missingSignClosure
+        }
+
+        guard let publicKey = stellarAccount.publicKey else {
+            throw StellarError.missingPublicKey
+        }
+
+        let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+
+        return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
     }
 }

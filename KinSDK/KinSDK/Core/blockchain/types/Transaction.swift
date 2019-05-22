@@ -289,11 +289,11 @@ struct TransactionSignaturePayload: XDREncodableStruct {
     }
 }
 
-struct DecoratedSignature: XDRCodable, XDREncodableStruct {
+public struct DecoratedSignature: XDRCodable, XDREncodableStruct {
     let hint: WrappedData4;
     let signature: [UInt8]
 
-    init(from decoder: XDRDecoder) throws {
+    public init(from decoder: XDRDecoder) throws {
         hint = try decoder.decode(WrappedData4.self)
         signature = try decoder.decodeArray(UInt8.self)
     }
@@ -309,7 +309,7 @@ struct DecoratedSignature: XDRCodable, XDREncodableStruct {
  */
 public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
     public let tx: Transaction
-    let signatures: [DecoratedSignature]
+    var signatures: [DecoratedSignature]
 
     /**
      Initializes a `TransactionEnvelope` from a `XDRDecoder`.
@@ -326,5 +326,10 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
     init(tx: Transaction, signatures: [DecoratedSignature]) {
         self.tx = tx
         self.signatures = signatures
+    }
+
+    public mutating func appendSignature(from signer: KinAccount) throws {
+        let signature = try signer.signature(for: self)
+        signatures.append(signature)
     }
 }
