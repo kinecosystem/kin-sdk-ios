@@ -186,6 +186,12 @@ public struct Signer: XDRCodable, XDREncodableStruct {
         key = try decoder.decode(SignerKey.self)
         weight = try decoder.decode(UInt32.self)
     }
+
+    public init(publicAddress: String, weight: UInt32 = 1) {
+        //Make sure this is a valid public address
+        self.key = .SIGNER_KEY_TYPE_ED25519(WrappedData32(BCKeyUtils.key(base32: publicAddress)))
+        self.weight = weight
+    }
 }
 
 public struct Price: XDRDecodable {
