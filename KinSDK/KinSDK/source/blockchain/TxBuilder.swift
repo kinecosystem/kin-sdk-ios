@@ -10,7 +10,7 @@ import Foundation
 import KinUtil
 
 @available(*, deprecated, renamed: "TransactionBuilder")
-public final class TxBuilder: TransactionBuilder {
+public class TxBuilder: TransactionBuilder {
 
 }
 
@@ -22,7 +22,6 @@ public /*final*/ class TransactionBuilder {
     private var timeBounds: TimeBounds?
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
-    private var opSigners = [Account]()
 
     private var node: Stellar.Node
 
@@ -67,14 +66,12 @@ public /*final*/ class TransactionBuilder {
         return self
     }
 
-    public func add(signer: Account) -> TransactionBuilder {
-        opSigners.append(signer)
-
-        return self
+    @available(*, deprecated, renamed: "build")
+    public func tx() -> Promise<Transaction> {
+        return build()
     }
 
-    // TODO: verify if this is the `build` function of Android
-    public func tx() -> Promise<Transaction> {
+    public func build() -> Promise<Transaction> {
         let p = Promise<Transaction>()
 
         guard let sourceKey = source.publicKey else {
@@ -88,7 +85,7 @@ public /*final*/ class TransactionBuilder {
         if sequence > 0 {
             p.signal(Transaction(sourceAccount: pk,
                                  seqNum: sequence,
-                                 timeBounds: nil,
+                                 timeBounds: timeBounds,
                                  memo: memo ?? .MEMO_NONE,
                                  fee: fee,
                                  operations: operations))
@@ -98,7 +95,7 @@ public /*final*/ class TransactionBuilder {
                 .then {
                     let tx = Transaction(sourceAccount: pk,
                                          seqNum: $0,
-                                         timeBounds: nil,
+                                         timeBounds: self.timeBounds,
                                          memo: self.memo ?? .MEMO_NONE,
                                          operations: self.operations)
 
@@ -115,10 +112,12 @@ public /*final*/ class TransactionBuilder {
     public func envelope(networkId: Network.Id) -> Promise<TransactionEnvelope> {
         let p = Promise<TransactionEnvelope>()
 
-        tx()
-            .then { tx in
+        build()
+            .then { transaction in
                 do {
-                    p.signal(try self.sign(tx: tx, networkId: networkId))
+                    var transactionEnvelope = TransactionEnvelope(tx: transaction)
+                    try transactionEnvelope.sign(account: self.source, networkId: networkId)
+                    p.signal(transactionEnvelope)
                 }
                 catch {
                     p.signal(error)
@@ -129,31 +128,5 @@ public /*final*/ class TransactionBuilder {
         }
 
         return p
-    }
-    
-    private func sign(tx: Transaction, networkId: Network.Id) throws -> TransactionEnvelope {
-        var sigs = [DecoratedSignature]()
-
-        let m = try tx.hash(networkId: networkId)
-
-        var signatories = opSigners
-        signatories.append(source)
-
-        try signatories.forEach({ signer in
-            try sigs.append({
-                guard let sign = signer.sign else {
-                    throw StellarError.missingSignClosure
-                }
-
-                guard let publicKey = signer.publicKey else {
-                    throw StellarError.missingPublicKey
-                }
-
-                let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
-                return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
-            }())
-        })
-
-        return TransactionEnvelope(tx: tx, signatures: sigs)
     }
 }

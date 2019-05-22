@@ -289,11 +289,11 @@ struct TransactionSignaturePayload: XDREncodableStruct {
     }
 }
 
-struct DecoratedSignature: XDRCodable, XDREncodableStruct {
+public struct DecoratedSignature: XDRCodable, XDREncodableStruct {
     let hint: WrappedData4;
     let signature: [UInt8]
 
-    init(from decoder: XDRDecoder) throws {
+    public init(from decoder: XDRDecoder) throws {
         hint = try decoder.decode(WrappedData4.self)
         signature = try decoder.decodeArray(UInt8.self)
     }
@@ -309,7 +309,7 @@ struct DecoratedSignature: XDRCodable, XDREncodableStruct {
  */
 public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
     public let tx: Transaction
-    let signatures: [DecoratedSignature]
+    public var signatures: [DecoratedSignature]
 
     /**
      Initializes a `TransactionEnvelope` from a `XDRDecoder`.
@@ -323,8 +323,25 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
         signatures = try decoder.decodeArray(DecoratedSignature.self)
     }
 
-    init(tx: Transaction, signatures: [DecoratedSignature]) {
+    init(tx: Transaction, signatures: [DecoratedSignature] = []) {
         self.tx = tx
         self.signatures = signatures
+    }
+
+    public mutating func sign(account: Account, networkId: Network.Id) throws {
+        let m = try tx.hash(networkId: networkId)
+
+        try signatures.append({
+            guard let sign = account.sign else {
+                throw StellarError.missingSignClosure
+            }
+
+            guard let publicKey = account.publicKey else {
+                throw StellarError.missingPublicKey
+            }
+
+            let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+            return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
+        }())
     }
 }
