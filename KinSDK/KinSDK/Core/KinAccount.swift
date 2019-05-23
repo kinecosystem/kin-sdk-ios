@@ -401,16 +401,15 @@ final class KinStellarAccount: KinAccount {
     public func linkAccount(to publicAddress: String, appBundleIdentifier: String) -> Promise<TransactionEnvelope> {
         let signer = Signer(publicAddress: stellarAccount.publicKey!)
         let signingOp = SetOptionsOp(signer: signer)
-        let signingSourceAccount = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(BCKeyUtils.key(base32: publicAddress)))
+        let signOpSourceAccountKey = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(BCKeyUtils.key(base32: publicAddress)))
 
         let manageDataOp = ManageDataOp(dataName: "__link_\(publicAddress)",
             dataValue: appBundleIdentifier.data(using: .utf8))
-        let manageDataSourceAccount = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(BCKeyUtils.key(base32: stellarAccount.publicKey!)))
+        let manageDataSourceAccountKey = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(BCKeyUtils.key(base32: stellarAccount.publicKey!)))
 
         return TxBuilder(source: stellarAccount, node: node)
-            .add(operation: .init(sourceAccount: signingSourceAccount, body: .SET_OPTIONS(signingOp)))
-            .add(operation: .init(sourceAccount: manageDataSourceAccount, body: .MANAGE_DATA(manageDataOp)))
-            .add(signer: stellarAccount)
+            .add(operation: .init(sourceAccount: signOpSourceAccountKey, body: .SET_OPTIONS(signingOp)))
+            .add(operation: .init(sourceAccount: manageDataSourceAccountKey, body: .MANAGE_DATA(manageDataOp)))
             .envelope(networkId: node.network.id)
     }
 
