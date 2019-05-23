@@ -417,6 +417,10 @@ final class KinStellarAccount: KinAccount {
     public func signature(for txEnvelope: TransactionEnvelope) throws -> DecoratedSignature {
         let m = try txEnvelope.tx.hash(networkId: node.network.id)
 
+        stellarAccount.sign = { message in
+            return try self.stellarAccount.sign(message: message, passphrase: "")
+        }
+
         guard let sign = stellarAccount.sign else {
             throw StellarError.missingSignClosure
         }
@@ -426,6 +430,10 @@ final class KinStellarAccount: KinAccount {
         }
 
         let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+
+        defer {
+            stellarAccount.sign = nil
+        }
 
         return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
     }
