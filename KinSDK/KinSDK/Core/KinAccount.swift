@@ -407,6 +407,10 @@ final class KinStellarAccount: KinAccount {
             dataValue: appBundleIdentifier.data(using: .utf8))
         let manageDataSourceAccountKey = PublicKey.PUBLIC_KEY_TYPE_ED25519(WrappedData32(BCKeyUtils.key(base32: stellarAccount.publicKey!)))
 
+        stellarAccount.sign = { message in
+            return try self.stellarAccount.sign(message: message, passphrase: "")
+        }
+
         return TxBuilder(source: stellarAccount, node: node)
             .add(operation: .init(sourceAccount: signOpSourceAccountKey, body: .SET_OPTIONS(signingOp)))
             .add(operation: .init(sourceAccount: manageDataSourceAccountKey, body: .MANAGE_DATA(manageDataOp)))
