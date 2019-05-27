@@ -71,9 +71,12 @@ internal let AssetUnitDivisor: UInt64 = 100_000
 public typealias Kin = Decimal
 
 /**
- Stroop is the smallest amount unit. It is one-hundred-thousandth of a Kin: `1/100000` or `0.00001`.
+ Quark is the smallest amount unit. It is one-hundred-thousandth of a Kin: `1/100000` or `0.00001`.
  */
-public typealias Stroop = UInt32
+public typealias Quark = UInt32
+
+@available(*, deprecated, renamed: "Quark")
+public typealias Stroop = Quark
 
 /**
  `PaymentInfo` wraps all information related to a payment transaction.

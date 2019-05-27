@@ -150,7 +150,7 @@ public struct Transaction: XDRCodable {
      */
     public static let MaxMemoLength = 28
     let sourceAccount: PublicKey
-    let fee: Stroop
+    let fee: Quark
     let seqNum: UInt64
     let timeBounds: TimeBounds?
     let memo: Memo
@@ -174,14 +174,14 @@ public struct Transaction: XDRCodable {
      - Parameter seqNum: Each transaction has a sequence number.
      - Parameter timeBounds: optional UNIX timestamp (in seconds) of a lower and upper bound of when this transaction will be valid. If a transaction is submitted too early or too late, it will fail to make it into the transaction set. maxTime equal 0 means that it’s not set.
      - Parameter memo: optional extra information such as an order number.
-     - Parameter fee: Each transaction sets a fee in `Stroop` that is paid by the source account.
+     - Parameter fee: Each transaction sets a fee in `Quark` that is paid by the source account.
      - Parameter operations: Transactions contain an arbitrary list of operations inside them. Typically there is just 1 operation.
     */
     public init(sourceAccount: String,
                 seqNum: UInt64,
                 timeBounds: TimeBounds?,
                 memo: Memo,
-                fee: Stroop? = nil,
+                fee: Quark? = nil,
                 operations: [Operation]) {
         self.init(sourceAccount: .PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourceAccount))),
                   seqNum: seqNum,
@@ -195,7 +195,7 @@ public struct Transaction: XDRCodable {
          seqNum: UInt64,
          timeBounds: TimeBounds?,
          memo: Memo,
-         fee: Stroop? = nil,
+         fee: Quark? = nil,
          operations: [Operation]) {
         self.sourceAccount = sourceAccount
         self.seqNum = seqNum
@@ -328,7 +328,7 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
         self.signatures = signatures
     }
 
-    public mutating func sign(account: Account, networkId: Network.Id) throws {
+    public mutating func addSignature(account: Account, networkId: Network.Id) throws {
         let m = try tx.hash(networkId: networkId)
 
         try signatures.append({

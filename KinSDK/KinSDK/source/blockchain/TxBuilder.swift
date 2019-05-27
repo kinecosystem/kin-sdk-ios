@@ -18,7 +18,7 @@ public class TxBuilder: TransactionBuilder {
 public /*final*/ class TransactionBuilder {
     private var source: Account
     private var memo: Memo?
-    private var fee: Stroop?
+    private var fee: Quark?
     private var timeBounds: TimeBounds?
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
@@ -36,7 +36,7 @@ public /*final*/ class TransactionBuilder {
         return self
     }
 
-    public func set(fee: Stroop) -> TransactionBuilder {
+    public func set(fee: Quark) -> TransactionBuilder {
         self.fee = fee
 
         return self
@@ -116,7 +116,7 @@ public /*final*/ class TransactionBuilder {
             .then { transaction in
                 do {
                     var transactionEnvelope = TransactionEnvelope(tx: transaction)
-                    try transactionEnvelope.sign(account: self.source, networkId: networkId)
+                    try transactionEnvelope.addSignature(account: self.source, networkId: networkId)
                     p.signal(transactionEnvelope)
                 }
                 catch {

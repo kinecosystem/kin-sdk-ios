@@ -29,7 +29,7 @@ public struct NetworkParameters: Decodable {
     private let _links: Links
     private let _embedded: [String: [LedgerResponse]]
 
-    public var baseFee: Stroop {
+    public var baseFee: Quark {
         return _embedded["records"]!.first!.base_fee_in_stroops
     }
 }
@@ -97,8 +97,8 @@ struct LedgerResponse: Decodable {
     let _links: Links?
     let id: String
     let hash: String
-    let base_fee_in_stroops: Stroop
-    let base_reserve_in_stroops: Stroop
+    let base_fee_in_stroops: Quark
+    let base_reserve_in_stroops: Quark
     let max_tx_set_size: Int
 }
 

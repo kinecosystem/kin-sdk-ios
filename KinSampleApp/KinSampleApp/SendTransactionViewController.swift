@@ -64,8 +64,8 @@ class SendTransactionViewController: UIViewController {
     @IBAction func sendTapped(_ sender: Any) {
         let amount = Decimal(UInt64(amountTextField.text ?? "0") ?? 0)
         let address = addressTextField.text ?? ""
-        
-        promise(curry(kinAccount.generateTransaction)(address)(amount)(memoTextField.text)(0))
+
+        promise(curry(kinAccount.buildTransaction)(address)(amount)(memoTextField.text)(0))
             .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionEnvelope> in
                 guard let strongSelf = self else {
                     return Promise(KinError.unknown)

@@ -46,7 +46,7 @@ public protocol KinAccount: class {
     func status() -> Promise<AccountStatus>
 
     /**
-     Generate a Kin transaction for a specific address.
+     Build a Kin transaction for a specific address.
 
      The completion block is called after the transaction is posted on the network, which is prior
      to confirmation.
@@ -56,26 +56,32 @@ public protocol KinAccount: class {
      - Parameter recipient: The recipient's public address.
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
-     - Parameter fee: The fee in `Stroop`s used if the transaction is not whitelisted.
+     - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
      - Parameter completion: A completion with the `TransactionEnvelope` or an `Error`.
      */
+    func buildTransaction(to recipient: String, kin: Kin, memo: String?, fee: Quark, completion: @escaping GenerateTransactionCompletion)
+
+    @available(*, deprecated, renamed: "buildTransaction")
     func generateTransaction(to recipient: String,
                              kin: Kin,
                              memo: String?,
-                             fee: Stroop,
+                             fee: Quark,
                              completion: @escaping GenerateTransactionCompletion)
 
     /**
-     Generate a Kin transaction for a specific address.
+     Build a Kin transaction for a specific address.
 
      - Parameter recipient: The recipient's public address.
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
-     - Parameter fee: The fee in `Stroop`s used if the transaction is not whitelisted.
+     - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
 
      - Returns: A promise which is signalled with the `TransactionEnvelope` or an `Error`.
      */
-    func generateTransaction(to recipient: String, kin: Kin, memo: String?, fee: Stroop) -> Promise<TransactionEnvelope>
+    func buildTransaction(to recipient: String, kin: Kin, memo: String?, fee: Quark) -> Promise<TransactionEnvelope>
+
+    @available(*, deprecated, renamed: "buildTransaction")
+    func generateTransaction(to recipient: String, kin: Kin, memo: String?, fee: Quark) -> Promise<TransactionEnvelope>
 
     /**
      Send a Kin transaction.
@@ -151,9 +157,21 @@ public protocol KinAccount: class {
      - returns: a prettified JSON string of the `account` exported; `nil` if `account` is `nil`.
      */
 //    func exportKeyStore(passphrase: String, exportPassphrase: String) throws -> String?
+
+    func aggergatedBalance()
+
+    func controlledBalances()
 }
 
 final class KinStellarAccount: KinAccount {
+    func aggergatedBalance() {
+
+    }
+
+    func controlledBalances() {
+
+    }
+
     internal let stellarAccount: StellarAccount
     fileprivate let node: Stellar.Node
     fileprivate let appId: AppId
@@ -225,26 +243,22 @@ final class KinStellarAccount: KinAccount {
     func status() -> Promise<AccountStatus> {
         return promise(status)
     }
-    
-    func generateTransaction(to recipient: String,
-                             kin: Kin,
-                             memo: String? = nil,
-                             fee: Stroop = 0,
-                             completion: @escaping GenerateTransactionCompletion) {
+
+    func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
         }
-        
+
         let kinInt = ((kin * Decimal(AssetUnitDivisor)) as NSDecimalNumber).int64Value
-        
+
         guard kinInt > 0 else {
             completion(nil, KinError.invalidAmount)
             return
         }
-        
+
         let prefixedMemo = Memo.prependAppIdIfNeeded(appId, to: memo ?? "")
-        
+
         guard prefixedMemo.utf8.count <= Transaction.MaxMemoLength else {
             completion(nil, StellarError.memoTooLong(prefixedMemo))
             return
@@ -256,11 +270,11 @@ final class KinStellarAccount: KinAccount {
 
         do {
             Stellar.transaction(source: stellarAccount,
-                            destination: recipient,
-                            amount: kinInt,
-                            memo: try Memo(prefixedMemo),
-                            node: node,
-                            fee: fee)
+                                destination: recipient,
+                                amount: kinInt,
+                                memo: try Memo(prefixedMemo),
+                                node: node,
+                                fee: fee)
                 .then { transactionEnvelope -> Void in
                     self.stellarAccount.sign = nil
                     completion(transactionEnvelope, nil)
@@ -276,12 +290,24 @@ final class KinStellarAccount: KinAccount {
         }
     }
 
-    func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Stroop) -> Promise<TransactionEnvelope> {
+    func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<TransactionEnvelope> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
-            self.generateTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
+            self.buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
         }
 
         return promise(txClosure)
+    }
+
+    func generateTransaction(to recipient: String,
+                             kin: Kin,
+                             memo: String? = nil,
+                             fee: Quark = 0,
+                             completion: @escaping GenerateTransactionCompletion) {
+        return buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: completion)
+    }
+
+    func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<TransactionEnvelope> {
+        return buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee)
     }
 
     func sendTransaction(_ transactionEnvelope: TransactionEnvelope, completion: @escaping SendTransactionCompletion) {
