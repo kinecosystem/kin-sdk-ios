@@ -93,7 +93,65 @@ public enum Stellar {
                 return p.signal(StellarError.missingBalance)
         }
     }
-    
+
+    /**
+     Obtain the aggregated balance.
+
+     - parameter account: The `Account` whose aggregated balance will be retrieved.
+     - parameter node: An object describing the network endpoint.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
+    public static func aggregatedBalance(account: String, node: Node) -> Promise<Kin> {
+        let url = Endpoint(node.baseURL).account(account).aggregatedBalance().url
+
+        return issue(request: URLRequest(url: url))
+            .then { data -> Promise<AggregatedBalanceResponse> in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    if horizonError.status == 400 {
+                        throw StellarError.invalidAccount
+                    }
+                    else {
+                        throw StellarError.unknownError(horizonError)
+                    }
+                }
+
+                return try Promise(JSONDecoder().decode(AggregatedBalanceResponse.self, from: data))
+            }
+            .then { aggregatedBalanceResponse -> Promise<Kin> in
+                return Promise(aggregatedBalanceResponse.balance)
+        }
+    }
+
+    /**
+     Obtain the controlled accounts.
+
+     - parameter account: The `Account` whose aggregated balance will be retrieved.
+     - parameter node: An object describing the network endpoint.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
+    public static func controlledAccounts(account: String, node: Node) -> Promise<[ControlledAccount]> {
+        let url = Endpoint(node.baseURL).account(account).controlledBalances().url
+
+        return issue(request: URLRequest(url: url))
+            .then { data -> Promise<ControlledAccountsResponse> in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    if horizonError.status == 400 {
+                        throw StellarError.invalidAccount
+                    }
+                    else {
+                        throw StellarError.unknownError(horizonError)
+                    }
+                }
+
+                return try Promise(JSONDecoder().decode(ControlledAccountsResponse.self, from: data))
+            }
+            .then { controlledAccountsResponse -> Promise<[ControlledAccount]> in
+                return Promise(controlledAccountsResponse.controlledAccounts)
+        }
+    }
+
     /**
      Obtain details for the given account.
      

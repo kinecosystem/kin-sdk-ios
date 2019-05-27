@@ -58,6 +58,16 @@ struct LedgersEndpoint: EndpointProtocol {
     }
 }
 
+struct AggregatedBalanceEndpoint: EndpointProtocol {
+    let base: URL
+    let params: [String: Any]
+}
+
+struct ControlledBalancesEndpoint: EndpointProtocol {
+    let base: URL
+    let params: [String: Any]
+}
+
 struct CursorEndpoint: EndpointProtocol {
     let base: URL
     let params: [String: Any]
@@ -93,6 +103,14 @@ extension AccountEndpoint {
     func transactions() -> TransactionsEndpoint {
         return KinSDK.transactions(url: base, params: params)
     }
+
+    func aggregatedBalance() -> AggregatedBalanceEndpoint {
+        return KinSDK.aggregatedBalance(url: base, params: params)
+    }
+
+    func controlledBalances() -> ControlledBalancesEndpoint {
+        return KinSDK.controlledBalances(url: base, params: params)
+    }
 }
 
 extension PaymentsEndpoint {
@@ -123,6 +141,14 @@ extension LedgersEndpoint {
     }
 }
 
+extension AggregatedBalanceEndpoint {
+
+}
+
+extension ControlledBalancesEndpoint {
+
+}
+
 //MARK: -
 
 private func payments(url: URL, params: [String: Any]) -> PaymentsEndpoint {
@@ -135,6 +161,14 @@ private func transactions(url: URL, params: [String: Any]) -> TransactionsEndpoi
 
 private func ledgders(url: URL, params: [String: Any]) -> LedgersEndpoint {
     return LedgersEndpoint(base: url.appendingPathComponent("ledgers"), params: [:])
+}
+
+private func aggregatedBalance(url: URL, params: [String: Any]) -> AggregatedBalanceEndpoint {
+    return AggregatedBalanceEndpoint(base: url.appendingPathComponent("aggregate_balance"), params: [:])
+}
+
+private func controlledBalances(url: URL, params: [String: Any]) -> ControlledBalancesEndpoint {
+    return ControlledBalancesEndpoint(base: url.appendingPathComponent("controlled_balances"), params: [:])
 }
 
 private func cursor(url: URL, cursor: String?) -> CursorEndpoint {

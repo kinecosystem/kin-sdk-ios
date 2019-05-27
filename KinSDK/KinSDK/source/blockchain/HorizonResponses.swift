@@ -102,6 +102,78 @@ struct LedgerResponse: Decodable {
     let max_tx_set_size: Int
 }
 
+public struct AggregatedBalanceResponse: Decodable {
+    let _links: Links
+    public let publicAddress: String
+    public let balance: Kin
+
+    private enum RootKeys: String, CodingKey {
+        case _links
+        case _embedded
+    }
+
+    private enum EmbeddedKeys: String, CodingKey {
+        case records
+    }
+
+    private enum AggregatedBalanceKeys: String, CodingKey {
+        case accountId = "account_id"
+        case balance = "aggregate_balance"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: RootKeys.self)
+        let embeddedContainer = try container.nestedContainer(keyedBy: EmbeddedKeys.self, forKey: ._embedded)
+        var aggregatedBalancesContainer = try embeddedContainer.nestedUnkeyedContainer(forKey: .records)
+        let aggregatedBalanceContainer = try aggregatedBalancesContainer.nestedContainer(keyedBy: AggregatedBalanceKeys.self)
+
+        self._links = try container.decode(Links.self, forKey: ._links)
+        self.publicAddress = try aggregatedBalanceContainer.decode(String.self, forKey: .accountId)
+        self.balance = try aggregatedBalanceContainer.decode(Kin.self, forKey: .balance)
+    }
+}
+
+public struct ControlledAccountsResponse: Decodable {
+    let _links: Links
+    public let controlledAccounts: [ControlledAccount]
+
+    private enum RootKeys: String, CodingKey {
+        case _links
+        case _embedded
+    }
+
+    private enum EmbeddedKeys: String, CodingKey {
+        case records
+    }
+
+    private enum ControlledAccountKeys: String, CodingKey {
+        case accountId = "account_id"
+        case balance
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: RootKeys.self)
+        let embeddedContainer = try container.nestedContainer(keyedBy: EmbeddedKeys.self, forKey: ._embedded)
+        var controlledAccountsContainer = try embeddedContainer.nestedUnkeyedContainer(forKey: .records)
+        var controlledAccounts: [ControlledAccount] = []
+
+        while !controlledAccountsContainer.isAtEnd {
+            let controlledAccountContainer = try controlledAccountsContainer.nestedContainer(keyedBy: ControlledAccountKeys.self)
+            let publicAddress = try controlledAccountContainer.decode(String.self, forKey: .accountId)
+            let balance = try controlledAccountContainer.decode(Kin.self, forKey: .balance)
+            controlledAccounts.append(ControlledAccount(balance: balance, publicAddress: publicAddress))
+        }
+
+        self._links = try container.decode(Links.self, forKey: ._links)
+        self.controlledAccounts = controlledAccounts
+    }
+}
+
+public struct ControlledAccount: Decodable {
+    public let balance: Kin
+    public let publicAddress: String
+}
+
 struct Links: Decodable {
     let `self`: Link
 
