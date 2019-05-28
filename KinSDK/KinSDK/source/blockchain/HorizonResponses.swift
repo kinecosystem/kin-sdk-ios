@@ -17,7 +17,7 @@ struct HorizonError: Decodable {
     let extras: Extras?
 
     struct Extras: Decodable {
-        let resultXDR: String
+        let resultXDR: String?
 
         enum CodingKeys: String, CodingKey {
             case resultXDR = "result_xdr"
@@ -129,7 +129,13 @@ public struct AggregatedBalanceResponse: Decodable {
 
         self._links = try container.decode(Links.self, forKey: ._links)
         self.publicAddress = try aggregatedBalanceContainer.decode(String.self, forKey: .accountId)
-        self.balance = try aggregatedBalanceContainer.decode(Kin.self, forKey: .balance)
+        let balanceString = try aggregatedBalanceContainer.decode(String.self, forKey: .balance)
+
+        guard let balance = Kin(string: balanceString) else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: aggregatedBalanceContainer.codingPath + [AggregatedBalanceKeys.balance], debugDescription: "aggregate_balance must be a string parsable double"))
+        }
+
+        self.balance = balance
     }
 }
 
@@ -160,7 +166,12 @@ public struct ControlledAccountsResponse: Decodable {
         while !controlledAccountsContainer.isAtEnd {
             let controlledAccountContainer = try controlledAccountsContainer.nestedContainer(keyedBy: ControlledAccountKeys.self)
             let publicAddress = try controlledAccountContainer.decode(String.self, forKey: .accountId)
-            let balance = try controlledAccountContainer.decode(Kin.self, forKey: .balance)
+            let balanceString = try controlledAccountContainer.decode(String.self, forKey: .balance)
+
+            guard let balance = Kin(string: balanceString) else {
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: controlledAccountContainer.codingPath + [ControlledAccountKeys.balance], debugDescription: "balance must be a string parsable double"))
+            }
+
             controlledAccounts.append(ControlledAccount(balance: balance, publicAddress: publicAddress))
         }
 

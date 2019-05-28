@@ -108,7 +108,7 @@ public enum Stellar {
         return issue(request: URLRequest(url: url))
             .then { data -> Promise<AggregatedBalanceResponse> in
                 if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
-                    if horizonError.status == 400 {
+                    if case 400...404 = horizonError.status {
                         throw StellarError.invalidAccount
                     }
                     else {
@@ -137,7 +137,7 @@ public enum Stellar {
         return issue(request: URLRequest(url: url))
             .then { data -> Promise<ControlledAccountsResponse> in
                 if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
-                    if horizonError.status == 400 {
+                    if case 400...404 = horizonError.status {
                         throw StellarError.invalidAccount
                     }
                     else {

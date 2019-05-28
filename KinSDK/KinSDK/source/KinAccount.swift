@@ -263,31 +263,34 @@ public final class KinAccount {
         return promise(balance)
     }
 
-    public func aggergatedBalance() {
+    public func aggergatedBalance(completion: @escaping BalanceCompletion) {
         guard deleted == false else {
-//            completion(nil, KinError.accountDeleted)
-
+            completion(nil, KinError.accountDeleted)
             return
         }
 
-        let a = "GBTB7NQZTE7RY622S3RLZUHFBPWWKPFU4ZH6374C2ASFA5FM2E5RKKZ3"
-//        let a = stellarAccount.publicKey!
-
-        Stellar.aggregatedBalance(account: a, node: node)
+        Stellar.aggregatedBalance(account: stellarAccount.publicKey!, node: node)
             .then { balance -> Void in
-                print("1-----")
-                print(balance)
-//                completion(balance, nil)
+                completion(balance, nil)
             }
             .error { error in
-                print("2-----")
-                print(error)
-//                completion(nil, KinError.balanceQueryFailed(error))
+                completion(nil, KinError.aggergatedBalanceQueryFailed(error))
         }
     }
 
-    public func controlledBalances() {
+    public func controlledBalances(completion: @escaping ([ControlledAccount]?, Error?) -> Void) {
+        guard deleted == false else {
+            completion(nil, KinError.accountDeleted)
+            return
+        }
 
+        Stellar.controlledAccounts(account: stellarAccount.publicKey!, node: node)
+            .then { controlledAccounts -> Void in
+                completion(controlledAccounts, nil)
+            }
+            .error { error in
+                completion(nil, KinError.controlledAccountsQueryFailed(error))
+        }
     }
 
     /**

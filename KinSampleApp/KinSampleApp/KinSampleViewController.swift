@@ -69,10 +69,6 @@ extension KinSampleViewController: KinClientCellDelegate {
     }
 
     func startSendTransaction() {
-        // !!!: DEBUG
-        kinAccount.aggergatedBalance()
-        return
-
         guard let txViewController = storyboard?.instantiateViewController(withIdentifier: "SendTransactionViewController") as? SendTransactionViewController else {
             return
         }
