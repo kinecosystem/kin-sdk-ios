@@ -61,10 +61,10 @@ class KinClientTests: XCTestCase {
 
     func test_account_instance_reuse() {
         do {
-            let _ = try kinClient.addAccount() as? KinStellarAccount
+            let _ = try kinClient.addAccount() as? KinAccount
 
-            let first = kinClient.accounts[0] as? KinStellarAccount
-            let second = kinClient.accounts[0] as? KinStellarAccount
+            let first = kinClient.accounts[0] as? KinAccount
+            let second = kinClient.accounts[0] as? KinAccount
 
             XCTAssertNotNil(second)
             XCTAssert(first === second!)

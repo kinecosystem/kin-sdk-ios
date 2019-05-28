@@ -344,4 +344,8 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
             return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
         }())
     }
+
+    public mutating func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
+        try addSignature(account: kinAccount.stellarAccount, networkId: networkId)
+    }
 }
