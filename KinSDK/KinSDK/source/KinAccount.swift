@@ -263,6 +263,13 @@ public final class KinAccount {
         return promise(balance)
     }
 
+    /**
+     Retrieve the aggregated Kin balance.
+
+     The aggregated balance is the combined balance of all linked accounts.
+
+     - Parameter completion: A closure to be invoked once the request completes.
+     */
     public func aggergatedBalance(completion: @escaping BalanceCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
@@ -278,7 +285,14 @@ public final class KinAccount {
         }
     }
 
-    public func controlledBalances(completion: @escaping ([ControlledAccount]?, Error?) -> Void) {
+    /**
+     Retrieve the controlled accounts.
+
+     The controlled accounts are all of the linked accounts.
+
+     - Parameter completion: A closure to be invoked once the request completes.
+     */
+    public func controlledAccounts(completion: @escaping ([ControlledAccount]?, Error?) -> Void) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
