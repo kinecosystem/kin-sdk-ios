@@ -91,7 +91,7 @@ public enum Stellar {
                 }
 
                 return p.signal(StellarError.missingBalance)
-        }
+            }
     }
 
     /**
@@ -289,7 +289,7 @@ public enum Stellar {
                 catch {
                     throw error
                 }
-        }
+            }
     }
 
     /**
