@@ -11,7 +11,6 @@ import XCTest
 import KinUtil
 
 class KinAccountTests: XCTestCase {
-
     var kinClient: KinClient!
     let passphrase = UUID().uuidString
 
@@ -20,10 +19,10 @@ class KinAccountTests: XCTestCase {
     var issuer: StellarAccount?
 
     let endpoint = "https://horizon-testnet.kininfrastructure.com"
-//    let endpoint = "http://horizon-testnet-one-wallet.kininfrastructure.com"
     let sNetwork: Network = .testNet
-
     lazy var kNetwork: Network = .testNet
+
+    let requestTimeout: TimeInterval = 30
 
     override func setUp() {
         super.setUp()
@@ -61,11 +60,15 @@ class KinAccountTests: XCTestCase {
         kinClient.deleteKeystore()
     }
 
+    // MARK: - Extra Data
+
     func test_extra_data() {
         account0.extra = Data([1, 2, 3])
 
         XCTAssertEqual(Data([1, 2, 3]), account0.extra)
     }
+
+    // MARK: - Balance
 
     func test_balance_sync() {
         do {
@@ -95,7 +98,7 @@ class KinAccountTests: XCTestCase {
                 expectation.fulfill()
             }
 
-            wait(for: [expectation], timeout: 30)
+            wait(for: [expectation], timeout: requestTimeout)
 
             XCTAssertNotEqual(balanceChecked, 0)
         }
@@ -120,7 +123,7 @@ class KinAccountTests: XCTestCase {
                     expectation.fulfill()
                 }
 
-            wait(for: [expectation], timeout: 30)
+            wait(for: [expectation], timeout: requestTimeout)
 
             XCTAssertNotEqual(balanceChecked, 0)
         }
@@ -129,37 +132,70 @@ class KinAccountTests: XCTestCase {
         }
     }
 
+    func test_aggregated_balance() {
+        let expectation = XCTestExpectation()
+
+        account0.aggergatedBalance { (kin, error) in
+            self.fail(on: error)
+
+            XCTAssertNotNil(kin, "The aggregated balance should not be nil")
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: requestTimeout)
+    }
+
+    // MARK: - Build Transaction
+
+    func test_build_transaction_of_zero_kin() {
+        let expectation = XCTestExpectation()
+
+        account0.buildTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
+            if let _ = envelope {
+                XCTAssertTrue(false, "Envelope should be nil")
+            }
+
+            guard let error = error else {
+                XCTAssertTrue(false, "Error should not be nil")
+                return
+            }
+
+            guard let kinError = error as? KinError, case KinError.invalidAmount = kinError else {
+                XCTAssertTrue(false, "Received unexpected error: \(error.localizedDescription)")
+                return
+            }
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: requestTimeout)
+    }
+
+    // MARK: - Send Transaction
+
     func test_send_transaction_with_nil_memo() {
         do {
             let expectation = XCTestExpectation()
 
-            let sendAmount: Decimal = 5
-            var startBalance0 = try getBalance(account0)
-            var startBalance1 = try getBalance(account1)
-
-            if startBalance0 == 0 {
-                startBalance0 = try waitForNonZeroBalance(account: account0)
-            }
-
-            if startBalance1 == 0 {
-                startBalance1 = try waitForNonZeroBalance(account: account1)
-            }
+            let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
             buildTransaction(kin: sendAmount, memo: nil, fee: 0) { envelope in
-                let txId = try! self.sendTransaction(envelope)
+                do {
+                    let txId = try self.sendTransaction(envelope)
 
-                XCTAssertNotNil(txId)
+                    XCTAssertNotNil(txId, "The transaction ID should not be nil")
 
-                let balance0 = try! self.getBalance(self.account0)
-                let balance1 = try! self.getBalance(self.account1)
-
-                XCTAssertEqual(balance0, startBalance0 - sendAmount)
-                XCTAssertEqual(balance1, startBalance1 + sendAmount)
-
-                expectation.fulfill()
+                    self.compareBalance(sendAmount: sendAmount, startBalance0: startBalance0, startBalance1: startBalance1, completion: {
+                        expectation.fulfill()
+                    })
+                }
+                catch {
+                    self.fail(on: error)
+                }
             }
 
-            wait(for: [expectation], timeout: 30)
+            wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
@@ -170,33 +206,24 @@ class KinAccountTests: XCTestCase {
         do {
             let expectation = XCTestExpectation()
 
-            let sendAmount: Decimal = 5
-            var startBalance0 = try getBalance(account0)
-            var startBalance1 = try getBalance(account1)
-
-            if startBalance0 == 0 {
-                startBalance0 = try waitForNonZeroBalance(account: account0)
-            }
-
-            if startBalance1 == 0 {
-                startBalance1 = try waitForNonZeroBalance(account: account1)
-            }
+            let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
             buildTransaction(kin: sendAmount, memo: "memo", fee: 0) { envelope in
-                let txId = try! self.sendTransaction(envelope)
+                do {
+                    let txId = try self.sendTransaction(envelope)
 
-                XCTAssertNotNil(txId)
+                    XCTAssertNotNil(txId, "The transaction ID should not be nil")
 
-                let balance0 = try! self.getBalance(self.account0)
-                let balance1 = try! self.getBalance(self.account1)
-
-                XCTAssertEqual(balance0, startBalance0 - sendAmount)
-                XCTAssertEqual(balance1, startBalance1 + sendAmount)
-
-                expectation.fulfill()
+                    self.compareBalance(sendAmount: sendAmount, startBalance0: startBalance0, startBalance1: startBalance1, completion: {
+                        expectation.fulfill()
+                    })
+                }
+                catch {
+                    self.fail(on: error)
+                }
             }
 
-            wait(for: [expectation], timeout: 30)
+            wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
@@ -207,33 +234,24 @@ class KinAccountTests: XCTestCase {
         do {
             let expectation = XCTestExpectation()
 
-            let sendAmount: Decimal = 5
-            var startBalance0 = try getBalance(account0)
-            var startBalance1 = try getBalance(account1)
-
-            if startBalance0 == 0 {
-                startBalance0 = try waitForNonZeroBalance(account: account0)
-            }
-
-            if startBalance1 == 0 {
-                startBalance1 = try waitForNonZeroBalance(account: account1)
-            }
+            let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
             buildTransaction(kin: sendAmount, memo: "", fee: 0) { envelope in
-                let txId = try! self.sendTransaction(envelope)
+                do {
+                    let txId = try self.sendTransaction(envelope)
 
-                XCTAssertNotNil(txId)
+                    XCTAssertNotNil(txId, "The transaction ID should not be nil")
 
-                let balance0 = try! self.getBalance(self.account0)
-                let balance1 = try! self.getBalance(self.account1)
-
-                XCTAssertEqual(balance0, startBalance0 - sendAmount)
-                XCTAssertEqual(balance1, startBalance1 + sendAmount)
-
-                expectation.fulfill()
+                    self.compareBalance(sendAmount: sendAmount, startBalance0: startBalance0, startBalance1: startBalance1, completion: {
+                        expectation.fulfill()
+                    })
+                }
+                catch {
+                    self.fail(on: error)
+                }
             }
 
-            wait(for: [expectation], timeout: 30)
+            wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
@@ -263,33 +281,32 @@ class KinAccountTests: XCTestCase {
                 }
             }
 
-            wait(for: [expectation], timeout: 30)
+            wait(for: [expectation], timeout: requestTimeout)
         }
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
         }
     }
 
-    func test_generate_transaction_of_zero_kin() {
+    // MARK: - Account
+
+    func test_controlled_accounts() {
         let expectation = XCTestExpectation()
 
-        account0.buildTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
-            if let _ = envelope {
-                XCTAssertTrue(false, "Envelope should be nil")
-            }
+        account0.controlledAccounts { (controlledAccounts, error) in
+            self.fail(on: error)
 
-            guard let kinError = error as? KinError, case KinError.invalidAmount = kinError else {
-                XCTAssertTrue(false, "Received unexpected error: \(error!.localizedDescription)")
-                return
-            }
+            XCTAssertNotNil(controlledAccounts, "The controlled accounts should not be nil")
 
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 30)
+        wait(for: [expectation], timeout: requestTimeout)
     }
 
-    func test_use_after_delete_balance() {
+    // MARK: - Deleting Account
+
+    func test_balance_after_delete() {
         do {
             guard let account = kinClient.accounts[0] else {
                 XCTAssert(false, "Failed to get an account")
@@ -309,7 +326,7 @@ class KinAccountTests: XCTestCase {
         }
     }
 
-    func test_use_after_delete_transaction() {
+    func test_transaction_after_delete() {
         do {
             let expectation = XCTestExpectation()
 
@@ -321,58 +338,37 @@ class KinAccountTests: XCTestCase {
             try kinClient.deleteAccount(at: 0)
 
             account.buildTransaction(to: "", kin: 1, memo: nil, fee: 0) { (envelope, error) in
+                guard let error = error else {
+                    XCTAssertTrue(false, "Error should not be nil")
+                    return
+                }
+
                 guard let kinError = error as? KinError, case KinError.accountDeleted = kinError else {
-                    XCTAssertTrue(false, "Received unexpected error: \(error!)")
+                    XCTAssertTrue(false, "Received unexpected error: \(error)")
                     return
                 }
 
                 expectation.fulfill()
             }
 
-            wait(for: [expectation], timeout: 30)
+            wait(for: [expectation], timeout: requestTimeout)
         }
         catch {
            XCTAssertTrue(false, "Something went wrong: \(error)")
         }
     }
 
+    // MARK: - Export
+
     func test_export() {
         do {
             let data = try account0.export(passphrase: passphrase)
 
-            XCTAssertNotNil(data, "Unable to retrieve keyStore account: \(account0)")
+            XCTAssertNotNil(data, "Unable to retrieve keyStore account: \(String(describing: account0))")
         }
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
         }
-    }
-
-    func test_aggregated_balance() {
-        let expectation = XCTestExpectation()
-
-        account0.aggergatedBalance { (kin, error) in
-            self.fail(on: error)
-
-            XCTAssertNotNil(kin, "The aggregated balance should not be nil")
-
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: 30)
-    }
-
-    func test_controlled_accounts() {
-        let expectation = XCTestExpectation()
-
-        account0.controlledAccounts { (controlledAccounts, error) in
-            self.fail(on: error)
-
-            XCTAssertNotNil(controlledAccounts, "The controlled accounts should not be nil")
-
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: 30)
     }
 }
 
@@ -450,9 +446,44 @@ extension KinAccountTests {
 
         let exp = expectation(for: predicate, evaluatedWith: balance)
 
-        wait(for: [exp], timeout: 30)
+        wait(for: [exp], timeout: requestTimeout)
 
         return balance
+    }
+
+    func prepareCompareBalance() throws -> (sendAmount: Decimal, startBalance0: Decimal, startBalance1: Decimal) {
+        let sendAmount: Decimal = 5
+        var startBalance0 = try getBalance(account0)
+        var startBalance1 = try getBalance(account1)
+
+        if startBalance0 == 0 {
+            startBalance0 = try waitForNonZeroBalance(account: account0)
+        }
+
+        if startBalance1 == 0 {
+            startBalance1 = try waitForNonZeroBalance(account: account1)
+        }
+
+        return (sendAmount, startBalance0, startBalance1)
+    }
+
+    func compareBalance(sendAmount: Decimal, startBalance0: Decimal, startBalance1: Decimal, completion: @escaping () -> ()) {
+        do {
+            let balance0 = try self.getBalance(self.account0)
+            let balance1 = try self.getBalance(self.account1)
+
+            kinClient.minFee().then { quark in
+                let fee = (Kin(quark) / Kin(AssetUnitDivisor))
+
+                XCTAssertEqual(balance0, startBalance0 - sendAmount - fee)
+                XCTAssertEqual(balance1, startBalance1 + sendAmount)
+
+                completion()
+            }
+        }
+        catch {
+            self.fail(on: error)
+        }
     }
 
     func fail(on error: Error?) {
