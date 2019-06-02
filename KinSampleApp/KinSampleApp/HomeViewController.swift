@@ -44,7 +44,7 @@ class HomeViewController: UIViewController {
 
         let provider: Provider
         if production {
-            provider = Provider(url: URL(string: "https://horizon-ecosystem.kininfrastructure.com")!, network: .mainNet)
+            provider = Provider(url: URL(string: "https://horizon.kininfrastructure.com")!, network: .mainNet)
         } else {
             provider = Provider(url: URL(string: "http://horizon-testnet.kininfrastructure.com")!, network: .testNet)
         }
