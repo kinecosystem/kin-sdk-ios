@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ExplanationTemplateViewController: ViewController {
+class ExplanationTemplateViewController: KinViewController {
     // MARK: View
 
     var contentView: UIStackView {

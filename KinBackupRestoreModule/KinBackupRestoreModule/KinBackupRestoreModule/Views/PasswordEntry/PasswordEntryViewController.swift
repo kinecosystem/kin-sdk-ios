@@ -13,7 +13,7 @@ protocol PasswordEntryViewControllerDelegate: NSObjectProtocol {
     func passwordEntryViewControllerDidComplete(_ viewController: PasswordEntryViewController, with password: String)
 }
 
-class PasswordEntryViewController: ViewController {
+class PasswordEntryViewController: KinViewController {
     weak var delegate: PasswordEntryViewControllerDelegate?
 
     // MARK: View

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  KinViewController.swift
 //  KinEcosystem
 //
 //  Created by Corey Werner on 25/10/2018.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class KinViewController: UIViewController {
     weak var lifeCycleDelegate: LifeCycleProtocol?
     
     override func viewWillAppear(_ animated: Bool) {

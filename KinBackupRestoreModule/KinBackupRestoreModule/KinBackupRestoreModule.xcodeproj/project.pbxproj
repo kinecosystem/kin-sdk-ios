@@ -18,7 +18,6 @@
 		68005AE122070793004F791A /* BackupFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68005AC822070793004F791A /* BackupFlowController.swift */; };
 		68005AE222070793004F791A /* RestoreFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68005AC922070793004F791A /* RestoreFlowController.swift */; };
 		68005AE322070793004F791A /* FlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68005ACA22070793004F791A /* FlowController.swift */; };
-		68005AE422070793004F791A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68005ACB22070793004F791A /* ViewController.swift */; };
 		68005AE522070793004F791A /* QRPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68005ACC22070793004F791A /* QRPickerController.swift */; };
 		68005AE722070793004F791A /* PasswordEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68005ACF22070793004F791A /* PasswordEntryViewController.swift */; };
 		68005AE922070793004F791A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68005AD122070793004F791A /* RoundButton.swift */; };
@@ -57,6 +56,7 @@
 		68A430C32219669000D3B193 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A430C22219669000D3B193 /* Animations.swift */; };
 		68A430C52219930900D3B193 /* UIFont+PreferredFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A430C42219930900D3B193 /* UIFont+PreferredFont.swift */; };
 		68A430D0221C325600D3B193 /* PasswordEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A430CF221C325600D3B193 /* PasswordEntryView.swift */; };
+		68AF910422A42770008C01EC /* KinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF910322A42770008C01EC /* KinViewController.swift */; };
 		BA884B6F3A47E6FE5D47841F /* Pods_KinBackupRestoreModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E022A76B1DD4F948915AF2C2 /* Pods_KinBackupRestoreModule.framework */; };
 /* End PBXBuildFile section */
 
@@ -93,7 +93,6 @@
 		68005AC822070793004F791A /* BackupFlowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupFlowController.swift; sourceTree = "<group>"; };
 		68005AC922070793004F791A /* RestoreFlowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreFlowController.swift; sourceTree = "<group>"; };
 		68005ACA22070793004F791A /* FlowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowController.swift; sourceTree = "<group>"; };
-		68005ACB22070793004F791A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		68005ACC22070793004F791A /* QRPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRPickerController.swift; sourceTree = "<group>"; };
 		68005ACF22070793004F791A /* PasswordEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEntryViewController.swift; sourceTree = "<group>"; };
 		68005AD122070793004F791A /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -134,6 +133,7 @@
 		68A430C22219669000D3B193 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		68A430C42219930900D3B193 /* UIFont+PreferredFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+PreferredFont.swift"; sourceTree = "<group>"; };
 		68A430CF221C325600D3B193 /* PasswordEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntryView.swift; sourceTree = "<group>"; };
+		68AF910322A42770008C01EC /* KinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinViewController.swift; sourceTree = "<group>"; };
 		6930B6AE5D9BF6E83FAE65D8 /* Pods-KinBackupRestoreModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinBackupRestoreModule.release.xcconfig"; path = "../Pods/Target Support Files/Pods-KinBackupRestoreModule/Pods-KinBackupRestoreModule.release.xcconfig"; sourceTree = "<group>"; };
 		804F09987432C25F46737269 /* Pods-KinBackupRestoreModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinBackupRestoreModule.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-KinBackupRestoreModule/Pods-KinBackupRestoreModule.debug.xcconfig"; sourceTree = "<group>"; };
 		B5DA5579FDFAD508F6F37BB2 /* Pods_KinBackupRestoreModuleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KinBackupRestoreModuleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,12 +261,12 @@
 				68005AC722070793004F791A /* FlowController */,
 				68005ADB22070793004F791A /* IntroViewController */,
 				682EA3652222D4AA00D4ADEC /* KeyboardAdjustingScrollView.swift */,
+				68AF910322A42770008C01EC /* KinViewController.swift */,
 				68005ACE22070793004F791A /* PasswordEntry */,
 				6897C71A226714A000502C1C /* PasswordLabel.swift */,
 				6897C7172266010100502C1C /* PasswordTextField.swift */,
 				68005AD222070793004F791A /* Restore */,
 				68005AD522070793004F791A /* QR */,
-				68005ACB22070793004F791A /* ViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -594,6 +594,7 @@
 				6897C6E32252072200502C1C /* CheckboxImageView.swift in Sources */,
 				68005ADE22070793004F791A /* LifeCycleProtocol.swift in Sources */,
 				68005B1422094F3E004F791A /* String+Localization.swift in Sources */,
+				68AF910422A42770008C01EC /* KinViewController.swift in Sources */,
 				68A430D0221C325600D3B193 /* PasswordEntryView.swift in Sources */,
 				68005AC122070789004F791A /* KinBackupRestoreManager.swift in Sources */,
 				68005AE922070793004F791A /* RoundButton.swift in Sources */,
@@ -616,7 +617,6 @@
 				6897C7122263525500502C1C /* CGGeometry+Appearance.swift in Sources */,
 				68005AE122070793004F791A /* BackupFlowController.swift in Sources */,
 				68005B23220AA4B9004F791A /* KinBackupRestoreBI.swift in Sources */,
-				68005AE422070793004F791A /* ViewController.swift in Sources */,
 				682EA36222229EAB00D4ADEC /* KinBackupRestoreError.swift in Sources */,
 				68005AE722070793004F791A /* PasswordEntryViewController.swift in Sources */,
 				68005AE022070793004F791A /* BackupCompletedViewController.swift in Sources */,

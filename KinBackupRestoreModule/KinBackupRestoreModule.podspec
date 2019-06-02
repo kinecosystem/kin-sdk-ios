@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'KinBackupRestoreModule'
-  s.version      = '1.0.0'
+  s.version      = '0.1.1'
   s.summary      = 'Pod for the Kin Backup and Restore.'
   s.description  = 'Pod for the KinSDK to backup and restore.'
   s.homepage     = 'https://github.com/kinecosystem/kin-sdk-ios/tree/master/KinBackupRestoreModule'
