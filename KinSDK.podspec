@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'KinSDK'
-  s.version      = '0.9.0'
+  s.version      = '0.9.2'
   s.summary      = 'Pod for the KIN SDK.'
   s.description  = "Initial pod for the KIN SDK."
   s.homepage     = 'https://github.com/kinecosystem/kin-sdk-ios'
@@ -11,7 +11,8 @@ Pod::Spec.new do |s|
   s.source_files = 'KinSDK/KinSDK/source/*.swift',
                    'KinSDK/KinSDK/source/blockchain/**/*.swift',
                    'KinSDK/KinSDK/source/third-party/SHA256.swift',
-                   'KinSDK/KinSDK/source/third-party/keychain-swift/KeychainSwift/*.swift'
+                   'KinSDK/KinSDK/source/third-party/keychain-swift/KeychainSwift/*.swift',
+                   'KinSDK/KinSDK/source/Utilities/*.swift'
 
   s.dependency 'KinUtil', '0.1.0'
   s.dependency 'Sodium', '0.8.0'

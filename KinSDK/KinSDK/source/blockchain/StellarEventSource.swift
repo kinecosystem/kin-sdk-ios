@@ -58,7 +58,7 @@ public final class StellarEventSource: NSObject, URLSessionDataDelegate {
 
         var headers: [String: String] = [
             "Accept": "text/event-stream",
-            "Cache-Control": "no-cache",
+            "Cache-Control": "no-cache"
         ]
 
         if let lastEventId = lastEventId {
@@ -66,8 +66,7 @@ public final class StellarEventSource: NSObject, URLSessionDataDelegate {
         }
 
         let config = URLSessionConfiguration.default
-        config.httpAdditionalHeaders = headers
-
+        config.httpAdditionalHeaders = URLSessionConfiguration.kinAdditionalHeaders(headers)
         config.timeoutIntervalForRequest = TimeInterval(Int32.max)
         config.timeoutIntervalForResource = TimeInterval(Int32.max)
 
