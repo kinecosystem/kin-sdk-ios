@@ -39,8 +39,8 @@
 "password_entry.password_confirm.placeholder" = "Confirm Password";
 "password_entry.instructions" = "Create a strong password to backup your Kin. Password must include the following:";
 "password_entry.mismatch" = "Password doesn't match:";
-"password_entry.invalid" = "Make sure to the password has:";
-"password_entry.pattern" = "9 characters, 1 uppercase, 1 digit, 1 special charcter \"#, !, @\"";
+"password_entry.invalid" = "Make sure the password has:";
+"password_entry.pattern" = "9 characters, 1 uppercase, 1 lowercase, 1 number, 1 special charcter \"#, !, @\"";
 "password_entry.confirmation" = "I understand that I won't be able to restore my Kin without this password.";
 
 "restore_intro.description" = "First, upload the QR code you saved\n(Hint: Check your email to find it)";
