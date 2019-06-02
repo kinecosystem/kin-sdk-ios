@@ -13,7 +13,7 @@ protocol QRViewControllerDelegate: NSObjectProtocol {
     func qrViewControllerDidComplete(_ viewController: QRViewController)
 }
 
-class QRViewController: ViewController {
+class QRViewController: KinViewController {
     weak var delegate: QRViewControllerDelegate!
 
     let qrImage: UIImage?

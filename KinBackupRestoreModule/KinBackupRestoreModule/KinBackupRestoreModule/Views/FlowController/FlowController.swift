@@ -36,7 +36,7 @@ class FlowController: NSObject {
     func cancelFlowIfNeeded(_ viewController: UIViewController) {
         if viewController == entryViewController,
             let navigationController = viewController.navigationController,
-            !(navigationController.topViewController is ViewController)
+            !(navigationController.topViewController is KinViewController)
         {
             cancelFlow()
         }

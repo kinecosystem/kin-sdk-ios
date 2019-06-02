@@ -13,7 +13,7 @@ protocol RestoreViewControllerDelegate: NSObjectProtocol {
     func restoreViewControllerDidComplete(_ viewController: RestoreViewController)
 }
 
-class RestoreViewController: ViewController {
+class RestoreViewController: KinViewController {
     weak var delegate: RestoreViewControllerDelegate?
 
     let qrImage: UIImage?
