@@ -16,11 +16,9 @@ Pod::Spec.new do |s|
     :tag => s.version.to_s, 
     :submodules => true 
   }
-  s.source_files = 'KinSDK/KinSDK/source/*.swift',
-                   'KinSDK/KinSDK/source/blockchain/**/*.swift',
-                   'KinSDK/KinSDK/source/third-party/SHA256.swift',
-                   'KinSDK/KinSDK/source/third-party/keychain-swift/KeychainSwift/*.swift',
-                   'KinSDK/KinSDK/source/Utilities/*.swift'
+  s.source_files = 'KinSDK/KinSDK/Core/**/*.swift',
+                   'KinSDK/KinSDK/ThirdParty/SHA256.swift',
+                   'KinSDK/KinSDK/ThirdParty/keychain-swift/KeychainSwift/*.swift'
 
   s.dependency 'KinUtil', '0.1.0'
   s.dependency 'Sodium', '0.8.0'
@@ -35,14 +33,14 @@ Pod::Spec.new do |s|
   #   ts.source_files = 'KinSDK/KinSDKTests/*.swift'
   # end
 
-  s.subspec 'KinBackupRestoreModule' do |ss|
-    ss.source_files = 'KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModule'
+  # s.subspec 'KinBackupRestoreModule' do |ss|
+  #   ss.source_files = 'KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModule'
 
-    # ss.dependency 'KinSDK'
+  #   # ss.dependency 'KinSDK'
 
-    # s.test_spec 'Tests' do |sts|
-    #   sts.requires_app_host = true
-    #   sts.source_files = 'KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModuleTests/*.swift'
-    # end
-  end
+  #   # s.test_spec 'Tests' do |sts|
+  #   #   sts.requires_app_host = true
+  #   #   sts.source_files = 'KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModuleTests/*.swift'
+  #   # end
+  # end
 end

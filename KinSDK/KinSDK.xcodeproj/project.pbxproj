@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00DB759B169772F6B2121BFF /* Pods_KinSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 385F0C372B3C4D61B8DDC768 /* Pods_KinSDKTests.framework */; };
+		22225D733B73F16413B8BC14 /* Pods_KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA4909536B9EA035BD571A76 /* Pods_KinSDK.framework */; };
 		68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68AF916322A90C6A008C01EC /* KinSDK.framework */; };
 		68AF917422A90C6A008C01EC /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 68AF916622A90C6A008C01EC /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		68AF91EB22A90D45008C01EC /* KeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91C622A90D44008C01EC /* KeyUtils.swift */; };
@@ -48,6 +50,9 @@
 		68AF921422A90DA4008C01EC /* AppIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF920F22A90DA4008C01EC /* AppIdTests.swift */; };
 		68AF921522A90DA4008C01EC /* URLKinVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF921022A90DA4008C01EC /* URLKinVersion.swift */; };
 		68AF921922A90E38008C01EC /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF921822A90E38008C01EC /* SHA256.swift */; };
+		68AF930222A92256008C01EC /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF92C822A92256008C01EC /* KeychainSwift.swift */; };
+		68AF930322A92256008C01EC /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF92C922A92256008C01EC /* TegKeychainConstants.swift */; };
+		68AF930422A92256008C01EC /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF92CA22A92256008C01EC /* KeychainSwiftAccessOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +66,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18E86856C9C8E450EE88E704 /* Pods-KinSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDKTests.release.xcconfig"; path = "Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests.release.xcconfig"; sourceTree = "<group>"; };
+		385F0C372B3C4D61B8DDC768 /* Pods_KinSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KinSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		392EC1BDFB6E48FB0A762296 /* Pods-KinSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDK.debug.xcconfig"; path = "Target Support Files/Pods-KinSDK/Pods-KinSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		68AF916322A90C6A008C01EC /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68AF916622A90C6A008C01EC /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
 		68AF916722A90C6A008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -105,6 +113,12 @@
 		68AF920F22A90DA4008C01EC /* AppIdTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppIdTests.swift; sourceTree = "<group>"; };
 		68AF921022A90DA4008C01EC /* URLKinVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLKinVersion.swift; sourceTree = "<group>"; };
 		68AF921822A90E38008C01EC /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
+		68AF92C822A92256008C01EC /* KeychainSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
+		68AF92C922A92256008C01EC /* TegKeychainConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TegKeychainConstants.swift; sourceTree = "<group>"; };
+		68AF92CA22A92256008C01EC /* KeychainSwiftAccessOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwiftAccessOptions.swift; sourceTree = "<group>"; };
+		B1D8268E387CF853AC48C2A5 /* Pods-KinSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDKTests.debug.xcconfig"; path = "Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E80538C23DD8A256BE3CE5CE /* Pods-KinSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDK.release.xcconfig"; path = "Target Support Files/Pods-KinSDK/Pods-KinSDK.release.xcconfig"; sourceTree = "<group>"; };
+		EA4909536B9EA035BD571A76 /* Pods_KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22225D733B73F16413B8BC14 /* Pods_KinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,18 +135,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */,
+				00DB759B169772F6B2121BFF /* Pods_KinSDKTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1939534DED645FA165955450 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA4909536B9EA035BD571A76 /* Pods_KinSDK.framework */,
+				385F0C372B3C4D61B8DDC768 /* Pods_KinSDKTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		68AF915922A90C6A008C01EC = {
 			isa = PBXGroup;
 			children = (
 				68AF916522A90C6A008C01EC /* KinSDK */,
 				68AF917022A90C6A008C01EC /* KinSDKTests */,
 				68AF916422A90C6A008C01EC /* Products */,
+				B9CAC28D9DF9F17E0BCCDF8E /* Pods */,
+				1939534DED645FA165955450 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -195,6 +222,7 @@
 		68AF917F22A90CE8008C01EC /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				68AF929C22A92256008C01EC /* keychain-swift */,
 				68AF921822A90E38008C01EC /* SHA256.swift */,
 			);
 			path = ThirdParty;
@@ -272,6 +300,36 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
+		68AF929C22A92256008C01EC /* keychain-swift */ = {
+			isa = PBXGroup;
+			children = (
+				68AF92C622A92256008C01EC /* KeychainSwift */,
+			);
+			path = "keychain-swift";
+			sourceTree = "<group>";
+		};
+		68AF92C622A92256008C01EC /* KeychainSwift */ = {
+			isa = PBXGroup;
+			children = (
+				68AF92C822A92256008C01EC /* KeychainSwift.swift */,
+				68AF92C922A92256008C01EC /* TegKeychainConstants.swift */,
+				68AF92CA22A92256008C01EC /* KeychainSwiftAccessOptions.swift */,
+			);
+			path = KeychainSwift;
+			sourceTree = "<group>";
+		};
+		B9CAC28D9DF9F17E0BCCDF8E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				392EC1BDFB6E48FB0A762296 /* Pods-KinSDK.debug.xcconfig */,
+				E80538C23DD8A256BE3CE5CE /* Pods-KinSDK.release.xcconfig */,
+				B1D8268E387CF853AC48C2A5 /* Pods-KinSDKTests.debug.xcconfig */,
+				18E86856C9C8E450EE88E704 /* Pods-KinSDKTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -290,6 +348,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 68AF917722A90C6A008C01EC /* Build configuration list for PBXNativeTarget "KinSDK" */;
 			buildPhases = (
+				66AE63BBF18176E88406BB10 /* [CP] Check Pods Manifest.lock */,
 				68AF915E22A90C6A008C01EC /* Headers */,
 				68AF915F22A90C6A008C01EC /* Sources */,
 				68AF916022A90C6A008C01EC /* Frameworks */,
@@ -308,9 +367,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 68AF917A22A90C6A008C01EC /* Build configuration list for PBXNativeTarget "KinSDKTests" */;
 			buildPhases = (
+				5DD7E0E0E41F0317C503FD02 /* [CP] Check Pods Manifest.lock */,
 				68AF916822A90C6A008C01EC /* Sources */,
 				68AF916922A90C6A008C01EC /* Frameworks */,
 				68AF916A22A90C6A008C01EC /* Resources */,
+				2176DA952BF932348DD85C9B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -348,6 +409,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 68AF915922A90C6A008C01EC;
 			productRefGroup = 68AF916422A90C6A008C01EC /* Products */;
@@ -377,6 +439,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2176DA952BF932348DD85C9B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5DD7E0E0E41F0317C503FD02 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KinSDKTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66AE63BBF18176E88406BB10 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KinSDK-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		68AF915F22A90C6A008C01EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -393,6 +519,7 @@
 				68AF920922A90D45008C01EC /* Network.swift in Sources */,
 				68AF91F522A90D45008C01EC /* Ledger.swift in Sources */,
 				68AF920B22A90D45008C01EC /* Version.swift in Sources */,
+				68AF930222A92256008C01EC /* KeychainSwift.swift in Sources */,
 				68AF920422A90D45008C01EC /* Watches.swift in Sources */,
 				68AF91FF22A90D45008C01EC /* HorizonResponses.swift in Sources */,
 				68AF91F922A90D45008C01EC /* Operation.swift in Sources */,
@@ -404,12 +531,14 @@
 				68AF920A22A90D45008C01EC /* Bundle+Kin.swift in Sources */,
 				68AF91EF22A90D45008C01EC /* KinTypes.swift in Sources */,
 				68AF91EE22A90D45008C01EC /* KinError.swift in Sources */,
+				68AF930322A92256008C01EC /* TegKeychainConstants.swift in Sources */,
 				68AF91EB22A90D45008C01EC /* KeyUtils.swift in Sources */,
 				68AF91FB22A90D45008C01EC /* StellarResults.swift in Sources */,
 				68AF91F322A90D45008C01EC /* PublicKey.swift in Sources */,
 				68AF91FD22A90D45008C01EC /* StellarOps.swift in Sources */,
 				68AF920022A90D45008C01EC /* Errors.swift in Sources */,
 				68AF91EC22A90D45008C01EC /* KeyStore.swift in Sources */,
+				68AF930422A92256008C01EC /* KeychainSwiftAccessOptions.swift in Sources */,
 				68AF921922A90E38008C01EC /* SHA256.swift in Sources */,
 				68AF920722A90D45008C01EC /* KinAccount.swift in Sources */,
 				68AF920222A90D45008C01EC /* StellarEventSource.swift in Sources */,
@@ -566,6 +695,7 @@
 		};
 		68AF917822A90C6A008C01EC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 392EC1BDFB6E48FB0A762296 /* Pods-KinSDK.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -592,6 +722,7 @@
 		};
 		68AF917922A90C6A008C01EC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E80538C23DD8A256BE3CE5CE /* Pods-KinSDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -617,6 +748,7 @@
 		};
 		68AF917B22A90C6A008C01EC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1D8268E387CF853AC48C2A5 /* Pods-KinSDKTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -637,6 +769,7 @@
 		};
 		68AF917C22A90C6A008C01EC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18E86856C9C8E450EE88E704 /* Pods-KinSDKTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
