@@ -27,6 +27,4 @@ target 'KinSDKSampleApp' do
   project 'KinSDKSampleApp/KinSDKSampleApp.xcodeproj'
 
   pod 'KinSDK', :path => './'
-  pod 'KinUtil', '0.1.0'
-  pod 'Sodium', '0.8.0'
 end

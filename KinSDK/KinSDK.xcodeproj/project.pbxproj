@@ -750,7 +750,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B1D8268E387CF853AC48C2A5 /* Pods-KinSDKTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = KinSDKTests/Info.plist;
@@ -771,7 +770,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 18E86856C9C8E450EE88E704 /* Pods-KinSDKTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = KinSDKTests/Info.plist;
