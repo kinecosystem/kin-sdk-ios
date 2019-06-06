@@ -2,11 +2,11 @@
 //  KinSDK.h
 //  KinSDK
 //
-//  Created by Corey Werner on 06/06/2019.
-//  Copyright © 2019 Kin Foundation. All rights reserved.
+//  Created by Kin Foundation
+//  Copyright © 2017 Kin Foundation. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for KinSDK.
 FOUNDATION_EXPORT double KinSDKVersionNumber;
@@ -15,5 +15,4 @@ FOUNDATION_EXPORT double KinSDKVersionNumber;
 FOUNDATION_EXPORT const unsigned char KinSDKVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <KinSDK/PublicHeader.h>
-
 

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:KinSDK.xcodeproj">
+      location = "self:/Users/coreywerner/Kin/kin-ios/KinSDK/KinSDK.xcodeproj">
    </FileRef>
 </Workspace>
