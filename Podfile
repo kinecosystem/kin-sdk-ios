@@ -19,8 +19,6 @@ end
 
 target 'KinSDKTests' do
   project 'KinSDK/KinSDK.xcodeproj'
-
-  # pod 'KinSDK', :path => './'
 end
 
 target 'KinSDKSampleApp' do

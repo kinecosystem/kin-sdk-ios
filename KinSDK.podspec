@@ -13,8 +13,7 @@ Pod::Spec.new do |s|
   
   s.source       = { 
     :git => 'https://github.com/kinecosystem/kin-sdk-ios.git', 
-    :tag => s.version.to_s, 
-    :submodules => true 
+    :tag => s.version.to_s
   }
   s.source_files = 'KinSDK/KinSDK/Core/**/*.swift',
                    'KinSDK/KinSDK/ThirdParty/SHA256.swift',
@@ -24,14 +23,14 @@ Pod::Spec.new do |s|
   s.dependency 'Sodium', '0.8.0'
 
   # TODO:
-  # s.app_spec 'SampleApp' do |as|
-  #   as.source_files = 'KinSampleApp/**/*.swift'
+  # s.app_spec 'KinSDKSampleApp' do |as|
+  #   as.source_files = 'KinSDKSampleApp/**/*'
   # end
 
-  # s.test_spec 'Tests' do |ts|
-  #   ts.requires_app_host = true
-  #   ts.source_files = 'KinSDK/KinSDKTests/*.swift'
-  # end
+  s.test_spec 'KinSDKTests' do |ts|
+    ts.requires_app_host = true
+    ts.source_files = 'KinSDK/KinSDKTests/Core/*.swift'
+  end
 
   # s.subspec 'KinBackupRestoreModule' do |ss|
   #   ss.source_files = 'KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModule'
