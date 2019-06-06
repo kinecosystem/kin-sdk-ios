@@ -32,14 +32,19 @@ Pod::Spec.new do |s|
     ts.source_files = 'KinSDK/KinSDKTests/Core/*.swift'
   end
 
-  # s.subspec 'KinBackupRestoreModule' do |ss|
-  #   ss.source_files = 'KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModule'
+  s.subspec 'KinBackupRestoreModule' do |ss|
+    ss.source_files = 'KinSDK/KinSDK/Modules/BackupRestore/**/*.{strings,swift}'
+    ss.resources = 'KinSDK/KinSDK/Modules/BackupRestore/Assets.xcassets'
 
-  #   # ss.dependency 'KinSDK'
+    # lite.resources         = ['Kite-SDK/PSPrintSDK/OLKiteLocalizationResources.bundle']
+    # lite.resource_bundles  = { 'OLKiteResources' => ['Kite-SDK/PSPrintSDK/KitePrintSDK.xcassets', 'Kite-SDK/PSPrintSDK/Base.lproj/OLEditingToolsView.xib', 'Kite-SDK/PSPrintSDK/Base.lproj/OLHintView.xib', 'Kite-SDK/PSPrintSDK/kite_corrupt.jpg', 'Kite-SDK/PSPrintSDK/Base.lproj/OLKiteStoryboard.storyboard'] }
+    
 
-  #   # s.test_spec 'Tests' do |sts|
-  #   #   sts.requires_app_host = true
-  #   #   sts.source_files = 'KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModuleTests/*.swift'
-  #   # end
-  # end
+    # ss.dependency 'KinSDK'
+
+    # s.test_spec 'Tests' do |sts|
+    #   sts.requires_app_host = true
+    #   sts.source_files = 'KinBackupRestoreModule/KinBackupRestoreModule/KinBackupRestoreModuleTests/*.swift'
+    # end
+  end
 end

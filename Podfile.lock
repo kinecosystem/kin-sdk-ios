@@ -1,5 +1,9 @@
 PODS:
   - KinSDK (1.0.0):
+    - KinSDK/KinBackupRestoreModule (= 1.0.0)
+    - KinUtil (= 0.1.0)
+    - Sodium (= 0.8.0)
+  - KinSDK/KinBackupRestoreModule (1.0.0):
     - KinUtil (= 0.1.0)
     - Sodium (= 0.8.0)
   - KinUtil (0.1.0)
@@ -20,7 +24,7 @@ EXTERNAL SOURCES:
     :path: "./"
 
 SPEC CHECKSUMS:
-  KinSDK: f0937042a110c505f6c90b1bc5759302d49adfed
+  KinSDK: e375b9f8e8623ae29e77ae2049128cd94a6e99d0
   KinUtil: 5ba64858ba2f24156d6e229c963b37f8d808bd4c
   Sodium: 63c0ca312a932e6da481689537d4b35568841bdc
 
