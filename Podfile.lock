@@ -1,9 +1,9 @@
 PODS:
   - KinSDK (1.0.0):
-    - KinSDK/KinBackupRestoreModule (= 1.0.0)
+    - KinSDK/Core (= 1.0.0)
     - KinUtil (= 0.1.0)
     - Sodium (= 0.8.0)
-  - KinSDK/KinBackupRestoreModule (1.0.0):
+  - KinSDK/Core (1.0.0):
     - KinUtil (= 0.1.0)
     - Sodium (= 0.8.0)
   - KinUtil (0.1.0)
@@ -24,10 +24,10 @@ EXTERNAL SOURCES:
     :path: "./"
 
 SPEC CHECKSUMS:
-  KinSDK: e375b9f8e8623ae29e77ae2049128cd94a6e99d0
+  KinSDK: e58aeda6a94d9de96073e6b76e953b144aa18df3
   KinUtil: 5ba64858ba2f24156d6e229c963b37f8d808bd4c
   Sodium: 63c0ca312a932e6da481689537d4b35568841bdc
 
-PODFILE CHECKSUM: fedf06adfa01ecdafd257351f882c388ca46ccfb
+PODFILE CHECKSUM: 550f88d878ad28d6d8197bd2bc2da86c26906069
 
 COCOAPODS: 1.7.1

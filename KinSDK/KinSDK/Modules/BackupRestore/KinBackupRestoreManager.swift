@@ -6,7 +6,7 @@
 //  Copyright © 2019 Kin Foundation. All rights reserved.
 //
 
-import KinSDK
+import Foundation
 
 public protocol KinBackupRestoreManagerDelegate: NSObjectProtocol {
     /**

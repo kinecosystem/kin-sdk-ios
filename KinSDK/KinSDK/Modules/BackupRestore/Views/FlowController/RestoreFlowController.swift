@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import KinSDK
 
 class RestoreFlowController: FlowController {
     let kinClient: KinClient

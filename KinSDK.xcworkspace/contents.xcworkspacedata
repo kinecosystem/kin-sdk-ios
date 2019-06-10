@@ -5,9 +5,12 @@
       location = "group:KinSDK/KinSDK.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:KinSDKSampleApp/KinSDKSampleApp.xcodeproj">
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
+      location = "group:SampleApps/KinSDKSampleApp/KinSDKSampleApp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SampleApps/KinBackupRestoreSampleApp/KinBackupRestoreSampleApp.xcodeproj">
    </FileRef>
 </Workspace>

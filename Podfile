@@ -1,14 +1,8 @@
-# Uncomment the next line to define a global platform for your project
-platform :ios, '9.0'
-
 use_frameworks!
 inhibit_all_warnings!
 
+platform :ios, '9.0'
 workspace 'KinSDK'
-
-# def pods
-#   pod 'KinSDK'
-# end
 
 target 'KinSDK' do
   project 'KinSDK/KinSDK.xcodeproj'
@@ -22,7 +16,13 @@ target 'KinSDKTests' do
 end
 
 target 'KinSDKSampleApp' do
-  project 'KinSDKSampleApp/KinSDKSampleApp.xcodeproj'
+  project 'SampleApps/KinSDKSampleApp/KinSDKSampleApp.xcodeproj'
+
+  pod 'KinSDK', :path => './'
+end
+
+target 'KinBackupRestoreSampleApp' do
+  project 'SampleApps/KinBackupRestoreSampleApp/KinBackupRestoreSampleApp.xcodeproj'
 
   pod 'KinSDK', :path => './'
 end
