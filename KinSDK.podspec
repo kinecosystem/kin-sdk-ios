@@ -41,6 +41,7 @@ Pod::Spec.new do |s|
   s.subspec 'BackupRestore' do |ss|
     ss.source_files = 'KinSDK/KinSDK/Modules/BackupRestore/**/*.{strings,swift}'
     ss.resources = 'KinSDK/KinSDK/Modules/BackupRestore/Assets.xcassets'
+    ss.dependency 'KinSDK/Core'
 
     ss.test_spec 'Tests' do |sts|
       sts.requires_app_host = true
