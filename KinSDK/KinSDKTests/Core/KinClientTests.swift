@@ -13,14 +13,14 @@ class KinClientTests: XCTestCase {
     var kinClient: KinClient!
     override func setUp() {
         super.setUp()
-        
+
         guard let appId = try? AppId("test") else {
             XCTAssertTrue(false, "Unable to create app id")
             return
         }
-        
+
         kinClient = KinClient(with: URL(string: "http://localhost:8000")!, network: .testNet, appId: appId)
-        
+
     }
 
     override func tearDown() {
@@ -61,10 +61,10 @@ class KinClientTests: XCTestCase {
 
     func test_account_instance_reuse() {
         do {
-            let _ = try kinClient.addAccount() as? KinStellarAccount
+            let _ = try kinClient.addAccount()
 
-            let first = kinClient.accounts[0] as? KinStellarAccount
-            let second = kinClient.accounts[0] as? KinStellarAccount
+            let first = kinClient.accounts[0]
+            let second = kinClient.accounts[0]
 
             XCTAssertNotNil(second)
             XCTAssert(first === second!)
