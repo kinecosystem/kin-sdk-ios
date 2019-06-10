@@ -13,9 +13,9 @@ class KeyStoreTests: XCTestCase {
     
     let passphrase = "a phrase"
 
-    var account: StellarAccount?
-    var account2: StellarAccount?
-    var issuer: StellarAccount?
+    var account1: StellarAccount!
+    var account2: StellarAccount!
+    var issuer: StellarAccount!
 
     override func setUp() {
         super.setUp()
@@ -26,10 +26,10 @@ class KeyStoreTests: XCTestCase {
             XCTAssertTrue(false, "Unable to clear existing accounts!")
         }
 
-        self.account = try? KeyStore.newAccount(passphrase: passphrase)
+        self.account1 = try? KeyStore.newAccount(passphrase: passphrase)
         self.account2 = try? KeyStore.newAccount(passphrase: passphrase)
 
-        if account == nil || account2 == nil {
+        if account1 == nil || account2 == nil {
             XCTAssertTrue(false, "Unable to create account(s)!")
         }
 
@@ -52,7 +52,7 @@ class KeyStoreTests: XCTestCase {
     }
 
     func test_remove() {
-        let account_pkey = account!.publicKey!
+        let account_pkey = account1.publicKey
 
         KeyStore.remove(at: 1)
 
@@ -74,7 +74,7 @@ class KeyStoreTests: XCTestCase {
     }
 
     func test_export_with_different_passphrase() {
-        let store = KeyStore.exportAccount(account: account!,
+        let store = KeyStore.exportAccount(account: account1,
                                            passphrase: passphrase,
                                            newPassphrase: "new phrase")
 
@@ -82,7 +82,7 @@ class KeyStoreTests: XCTestCase {
     }
 
     func test_export_with_same_passphrase() {
-        let store = KeyStore.exportAccount(account: account!,
+        let store = KeyStore.exportAccount(account: account1,
                                            passphrase: passphrase,
                                            newPassphrase: passphrase)
 
@@ -92,7 +92,7 @@ class KeyStoreTests: XCTestCase {
     func test_import_with_different_passphrase() {
         let count = KeyStore.count()
 
-        let store = KeyStore.exportAccount(account: account!,
+        let store = KeyStore.exportAccount(account: account1,
                                            passphrase: passphrase,
                                            newPassphrase: "new phrase")
 
@@ -104,7 +104,7 @@ class KeyStoreTests: XCTestCase {
     func test_import_with_same_passphrase() {
         let count = KeyStore.count()
 
-        let store = KeyStore.exportAccount(account: account!,
+        let store = KeyStore.exportAccount(account: account1,
                                            passphrase: passphrase,
                                            newPassphrase: passphrase)
 
@@ -114,7 +114,7 @@ class KeyStoreTests: XCTestCase {
     }
 
     func test_import_with_different_wrong_passphrase() {
-        let store = KeyStore.exportAccount(account: account!,
+        let store = KeyStore.exportAccount(account: account1,
                                            passphrase: passphrase,
                                            newPassphrase: "new phrase")
 
@@ -129,7 +129,7 @@ class KeyStoreTests: XCTestCase {
     }
 
     func test_import_with_same_wrong_passphrase() {
-        let store = KeyStore.exportAccount(account: account!,
+        let store = KeyStore.exportAccount(account: account1,
                                            passphrase: passphrase,
                                            newPassphrase: "new phrase")
 
