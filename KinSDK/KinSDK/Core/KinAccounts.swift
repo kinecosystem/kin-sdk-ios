@@ -60,7 +60,7 @@ public final class KinAccounts {
             self.cacheLock.unlock()
         }
         
-        guard let account = account(at: index) as? KinStellarAccount else {
+        guard let account = account(at: index) else {
             throw KinError.internalInconsistency
         }
         
@@ -109,13 +109,13 @@ public final class KinAccounts {
         self.appId = appId
     }
     
-    private func createKinAccount(stellarAccount: StellarAccount) -> KinStellarAccount {
-        return KinStellarAccount(stellarAccount: stellarAccount, node: node, appId: appId)
+    private func createKinAccount(stellarAccount: StellarAccount) -> KinAccount {
+        return KinAccount(stellarAccount: stellarAccount, node: node, appId: appId)
     }
     
     func flushCache() {
         for account in cache.values {
-            (account as? KinStellarAccount)?.deleted = true
+            account.deleted = true
         }
         
         cache.removeAll()

@@ -38,7 +38,7 @@ public enum Stellar {
      - Parameter amount: The amount to be sent.
      - Parameter memo: A short string placed in the MEMO field of the transaction.
      - Parameter node: An object describing the network endpoint.
-     - Parameter fee: The fee in `Stroop`s used when the transaction is not whitelisted.
+     - Parameter fee: The fee in `Quark`s used when the transaction is not whitelisted.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
@@ -47,7 +47,7 @@ public enum Stellar {
                                    amount: Int64,
                                    memo: Memo = .MEMO_NONE,
                                    node: Node,
-                                   fee: Stroop) -> Promise<TransactionEnvelope> {
+                                   fee: Quark) -> Promise<TransactionEnvelope> {
         return balance(account: destination, node: node)
             .then { _ -> Promise<TransactionEnvelope> in
                 let op = Operation.payment(destination: destination,
@@ -55,62 +55,13 @@ public enum Stellar {
                                            asset: .native,
                                            source: source)
                 
-                return TxBuilder(source: source, node: node)
+                return TransactionBuilder(source: source, node: node)
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
                     .envelope(networkId: node.network.id)
             }
             .mapError({ error -> Error in
-                switch error {
-                case StellarError.missingAccount, StellarError.missingBalance:
-                    return StellarError.destinationNotReadyForAsset(error)
-                default:
-                    return error
-                }
-            })
-    }
-    
-    /**
-     Sends a payment to the given account.
-     
-     - parameter source: The account from which the payment will be made.
-     - parameter destination: The public key of the receiving account, as a base32 string.
-     - parameter amount: The amount to be sent.
-     - parameter asset: The `Asset` to be sent.  Defaults to the `Asset` specified in the initializer.
-     - parameter memo: A short string placed in the MEMO field of the transaction.
-     - parameter node: An object describing the network endpoint.
-     
-     - Returns: A promise which will be signalled with the result of the operation.
-     */
-    // TODO: can be removed
-    @available(*, deprecated)
-    public static func payment(source: Account,
-                               destination: String,
-                               amount: Int64,
-                               asset: Asset = .native,
-                               memo: Memo = .MEMO_NONE,
-                               node: Node) -> Promise<String> {
-        return balance(account: destination, node: node)
-            .then { _ -> Promise<Transaction> in
-                let op = Operation.payment(destination: destination,
-                                           amount: amount,
-                                           asset: asset,
-                                           source: source)
-                
-                return TxBuilder(source: source, node: node)
-                    .set(memo: memo)
-                    .add(operation: op)
-                    .tx()
-            }
-            .then { tx -> Promise<String> in
-                let envelope = try self.sign(transaction: tx,
-                                             signer: source,
-                                             node: node)
-                
-                return self.postTransaction(envelope: envelope, node: node)
-            }
-            .transformError({ error -> Error in
                 switch error {
                 case StellarError.missingAccount, StellarError.missingBalance:
                     return StellarError.destinationNotReadyForAsset(error)
@@ -140,9 +91,67 @@ public enum Stellar {
                 }
 
                 return p.signal(StellarError.missingBalance)
+            }
+    }
+
+    /**
+     Obtain the aggregated balance.
+
+     - parameter account: The `Account` whose aggregated balance will be retrieved.
+     - parameter node: An object describing the network endpoint.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
+    public static func aggregatedBalance(account: String, node: Node) -> Promise<Kin> {
+        let url = Endpoint(node.baseURL).account(account).aggregatedBalance().url
+
+        return issue(request: URLRequest(url: url))
+            .then { data -> Promise<AggregatedBalanceResponse> in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    if case 400...404 = horizonError.status {
+                        throw StellarError.invalidAccount
+                    }
+                    else {
+                        throw StellarError.unknownError(horizonError)
+                    }
+                }
+
+                return try Promise(JSONDecoder().decode(AggregatedBalanceResponse.self, from: data))
+            }
+            .then { aggregatedBalanceResponse -> Promise<Kin> in
+                return Promise(aggregatedBalanceResponse.balance)
         }
     }
-    
+
+    /**
+     Obtain the controlled accounts.
+
+     - parameter account: The `Account` whose aggregated balance will be retrieved.
+     - parameter node: An object describing the network endpoint.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
+    public static func controlledAccounts(account: String, node: Node) -> Promise<[ControlledAccount]> {
+        let url = Endpoint(node.baseURL).account(account).controlledBalances().url
+
+        return issue(request: URLRequest(url: url))
+            .then { data -> Promise<ControlledAccountsResponse> in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    if case 400...404 = horizonError.status {
+                        throw StellarError.invalidAccount
+                    }
+                    else {
+                        throw StellarError.unknownError(horizonError)
+                    }
+                }
+
+                return try Promise(JSONDecoder().decode(ControlledAccountsResponse.self, from: data))
+            }
+            .then { controlledAccountsResponse -> Promise<[ControlledAccount]> in
+                return Promise(controlledAccountsResponse.controlledAccounts)
+        }
+    }
+
     /**
      Obtain details for the given account.
      
@@ -280,7 +289,7 @@ public enum Stellar {
                 catch {
                     throw error
                 }
-        }
+            }
     }
 
     /**
@@ -290,8 +299,8 @@ public enum Stellar {
 
      - Returns: The minimum fee needed to send a transaction.
      */
-    public static func minFee(node: Node) -> Promise<Stroop> {
-        let promise = Promise<Stroop>()
+    public static func minFee(node: Node) -> Promise<Quark> {
+        let promise = Promise<Quark>()
 
         Stellar.networkParameters(node: node)
             .then { networkParameters in
