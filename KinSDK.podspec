@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'KinSDK'
-  s.version           = '1.0.1'
+  s.version           = '1.0.2'
   s.license           = { :type => 'Kin Ecosystem SDK License' }
   s.author            = { 'Kin Foundation' => 'info@kin.org' }
   s.summary           = 'Pod for the Kin SDK.'
