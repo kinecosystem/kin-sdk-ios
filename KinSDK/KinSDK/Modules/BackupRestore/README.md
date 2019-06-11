@@ -23,8 +23,7 @@ The Kin backup and restore module for iOS can be included in your project with C
 Add the following to your `Podfile`.
 
 ```ruby
-pod 'KinSDK'
-pod 'KinSDK/BackupRestore'
+pod 'KinSDK', :subspecs => ['BackupRestore']
 ```
 
 ## Overview
