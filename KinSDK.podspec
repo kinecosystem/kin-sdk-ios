@@ -10,14 +10,14 @@ Pod::Spec.new do |s|
   
   s.platform      = :ios, '9.0'
   s.swift_version = '5.0'
-  
-  s.source       = { 
+
+  s.source = { 
     :git => 'https://github.com/kinecosystem/kin-sdk-ios.git', 
     :tag => s.version.to_s
   }
-  source_files = 'KinSDK/KinSDK/Core/**/*.swift',
-                 'KinSDK/KinSDK/ThirdParty/SHA256.swift',
-                 'KinSDK/KinSDK/ThirdParty/keychain-swift/KeychainSwift/*.swift'
+  source_files = ['KinSDK/KinSDK/Core/**/*.swift',
+                  'KinSDK/KinSDK/ThirdParty/SHA256.swift',
+                  'KinSDK/KinSDK/ThirdParty/keychain-swift/KeychainSwift/*.swift']
   s.source_files = source_files
 
   s.dependency 'KinUtil', '0.1.0'
@@ -30,26 +30,36 @@ Pod::Spec.new do |s|
 
     ss.test_spec 'Tests' do |sts|
       sts.requires_app_host = true
-      sts.source_files = 'KinSDK/KinSDKTests/Core/*.swift'
+      sts.source_files      = 'KinSDK/KinSDKTests/Core/*.swift'
     end
 
     ss.app_spec 'SampleApp' do |sas|
-      sas.source_files = 'SampleApps/KinSDKSampleApp/**/*'
+      root = 'SampleApps/KinSDKSampleApp/KinSDKSampleApp'
+  
+      sas.pod_target_xcconfig = { 'INFOPLIST_FILE' => '${PODS_TARGET_SRCROOT}/'+root+'/Info.plist' }
+      sas.source_files        = root+'/**/*.{strings,swift}'
+      sas.resources           = root+'/**/*.{storyboard,xcassets}'
     end
   end
 
   s.subspec 'BackupRestore' do |ss|
-    ss.source_files = 'KinSDK/KinSDK/Modules/BackupRestore/**/*.{strings,swift}'
-    ss.resources = 'KinSDK/KinSDK/Modules/BackupRestore/Assets.xcassets'
+    root = 'KinSDK/KinSDK/Modules/BackupRestore'
+
+    ss.source_files = root+'/**/*.{strings,swift}'
+    ss.resources    = root+'/Assets.xcassets'
     ss.dependency 'KinSDK/Core'
 
     ss.test_spec 'Tests' do |sts|
       sts.requires_app_host = true
-      sts.source_files = 'KinSDK/KinSDKTests/Modules/BackupRestore/*.swift'
+      sts.source_files      = 'KinSDK/KinSDKTests/Modules/BackupRestore/*.swift'
     end
 
     ss.app_spec 'SampleApp' do |sas|
-      sas.source_files = 'SampleApps/KinBackupRestoreSampleApp/**/*'
+      root = 'SampleApps/KinBackupRestoreSampleApp/KinBackupRestoreSampleApp'
+
+      sas.platform     = :ios, '11.0'
+      sas.source_files = root+'/**/*.{strings,swift}'
+      sas.resources    = root+'/Assets.xcassets'
     end
   end
 end

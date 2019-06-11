@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22225D733B73F16413B8BC14 /* Pods_KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA4909536B9EA035BD571A76 /* Pods_KinSDK.framework */; };
-		4962577D538C1CE22AF2E3D1 /* Pods_KinSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02A22B7D187629CC440F5239 /* Pods_KinSDKTests.framework */; };
+		08D1FB5AA30449B4AF4A680F /* Pods_Dependencies_KinSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F512F303C08B05611437EFA2 /* Pods_Dependencies_KinSDKTests.framework */; };
+		25D625C7F1EBBA9DDFF8A63B /* Pods_Dependencies_KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C182A48ADD0B301745FBA0D /* Pods_Dependencies_KinSDK.framework */; };
 		68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68AF916322A90C6A008C01EC /* KinSDK.framework */; };
 		68AF917422A90C6A008C01EC /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 68AF916622A90C6A008C01EC /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		68AF91EB22A90D45008C01EC /* KeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91C622A90D44008C01EC /* KeyUtils.swift */; };
@@ -120,8 +120,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		02A22B7D187629CC440F5239 /* Pods_KinSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KinSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C182A48ADD0B301745FBA0D /* Pods_Dependencies_KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dependencies_KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		392EC1BDFB6E48FB0A762296 /* Pods-KinSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDK.debug.xcconfig"; path = "Target Support Files/Pods-KinSDK/Pods-KinSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		59AD7C95E08AA63F211A342B /* Pods-Dependencies-KinSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dependencies-KinSDK.release.xcconfig"; path = "Target Support Files/Pods-Dependencies-KinSDK/Pods-Dependencies-KinSDK.release.xcconfig"; sourceTree = "<group>"; };
 		68AF916322A90C6A008C01EC /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68AF916622A90C6A008C01EC /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
 		68AF916722A90C6A008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -218,10 +219,13 @@
 		68AF93B822A9338F008C01EC /* ExplanationTemplateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplanationTemplateView.swift; sourceTree = "<group>"; };
 		68AF93BA22A9338F008C01EC /* LifeCycleProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifeCycleProtocol.swift; sourceTree = "<group>"; };
 		68AF93BC22A9338F008C01EC /* KinBackupRestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinBackupRestoreManager.swift; sourceTree = "<group>"; };
+		8DA96CCCF65BBBDED5FE31E5 /* Pods-Dependencies-KinSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dependencies-KinSDKTests.release.xcconfig"; path = "Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests.release.xcconfig"; sourceTree = "<group>"; };
+		A96C9F30393E1C16E51E55CA /* Pods-Dependencies-KinSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dependencies-KinSDK.debug.xcconfig"; path = "Target Support Files/Pods-Dependencies-KinSDK/Pods-Dependencies-KinSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		B2FCA2C2097726E50C7042A5 /* Pods-KinSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDKTests.debug.xcconfig"; path = "Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B86F8D60A8E31937AB1522AE /* Pods-Dependencies-KinSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dependencies-KinSDKTests.debug.xcconfig"; path = "Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C28430C4045F6F9575ECAD86 /* Pods-KinSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDKTests.release.xcconfig"; path = "Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		E80538C23DD8A256BE3CE5CE /* Pods-KinSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDK.release.xcconfig"; path = "Target Support Files/Pods-KinSDK/Pods-KinSDK.release.xcconfig"; sourceTree = "<group>"; };
-		EA4909536B9EA035BD571A76 /* Pods_KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F512F303C08B05611437EFA2 /* Pods_Dependencies_KinSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dependencies_KinSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,7 +233,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22225D733B73F16413B8BC14 /* Pods_KinSDK.framework in Frameworks */,
+				25D625C7F1EBBA9DDFF8A63B /* Pods_Dependencies_KinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,7 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */,
-				4962577D538C1CE22AF2E3D1 /* Pods_KinSDKTests.framework in Frameworks */,
+				08D1FB5AA30449B4AF4A680F /* Pods_Dependencies_KinSDKTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,8 +259,8 @@
 		1939534DED645FA165955450 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EA4909536B9EA035BD571A76 /* Pods_KinSDK.framework */,
-				02A22B7D187629CC440F5239 /* Pods_KinSDKTests.framework */,
+				1C182A48ADD0B301745FBA0D /* Pods_Dependencies_KinSDK.framework */,
+				F512F303C08B05611437EFA2 /* Pods_Dependencies_KinSDKTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -596,6 +600,10 @@
 				E80538C23DD8A256BE3CE5CE /* Pods-KinSDK.release.xcconfig */,
 				B2FCA2C2097726E50C7042A5 /* Pods-KinSDKTests.debug.xcconfig */,
 				C28430C4045F6F9575ECAD86 /* Pods-KinSDKTests.release.xcconfig */,
+				A96C9F30393E1C16E51E55CA /* Pods-Dependencies-KinSDK.debug.xcconfig */,
+				59AD7C95E08AA63F211A342B /* Pods-Dependencies-KinSDK.release.xcconfig */,
+				B86F8D60A8E31937AB1522AE /* Pods-Dependencies-KinSDKTests.debug.xcconfig */,
+				8DA96CCCF65BBBDED5FE31E5 /* Pods-Dependencies-KinSDKTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../Pods;
@@ -761,7 +769,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-KinSDK-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Dependencies-KinSDK-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -774,15 +782,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E8DE460F5EFC0AF47042B159 /* [CP] Check Pods Manifest.lock */ = {
@@ -800,7 +808,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-KinSDKTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Dependencies-KinSDKTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1074,7 +1082,7 @@
 		};
 		68AF917822A90C6A008C01EC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 392EC1BDFB6E48FB0A762296 /* Pods-KinSDK.debug.xcconfig */;
+			baseConfigurationReference = A96C9F30393E1C16E51E55CA /* Pods-Dependencies-KinSDK.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1102,7 +1110,7 @@
 		};
 		68AF917922A90C6A008C01EC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E80538C23DD8A256BE3CE5CE /* Pods-KinSDK.release.xcconfig */;
+			baseConfigurationReference = 59AD7C95E08AA63F211A342B /* Pods-Dependencies-KinSDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1129,7 +1137,7 @@
 		};
 		68AF917B22A90C6A008C01EC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2FCA2C2097726E50C7042A5 /* Pods-KinSDKTests.debug.xcconfig */;
+			baseConfigurationReference = B86F8D60A8E31937AB1522AE /* Pods-Dependencies-KinSDKTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -1151,7 +1159,7 @@
 		};
 		68AF917C22A90C6A008C01EC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C28430C4045F6F9575ECAD86 /* Pods-KinSDKTests.release.xcconfig */;
+			baseConfigurationReference = 8DA96CCCF65BBBDED5FE31E5 /* Pods-Dependencies-KinSDKTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
