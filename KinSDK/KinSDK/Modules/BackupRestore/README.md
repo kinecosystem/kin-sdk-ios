@@ -1,30 +1,31 @@
 # Backup and Restore Standalone Module
 
 This module is an optional way to backup and/or restore your account.
-The module wraps the Kin SDK iOS import and export functionalities with a UI that includes two operations - backup and restore.
-The UI uses a password to create a QR code, which is then used to backup the account and to restore it.
+The module wraps the iOS Kin SDK import and export functionalities with a UI that includes two operations - backup and restore.
+The UI uses a password to create a QR code, which is then used to backup an account and restore it.
 
-It is implemented as an iOS framework that can be incorporated into your code.
-This framework is dependent on the kin-sdk framework, and we assume that whoever needs to use it is already familiar with the kin-sdk framework.  
-For more details on Kin SDK, go to [kin-sdk on github](https://github.com/kinecosystem/kin-sdk-ios) and/or to our docs in the website - [kin-sdk docs](https://kinecosystem.github.io/kin-website-docs/docs/documentation/ios-sdk).
+It is implemented as an addition to the kin-sdk framework that can be incorporated into your project.
+It's assumed that whoever needs to use this module is already familiar with the kin-sdk framework.
+
+## Quick Links
+
+* [The Backup and Restore module on GitHub](https://github.com/kinecosystem/kin-sdk-ios/tree/master/KinSDK/KinSDK/Modules/BackupRestore)
+* [The Kin SDK on GitHub](https://github.com/kinecosystem/kin-sdk-ios)
+* [The Kin SDK docs](https://kinecosystem.github.io/kin-website-docs/docs/documentation/ios-sdk)
+* [Latest release version](https://github.com/kinecosystem/kin-sdk-ios/releases)
 
 ## Installation
 
-The `KinBackupRestoreModule` for iOS is implemented as an iOS framework.
-It can be included in your project with CocoaPods.
+The Kin backup and restore module for iOS can be included in your project with CocoaPods.
 
 ### CocoaPods
 
 Add the following to your `Podfile`.
 
+```ruby
+pod 'KinSDK'
+pod 'KinSDK/BackupRestore'
 ```
-pod 'KinBackupRestoreModule'
-```
-
-For the latest release version, go to [https://github.com/kinecosystem/kin-sdk-ios/releases](https://github.com/kinecosystem/kin-sdk-ios/releases).
-
-See the main repository at [github.com/kinecosystem/kin-sdk-ios](https://github.com/kinecosystem/kin-sdk-ios).
-
 
 ## Overview
 
