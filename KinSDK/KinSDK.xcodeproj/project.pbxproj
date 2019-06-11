@@ -3,477 +3,635 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		680F7838219C0FA90064DA26 /* WhitelistEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */; };
-		688D2C382173694E00CF5A2C /* AppIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686759EC21736844001E9626 /* AppIdTests.swift */; };
-		68B32FC42292723C00D6F8D6 /* Bundle+Kin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B32FC32292723C00D6F8D6 /* Bundle+Kin.swift */; };
-		68B32FC62292794100D6F8D6 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B32FC52292794100D6F8D6 /* Version.swift */; };
-		68D04A2321940FA500F27492 /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0A21940FA500F27492 /* SHA256.swift */; };
-		68D04A2421940FA500F27492 /* StellarErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0D21940FA500F27492 /* StellarErrors.swift */; };
-		68D04A2521940FA500F27492 /* PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A0F21940FA500F27492 /* PublicKey.swift */; };
-		68D04A2621940FA500F27492 /* WrappedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1021940FA500F27492 /* WrappedData.swift */; };
-		68D04A2721940FA500F27492 /* Ledger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1121940FA500F27492 /* Ledger.swift */; };
-		68D04A2821940FA500F27492 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1221940FA500F27492 /* Operations.swift */; };
-		68D04A2921940FA500F27492 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1321940FA500F27492 /* Transaction.swift */; };
-		68D04A2A21940FA500F27492 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1421940FA500F27492 /* Asset.swift */; };
-		68D04A2B21940FA500F27492 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1521940FA500F27492 /* Operation.swift */; };
-		68D04A2C21940FA500F27492 /* BCKeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1621940FA500F27492 /* BCKeyUtils.swift */; };
-		68D04A2D21940FA500F27492 /* Stellar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1721940FA500F27492 /* Stellar.swift */; };
-		68D04A2E21940FA500F27492 /* StellarResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1821940FA500F27492 /* StellarResults.swift */; };
-		68D04A2F21940FA500F27492 /* StellarUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1921940FA500F27492 /* StellarUtils.swift */; };
-		68D04A3021940FA500F27492 /* StellarOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1A21940FA500F27492 /* StellarOps.swift */; };
-		68D04A3121940FA500F27492 /* HorizonResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1B21940FA500F27492 /* HorizonResponses.swift */; };
-		68D04A3221940FA500F27492 /* TxBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1C21940FA500F27492 /* TxBuilder.swift */; };
-		68D04A3321940FA500F27492 /* StellarEventSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1D21940FA500F27492 /* StellarEventSource.swift */; };
-		68D04A3421940FA500F27492 /* Data+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1E21940FA500F27492 /* Data+extensions.swift */; };
-		68D04A3521940FA500F27492 /* Watches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A1F21940FA500F27492 /* Watches.swift */; };
-		68D04A3621940FA500F27492 /* XDRCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A2121940FA500F27492 /* XDRCodable.swift */; };
-		68D04A3721940FA500F27492 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A2221940FA500F27492 /* Endpoint.swift */; };
-		68D04A442194121600F27492 /* KinUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04A3F219411FB00F27492 /* KinUtil.framework */; };
-		68D04A462194134F00F27492 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D04A452194134F00F27492 /* Errors.swift */; };
-		68D04AC02197EC4A00F27492 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D04ABF2197EC4A00F27492 /* Sodium.framework */; };
-		68DC6BA12292846000D3B303 /* URLKinVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DC6BA02292846000D3B303 /* URLKinVersion.swift */; };
-		82140EBA1FA88E5B00FAF19B /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 82140EAC1FA88E5B00FAF19B /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82140EC41FA88EAF00FAF19B /* KinTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82140EC31FA88EAF00FAF19B /* KinTypes.swift */; };
-		822107A41FD66DC80007D63F /* KinAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822107A31FD66DC80007D63F /* KinAccounts.swift */; };
-		824539411FAACFC6009117B4 /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82140EA91FA88E5B00FAF19B /* KinSDK.framework */; };
-		824539431FAB0102009117B4 /* KinAccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824539421FAB0102009117B4 /* KinAccountTests.swift */; };
-		8261EF332043F390001848CB /* Watchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261EF322043F390001848CB /* Watchers.swift */; };
-		8268D8F22014431D005CF79E /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268D8EE2014431D005CF79E /* KeyStore.swift */; };
-		8268D8F420144339005CF79E /* KeyStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8268D8F320144339005CF79E /* KeyStoreTests.swift */; };
-		827835311FA9B5F20006C3DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827835301FA9B5F20006C3DF /* AppDelegate.swift */; };
-		827835331FA9B5F20006C3DF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827835321FA9B5F20006C3DF /* ViewController.swift */; };
-		827835361FA9B5F20006C3DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 827835341FA9B5F20006C3DF /* Main.storyboard */; };
-		827835381FA9B5F20006C3DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 827835371FA9B5F20006C3DF /* Assets.xcassets */; };
-		8278353B1FA9B5F20006C3DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 827835391FA9B5F20006C3DF /* LaunchScreen.storyboard */; };
-		827835461FA9B5F20006C3DF /* KinClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827835451FA9B5F20006C3DF /* KinClientTests.swift */; };
-		82BA1EBD204D211300396AE2 /* KeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1EBC204D211300396AE2 /* KeyUtils.swift */; };
-		82BA1F13204D22AB00396AE2 /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED1204D22AB00396AE2 /* KeychainSwift.swift */; };
-		82BA1F14204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED2204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift */; };
-		82BA1F15204D22AB00396AE2 /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA1ED3204D22AB00396AE2 /* TegKeychainConstants.swift */; };
-		82F6D8051FB2112B00AEE17D /* KinSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82140EA91FA88E5B00FAF19B /* KinSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9148CE501FCACF9C0005D603 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9148CE4F1FCACF9C0005D603 /* Network.swift */; };
-		91D4395C1FC410630006FEB5 /* KinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4395B1FC410630006FEB5 /* KinClient.swift */; };
-		91D4395E1FC410860006FEB5 /* KinAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4395D1FC410860006FEB5 /* KinAccount.swift */; };
-		91DDFDFC1FC6ED99004B0903 /* KinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DDFDFB1FC6ED99004B0903 /* KinError.swift */; };
-		E970C26B1FAB4ADB0091181B /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82140EA91FA88E5B00FAF19B /* KinSDK.framework */; };
+		08D1FB5AA30449B4AF4A680F /* Pods_Dependencies_KinSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F512F303C08B05611437EFA2 /* Pods_Dependencies_KinSDKTests.framework */; };
+		25D625C7F1EBBA9DDFF8A63B /* Pods_Dependencies_KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C182A48ADD0B301745FBA0D /* Pods_Dependencies_KinSDK.framework */; };
+		68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68AF916322A90C6A008C01EC /* KinSDK.framework */; };
+		68AF917422A90C6A008C01EC /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 68AF916622A90C6A008C01EC /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		68AF91EB22A90D45008C01EC /* KeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91C622A90D44008C01EC /* KeyUtils.swift */; };
+		68AF91EC22A90D45008C01EC /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91C722A90D44008C01EC /* KeyStore.swift */; };
+		68AF91ED22A90D45008C01EC /* KinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91C822A90D44008C01EC /* KinClient.swift */; };
+		68AF91EE22A90D45008C01EC /* KinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91C922A90D44008C01EC /* KinError.swift */; };
+		68AF91EF22A90D45008C01EC /* KinTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91CA22A90D44008C01EC /* KinTypes.swift */; };
+		68AF91F022A90D45008C01EC /* Watchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91CB22A90D44008C01EC /* Watchers.swift */; };
+		68AF91F122A90D45008C01EC /* WhitelistEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91CC22A90D44008C01EC /* WhitelistEnvelope.swift */; };
+		68AF91F222A90D45008C01EC /* StellarErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91CE22A90D44008C01EC /* StellarErrors.swift */; };
+		68AF91F322A90D45008C01EC /* PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D022A90D44008C01EC /* PublicKey.swift */; };
+		68AF91F422A90D45008C01EC /* WrappedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D122A90D44008C01EC /* WrappedData.swift */; };
+		68AF91F522A90D45008C01EC /* Ledger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D222A90D44008C01EC /* Ledger.swift */; };
+		68AF91F622A90D45008C01EC /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D322A90D44008C01EC /* Operations.swift */; };
+		68AF91F722A90D45008C01EC /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D422A90D44008C01EC /* Transaction.swift */; };
+		68AF91F822A90D45008C01EC /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D522A90D44008C01EC /* Asset.swift */; };
+		68AF91F922A90D45008C01EC /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D622A90D44008C01EC /* Operation.swift */; };
+		68AF91FA22A90D45008C01EC /* Stellar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D722A90D44008C01EC /* Stellar.swift */; };
+		68AF91FB22A90D45008C01EC /* StellarResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D822A90D44008C01EC /* StellarResults.swift */; };
+		68AF91FC22A90D45008C01EC /* StellarUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D922A90D44008C01EC /* StellarUtils.swift */; };
+		68AF91FD22A90D45008C01EC /* StellarOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DA22A90D44008C01EC /* StellarOps.swift */; };
+		68AF91FE22A90D45008C01EC /* BCKeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DB22A90D44008C01EC /* BCKeyUtils.swift */; };
+		68AF91FF22A90D45008C01EC /* HorizonResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DC22A90D44008C01EC /* HorizonResponses.swift */; };
+		68AF920022A90D45008C01EC /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DD22A90D44008C01EC /* Errors.swift */; };
+		68AF920122A90D45008C01EC /* TxBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DE22A90D44008C01EC /* TxBuilder.swift */; };
+		68AF920222A90D45008C01EC /* StellarEventSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DF22A90D44008C01EC /* StellarEventSource.swift */; };
+		68AF920322A90D45008C01EC /* Data+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91E022A90D44008C01EC /* Data+extensions.swift */; };
+		68AF920422A90D45008C01EC /* Watches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91E122A90D44008C01EC /* Watches.swift */; };
+		68AF920522A90D45008C01EC /* XDRCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91E322A90D44008C01EC /* XDRCodable.swift */; };
+		68AF920622A90D45008C01EC /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91E422A90D44008C01EC /* Endpoint.swift */; };
+		68AF920722A90D45008C01EC /* KinAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91E522A90D45008C01EC /* KinAccount.swift */; };
+		68AF920822A90D45008C01EC /* KinAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91E622A90D45008C01EC /* KinAccounts.swift */; };
+		68AF920922A90D45008C01EC /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91E722A90D45008C01EC /* Network.swift */; };
+		68AF920A22A90D45008C01EC /* Bundle+Kin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91E922A90D45008C01EC /* Bundle+Kin.swift */; };
+		68AF920B22A90D45008C01EC /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91EA22A90D45008C01EC /* Version.swift */; };
+		68AF921122A90DA4008C01EC /* KinAccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF920C22A90DA4008C01EC /* KinAccountTests.swift */; };
+		68AF921222A90DA4008C01EC /* KinClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF920D22A90DA4008C01EC /* KinClientTests.swift */; };
+		68AF921322A90DA4008C01EC /* KeyStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF920E22A90DA4008C01EC /* KeyStoreTests.swift */; };
+		68AF921422A90DA4008C01EC /* AppIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF920F22A90DA4008C01EC /* AppIdTests.swift */; };
+		68AF921522A90DA4008C01EC /* URLKinVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF921022A90DA4008C01EC /* URLKinVersion.swift */; };
+		68AF921922A90E38008C01EC /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF921822A90E38008C01EC /* SHA256.swift */; };
+		68AF930222A92256008C01EC /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF92C822A92256008C01EC /* KeychainSwift.swift */; };
+		68AF930322A92256008C01EC /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF92C922A92256008C01EC /* TegKeychainConstants.swift */; };
+		68AF930422A92256008C01EC /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF92CA22A92256008C01EC /* KeychainSwiftAccessOptions.swift */; };
+		68AF931022A92DCF008C01EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF930F22A92DCF008C01EC /* AppDelegate.swift */; };
+		68AF931222A92DCF008C01EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF931122A92DCF008C01EC /* ViewController.swift */; };
+		68AF931522A92DCF008C01EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931322A92DCF008C01EC /* Main.storyboard */; };
+		68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931622A92DD1008C01EC /* Assets.xcassets */; };
+		68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */; };
+		68AF938522A9337A008C01EC /* QRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF938222A9337A008C01EC /* QRTests.swift */; };
+		68AF938622A9337A008C01EC /* PasswordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF938322A9337A008C01EC /* PasswordTests.swift */; };
+		68AF938722A9337A008C01EC /* KinBackupRestoreModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF938422A9337A008C01EC /* KinBackupRestoreModuleTests.swift */; };
+		68AF93BD22A9338F008C01EC /* KinBackupRestoreBI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF938922A9338F008C01EC /* KinBackupRestoreBI.swift */; };
+		68AF93BE22A9338F008C01EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68AF938A22A9338F008C01EC /* Assets.xcassets */; };
+		68AF93BF22A9338F008C01EC /* KinBackupRestoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF938B22A9338F008C01EC /* KinBackupRestoreError.swift */; };
+		68AF93C022A9338F008C01EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68AF938C22A9338F008C01EC /* Localizable.strings */; };
+		68AF93C122A9338F008C01EC /* Notification+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF938E22A9338F008C01EC /* Notification+Convenience.swift */; };
+		68AF93C222A93390008C01EC /* CGGeometry+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF938F22A9338F008C01EC /* CGGeometry+Appearance.swift */; };
+		68AF93C322A93390008C01EC /* NSAttributedString+AttributedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939022A9338F008C01EC /* NSAttributedString+AttributedStrings.swift */; };
+		68AF93C422A93390008C01EC /* UIFont+PreferredFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939122A9338F008C01EC /* UIFont+PreferredFont.swift */; };
+		68AF93C522A93390008C01EC /* Bundle+BackupRestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939222A9338F008C01EC /* Bundle+BackupRestore.swift */; };
+		68AF93C622A93390008C01EC /* UIColor+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939322A9338F008C01EC /* UIColor+Appearance.swift */; };
+		68AF93C722A93390008C01EC /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939422A9338F008C01EC /* String+Localization.swift */; };
+		68AF93C822A93390008C01EC /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939622A9338F008C01EC /* Password.swift */; };
+		68AF93C922A93390008C01EC /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939722A9338F008C01EC /* QR.swift */; };
+		68AF93CA22A93390008C01EC /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939822A9338F008C01EC /* Appearance.swift */; };
+		68AF93CC22A93390008C01EC /* BackupCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939B22A9338F008C01EC /* BackupCompletedViewController.swift */; };
+		68AF93CD22A93390008C01EC /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939C22A9338F008C01EC /* PasswordTextField.swift */; };
+		68AF93CE22A93390008C01EC /* BackupFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939E22A9338F008C01EC /* BackupFlowController.swift */; };
+		68AF93CF22A93390008C01EC /* RestoreFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF939F22A9338F008C01EC /* RestoreFlowController.swift */; };
+		68AF93D022A93390008C01EC /* FlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93A022A9338F008C01EC /* FlowController.swift */; };
+		68AF93D122A93390008C01EC /* CheckboxImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93A122A9338F008C01EC /* CheckboxImageView.swift */; };
+		68AF93D222A93390008C01EC /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93A222A9338F008C01EC /* Animations.swift */; };
+		68AF93D322A93390008C01EC /* KeyboardAdjustingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93A322A9338F008C01EC /* KeyboardAdjustingScrollView.swift */; };
+		68AF93D422A93390008C01EC /* QRPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93A522A9338F008C01EC /* QRPickerController.swift */; };
+		68AF93D522A93390008C01EC /* QRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93A622A9338F008C01EC /* QRView.swift */; };
+		68AF93D622A93390008C01EC /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93A722A9338F008C01EC /* QRViewController.swift */; };
+		68AF93D722A93390008C01EC /* PasswordLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93A822A9338F008C01EC /* PasswordLabel.swift */; };
+		68AF93D822A93390008C01EC /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93AA22A9338F008C01EC /* RoundButton.swift */; };
+		68AF93D922A93390008C01EC /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93AB22A9338F008C01EC /* ConfirmButton.swift */; };
+		68AF93DA22A93390008C01EC /* PasswordEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93AD22A9338F008C01EC /* PasswordEntryView.swift */; };
+		68AF93DB22A93390008C01EC /* PasswordEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93AE22A9338F008C01EC /* PasswordEntryViewController.swift */; };
+		68AF93DC22A93390008C01EC /* RestoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93B022A9338F008C01EC /* RestoreView.swift */; };
+		68AF93DD22A93390008C01EC /* RestoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93B122A9338F008C01EC /* RestoreViewController.swift */; };
+		68AF93DE22A93390008C01EC /* KinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93B222A9338F008C01EC /* KinViewController.swift */; };
+		68AF93DF22A93390008C01EC /* BackupIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93B422A9338F008C01EC /* BackupIntroViewController.swift */; };
+		68AF93E022A93390008C01EC /* RestoreIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93B522A9338F008C01EC /* RestoreIntroViewController.swift */; };
+		68AF93E122A93390008C01EC /* ExplanationTemplateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93B722A9338F008C01EC /* ExplanationTemplateViewController.swift */; };
+		68AF93E222A93390008C01EC /* ExplanationTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93B822A9338F008C01EC /* ExplanationTemplateView.swift */; };
+		68AF93E322A93390008C01EC /* LifeCycleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93BA22A9338F008C01EC /* LifeCycleProtocol.swift */; };
+		68AF93E522A93390008C01EC /* KinBackupRestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF93BC22A9338F008C01EC /* KinBackupRestoreManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		688AAF74227987680095DC2A /* PBXContainerItemProxy */ = {
+		68AF916E22A90C6A008C01EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 09A943C71A4EB5F500C8A04F;
-			remoteInfo = Sodium_iOS;
-		};
-		688AAF76227987680095DC2A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 09A943D21A4EB5F500C8A04F;
-			remoteInfo = SodiumTests;
-		};
-		688AAF78227987680095DC2A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 90C75E941AE3571900F1E749;
-			remoteInfo = Sodium_OSX;
-		};
-		688AAF7A227987680095DC2A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D891FE9421642CB40092AA84;
-			remoteInfo = Sodium_watchOS;
-		};
-		688AAF7C227987680095DC2A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 901644B61AE36EA700163E3E;
-			remoteInfo = "Example iOS";
-		};
-		688AAF7E227987680095DC2A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 901644DC1AE36F2D00163E3E;
-			remoteInfo = "Example OSX";
-		};
-		688AAF80227987680095DC2A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D87D515521647597006D2C03;
-			remoteInfo = "Example Watch";
-		};
-		688AAF82227987680095DC2A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D87D516121647598006D2C03;
-			remoteInfo = "Example Watch Extension";
-		};
-		68D04A3E219411FB00F27492 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68D04A38219411FB00F27492 /* KinUtil.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82F2FA97204309E500E754BD;
-			remoteInfo = KinUtil;
-		};
-		68D04A40219411FB00F27492 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 68D04A38219411FB00F27492 /* KinUtil.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82F2FAA0204309E500E754BD;
-			remoteInfo = KinUtilTests;
-		};
-		827835421FA9B5F20006C3DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82140EA01FA88E5B00FAF19B /* Project object */;
+			containerPortal = 68AF915A22A90C6A008C01EC /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8278352D1FA9B5F20006C3DF;
-			remoteInfo = KinTestHost;
-		};
-		8278354F1FA9B6290006C3DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82140EA01FA88E5B00FAF19B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82140EA81FA88E5B00FAF19B;
+			remoteGlobalIDString = 68AF916222A90C6A008C01EC;
 			remoteInfo = KinSDK;
+		};
+		68AF931F22A92DF2008C01EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 68AF915A22A90C6A008C01EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68AF930C22A92DCF008C01EC;
+			remoteInfo = KinSDKTestsHost;
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		82F6D8061FB2112B00AEE17D /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				82F6D8051FB2112B00AEE17D /* KinSDK.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitelistEnvelope.swift; sourceTree = "<group>"; };
-		686759EC21736844001E9626 /* AppIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdTests.swift; sourceTree = "<group>"; };
-		688AAF69227987680095DC2A /* Sodium.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sodium.xcodeproj; path = "swift-sodium/Sodium.xcodeproj"; sourceTree = "<group>"; };
-		68B32FC32292723C00D6F8D6 /* Bundle+Kin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Kin.swift"; sourceTree = "<group>"; };
-		68B32FC52292794100D6F8D6 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
-		68D04A0A21940FA500F27492 /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
-		68D04A0D21940FA500F27492 /* StellarErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarErrors.swift; sourceTree = "<group>"; };
-		68D04A0F21940FA500F27492 /* PublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKey.swift; sourceTree = "<group>"; };
-		68D04A1021940FA500F27492 /* WrappedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrappedData.swift; sourceTree = "<group>"; };
-		68D04A1121940FA500F27492 /* Ledger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ledger.swift; sourceTree = "<group>"; };
-		68D04A1221940FA500F27492 /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
-		68D04A1321940FA500F27492 /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
-		68D04A1421940FA500F27492 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
-		68D04A1521940FA500F27492 /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
-		68D04A1621940FA500F27492 /* BCKeyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BCKeyUtils.swift; sourceTree = "<group>"; };
-		68D04A1721940FA500F27492 /* Stellar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stellar.swift; sourceTree = "<group>"; };
-		68D04A1821940FA500F27492 /* StellarResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarResults.swift; sourceTree = "<group>"; };
-		68D04A1921940FA500F27492 /* StellarUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarUtils.swift; sourceTree = "<group>"; };
-		68D04A1A21940FA500F27492 /* StellarOps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarOps.swift; sourceTree = "<group>"; };
-		68D04A1B21940FA500F27492 /* HorizonResponses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonResponses.swift; sourceTree = "<group>"; };
-		68D04A1C21940FA500F27492 /* TxBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TxBuilder.swift; sourceTree = "<group>"; };
-		68D04A1D21940FA500F27492 /* StellarEventSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarEventSource.swift; sourceTree = "<group>"; };
-		68D04A1E21940FA500F27492 /* Data+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+extensions.swift"; sourceTree = "<group>"; };
-		68D04A1F21940FA500F27492 /* Watches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watches.swift; sourceTree = "<group>"; };
-		68D04A2121940FA500F27492 /* XDRCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XDRCodable.swift; sourceTree = "<group>"; };
-		68D04A2221940FA500F27492 /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
-		68D04A38219411FB00F27492 /* KinUtil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KinUtil.xcodeproj; path = "../../kin-util-ios/KinUtil/KinUtil.xcodeproj"; sourceTree = "<group>"; };
-		68D04A452194134F00F27492 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		68D04ABF2197EC4A00F27492 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		68DC6BA02292846000D3B303 /* URLKinVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLKinVersion.swift; sourceTree = "<group>"; };
-		82140EA91FA88E5B00FAF19B /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		82140EAC1FA88E5B00FAF19B /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
-		82140EAD1FA88E5B00FAF19B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82140EC31FA88EAF00FAF19B /* KinTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinTypes.swift; sourceTree = "<group>"; };
-		822107A31FD66DC80007D63F /* KinAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinAccounts.swift; sourceTree = "<group>"; };
-		824539421FAB0102009117B4 /* KinAccountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinAccountTests.swift; sourceTree = "<group>"; };
-		8261EF28204333A1001848CB /* KinUtil.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KinUtil.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8261EF322043F390001848CB /* Watchers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watchers.swift; sourceTree = "<group>"; };
-		8268D8EE2014431D005CF79E /* KeyStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStore.swift; sourceTree = "<group>"; };
-		8268D8F320144339005CF79E /* KeyStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStoreTests.swift; sourceTree = "<group>"; };
-		8278352E1FA9B5F20006C3DF /* KinTestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KinTestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		827835301FA9B5F20006C3DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		827835321FA9B5F20006C3DF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		827835351FA9B5F20006C3DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		827835371FA9B5F20006C3DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8278353A1FA9B5F20006C3DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8278353C1FA9B5F20006C3DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		827835411FA9B5F20006C3DF /* KinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		827835451FA9B5F20006C3DF /* KinClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinClientTests.swift; sourceTree = "<group>"; };
-		827835471FA9B5F20006C3DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82BA1EBC204D211300396AE2 /* KeyUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyUtils.swift; sourceTree = "<group>"; };
-		82BA1ED1204D22AB00396AE2 /* KeychainSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
-		82BA1ED2204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwiftAccessOptions.swift; sourceTree = "<group>"; };
-		82BA1ED3204D22AB00396AE2 /* TegKeychainConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TegKeychainConstants.swift; sourceTree = "<group>"; };
-		82BA2013204D231600396AE2 /* libsodium-osx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsodium-osx.a"; path = "KinSDK/source/third-party/swift-sodium/Sodium/libsodium/libsodium-osx.a"; sourceTree = "<group>"; };
-		82BA2014204D231600396AE2 /* libsodium-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsodium-ios.a"; path = "KinSDK/source/third-party/swift-sodium/Sodium/libsodium/libsodium-ios.a"; sourceTree = "<group>"; };
-		82BA2114204D867200396AE2 /* KinSDK-macos-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KinSDK-macos-Info.plist"; sourceTree = "<group>"; };
-		9148CE4F1FCACF9C0005D603 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		91D4395B1FC410630006FEB5 /* KinClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinClient.swift; sourceTree = "<group>"; };
-		91D4395D1FC410860006FEB5 /* KinAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinAccount.swift; sourceTree = "<group>"; };
-		91DDFDFB1FC6ED99004B0903 /* KinError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinError.swift; sourceTree = "<group>"; };
+		1C182A48ADD0B301745FBA0D /* Pods_Dependencies_KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dependencies_KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		392EC1BDFB6E48FB0A762296 /* Pods-KinSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDK.debug.xcconfig"; path = "Target Support Files/Pods-KinSDK/Pods-KinSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		59AD7C95E08AA63F211A342B /* Pods-Dependencies-KinSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dependencies-KinSDK.release.xcconfig"; path = "Target Support Files/Pods-Dependencies-KinSDK/Pods-Dependencies-KinSDK.release.xcconfig"; sourceTree = "<group>"; };
+		68AF916322A90C6A008C01EC /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68AF916622A90C6A008C01EC /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
+		68AF916722A90C6A008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68AF916C22A90C6A008C01EC /* KinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		68AF917322A90C6A008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68AF91C622A90D44008C01EC /* KeyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyUtils.swift; sourceTree = "<group>"; };
+		68AF91C722A90D44008C01EC /* KeyStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStore.swift; sourceTree = "<group>"; };
+		68AF91C822A90D44008C01EC /* KinClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinClient.swift; sourceTree = "<group>"; };
+		68AF91C922A90D44008C01EC /* KinError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinError.swift; sourceTree = "<group>"; };
+		68AF91CA22A90D44008C01EC /* KinTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinTypes.swift; sourceTree = "<group>"; };
+		68AF91CB22A90D44008C01EC /* Watchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watchers.swift; sourceTree = "<group>"; };
+		68AF91CC22A90D44008C01EC /* WhitelistEnvelope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhitelistEnvelope.swift; sourceTree = "<group>"; };
+		68AF91CE22A90D44008C01EC /* StellarErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarErrors.swift; sourceTree = "<group>"; };
+		68AF91D022A90D44008C01EC /* PublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKey.swift; sourceTree = "<group>"; };
+		68AF91D122A90D44008C01EC /* WrappedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrappedData.swift; sourceTree = "<group>"; };
+		68AF91D222A90D44008C01EC /* Ledger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ledger.swift; sourceTree = "<group>"; };
+		68AF91D322A90D44008C01EC /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
+		68AF91D422A90D44008C01EC /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		68AF91D522A90D44008C01EC /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
+		68AF91D622A90D44008C01EC /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		68AF91D722A90D44008C01EC /* Stellar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stellar.swift; sourceTree = "<group>"; };
+		68AF91D822A90D44008C01EC /* StellarResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarResults.swift; sourceTree = "<group>"; };
+		68AF91D922A90D44008C01EC /* StellarUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarUtils.swift; sourceTree = "<group>"; };
+		68AF91DA22A90D44008C01EC /* StellarOps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarOps.swift; sourceTree = "<group>"; };
+		68AF91DB22A90D44008C01EC /* BCKeyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BCKeyUtils.swift; sourceTree = "<group>"; };
+		68AF91DC22A90D44008C01EC /* HorizonResponses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonResponses.swift; sourceTree = "<group>"; };
+		68AF91DD22A90D44008C01EC /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		68AF91DE22A90D44008C01EC /* TxBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TxBuilder.swift; sourceTree = "<group>"; };
+		68AF91DF22A90D44008C01EC /* StellarEventSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarEventSource.swift; sourceTree = "<group>"; };
+		68AF91E022A90D44008C01EC /* Data+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+extensions.swift"; sourceTree = "<group>"; };
+		68AF91E122A90D44008C01EC /* Watches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watches.swift; sourceTree = "<group>"; };
+		68AF91E322A90D44008C01EC /* XDRCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XDRCodable.swift; sourceTree = "<group>"; };
+		68AF91E422A90D44008C01EC /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		68AF91E522A90D45008C01EC /* KinAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinAccount.swift; sourceTree = "<group>"; };
+		68AF91E622A90D45008C01EC /* KinAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinAccounts.swift; sourceTree = "<group>"; };
+		68AF91E722A90D45008C01EC /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		68AF91E922A90D45008C01EC /* Bundle+Kin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Kin.swift"; sourceTree = "<group>"; };
+		68AF91EA22A90D45008C01EC /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		68AF920C22A90DA4008C01EC /* KinAccountTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinAccountTests.swift; sourceTree = "<group>"; };
+		68AF920D22A90DA4008C01EC /* KinClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinClientTests.swift; sourceTree = "<group>"; };
+		68AF920E22A90DA4008C01EC /* KeyStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStoreTests.swift; sourceTree = "<group>"; };
+		68AF920F22A90DA4008C01EC /* AppIdTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppIdTests.swift; sourceTree = "<group>"; };
+		68AF921022A90DA4008C01EC /* URLKinVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLKinVersion.swift; sourceTree = "<group>"; };
+		68AF921822A90E38008C01EC /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
+		68AF92C822A92256008C01EC /* KeychainSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
+		68AF92C922A92256008C01EC /* TegKeychainConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TegKeychainConstants.swift; sourceTree = "<group>"; };
+		68AF92CA22A92256008C01EC /* KeychainSwiftAccessOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwiftAccessOptions.swift; sourceTree = "<group>"; };
+		68AF930D22A92DCF008C01EC /* KinSDKTestsHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KinSDKTestsHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		68AF930F22A92DCF008C01EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		68AF931122A92DCF008C01EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		68AF931422A92DCF008C01EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		68AF931622A92DD1008C01EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		68AF931922A92DD1008C01EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		68AF931B22A92DD1008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68AF938222A9337A008C01EC /* QRTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRTests.swift; sourceTree = "<group>"; };
+		68AF938322A9337A008C01EC /* PasswordTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordTests.swift; sourceTree = "<group>"; };
+		68AF938422A9337A008C01EC /* KinBackupRestoreModuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinBackupRestoreModuleTests.swift; sourceTree = "<group>"; };
+		68AF938922A9338F008C01EC /* KinBackupRestoreBI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinBackupRestoreBI.swift; sourceTree = "<group>"; };
+		68AF938A22A9338F008C01EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		68AF938B22A9338F008C01EC /* KinBackupRestoreError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinBackupRestoreError.swift; sourceTree = "<group>"; };
+		68AF938C22A9338F008C01EC /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		68AF938E22A9338F008C01EC /* Notification+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Convenience.swift"; sourceTree = "<group>"; };
+		68AF938F22A9338F008C01EC /* CGGeometry+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGGeometry+Appearance.swift"; sourceTree = "<group>"; };
+		68AF939022A9338F008C01EC /* NSAttributedString+AttributedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+AttributedStrings.swift"; sourceTree = "<group>"; };
+		68AF939122A9338F008C01EC /* UIFont+PreferredFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+PreferredFont.swift"; sourceTree = "<group>"; };
+		68AF939222A9338F008C01EC /* Bundle+BackupRestore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+BackupRestore.swift"; sourceTree = "<group>"; };
+		68AF939322A9338F008C01EC /* UIColor+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Appearance.swift"; sourceTree = "<group>"; };
+		68AF939422A9338F008C01EC /* String+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
+		68AF939622A9338F008C01EC /* Password.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Password.swift; sourceTree = "<group>"; };
+		68AF939722A9338F008C01EC /* QR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QR.swift; sourceTree = "<group>"; };
+		68AF939822A9338F008C01EC /* Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		68AF939B22A9338F008C01EC /* BackupCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupCompletedViewController.swift; sourceTree = "<group>"; };
+		68AF939C22A9338F008C01EC /* PasswordTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
+		68AF939E22A9338F008C01EC /* BackupFlowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupFlowController.swift; sourceTree = "<group>"; };
+		68AF939F22A9338F008C01EC /* RestoreFlowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreFlowController.swift; sourceTree = "<group>"; };
+		68AF93A022A9338F008C01EC /* FlowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowController.swift; sourceTree = "<group>"; };
+		68AF93A122A9338F008C01EC /* CheckboxImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxImageView.swift; sourceTree = "<group>"; };
+		68AF93A222A9338F008C01EC /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
+		68AF93A322A9338F008C01EC /* KeyboardAdjustingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAdjustingScrollView.swift; sourceTree = "<group>"; };
+		68AF93A522A9338F008C01EC /* QRPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRPickerController.swift; sourceTree = "<group>"; };
+		68AF93A622A9338F008C01EC /* QRView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRView.swift; sourceTree = "<group>"; };
+		68AF93A722A9338F008C01EC /* QRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
+		68AF93A822A9338F008C01EC /* PasswordLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordLabel.swift; sourceTree = "<group>"; };
+		68AF93AA22A9338F008C01EC /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		68AF93AB22A9338F008C01EC /* ConfirmButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
+		68AF93AD22A9338F008C01EC /* PasswordEntryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEntryView.swift; sourceTree = "<group>"; };
+		68AF93AE22A9338F008C01EC /* PasswordEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEntryViewController.swift; sourceTree = "<group>"; };
+		68AF93B022A9338F008C01EC /* RestoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreView.swift; sourceTree = "<group>"; };
+		68AF93B122A9338F008C01EC /* RestoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreViewController.swift; sourceTree = "<group>"; };
+		68AF93B222A9338F008C01EC /* KinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinViewController.swift; sourceTree = "<group>"; };
+		68AF93B422A9338F008C01EC /* BackupIntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupIntroViewController.swift; sourceTree = "<group>"; };
+		68AF93B522A9338F008C01EC /* RestoreIntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreIntroViewController.swift; sourceTree = "<group>"; };
+		68AF93B722A9338F008C01EC /* ExplanationTemplateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplanationTemplateViewController.swift; sourceTree = "<group>"; };
+		68AF93B822A9338F008C01EC /* ExplanationTemplateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplanationTemplateView.swift; sourceTree = "<group>"; };
+		68AF93BA22A9338F008C01EC /* LifeCycleProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifeCycleProtocol.swift; sourceTree = "<group>"; };
+		68AF93BC22A9338F008C01EC /* KinBackupRestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinBackupRestoreManager.swift; sourceTree = "<group>"; };
+		8DA96CCCF65BBBDED5FE31E5 /* Pods-Dependencies-KinSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dependencies-KinSDKTests.release.xcconfig"; path = "Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests.release.xcconfig"; sourceTree = "<group>"; };
+		A96C9F30393E1C16E51E55CA /* Pods-Dependencies-KinSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dependencies-KinSDK.debug.xcconfig"; path = "Target Support Files/Pods-Dependencies-KinSDK/Pods-Dependencies-KinSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		B2FCA2C2097726E50C7042A5 /* Pods-KinSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDKTests.debug.xcconfig"; path = "Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B86F8D60A8E31937AB1522AE /* Pods-Dependencies-KinSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dependencies-KinSDKTests.debug.xcconfig"; path = "Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C28430C4045F6F9575ECAD86 /* Pods-KinSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDKTests.release.xcconfig"; path = "Target Support Files/Pods-KinSDKTests/Pods-KinSDKTests.release.xcconfig"; sourceTree = "<group>"; };
+		E80538C23DD8A256BE3CE5CE /* Pods-KinSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KinSDK.release.xcconfig"; path = "Target Support Files/Pods-KinSDK/Pods-KinSDK.release.xcconfig"; sourceTree = "<group>"; };
+		F512F303C08B05611437EFA2 /* Pods_Dependencies_KinSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dependencies_KinSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		82140EA51FA88E5B00FAF19B /* Frameworks */ = {
+		68AF916022A90C6A008C01EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68D04AC02197EC4A00F27492 /* Sodium.framework in Frameworks */,
-				68D04A442194121600F27492 /* KinUtil.framework in Frameworks */,
+				25D625C7F1EBBA9DDFF8A63B /* Pods_Dependencies_KinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8278352B1FA9B5F20006C3DF /* Frameworks */ = {
+		68AF916922A90C6A008C01EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E970C26B1FAB4ADB0091181B /* KinSDK.framework in Frameworks */,
+				68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */,
+				08D1FB5AA30449B4AF4A680F /* Pods_Dependencies_KinSDKTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8278353E1FA9B5F20006C3DF /* Frameworks */ = {
+		68AF930A22A92DCF008C01EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				824539411FAACFC6009117B4 /* KinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		688AAF6A227987680095DC2A /* Products */ = {
+		1939534DED645FA165955450 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				688AAF75227987680095DC2A /* Sodium.framework */,
-				688AAF77227987680095DC2A /* SodiumTests.xctest */,
-				688AAF79227987680095DC2A /* Sodium.framework */,
-				688AAF7B227987680095DC2A /* Sodium.framework */,
-				688AAF7D227987680095DC2A /* Example iOS.app */,
-				688AAF7F227987680095DC2A /* Example OSX.app */,
-				688AAF81227987680095DC2A /* Example Watch.app */,
-				688AAF83227987680095DC2A /* Example Watch Extension.appex */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		68B32FB0229269AA00D6F8D6 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				68B32FC32292723C00D6F8D6 /* Bundle+Kin.swift */,
-				68B32FC52292794100D6F8D6 /* Version.swift */,
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
-		68D04A0C21940FA500F27492 /* blockchain */ = {
-			isa = PBXGroup;
-			children = (
-				68D04A452194134F00F27492 /* Errors.swift */,
-				68D04A0D21940FA500F27492 /* StellarErrors.swift */,
-				68D04A0E21940FA500F27492 /* types */,
-				68D04A1621940FA500F27492 /* BCKeyUtils.swift */,
-				68D04A1721940FA500F27492 /* Stellar.swift */,
-				68D04A1821940FA500F27492 /* StellarResults.swift */,
-				68D04A1921940FA500F27492 /* StellarUtils.swift */,
-				68D04A1A21940FA500F27492 /* StellarOps.swift */,
-				68D04A1B21940FA500F27492 /* HorizonResponses.swift */,
-				68D04A1C21940FA500F27492 /* TxBuilder.swift */,
-				68D04A1D21940FA500F27492 /* StellarEventSource.swift */,
-				68D04A1E21940FA500F27492 /* Data+extensions.swift */,
-				68D04A1F21940FA500F27492 /* Watches.swift */,
-				68D04A2021940FA500F27492 /* XDRCodable */,
-				68D04A2221940FA500F27492 /* Endpoint.swift */,
-			);
-			path = blockchain;
-			sourceTree = "<group>";
-		};
-		68D04A0E21940FA500F27492 /* types */ = {
-			isa = PBXGroup;
-			children = (
-				68D04A0F21940FA500F27492 /* PublicKey.swift */,
-				68D04A1021940FA500F27492 /* WrappedData.swift */,
-				68D04A1121940FA500F27492 /* Ledger.swift */,
-				68D04A1221940FA500F27492 /* Operations.swift */,
-				68D04A1321940FA500F27492 /* Transaction.swift */,
-				68D04A1421940FA500F27492 /* Asset.swift */,
-				68D04A1521940FA500F27492 /* Operation.swift */,
-			);
-			path = types;
-			sourceTree = "<group>";
-		};
-		68D04A2021940FA500F27492 /* XDRCodable */ = {
-			isa = PBXGroup;
-			children = (
-				68D04A2121940FA500F27492 /* XDRCodable.swift */,
-			);
-			path = XDRCodable;
-			sourceTree = "<group>";
-		};
-		68D04A39219411FB00F27492 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				68D04A3F219411FB00F27492 /* KinUtil.framework */,
-				68D04A41219411FB00F27492 /* KinUtilTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		82140E9F1FA88E5B00FAF19B = {
-			isa = PBXGroup;
-			children = (
-				82140EAB1FA88E5B00FAF19B /* KinSDK */,
-				8278352F1FA9B5F20006C3DF /* KinTestHost */,
-				827835441FA9B5F20006C3DF /* KinSDKTests */,
-				82140EAA1FA88E5B00FAF19B /* Products */,
-				82140EC51FA89A6A00FAF19B /* Frameworks */,
-				82BA2114204D867200396AE2 /* KinSDK-macos-Info.plist */,
-			);
-			sourceTree = "<group>";
-		};
-		82140EAA1FA88E5B00FAF19B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				82140EA91FA88E5B00FAF19B /* KinSDK.framework */,
-				8278352E1FA9B5F20006C3DF /* KinTestHost.app */,
-				827835411FA9B5F20006C3DF /* KinSDKTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		82140EAB1FA88E5B00FAF19B /* KinSDK */ = {
-			isa = PBXGroup;
-			children = (
-				68D04A38219411FB00F27492 /* KinUtil.xcodeproj */,
-				8246E7231FC836F30087140A /* source */,
-				82140EAD1FA88E5B00FAF19B /* Info.plist */,
-				82140EAC1FA88E5B00FAF19B /* KinSDK.h */,
-			);
-			path = KinSDK;
-			sourceTree = "<group>";
-		};
-		82140EC51FA89A6A00FAF19B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				68D04ABF2197EC4A00F27492 /* Sodium.framework */,
-				82BA2014204D231600396AE2 /* libsodium-ios.a */,
-				82BA2013204D231600396AE2 /* libsodium-osx.a */,
-				8261EF28204333A1001848CB /* KinUtil.framework */,
+				1C182A48ADD0B301745FBA0D /* Pods_Dependencies_KinSDK.framework */,
+				F512F303C08B05611437EFA2 /* Pods_Dependencies_KinSDKTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8246E7231FC836F30087140A /* source */ = {
+		68AF915922A90C6A008C01EC = {
 			isa = PBXGroup;
 			children = (
-				68B32FB0229269AA00D6F8D6 /* Utilities */,
-				68D04A0C21940FA500F27492 /* blockchain */,
-				82BA1E2B204D062800396AE2 /* third-party */,
-				82BA1EBC204D211300396AE2 /* KeyUtils.swift */,
-				8268D8EE2014431D005CF79E /* KeyStore.swift */,
-				91D4395D1FC410860006FEB5 /* KinAccount.swift */,
-				822107A31FD66DC80007D63F /* KinAccounts.swift */,
-				91D4395B1FC410630006FEB5 /* KinClient.swift */,
-				91DDFDFB1FC6ED99004B0903 /* KinError.swift */,
-				82140EC31FA88EAF00FAF19B /* KinTypes.swift */,
-				9148CE4F1FCACF9C0005D603 /* Network.swift */,
-				8261EF322043F390001848CB /* Watchers.swift */,
-				680F7837219C0FA90064DA26 /* WhitelistEnvelope.swift */,
+				68AF916522A90C6A008C01EC /* KinSDK */,
+				68AF917022A90C6A008C01EC /* KinSDKTests */,
+				68AF930E22A92DCF008C01EC /* KinSDKTestsHost */,
+				68AF916422A90C6A008C01EC /* Products */,
+				B9CAC28D9DF9F17E0BCCDF8E /* Pods */,
+				1939534DED645FA165955450 /* Frameworks */,
 			);
-			path = source;
 			sourceTree = "<group>";
 		};
-		8278352F1FA9B5F20006C3DF /* KinTestHost */ = {
+		68AF916422A90C6A008C01EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				827835301FA9B5F20006C3DF /* AppDelegate.swift */,
-				827835321FA9B5F20006C3DF /* ViewController.swift */,
-				827835341FA9B5F20006C3DF /* Main.storyboard */,
-				827835371FA9B5F20006C3DF /* Assets.xcassets */,
-				827835391FA9B5F20006C3DF /* LaunchScreen.storyboard */,
-				8278353C1FA9B5F20006C3DF /* Info.plist */,
+				68AF916322A90C6A008C01EC /* KinSDK.framework */,
+				68AF916C22A90C6A008C01EC /* KinSDKTests.xctest */,
+				68AF930D22A92DCF008C01EC /* KinSDKTestsHost.app */,
 			);
-			path = KinTestHost;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		827835441FA9B5F20006C3DF /* KinSDKTests */ = {
+		68AF916522A90C6A008C01EC /* KinSDK */ = {
 			isa = PBXGroup;
 			children = (
-				827835471FA9B5F20006C3DF /* Info.plist */,
-				8268D8F320144339005CF79E /* KeyStoreTests.swift */,
-				824539421FAB0102009117B4 /* KinAccountTests.swift */,
-				827835451FA9B5F20006C3DF /* KinClientTests.swift */,
-				686759EC21736844001E9626 /* AppIdTests.swift */,
-				68DC6BA02292846000D3B303 /* URLKinVersion.swift */,
+				68AF917D22A90CDB008C01EC /* Core */,
+				68AF917E22A90CE1008C01EC /* Modules */,
+				68AF917F22A90CE8008C01EC /* ThirdParty */,
+				68AF916622A90C6A008C01EC /* KinSDK.h */,
+				68AF916722A90C6A008C01EC /* Info.plist */,
+			);
+			path = KinSDK;
+			sourceTree = "<group>";
+		};
+		68AF917022A90C6A008C01EC /* KinSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				68AF921622A90DBE008C01EC /* Core */,
+				68AF921722A90DDD008C01EC /* Modules */,
+				68AF917322A90C6A008C01EC /* Info.plist */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
 		};
-		82BA1E2B204D062800396AE2 /* third-party */ = {
+		68AF917D22A90CDB008C01EC /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				688AAF69227987680095DC2A /* Sodium.xcodeproj */,
-				68D04A0A21940FA500F27492 /* SHA256.swift */,
-				82BA1EBE204D22AB00396AE2 /* keychain-swift */,
+				68AF91CD22A90D44008C01EC /* blockchain */,
+				68AF91C722A90D44008C01EC /* KeyStore.swift */,
+				68AF91C622A90D44008C01EC /* KeyUtils.swift */,
+				68AF91E522A90D45008C01EC /* KinAccount.swift */,
+				68AF91E622A90D45008C01EC /* KinAccounts.swift */,
+				68AF91C822A90D44008C01EC /* KinClient.swift */,
+				68AF91C922A90D44008C01EC /* KinError.swift */,
+				68AF91CA22A90D44008C01EC /* KinTypes.swift */,
+				68AF91E722A90D45008C01EC /* Network.swift */,
+				68AF91E822A90D45008C01EC /* Utilities */,
+				68AF91CB22A90D44008C01EC /* Watchers.swift */,
+				68AF91CC22A90D44008C01EC /* WhitelistEnvelope.swift */,
 			);
-			path = "third-party";
+			path = Core;
 			sourceTree = "<group>";
 		};
-		82BA1EBE204D22AB00396AE2 /* keychain-swift */ = {
+		68AF917E22A90CE1008C01EC /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				82BA1ECE204D22AB00396AE2 /* KeychainSwift */,
+				68AF938822A9338F008C01EC /* BackupRestore */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		68AF917F22A90CE8008C01EC /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				68AF929C22A92256008C01EC /* keychain-swift */,
+				68AF921822A90E38008C01EC /* SHA256.swift */,
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		68AF91CD22A90D44008C01EC /* blockchain */ = {
+			isa = PBXGroup;
+			children = (
+				68AF91CE22A90D44008C01EC /* StellarErrors.swift */,
+				68AF91CF22A90D44008C01EC /* types */,
+				68AF91D722A90D44008C01EC /* Stellar.swift */,
+				68AF91D822A90D44008C01EC /* StellarResults.swift */,
+				68AF91D922A90D44008C01EC /* StellarUtils.swift */,
+				68AF91DA22A90D44008C01EC /* StellarOps.swift */,
+				68AF91DB22A90D44008C01EC /* BCKeyUtils.swift */,
+				68AF91DC22A90D44008C01EC /* HorizonResponses.swift */,
+				68AF91DD22A90D44008C01EC /* Errors.swift */,
+				68AF91DE22A90D44008C01EC /* TxBuilder.swift */,
+				68AF91DF22A90D44008C01EC /* StellarEventSource.swift */,
+				68AF91E022A90D44008C01EC /* Data+extensions.swift */,
+				68AF91E122A90D44008C01EC /* Watches.swift */,
+				68AF91E222A90D44008C01EC /* XDRCodable */,
+				68AF91E422A90D44008C01EC /* Endpoint.swift */,
+			);
+			path = blockchain;
+			sourceTree = "<group>";
+		};
+		68AF91CF22A90D44008C01EC /* types */ = {
+			isa = PBXGroup;
+			children = (
+				68AF91D022A90D44008C01EC /* PublicKey.swift */,
+				68AF91D122A90D44008C01EC /* WrappedData.swift */,
+				68AF91D222A90D44008C01EC /* Ledger.swift */,
+				68AF91D322A90D44008C01EC /* Operations.swift */,
+				68AF91D422A90D44008C01EC /* Transaction.swift */,
+				68AF91D522A90D44008C01EC /* Asset.swift */,
+				68AF91D622A90D44008C01EC /* Operation.swift */,
+			);
+			path = types;
+			sourceTree = "<group>";
+		};
+		68AF91E222A90D44008C01EC /* XDRCodable */ = {
+			isa = PBXGroup;
+			children = (
+				68AF91E322A90D44008C01EC /* XDRCodable.swift */,
+			);
+			path = XDRCodable;
+			sourceTree = "<group>";
+		};
+		68AF91E822A90D45008C01EC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				68AF91E922A90D45008C01EC /* Bundle+Kin.swift */,
+				68AF91EA22A90D45008C01EC /* Version.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		68AF921622A90DBE008C01EC /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				68AF920F22A90DA4008C01EC /* AppIdTests.swift */,
+				68AF920E22A90DA4008C01EC /* KeyStoreTests.swift */,
+				68AF920C22A90DA4008C01EC /* KinAccountTests.swift */,
+				68AF920D22A90DA4008C01EC /* KinClientTests.swift */,
+				68AF921022A90DA4008C01EC /* URLKinVersion.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		68AF921722A90DDD008C01EC /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				68AF938122A9337A008C01EC /* BackupRestore */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		68AF929C22A92256008C01EC /* keychain-swift */ = {
+			isa = PBXGroup;
+			children = (
+				68AF92C622A92256008C01EC /* KeychainSwift */,
 			);
 			path = "keychain-swift";
 			sourceTree = "<group>";
 		};
-		82BA1ECE204D22AB00396AE2 /* KeychainSwift */ = {
+		68AF92C622A92256008C01EC /* KeychainSwift */ = {
 			isa = PBXGroup;
 			children = (
-				82BA1ED1204D22AB00396AE2 /* KeychainSwift.swift */,
-				82BA1ED2204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift */,
-				82BA1ED3204D22AB00396AE2 /* TegKeychainConstants.swift */,
+				68AF92C822A92256008C01EC /* KeychainSwift.swift */,
+				68AF92C922A92256008C01EC /* TegKeychainConstants.swift */,
+				68AF92CA22A92256008C01EC /* KeychainSwiftAccessOptions.swift */,
 			);
 			path = KeychainSwift;
+			sourceTree = "<group>";
+		};
+		68AF930E22A92DCF008C01EC /* KinSDKTestsHost */ = {
+			isa = PBXGroup;
+			children = (
+				68AF930F22A92DCF008C01EC /* AppDelegate.swift */,
+				68AF931122A92DCF008C01EC /* ViewController.swift */,
+				68AF931322A92DCF008C01EC /* Main.storyboard */,
+				68AF931622A92DD1008C01EC /* Assets.xcassets */,
+				68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */,
+				68AF931B22A92DD1008C01EC /* Info.plist */,
+			);
+			path = KinSDKTestsHost;
+			sourceTree = "<group>";
+		};
+		68AF938122A9337A008C01EC /* BackupRestore */ = {
+			isa = PBXGroup;
+			children = (
+				68AF938222A9337A008C01EC /* QRTests.swift */,
+				68AF938322A9337A008C01EC /* PasswordTests.swift */,
+				68AF938422A9337A008C01EC /* KinBackupRestoreModuleTests.swift */,
+			);
+			path = BackupRestore;
+			sourceTree = "<group>";
+		};
+		68AF938822A9338F008C01EC /* BackupRestore */ = {
+			isa = PBXGroup;
+			children = (
+				68AF938A22A9338F008C01EC /* Assets.xcassets */,
+				68AF938D22A9338F008C01EC /* Extensions */,
+				68AF938922A9338F008C01EC /* KinBackupRestoreBI.swift */,
+				68AF938B22A9338F008C01EC /* KinBackupRestoreError.swift */,
+				68AF93BC22A9338F008C01EC /* KinBackupRestoreManager.swift */,
+				68AF938C22A9338F008C01EC /* Localizable.strings */,
+				68AF93B922A9338F008C01EC /* Protocols */,
+				68AF939522A9338F008C01EC /* Utilities */,
+				68AF939A22A9338F008C01EC /* Views */,
+			);
+			path = BackupRestore;
+			sourceTree = "<group>";
+		};
+		68AF938D22A9338F008C01EC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				68AF938E22A9338F008C01EC /* Notification+Convenience.swift */,
+				68AF938F22A9338F008C01EC /* CGGeometry+Appearance.swift */,
+				68AF939022A9338F008C01EC /* NSAttributedString+AttributedStrings.swift */,
+				68AF939122A9338F008C01EC /* UIFont+PreferredFont.swift */,
+				68AF939222A9338F008C01EC /* Bundle+BackupRestore.swift */,
+				68AF939322A9338F008C01EC /* UIColor+Appearance.swift */,
+				68AF939422A9338F008C01EC /* String+Localization.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		68AF939522A9338F008C01EC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				68AF939622A9338F008C01EC /* Password.swift */,
+				68AF939722A9338F008C01EC /* QR.swift */,
+				68AF939822A9338F008C01EC /* Appearance.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		68AF939A22A9338F008C01EC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				68AF939B22A9338F008C01EC /* BackupCompletedViewController.swift */,
+				68AF939C22A9338F008C01EC /* PasswordTextField.swift */,
+				68AF939D22A9338F008C01EC /* FlowController */,
+				68AF93A122A9338F008C01EC /* CheckboxImageView.swift */,
+				68AF93A222A9338F008C01EC /* Animations.swift */,
+				68AF93A322A9338F008C01EC /* KeyboardAdjustingScrollView.swift */,
+				68AF93A422A9338F008C01EC /* QR */,
+				68AF93A822A9338F008C01EC /* PasswordLabel.swift */,
+				68AF93A922A9338F008C01EC /* Button */,
+				68AF93AC22A9338F008C01EC /* PasswordEntry */,
+				68AF93AF22A9338F008C01EC /* Restore */,
+				68AF93B222A9338F008C01EC /* KinViewController.swift */,
+				68AF93B322A9338F008C01EC /* IntroViewController */,
+				68AF93B622A9338F008C01EC /* ExplanationTemplate */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		68AF939D22A9338F008C01EC /* FlowController */ = {
+			isa = PBXGroup;
+			children = (
+				68AF939E22A9338F008C01EC /* BackupFlowController.swift */,
+				68AF939F22A9338F008C01EC /* RestoreFlowController.swift */,
+				68AF93A022A9338F008C01EC /* FlowController.swift */,
+			);
+			path = FlowController;
+			sourceTree = "<group>";
+		};
+		68AF93A422A9338F008C01EC /* QR */ = {
+			isa = PBXGroup;
+			children = (
+				68AF93A522A9338F008C01EC /* QRPickerController.swift */,
+				68AF93A622A9338F008C01EC /* QRView.swift */,
+				68AF93A722A9338F008C01EC /* QRViewController.swift */,
+			);
+			path = QR;
+			sourceTree = "<group>";
+		};
+		68AF93A922A9338F008C01EC /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				68AF93AA22A9338F008C01EC /* RoundButton.swift */,
+				68AF93AB22A9338F008C01EC /* ConfirmButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		68AF93AC22A9338F008C01EC /* PasswordEntry */ = {
+			isa = PBXGroup;
+			children = (
+				68AF93AD22A9338F008C01EC /* PasswordEntryView.swift */,
+				68AF93AE22A9338F008C01EC /* PasswordEntryViewController.swift */,
+			);
+			path = PasswordEntry;
+			sourceTree = "<group>";
+		};
+		68AF93AF22A9338F008C01EC /* Restore */ = {
+			isa = PBXGroup;
+			children = (
+				68AF93B022A9338F008C01EC /* RestoreView.swift */,
+				68AF93B122A9338F008C01EC /* RestoreViewController.swift */,
+			);
+			path = Restore;
+			sourceTree = "<group>";
+		};
+		68AF93B322A9338F008C01EC /* IntroViewController */ = {
+			isa = PBXGroup;
+			children = (
+				68AF93B422A9338F008C01EC /* BackupIntroViewController.swift */,
+				68AF93B522A9338F008C01EC /* RestoreIntroViewController.swift */,
+			);
+			path = IntroViewController;
+			sourceTree = "<group>";
+		};
+		68AF93B622A9338F008C01EC /* ExplanationTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				68AF93B722A9338F008C01EC /* ExplanationTemplateViewController.swift */,
+				68AF93B822A9338F008C01EC /* ExplanationTemplateView.swift */,
+			);
+			path = ExplanationTemplate;
+			sourceTree = "<group>";
+		};
+		68AF93B922A9338F008C01EC /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				68AF93BA22A9338F008C01EC /* LifeCycleProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		B9CAC28D9DF9F17E0BCCDF8E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				392EC1BDFB6E48FB0A762296 /* Pods-KinSDK.debug.xcconfig */,
+				E80538C23DD8A256BE3CE5CE /* Pods-KinSDK.release.xcconfig */,
+				B2FCA2C2097726E50C7042A5 /* Pods-KinSDKTests.debug.xcconfig */,
+				C28430C4045F6F9575ECAD86 /* Pods-KinSDKTests.release.xcconfig */,
+				A96C9F30393E1C16E51E55CA /* Pods-Dependencies-KinSDK.debug.xcconfig */,
+				59AD7C95E08AA63F211A342B /* Pods-Dependencies-KinSDK.release.xcconfig */,
+				B86F8D60A8E31937AB1522AE /* Pods-Dependencies-KinSDKTests.debug.xcconfig */,
+				8DA96CCCF65BBBDED5FE31E5 /* Pods-Dependencies-KinSDKTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		82140EA61FA88E5B00FAF19B /* Headers */ = {
+		68AF915E22A90C6A008C01EC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82140EBA1FA88E5B00FAF19B /* KinSDK.h in Headers */,
+				68AF917422A90C6A008C01EC /* KinSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		82140EA81FA88E5B00FAF19B /* KinSDK */ = {
+		68AF916222A90C6A008C01EC /* KinSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 82140EBD1FA88E5B00FAF19B /* Build configuration list for PBXNativeTarget "KinSDK" */;
+			buildConfigurationList = 68AF917722A90C6A008C01EC /* Build configuration list for PBXNativeTarget "KinSDK" */;
 			buildPhases = (
-				91EB959B1FC5D2E4000AE5B1 /* Lint with SwiftLint */,
-				82140EA41FA88E5B00FAF19B /* Sources */,
-				82140EA51FA88E5B00FAF19B /* Frameworks */,
-				82140EA61FA88E5B00FAF19B /* Headers */,
-				82140EA71FA88E5B00FAF19B /* Resources */,
+				66AE63BBF18176E88406BB10 /* [CP] Check Pods Manifest.lock */,
+				68AF915E22A90C6A008C01EC /* Headers */,
+				68AF915F22A90C6A008C01EC /* Sources */,
+				68AF916022A90C6A008C01EC /* Frameworks */,
+				68AF916122A90C6A008C01EC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -481,313 +639,318 @@
 			);
 			name = KinSDK;
 			productName = KinSDK;
-			productReference = 82140EA91FA88E5B00FAF19B /* KinSDK.framework */;
+			productReference = 68AF916322A90C6A008C01EC /* KinSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		8278352D1FA9B5F20006C3DF /* KinTestHost */ = {
+		68AF916B22A90C6A008C01EC /* KinSDKTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 827835481FA9B5F20006C3DF /* Build configuration list for PBXNativeTarget "KinTestHost" */;
+			buildConfigurationList = 68AF917A22A90C6A008C01EC /* Build configuration list for PBXNativeTarget "KinSDKTests" */;
 			buildPhases = (
-				8278352A1FA9B5F20006C3DF /* Sources */,
-				8278352B1FA9B5F20006C3DF /* Frameworks */,
-				8278352C1FA9B5F20006C3DF /* Resources */,
-				82F6D8061FB2112B00AEE17D /* Embed Frameworks */,
+				E8DE460F5EFC0AF47042B159 /* [CP] Check Pods Manifest.lock */,
+				68AF916822A90C6A008C01EC /* Sources */,
+				68AF916922A90C6A008C01EC /* Frameworks */,
+				68AF916A22A90C6A008C01EC /* Resources */,
+				754FA0E7827BAE6BB40AE99B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				827835501FA9B6290006C3DF /* PBXTargetDependency */,
-			);
-			name = KinTestHost;
-			productName = KinTestHost;
-			productReference = 8278352E1FA9B5F20006C3DF /* KinTestHost.app */;
-			productType = "com.apple.product-type.application";
-		};
-		827835401FA9B5F20006C3DF /* KinSDKTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8278354B1FA9B5F20006C3DF /* Build configuration list for PBXNativeTarget "KinSDKTests" */;
-			buildPhases = (
-				8278353D1FA9B5F20006C3DF /* Sources */,
-				8278353E1FA9B5F20006C3DF /* Frameworks */,
-				8278353F1FA9B5F20006C3DF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				827835431FA9B5F20006C3DF /* PBXTargetDependency */,
+				68AF916F22A90C6A008C01EC /* PBXTargetDependency */,
+				68AF932022A92DF2008C01EC /* PBXTargetDependency */,
 			);
 			name = KinSDKTests;
-			productName = KinTestHostTests;
-			productReference = 827835411FA9B5F20006C3DF /* KinSDKTests.xctest */;
+			productName = KinSDKTests;
+			productReference = 68AF916C22A90C6A008C01EC /* KinSDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		68AF930C22A92DCF008C01EC /* KinSDKTestsHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68AF931E22A92DD1008C01EC /* Build configuration list for PBXNativeTarget "KinSDKTestsHost" */;
+			buildPhases = (
+				68AF930922A92DCF008C01EC /* Sources */,
+				68AF930A22A92DCF008C01EC /* Frameworks */,
+				68AF930B22A92DCF008C01EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KinSDKTestsHost;
+			productName = KinSDKTestsHost;
+			productReference = 68AF930D22A92DCF008C01EC /* KinSDKTestsHost.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		82140EA01FA88E5B00FAF19B /* Project object */ = {
+		68AF915A22A90C6A008C01EC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Kin Foundation";
 				TargetAttributes = {
-					82140EA81FA88E5B00FAF19B = {
-						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+					68AF916222A90C6A008C01EC = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
 					};
-					8278352D1FA9B5F20006C3DF = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
+					68AF916B22A90C6A008C01EC = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
+						TestTargetID = 68AF930C22A92DCF008C01EC;
 					};
-					827835401FA9B5F20006C3DF = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 8278352D1FA9B5F20006C3DF;
+					68AF930C22A92DCF008C01EC = {
+						CreatedOnToolsVersion = 10.2.1;
 					};
 				};
 			};
-			buildConfigurationList = 82140EA31FA88E5B00FAF19B /* Build configuration list for PBXProject "KinSDK" */;
-			compatibilityVersion = "Xcode 8.0";
+			buildConfigurationList = 68AF915D22A90C6A008C01EC /* Build configuration list for PBXProject "KinSDK" */;
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 82140E9F1FA88E5B00FAF19B;
-			productRefGroup = 82140EAA1FA88E5B00FAF19B /* Products */;
+			mainGroup = 68AF915922A90C6A008C01EC;
+			productRefGroup = 68AF916422A90C6A008C01EC /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 68D04A39219411FB00F27492 /* Products */;
-					ProjectRef = 68D04A38219411FB00F27492 /* KinUtil.xcodeproj */;
-				},
-				{
-					ProductGroup = 688AAF6A227987680095DC2A /* Products */;
-					ProjectRef = 688AAF69227987680095DC2A /* Sodium.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
-				82140EA81FA88E5B00FAF19B /* KinSDK */,
-				8278352D1FA9B5F20006C3DF /* KinTestHost */,
-				827835401FA9B5F20006C3DF /* KinSDKTests */,
+				68AF916222A90C6A008C01EC /* KinSDK */,
+				68AF916B22A90C6A008C01EC /* KinSDKTests */,
+				68AF930C22A92DCF008C01EC /* KinSDKTestsHost */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		688AAF75227987680095DC2A /* Sodium.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sodium.framework;
-			remoteRef = 688AAF74227987680095DC2A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		688AAF77227987680095DC2A /* SodiumTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SodiumTests.xctest;
-			remoteRef = 688AAF76227987680095DC2A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		688AAF79227987680095DC2A /* Sodium.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sodium.framework;
-			remoteRef = 688AAF78227987680095DC2A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		688AAF7B227987680095DC2A /* Sodium.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sodium.framework;
-			remoteRef = 688AAF7A227987680095DC2A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		688AAF7D227987680095DC2A /* Example iOS.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Example iOS.app";
-			remoteRef = 688AAF7C227987680095DC2A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		688AAF7F227987680095DC2A /* Example OSX.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Example OSX.app";
-			remoteRef = 688AAF7E227987680095DC2A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		688AAF81227987680095DC2A /* Example Watch.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Example Watch.app";
-			remoteRef = 688AAF80227987680095DC2A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		688AAF83227987680095DC2A /* Example Watch Extension.appex */ = {
-			isa = PBXReferenceProxy;
-			fileType = "wrapper.app-extension";
-			path = "Example Watch Extension.appex";
-			remoteRef = 688AAF82227987680095DC2A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68D04A3F219411FB00F27492 /* KinUtil.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KinUtil.framework;
-			remoteRef = 68D04A3E219411FB00F27492 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		68D04A41219411FB00F27492 /* KinUtilTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = KinUtilTests.xctest;
-			remoteRef = 68D04A40219411FB00F27492 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
-		82140EA71FA88E5B00FAF19B /* Resources */ = {
+		68AF916122A90C6A008C01EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68AF93BE22A9338F008C01EC /* Assets.xcassets in Resources */,
+				68AF93C022A9338F008C01EC /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68AF916A22A90C6A008C01EC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8278352C1FA9B5F20006C3DF /* Resources */ = {
+		68AF930B22A92DCF008C01EC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8278353B1FA9B5F20006C3DF /* LaunchScreen.storyboard in Resources */,
-				827835381FA9B5F20006C3DF /* Assets.xcassets in Resources */,
-				827835361FA9B5F20006C3DF /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8278353F1FA9B5F20006C3DF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */,
+				68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */,
+				68AF931522A92DCF008C01EC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		91EB959B1FC5D2E4000AE5B1 /* Lint with SwiftLint */ = {
+		66AE63BBF18176E88406BB10 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Lint with SwiftLint";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Dependencies-KinSDK-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "exit 0\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed. Checkout install options at at https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		754FA0E7827BAE6BB40AE99B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDKTests/Pods-Dependencies-KinSDKTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E8DE460F5EFC0AF47042B159 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Dependencies-KinSDKTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		82140EA41FA88E5B00FAF19B /* Sources */ = {
+		68AF915F22A90C6A008C01EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68D04A2F21940FA500F27492 /* StellarUtils.swift in Sources */,
-				82BA1F15204D22AB00396AE2 /* TegKeychainConstants.swift in Sources */,
-				68D04A2621940FA500F27492 /* WrappedData.swift in Sources */,
-				68D04A462194134F00F27492 /* Errors.swift in Sources */,
-				9148CE501FCACF9C0005D603 /* Network.swift in Sources */,
-				91D4395C1FC410630006FEB5 /* KinClient.swift in Sources */,
-				68D04A2321940FA500F27492 /* SHA256.swift in Sources */,
-				68D04A2B21940FA500F27492 /* Operation.swift in Sources */,
-				68D04A3221940FA500F27492 /* TxBuilder.swift in Sources */,
-				68D04A2C21940FA500F27492 /* BCKeyUtils.swift in Sources */,
-				68B32FC42292723C00D6F8D6 /* Bundle+Kin.swift in Sources */,
-				68D04A2D21940FA500F27492 /* Stellar.swift in Sources */,
-				68D04A2721940FA500F27492 /* Ledger.swift in Sources */,
-				68D04A2921940FA500F27492 /* Transaction.swift in Sources */,
-				68D04A3421940FA500F27492 /* Data+extensions.swift in Sources */,
-				82BA1F14204D22AB00396AE2 /* KeychainSwiftAccessOptions.swift in Sources */,
-				68D04A3621940FA500F27492 /* XDRCodable.swift in Sources */,
-				68D04A3321940FA500F27492 /* StellarEventSource.swift in Sources */,
-				91DDFDFC1FC6ED99004B0903 /* KinError.swift in Sources */,
-				68D04A3121940FA500F27492 /* HorizonResponses.swift in Sources */,
-				82BA1F13204D22AB00396AE2 /* KeychainSwift.swift in Sources */,
-				68D04A2821940FA500F27492 /* Operations.swift in Sources */,
-				68D04A3521940FA500F27492 /* Watches.swift in Sources */,
-				82140EC41FA88EAF00FAF19B /* KinTypes.swift in Sources */,
-				68D04A2421940FA500F27492 /* StellarErrors.swift in Sources */,
-				68D04A3021940FA500F27492 /* StellarOps.swift in Sources */,
-				680F7838219C0FA90064DA26 /* WhitelistEnvelope.swift in Sources */,
-				68D04A2521940FA500F27492 /* PublicKey.swift in Sources */,
-				91D4395E1FC410860006FEB5 /* KinAccount.swift in Sources */,
-				68D04A2E21940FA500F27492 /* StellarResults.swift in Sources */,
-				68D04A3721940FA500F27492 /* Endpoint.swift in Sources */,
-				68D04A2A21940FA500F27492 /* Asset.swift in Sources */,
-				68B32FC62292794100D6F8D6 /* Version.swift in Sources */,
-				82BA1EBD204D211300396AE2 /* KeyUtils.swift in Sources */,
-				8261EF332043F390001848CB /* Watchers.swift in Sources */,
-				822107A41FD66DC80007D63F /* KinAccounts.swift in Sources */,
-				8268D8F22014431D005CF79E /* KeyStore.swift in Sources */,
+				68AF93D822A93390008C01EC /* RoundButton.swift in Sources */,
+				68AF93BD22A9338F008C01EC /* KinBackupRestoreBI.swift in Sources */,
+				68AF93DD22A93390008C01EC /* RestoreViewController.swift in Sources */,
+				68AF93D722A93390008C01EC /* PasswordLabel.swift in Sources */,
+				68AF920322A90D45008C01EC /* Data+extensions.swift in Sources */,
+				68AF91F122A90D45008C01EC /* WhitelistEnvelope.swift in Sources */,
+				68AF93C422A93390008C01EC /* UIFont+PreferredFont.swift in Sources */,
+				68AF93CC22A93390008C01EC /* BackupCompletedViewController.swift in Sources */,
+				68AF93D322A93390008C01EC /* KeyboardAdjustingScrollView.swift in Sources */,
+				68AF93D122A93390008C01EC /* CheckboxImageView.swift in Sources */,
+				68AF93D222A93390008C01EC /* Animations.swift in Sources */,
+				68AF93DE22A93390008C01EC /* KinViewController.swift in Sources */,
+				68AF91F422A90D45008C01EC /* WrappedData.swift in Sources */,
+				68AF91F022A90D45008C01EC /* Watchers.swift in Sources */,
+				68AF91F622A90D45008C01EC /* Operations.swift in Sources */,
+				68AF93E322A93390008C01EC /* LifeCycleProtocol.swift in Sources */,
+				68AF93D622A93390008C01EC /* QRViewController.swift in Sources */,
+				68AF91F222A90D45008C01EC /* StellarErrors.swift in Sources */,
+				68AF91F722A90D45008C01EC /* Transaction.swift in Sources */,
+				68AF93E222A93390008C01EC /* ExplanationTemplateView.swift in Sources */,
+				68AF91ED22A90D45008C01EC /* KinClient.swift in Sources */,
+				68AF93C822A93390008C01EC /* Password.swift in Sources */,
+				68AF920922A90D45008C01EC /* Network.swift in Sources */,
+				68AF93DC22A93390008C01EC /* RestoreView.swift in Sources */,
+				68AF91F522A90D45008C01EC /* Ledger.swift in Sources */,
+				68AF920B22A90D45008C01EC /* Version.swift in Sources */,
+				68AF930222A92256008C01EC /* KeychainSwift.swift in Sources */,
+				68AF920422A90D45008C01EC /* Watches.swift in Sources */,
+				68AF93DF22A93390008C01EC /* BackupIntroViewController.swift in Sources */,
+				68AF91FF22A90D45008C01EC /* HorizonResponses.swift in Sources */,
+				68AF91F922A90D45008C01EC /* Operation.swift in Sources */,
+				68AF93CA22A93390008C01EC /* Appearance.swift in Sources */,
+				68AF93D522A93390008C01EC /* QRView.swift in Sources */,
+				68AF93C122A9338F008C01EC /* Notification+Convenience.swift in Sources */,
+				68AF93BF22A9338F008C01EC /* KinBackupRestoreError.swift in Sources */,
+				68AF91FC22A90D45008C01EC /* StellarUtils.swift in Sources */,
+				68AF93E022A93390008C01EC /* RestoreIntroViewController.swift in Sources */,
+				68AF93CD22A93390008C01EC /* PasswordTextField.swift in Sources */,
+				68AF91F822A90D45008C01EC /* Asset.swift in Sources */,
+				68AF93C222A93390008C01EC /* CGGeometry+Appearance.swift in Sources */,
+				68AF920622A90D45008C01EC /* Endpoint.swift in Sources */,
+				68AF920122A90D45008C01EC /* TxBuilder.swift in Sources */,
+				68AF920822A90D45008C01EC /* KinAccounts.swift in Sources */,
+				68AF93D022A93390008C01EC /* FlowController.swift in Sources */,
+				68AF920A22A90D45008C01EC /* Bundle+Kin.swift in Sources */,
+				68AF93D922A93390008C01EC /* ConfirmButton.swift in Sources */,
+				68AF91EF22A90D45008C01EC /* KinTypes.swift in Sources */,
+				68AF91EE22A90D45008C01EC /* KinError.swift in Sources */,
+				68AF93D422A93390008C01EC /* QRPickerController.swift in Sources */,
+				68AF930322A92256008C01EC /* TegKeychainConstants.swift in Sources */,
+				68AF91EB22A90D45008C01EC /* KeyUtils.swift in Sources */,
+				68AF93E522A93390008C01EC /* KinBackupRestoreManager.swift in Sources */,
+				68AF91FB22A90D45008C01EC /* StellarResults.swift in Sources */,
+				68AF91F322A90D45008C01EC /* PublicKey.swift in Sources */,
+				68AF91FD22A90D45008C01EC /* StellarOps.swift in Sources */,
+				68AF93C322A93390008C01EC /* NSAttributedString+AttributedStrings.swift in Sources */,
+				68AF920022A90D45008C01EC /* Errors.swift in Sources */,
+				68AF93C722A93390008C01EC /* String+Localization.swift in Sources */,
+				68AF93DA22A93390008C01EC /* PasswordEntryView.swift in Sources */,
+				68AF91EC22A90D45008C01EC /* KeyStore.swift in Sources */,
+				68AF93C922A93390008C01EC /* QR.swift in Sources */,
+				68AF93C522A93390008C01EC /* Bundle+BackupRestore.swift in Sources */,
+				68AF93CE22A93390008C01EC /* BackupFlowController.swift in Sources */,
+				68AF93C622A93390008C01EC /* UIColor+Appearance.swift in Sources */,
+				68AF930422A92256008C01EC /* KeychainSwiftAccessOptions.swift in Sources */,
+				68AF93DB22A93390008C01EC /* PasswordEntryViewController.swift in Sources */,
+				68AF921922A90E38008C01EC /* SHA256.swift in Sources */,
+				68AF93E122A93390008C01EC /* ExplanationTemplateViewController.swift in Sources */,
+				68AF920722A90D45008C01EC /* KinAccount.swift in Sources */,
+				68AF920222A90D45008C01EC /* StellarEventSource.swift in Sources */,
+				68AF93CF22A93390008C01EC /* RestoreFlowController.swift in Sources */,
+				68AF91FE22A90D45008C01EC /* BCKeyUtils.swift in Sources */,
+				68AF920522A90D45008C01EC /* XDRCodable.swift in Sources */,
+				68AF91FA22A90D45008C01EC /* Stellar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8278352A1FA9B5F20006C3DF /* Sources */ = {
+		68AF916822A90C6A008C01EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				827835331FA9B5F20006C3DF /* ViewController.swift in Sources */,
-				827835311FA9B5F20006C3DF /* AppDelegate.swift in Sources */,
+				68AF921422A90DA4008C01EC /* AppIdTests.swift in Sources */,
+				68AF921122A90DA4008C01EC /* KinAccountTests.swift in Sources */,
+				68AF938622A9337A008C01EC /* PasswordTests.swift in Sources */,
+				68AF938722A9337A008C01EC /* KinBackupRestoreModuleTests.swift in Sources */,
+				68AF921522A90DA4008C01EC /* URLKinVersion.swift in Sources */,
+				68AF921322A90DA4008C01EC /* KeyStoreTests.swift in Sources */,
+				68AF938522A9337A008C01EC /* QRTests.swift in Sources */,
+				68AF921222A90DA4008C01EC /* KinClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8278353D1FA9B5F20006C3DF /* Sources */ = {
+		68AF930922A92DCF008C01EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				688D2C382173694E00CF5A2C /* AppIdTests.swift in Sources */,
-				827835461FA9B5F20006C3DF /* KinClientTests.swift in Sources */,
-				68DC6BA12292846000D3B303 /* URLKinVersion.swift in Sources */,
-				8268D8F420144339005CF79E /* KeyStoreTests.swift in Sources */,
-				824539431FAB0102009117B4 /* KinAccountTests.swift in Sources */,
+				68AF931222A92DCF008C01EC /* ViewController.swift in Sources */,
+				68AF931022A92DCF008C01EC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		827835431FA9B5F20006C3DF /* PBXTargetDependency */ = {
+		68AF916F22A90C6A008C01EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8278352D1FA9B5F20006C3DF /* KinTestHost */;
-			targetProxy = 827835421FA9B5F20006C3DF /* PBXContainerItemProxy */;
+			target = 68AF916222A90C6A008C01EC /* KinSDK */;
+			targetProxy = 68AF916E22A90C6A008C01EC /* PBXContainerItemProxy */;
 		};
-		827835501FA9B6290006C3DF /* PBXTargetDependency */ = {
+		68AF932022A92DF2008C01EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 82140EA81FA88E5B00FAF19B /* KinSDK */;
-			targetProxy = 8278354F1FA9B6290006C3DF /* PBXContainerItemProxy */;
+			target = 68AF930C22A92DCF008C01EC /* KinSDKTestsHost */;
+			targetProxy = 68AF931F22A92DF2008C01EC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		827835341FA9B5F20006C3DF /* Main.storyboard */ = {
+		68AF931322A92DCF008C01EC /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				827835351FA9B5F20006C3DF /* Base */,
+				68AF931422A92DCF008C01EC /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		827835391FA9B5F20006C3DF /* LaunchScreen.storyboard */ = {
+		68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				8278353A1FA9B5F20006C3DF /* Base */,
+				68AF931922A92DD1008C01EC /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -795,17 +958,17 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		82140EBB1FA88E5B00FAF19B /* Debug */ = {
+		68AF917522A90C6A008C01EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -831,7 +994,6 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -848,31 +1010,29 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LIBRARY_SEARCH_PATHS = "\"$(PROJECT_DIR)/KinSDK/source/third-party/swift-sodium/Sodium/libsodium\"";
-				MTL_ENABLE_DEBUG_INFO = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KinSDK/source/third-party/swift-sodium/Sodium/libsodium";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		82140EBC1FA88E5B00FAF19B /* Release */ = {
+		68AF917622A90C6A008C01EC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -898,7 +1058,6 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -909,206 +1068,190 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LIBRARY_SEARCH_PATHS = "\"$(PROJECT_DIR)/KinSDK/source/third-party/swift-sodium/Sodium/libsodium\"";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KinSDK/source/third-party/swift-sodium/Sodium/libsodium";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		82140EBE1FA88E5B00FAF19B /* Debug */ = {
+		68AF917822A90C6A008C01EC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A96C9F30393E1C16E51E55CA /* Pods-Dependencies-KinSDK.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Z37J743B3H;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				INFOPLIST_FILE = KinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = mh_dylib;
-				"OTHER_LDFLAGS[arch=i386]" = (
-					"-read_only_relocs",
-					suppress,
+				IPHONEOS_DEPLOYMENT_TARGET = 9;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinSDK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kinfoundation.KinSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		82140EBF1FA88E5B00FAF19B /* Release */ = {
+		68AF917922A90C6A008C01EC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 59AD7C95E08AA63F211A342B /* Pods-Dependencies-KinSDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Z37J743B3H;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				INFOPLIST_FILE = KinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = mh_dylib;
-				"OTHER_LDFLAGS[arch=i386]" = (
-					"-read_only_relocs",
-					suppress,
+				IPHONEOS_DEPLOYMENT_TARGET = 9;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinSDK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kinfoundation.KinSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		827835491FA9B5F20006C3DF /* Debug */ = {
+		68AF917B22A90C6A008C01EC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B86F8D60A8E31937AB1522AE /* Pods-Dependencies-KinSDKTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z37J743B3H;
-				FRAMEWORK_SEARCH_PATHS = (
+				INFOPLIST_FILE = KinSDKTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				INFOPLIST_FILE = KinTestHost/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinTestHost;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kinfoundation.KinSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KinSDKTestsHost.app/KinSDKTestsHost";
 			};
 			name = Debug;
 		};
-		8278354A1FA9B5F20006C3DF /* Release */ = {
+		68AF917C22A90C6A008C01EC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8DA96CCCF65BBBDED5FE31E5 /* Pods-Dependencies-KinSDKTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z37J743B3H;
-				FRAMEWORK_SEARCH_PATHS = (
+				INFOPLIST_FILE = KinSDKTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				INFOPLIST_FILE = KinTestHost/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinTestHost;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kinfoundation.KinSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KinSDKTestsHost.app/KinSDKTestsHost";
 			};
 			name = Release;
 		};
-		8278354C1FA9B5F20006C3DF /* Debug */ = {
+		68AF931C22A92DD1008C01EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z37J743B3H;
-				FRAMEWORK_SEARCH_PATHS = (
+				INFOPLIST_FILE = KinSDKTestsHost/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"@executable_path/Frameworks",
 				);
-				INFOPLIST_FILE = KinSDKTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinTestHostTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kinfoundation.KinSDKTestsHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KinTestHost.app/KinTestHost";
 			};
 			name = Debug;
 		};
-		8278354D1FA9B5F20006C3DF /* Release */ = {
+		68AF931D22A92DD1008C01EC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z37J743B3H;
-				FRAMEWORK_SEARCH_PATHS = (
+				INFOPLIST_FILE = KinSDKTestsHost/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"@executable_path/Frameworks",
 				);
-				INFOPLIST_FILE = KinSDKTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kik.KinTestHostTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kinfoundation.KinSDKTestsHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KinTestHost.app/KinTestHost";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		82140EA31FA88E5B00FAF19B /* Build configuration list for PBXProject "KinSDK" */ = {
+		68AF915D22A90C6A008C01EC /* Build configuration list for PBXProject "KinSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				82140EBB1FA88E5B00FAF19B /* Debug */,
-				82140EBC1FA88E5B00FAF19B /* Release */,
+				68AF917522A90C6A008C01EC /* Debug */,
+				68AF917622A90C6A008C01EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82140EBD1FA88E5B00FAF19B /* Build configuration list for PBXNativeTarget "KinSDK" */ = {
+		68AF917722A90C6A008C01EC /* Build configuration list for PBXNativeTarget "KinSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				82140EBE1FA88E5B00FAF19B /* Debug */,
-				82140EBF1FA88E5B00FAF19B /* Release */,
+				68AF917822A90C6A008C01EC /* Debug */,
+				68AF917922A90C6A008C01EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		827835481FA9B5F20006C3DF /* Build configuration list for PBXNativeTarget "KinTestHost" */ = {
+		68AF917A22A90C6A008C01EC /* Build configuration list for PBXNativeTarget "KinSDKTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				827835491FA9B5F20006C3DF /* Debug */,
-				8278354A1FA9B5F20006C3DF /* Release */,
+				68AF917B22A90C6A008C01EC /* Debug */,
+				68AF917C22A90C6A008C01EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8278354B1FA9B5F20006C3DF /* Build configuration list for PBXNativeTarget "KinSDKTests" */ = {
+		68AF931E22A92DD1008C01EC /* Build configuration list for PBXNativeTarget "KinSDKTestsHost" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8278354C1FA9B5F20006C3DF /* Debug */,
-				8278354D1FA9B5F20006C3DF /* Release */,
+				68AF931C22A92DD1008C01EC /* Debug */,
+				68AF931D22A92DD1008C01EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 82140EA01FA88E5B00FAF19B /* Project object */;
+	rootObject = 68AF915A22A90C6A008C01EC /* Project object */;
 }
