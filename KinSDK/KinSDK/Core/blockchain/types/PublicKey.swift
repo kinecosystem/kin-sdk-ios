@@ -21,12 +21,11 @@ struct PublicKeyType {
 enum PublicKey: XDRCodable, Equatable {
     case PUBLIC_KEY_TYPE_ED25519 (WrappedData32)
 
-    var publicKey: String? {
-        if case .PUBLIC_KEY_TYPE_ED25519(let wrapper) = self {
+    var publicKey: String {
+        switch self {
+        case .PUBLIC_KEY_TYPE_ED25519(let wrapper):
             return BCKeyUtils.base32(publicKey: Array(wrapper.wrapped))
         }
-
-        return nil
     }
 
     init(from decoder: XDRDecoder) throws {

@@ -65,14 +65,14 @@ extension TxEvent {
         return envelope.tx.operations.compactMap({ op in
             if case let Operation.Body.PAYMENT(pOP) = op.body {
                 return Payment(source: op.sourceAccount?.publicKey ?? source_account,
-                               destination: pOP.destination.publicKey!,
+                               destination: pOP.destination.publicKey,
                                amount: Decimal(pOP.amount),
                                asset: pOP.asset)
             }
 
             if case let Operation.Body.CREATE_ACCOUNT(cOP) = op.body {
                 return Payment(source: op.sourceAccount?.publicKey ?? source_account,
-                               destination: cOP.destination.publicKey!,
+                               destination: cOP.destination.publicKey,
                                amount: Decimal(cOP.balance),
                                asset: .native)
             }
