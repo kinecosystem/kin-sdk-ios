@@ -270,7 +270,7 @@ public final class KinAccount {
 
      - Parameter completion: A closure to be invoked once the request completes.
      */
-    public func aggergatedBalance(completion: @escaping BalanceCompletion) {
+    public func aggregatedBalance(completion: @escaping BalanceCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
@@ -281,7 +281,7 @@ public final class KinAccount {
                 completion(balance, nil)
             }
             .error { error in
-                completion(nil, KinError.aggergatedBalanceQueryFailed(error))
+                completion(nil, KinError.aggregatedBalanceQueryFailed(error))
         }
     }
 

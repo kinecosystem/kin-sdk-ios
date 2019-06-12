@@ -135,7 +135,7 @@ class KinAccountTests: XCTestCase {
     func test_aggregated_balance() {
         let expectation = XCTestExpectation()
 
-        account0.aggergatedBalance { (kin, error) in
+        account0.aggregatedBalance { (kin, error) in
             self.fail(on: error)
 
             XCTAssertNotNil(kin, "The aggregated balance should not be nil")
