@@ -13,10 +13,7 @@ abstract_target 'Dependencies' do
 
   target 'KinSDK' do
     project 'KinSDK/KinSDK.xcodeproj'
-  end
-
-  target 'KinSDKTests' do
-    project 'KinSDK/KinSDK.xcodeproj'
+    target 'KinSDKTests'
   end
   
   target 'KinSDKSampleApp' do
