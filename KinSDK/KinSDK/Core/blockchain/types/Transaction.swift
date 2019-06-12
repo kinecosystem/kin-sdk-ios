@@ -150,7 +150,7 @@ public struct Transaction: XDRCodable {
      */
     public static let MaxMemoLength = 28
     let sourceAccount: PublicKey
-    let fee: Stroop
+    let fee: Quark
     let seqNum: UInt64
     let timeBounds: TimeBounds?
     let memo: Memo
@@ -174,14 +174,14 @@ public struct Transaction: XDRCodable {
      - Parameter seqNum: Each transaction has a sequence number.
      - Parameter timeBounds: optional UNIX timestamp (in seconds) of a lower and upper bound of when this transaction will be valid. If a transaction is submitted too early or too late, it will fail to make it into the transaction set. maxTime equal 0 means that it’s not set.
      - Parameter memo: optional extra information such as an order number.
-     - Parameter fee: Each transaction sets a fee in `Stroop` that is paid by the source account.
+     - Parameter fee: Each transaction sets a fee in `Quark` that is paid by the source account.
      - Parameter operations: Transactions contain an arbitrary list of operations inside them. Typically there is just 1 operation.
-    */
+     */
     public init(sourceAccount: String,
                 seqNum: UInt64,
                 timeBounds: TimeBounds?,
                 memo: Memo,
-                fee: Stroop? = nil,
+                fee: Quark? = nil,
                 operations: [Operation]) {
         self.init(sourceAccount: .PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourceAccount))),
                   seqNum: seqNum,
@@ -195,7 +195,7 @@ public struct Transaction: XDRCodable {
          seqNum: UInt64,
          timeBounds: TimeBounds?,
          memo: Memo,
-         fee: Stroop? = nil,
+         fee: Quark? = nil,
          operations: [Operation]) {
         self.sourceAccount = sourceAccount
         self.seqNum = seqNum
@@ -224,12 +224,12 @@ public struct Transaction: XDRCodable {
     }
 
     /**
-    Encodes this `Transaction` to the given XDREncoder.
+     Encodes this `Transaction` to the given XDREncoder.
 
-    - Parameter to: the `XDREncoder` to encode to.
+     - Parameter to: the `XDREncoder` to encode to.
 
      - Throws:
-    */
+     */
     public func encode(to encoder: XDREncoder) throws {
         try encoder.encode(sourceAccount)
         try encoder.encode(fee)
@@ -253,7 +253,7 @@ public struct Transaction: XDRCodable {
         guard let data = networkId.data(using: .utf8)?.sha256 else {
             throw StellarError.dataEncodingFailed
         }
-        
+
         let payload = TransactionSignaturePayload(networkId: WD32(data),
                                                   taggedTransaction: .ENVELOPE_TYPE_TX(self))
         return try XDREncoder.encode(payload).sha256
@@ -289,11 +289,11 @@ struct TransactionSignaturePayload: XDREncodableStruct {
     }
 }
 
-struct DecoratedSignature: XDRCodable, XDREncodableStruct {
+public struct DecoratedSignature: XDRCodable, XDREncodableStruct {
     let hint: WrappedData4;
     let signature: [UInt8]
 
-    init(from decoder: XDRDecoder) throws {
+    public init(from decoder: XDRDecoder) throws {
         hint = try decoder.decode(WrappedData4.self)
         signature = try decoder.decodeArray(UInt8.self)
     }
@@ -309,7 +309,7 @@ struct DecoratedSignature: XDRCodable, XDREncodableStruct {
  */
 public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
     public let tx: Transaction
-    let signatures: [DecoratedSignature]
+    public var signatures: [DecoratedSignature]
 
     /**
      Initializes a `TransactionEnvelope` from a `XDRDecoder`.
@@ -323,8 +323,29 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
         signatures = try decoder.decodeArray(DecoratedSignature.self)
     }
 
-    init(tx: Transaction, signatures: [DecoratedSignature]) {
+    init(tx: Transaction, signatures: [DecoratedSignature] = []) {
         self.tx = tx
         self.signatures = signatures
+    }
+
+    public mutating func addSignature(account: Account, networkId: Network.Id) throws {
+        let m = try tx.hash(networkId: networkId)
+
+        try signatures.append({
+            guard let sign = account.sign else {
+                throw StellarError.missingSignClosure
+            }
+
+            guard let publicKey = account.publicKey else {
+                throw StellarError.missingPublicKey
+            }
+
+            let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+            return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
+            }())
+    }
+
+    public mutating func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
+        try addSignature(account: kinAccount.stellarAccount, networkId: networkId)
     }
 }

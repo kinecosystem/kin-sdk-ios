@@ -70,7 +70,7 @@ public struct PathPaymentOp: XDRCodable, XDREncodableStruct {
     }
 }
 
-public struct SetOptionsOp: XDRCodable {
+public struct SetOptionsOp: XDRCodable, XDREncodableStruct {
     let inflationDest: PublicKey?
     let clearFlags: UInt32?
     let setFlags: UInt32?
@@ -91,30 +91,6 @@ public struct SetOptionsOp: XDRCodable {
         highThreshold = try decoder.decodeArray(UInt32.self).first
         homeDomain = try decoder.decodeArray(String.self).first
         signer = try decoder.decodeArray(Signer.self).first
-    }
-
-    public init(signer: Signer) {
-        inflationDest = nil
-        clearFlags = nil
-        setFlags = nil
-        masterWeight = nil
-        lowThreshold = nil
-        medThreshold = nil
-        highThreshold = nil
-        homeDomain = nil
-        self.signer = signer
-    }
-
-    public func encode(to encoder: XDREncoder) throws {
-        try encoder.encodeOptional(inflationDest)
-        try encoder.encodeOptional(clearFlags)
-        try encoder.encodeOptional(setFlags)
-        try encoder.encodeOptional(masterWeight)
-        try encoder.encodeOptional(lowThreshold)
-        try encoder.encodeOptional(medThreshold)
-        try encoder.encodeOptional(highThreshold)
-        try encoder.encodeOptional(homeDomain)
-        try encoder.encodeOptional(signer)
     }
 }
 
@@ -178,7 +154,7 @@ public struct ManageDataOp: XDRCodable {
     }
 }
 
-public struct Signer: XDRCodable, XDREncodableStruct {
+public struct Signer: XDRDecodable {
     let key: SignerKey
     let weight: UInt32
 

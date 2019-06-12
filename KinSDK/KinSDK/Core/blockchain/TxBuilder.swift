@@ -9,13 +9,19 @@
 import Foundation
 import KinUtil
 
-public final class TxBuilder {
+@available(*, deprecated, renamed: "TransactionBuilder")
+public class TxBuilder: TransactionBuilder {
+
+}
+
+// TODO: uncomment final after removing TxBuilder
+public /*final*/ class TransactionBuilder {
     private var source: Account
     private var memo: Memo?
-    private var fee: Stroop?
+    private var fee: Quark?
+    private var timeBounds: TimeBounds?
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
-    private var opSigners = [Account]()
 
     private var node: Stellar.Node
 
@@ -24,43 +30,48 @@ public final class TxBuilder {
         self.node = node
     }
 
-    public func set(memo: Memo) -> TxBuilder {
+    public func set(memo: Memo) -> TransactionBuilder {
         self.memo = memo
 
         return self
     }
 
-    public func set(fee: Stroop) -> TxBuilder {
+    public func set(fee: Quark) -> TransactionBuilder {
         self.fee = fee
 
         return self
     }
 
-    public func set(sequence: UInt64) -> TxBuilder {
+    public func set(timeBounds: TimeBounds) -> TransactionBuilder {
+        self.timeBounds = timeBounds
+
+        return self
+    }
+
+    public func set(sequence: UInt64) -> TransactionBuilder {
         self.sequence = sequence
 
         return self
     }
 
-    public func add(operation: Operation) -> TxBuilder {
+    public func add(operation: Operation) -> TransactionBuilder {
         operations.append(operation)
 
         return self
     }
 
-    public func add(operations: [Operation]) -> TxBuilder {
+    public func add(operations: [Operation]) -> TransactionBuilder {
         self.operations += operations
 
         return self
     }
 
-    public func add(signer: Account) -> TxBuilder {
-        opSigners.append(signer)
-
-        return self
+    @available(*, deprecated, renamed: "build")
+    public func tx() -> Promise<Transaction> {
+        return build()
     }
 
-    public func tx() -> Promise<Transaction> {
+    public func build() -> Promise<Transaction> {
         let p = Promise<Transaction>()
 
         guard let sourceKey = source.publicKey else {
@@ -74,7 +85,7 @@ public final class TxBuilder {
         if sequence > 0 {
             p.signal(Transaction(sourceAccount: pk,
                                  seqNum: sequence,
-                                 timeBounds: nil,
+                                 timeBounds: timeBounds,
                                  memo: memo ?? .MEMO_NONE,
                                  fee: fee,
                                  operations: operations))
@@ -84,7 +95,7 @@ public final class TxBuilder {
                 .then {
                     let tx = Transaction(sourceAccount: pk,
                                          seqNum: $0,
-                                         timeBounds: nil,
+                                         timeBounds: self.timeBounds,
                                          memo: self.memo ?? .MEMO_NONE,
                                          operations: self.operations)
 
@@ -101,10 +112,12 @@ public final class TxBuilder {
     public func envelope(networkId: Network.Id) -> Promise<TransactionEnvelope> {
         let p = Promise<TransactionEnvelope>()
 
-        tx()
-            .then { tx in
+        build()
+            .then { transaction in
                 do {
-                    p.signal(try self.sign(tx: tx, networkId: networkId))
+                    var transactionEnvelope = TransactionEnvelope(tx: transaction)
+                    try transactionEnvelope.addSignature(account: self.source, networkId: networkId)
+                    p.signal(transactionEnvelope)
                 }
                 catch {
                     p.signal(error)
@@ -115,31 +128,5 @@ public final class TxBuilder {
         }
 
         return p
-    }
-    
-    private func sign(tx: Transaction, networkId: Network.Id) throws -> TransactionEnvelope {
-        var sigs = [DecoratedSignature]()
-
-        let m = try tx.hash(networkId: networkId)
-
-        var signatories = opSigners
-        signatories.append(source)
-
-        try signatories.forEach({ signer in
-            try sigs.append({
-                guard let sign = signer.sign else {
-                    throw StellarError.missingSignClosure
-                }
-
-                guard let publicKey = signer.publicKey else {
-                    throw StellarError.missingPublicKey
-                }
-
-                let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
-                return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
-            }())
-        })
-
-        return TransactionEnvelope(tx: tx, signatures: sigs)
     }
 }
