@@ -42,7 +42,8 @@ public enum Stellar {
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func transaction(source: Account,
+    public static func transaction(signer: Account,
+                                   from: Account? = nil,
                                    destination: String,
                                    amount: Int64,
                                    memo: Memo = .MEMO_NONE,
@@ -53,9 +54,9 @@ public enum Stellar {
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
                                            asset: .native,
-                                           source: source)
+                                           source: from ?? signer)
 
-                return TransactionBuilder(source: source, node: node)
+                return TransactionBuilder(source: signer, node: node)
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)

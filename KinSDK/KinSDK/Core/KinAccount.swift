@@ -121,7 +121,7 @@ public final class KinAccount {
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
      - Parameter completion: A completion with the `TransactionEnvelope` or an `Error`.
      */
-    public func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
+    public func buildTransaction(from fromAddress: String? = nil, to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
@@ -145,8 +145,14 @@ public final class KinAccount {
             return try self.stellarAccount.sign(message: message, passphrase: "")
         }
 
+        struct AuthorizedAccount: Account {
+            let publicKey: String?
+            let sign: (([UInt8]) throws -> [UInt8])? = nil
+        }
+
         do {
-            Stellar.transaction(source: stellarAccount,
+            Stellar.transaction(signer: stellarAccount,
+                                from: fromAddress != nil ? AuthorizedAccount(publicKey: fromAddress) : nil,
                                 destination: recipient,
                                 amount: kinInt,
                                 memo: try Memo(prefixedMemo),
@@ -177,9 +183,9 @@ public final class KinAccount {
 
      - Returns: A promise which is signalled with the `TransactionEnvelope` or an `Error`.
      */
-    public func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<TransactionEnvelope> {
+    public func buildTransaction(from fromAddress: String? = nil, to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<TransactionEnvelope> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
-            self.buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
+            self.buildTransaction(from: fromAddress, to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
         }
 
         return promise(txClosure)
