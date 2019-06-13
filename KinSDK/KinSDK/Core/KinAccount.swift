@@ -268,15 +268,16 @@ public final class KinAccount {
 
      The aggregated balance is the combined balance of all linked accounts.
 
+     - Parameter publicAddress: An optional address to check the aggregated balance.
      - Parameter completion: A closure to be invoked once the request completes.
      */
-    public func aggregatedBalance(completion: @escaping BalanceCompletion) {
+    public func aggregatedBalance(for publicAddress: String? = nil, completion: @escaping BalanceCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
         }
 
-        Stellar.aggregatedBalance(account: stellarAccount.publicKey!, node: node)
+        Stellar.aggregatedBalance(account: publicAddress ?? stellarAccount.publicKey!, node: node)
             .then { balance -> Void in
                 completion(balance, nil)
             }
