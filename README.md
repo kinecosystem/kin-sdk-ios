@@ -2,6 +2,12 @@
 
 #  KinSDK
 
+<!-- [![CI Status](https://img.shields.io/travis/natanrolnik/Kin-OneWallet-Module.svg?style=flat)](https://travis-ci.org/natanrolnik/Kin-OneWallet-Module) -->
+[![Version](https://img.shields.io/cocoapods/v/KinSDK.svg?color=6f41e8)](https://cocoapods.org/pods/KinSDK)
+<!-- [![License](https://img.shields.io/cocoapods/l/Kin-OneWallet-Module.svg?style=flat)](https://cocoapods.org/pods/Kin-OneWallet-Module) -->
+<!-- [![Platform](https://img.shields.io/cocoapods/p/Kin-OneWallet-Module.svg?style=flat)](https://cocoapods.org/pods/Kin-OneWallet-Module) -->
+
+
 A library for using Kin.
 
 ## Installation
