@@ -83,23 +83,25 @@ public /*final*/ class TransactionBuilder {
         let pk = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourceKey)))
 
         if sequence > 0 {
-            p.signal(Transaction(sourceAccount: pk,
-                                 seqNum: sequence,
-                                 timeBounds: timeBounds,
-                                 memo: memo ?? .MEMO_NONE,
-                                 fee: fee,
-                                 operations: operations))
+            let transaction = Transaction(sourceAccount: pk,
+                                          seqNum: sequence,
+                                          timeBounds: timeBounds,
+                                          memo: memo ?? .MEMO_NONE,
+                                          fee: fee,
+                                          operations: operations)
+
+            p.signal(transaction)
         }
         else {
             Stellar.sequence(account: sourceKey, seqNum: sequence, node: node)
-                .then {
-                    let tx = Transaction(sourceAccount: pk,
-                                         seqNum: $0,
-                                         timeBounds: self.timeBounds,
-                                         memo: self.memo ?? .MEMO_NONE,
-                                         operations: self.operations)
+                .then { sequenceNumber in
+                    let transaction = Transaction(sourceAccount: pk,
+                                                  seqNum: sequenceNumber,
+                                                  timeBounds: self.timeBounds,
+                                                  memo: self.memo ?? .MEMO_NONE,
+                                                  operations: self.operations)
 
-                    p.signal(tx)
+                    p.signal(transaction)
                 }
                 .error { _ in
                     p.signal(StellarError.missingSequence)
@@ -115,7 +117,7 @@ public /*final*/ class TransactionBuilder {
         build()
             .then { transaction in
                 do {
-                    var transactionEnvelope = TransactionEnvelope(tx: transaction)
+                    var transactionEnvelope = TransactionEnvelope(transaction: transaction)
                     try transactionEnvelope.addSignature(account: self.source, networkId: networkId)
                     p.signal(transactionEnvelope)
                 }

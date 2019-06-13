@@ -401,8 +401,8 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
         signatures = try decoder.decodeArray(DecoratedSignature.self)
     }
 
-    init(tx: Transaction, signatures: [DecoratedSignature] = []) {
-        self.tx = tx
+    init(transaction: Transaction, signatures: [DecoratedSignature] = []) {
+        self.tx = transaction
         self.signatures = signatures
     }
 

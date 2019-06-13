@@ -34,7 +34,7 @@ func sign(transaction tx: Transaction,
 
     let signature = try sign(message)
 
-    return TransactionEnvelope(tx: tx,
+    return TransactionEnvelope(transaction: tx,
                                signatures: [DecoratedSignature(hint: WrappedData4(hint),
                                                                signature: signature)])
 }
