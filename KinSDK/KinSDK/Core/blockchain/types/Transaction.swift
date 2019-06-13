@@ -424,6 +424,12 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
     }
 
     public mutating func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
+        kinAccount.stellarAccount.sign = { message in
+            return try kinAccount.stellarAccount.sign(message: message, passphrase: "")
+        }
+
         try addSignature(account: kinAccount.stellarAccount, networkId: networkId)
+
+        kinAccount.stellarAccount.sign = nil
     }
 }
