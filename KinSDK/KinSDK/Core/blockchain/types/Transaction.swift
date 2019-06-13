@@ -139,6 +139,50 @@ public struct TimeBounds: XDRCodable, XDREncodableStruct {
     let maxTime: UInt64
 }
 
+struct EnvelopeType {
+    static let ENVELOPE_TYPE_SCP: Int32 = 1
+    static let ENVELOPE_TYPE_TX: Int32 = 2
+    static let ENVELOPE_TYPE_AUTH: Int32 = 3
+}
+
+struct TransactionSignaturePayload: XDREncodableStruct {
+    let networkId: WrappedData32
+    let taggedTransaction: TaggedTransaction
+
+    enum TaggedTransaction: XDREncodable {
+        case ENVELOPE_TYPE_TX (Transaction)
+
+        private func discriminant() -> Int32 {
+            switch self {
+            case .ENVELOPE_TYPE_TX: return EnvelopeType.ENVELOPE_TYPE_TX
+            }
+        }
+
+        func encode(to encoder: XDREncoder) throws {
+            try encoder.encode(discriminant())
+
+            switch self {
+            case .ENVELOPE_TYPE_TX (let tx): try encoder.encode(tx)
+            }
+        }
+    }
+}
+
+public struct DecoratedSignature: XDRCodable, XDREncodableStruct {
+    let hint: WrappedData4;
+    let signature: [UInt8]
+
+    public init(from decoder: XDRDecoder) throws {
+        hint = try decoder.decode(WrappedData4.self)
+        signature = try decoder.decodeArray(UInt8.self)
+    }
+
+    init(hint: WrappedData4, signature: [UInt8]) {
+        self.hint = hint
+        self.signature = signature
+    }
+}
+
 /**
  A `Transaction` represents a transaction that modifies the ledger in the blockchain network.
  A Kin `Transaction` is used to send payments.
@@ -176,7 +220,7 @@ public struct Transaction: XDRCodable {
      - Parameter memo: optional extra information such as an order number.
      - Parameter fee: Each transaction sets a fee in `Quark` that is paid by the source account.
      - Parameter operations: Transactions contain an arbitrary list of operations inside them. Typically there is just 1 operation.
-    */
+     */
     public init(sourceAccount: String,
                 seqNum: UInt64,
                 timeBounds: TimeBounds?,
@@ -224,12 +268,12 @@ public struct Transaction: XDRCodable {
     }
 
     /**
-    Encodes this `Transaction` to the given XDREncoder.
+     Encodes this `Transaction` to the given XDREncoder.
 
-    - Parameter to: the `XDREncoder` to encode to.
+     - Parameter to: the `XDREncoder` to encode to.
 
      - Throws:
-    */
+     */
     public func encode(to encoder: XDREncoder) throws {
         try encoder.encode(sourceAccount)
         try encoder.encode(fee)
@@ -253,59 +297,93 @@ public struct Transaction: XDRCodable {
         guard let data = networkId.data(using: .utf8)?.sha256 else {
             throw StellarError.dataEncodingFailed
         }
-        
+
         let payload = TransactionSignaturePayload(networkId: WD32(data),
                                                   taggedTransaction: .ENVELOPE_TYPE_TX(self))
         return try XDREncoder.encode(payload).sha256
     }
 }
 
-struct EnvelopeType {
-    static let ENVELOPE_TYPE_SCP: Int32 = 1
-    static let ENVELOPE_TYPE_TX: Int32 = 2
-    static let ENVELOPE_TYPE_AUTH: Int32 = 3
+protocol BaseTransaction {
+    var transaction: Transaction { get set }
 }
 
-struct TransactionSignaturePayload: XDREncodableStruct {
-    let networkId: WrappedData32
-    let taggedTransaction: TaggedTransaction
+extension BaseTransaction {
+    public var fee: Quark {
+        return transaction.fee
+    }
 
-    enum TaggedTransaction: XDREncodable {
-        case ENVELOPE_TYPE_TX (Transaction)
+    public func hash(networkId: Network.Id) throws -> Data {
+        return try transaction.hash(networkId: networkId)
+    }
 
-        private func discriminant() -> Int32 {
-            switch self {
-            case .ENVELOPE_TYPE_TX: return EnvelopeType.ENVELOPE_TYPE_TX
-            }
-        }
+    public var sequenceNumber: UInt64 {
+        return transaction.seqNum
+    }
 
-        func encode(to encoder: XDREncoder) throws {
-            try encoder.encode(discriminant())
+    public var sourcePublicAddress: String {
+        return transaction.sourceAccount.publicKey
+    }
 
-            switch self {
-            case .ENVELOPE_TYPE_TX (let tx): try encoder.encode(tx)
-            }
-        }
+    public var timeBounds: TimeBounds? {
+        return transaction.timeBounds
     }
 }
 
-public struct DecoratedSignature: XDRCodable, XDREncodableStruct {
-    let hint: WrappedData4;
-    let signature: [UInt8]
+public class RawTransaction: BaseTransaction {
+    var transaction: Transaction
 
-    public init(from decoder: XDRDecoder) throws {
-        hint = try decoder.decode(WrappedData4.self)
-        signature = try decoder.decodeArray(UInt8.self)
+    public init(transaction: Transaction) {
+        self.transaction = transaction
     }
 
-    init(hint: WrappedData4, signature: [UInt8]) {
-        self.hint = hint
-        self.signature = signature
+    public var operations: [Operation] {
+        return transaction.operations
+    }
+
+    public var memo: Memo {
+        return transaction.memo
+    }
+}
+
+public class PaymentTransaction: BaseTransaction {
+    var transaction: Transaction
+    let operation: PaymentOp
+
+    private static func findPaymentOperation(operations: [Operation]) -> PaymentOp? {
+        for operation in operations {
+            if case let Operation.Body.PAYMENT(paymentOperation) = operation.body {
+                return paymentOperation
+            }
+        }
+
+        return nil
+    }
+
+    public init(transaction: Transaction) throws {
+        guard let operation = PaymentTransaction.findPaymentOperation(operations: transaction.operations) else {
+            throw StellarError.decodeTransactionFailed
+        }
+
+        self.operation = operation
+        self.transaction = transaction
+    }
+
+    public var amount: Int64 {
+        return operation.amount
+    }
+
+    public var destinationPublicAddress: String {
+        return operation.destination.publicKey
+    }
+
+    public var memo: String? {
+        return transaction.memo.text
     }
 }
 
 /**
- `TransactionEnvelope` wraps a `Transaction` and its signature.
+ `TransactionEnvelope` wraps a `Transaction` and its signatures.
  */
 public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
     public let tx: Transaction
@@ -323,8 +401,8 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
         signatures = try decoder.decodeArray(DecoratedSignature.self)
     }
 
-    init(tx: Transaction, signatures: [DecoratedSignature] = []) {
-        self.tx = tx
+    init(transaction: Transaction, signatures: [DecoratedSignature] = []) {
+        self.tx = transaction
         self.signatures = signatures
     }
 
@@ -346,6 +424,12 @@ public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
     }
 
     public mutating func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
+        kinAccount.stellarAccount.sign = { message in
+            return try kinAccount.stellarAccount.sign(message: message, passphrase: "")
+        }
+
         try addSignature(account: kinAccount.stellarAccount, networkId: networkId)
+
+        kinAccount.stellarAccount.sign = nil
     }
 }

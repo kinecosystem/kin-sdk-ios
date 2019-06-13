@@ -132,12 +132,26 @@ class KinAccountTests: XCTestCase {
         }
     }
 
+    func test_aggregated_balance() {
+        let expectation = XCTestExpectation()
+
+        account0.aggregatedBalance { (kin, error) in
+            self.fail(on: error)
+
+            XCTAssertNotNil(kin, "The aggregated balance should not be nil")
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: requestTimeout)
+    }
+
     // MARK: - Build Transaction
 
     func test_build_transaction_of_zero_kin() {
         let expectation = XCTestExpectation()
 
-        account0.generateTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
+        account0.buildTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
             if let _ = envelope {
                 XCTAssertTrue(false, "Envelope should be nil")
             }
@@ -274,6 +288,22 @@ class KinAccountTests: XCTestCase {
         }
     }
 
+    // MARK: - Account
+
+    func test_controlled_accounts() {
+        let expectation = XCTestExpectation()
+
+        account0.controlledAccounts { (controlledAccounts, error) in
+            self.fail(on: error)
+
+            XCTAssertNotNil(controlledAccounts, "The controlled accounts should not be nil")
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: requestTimeout)
+    }
+
     // MARK: - Deleting Account
 
     func test_balance_after_delete() {
@@ -307,7 +337,7 @@ class KinAccountTests: XCTestCase {
 
             try kinClient.deleteAccount(at: 0)
 
-            account.generateTransaction(to: "", kin: 1, memo: nil, fee: 0) { (envelope, error) in
+            account.buildTransaction(to: "", kin: 1, memo: nil, fee: 0) { (envelope, error) in
                 guard let error = error else {
                     XCTAssertTrue(false, "Error should not be nil")
                     return
@@ -372,8 +402,8 @@ extension KinAccountTests {
         throw KinError.unknown
     }
 
-    func buildTransaction(kin: Kin, memo: String?, fee: Stroop, completion: @escaping (TransactionEnvelope) -> Void) {
-        account0.generateTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (envelope, error) in
+    func buildTransaction(kin: Kin, memo: String?, fee: Quark, completion: @escaping (TransactionEnvelope) -> Void) {
+        account0.buildTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (envelope, error) in
             DispatchQueue.main.async {
                 self.fail(on: error)
 

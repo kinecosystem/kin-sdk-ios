@@ -101,7 +101,7 @@ class SendTransactionViewController: UIViewController {
                 DispatchQueue.main.async { [weak self] in
                     let alertController = UIAlertController(title: "Error",
                                                             message: "\(error)",
-                                                            preferredStyle: .alert)
+                        preferredStyle: .alert)
                     alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                     self?.present(alertController, animated: true, completion: nil)
                 }

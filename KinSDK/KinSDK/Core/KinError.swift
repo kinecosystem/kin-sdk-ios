@@ -39,9 +39,9 @@ public enum KinError: Error {
     case balanceQueryFailed (Error)
 
     /**
-     Querying for the account aggergated balance failed.
+     Querying for the account aggregated balance failed.
      */
-    case aggergatedBalanceQueryFailed (Error)
+    case aggregatedBalanceQueryFailed (Error)
 
     /**
      Querying for the list of controlled accounts failed.
@@ -52,7 +52,7 @@ public enum KinError: Error {
      The app id must be 4 characters and only numbers and/or letters.
      */
     case invalidAppId
-    
+
     /**
      Amounts must be greater than zero when trying to transfer Kin. When sending 0 Kin, this error
      is thrown.
@@ -99,8 +99,8 @@ extension KinError: LocalizedError {
             return "Payment failed"
         case .balanceQueryFailed:
             return "Balance query failed"
-        case .aggergatedBalanceQueryFailed:
-            return "Aggergated balance query failed"
+        case .aggregatedBalanceQueryFailed:
+            return "Aggregated balance query failed"
         case .controlledAccountsQueryFailed:
             return "Controlled accounts query failed."
         case .invalidAppId:

@@ -40,7 +40,7 @@ public final class KinAccount {
             try? KeyStore.set(extra: newValue, for: stellarAccount)
         }
     }
-    
+
     init(stellarAccount: StellarAccount, node: Stellar.Node, appId: AppId) {
         self.stellarAccount = stellarAccount
         self.node = node
@@ -241,10 +241,10 @@ public final class KinAccount {
     public func balance(completion: @escaping BalanceCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
-            
+
             return
         }
-        
+
         Stellar.balance(account: stellarAccount.publicKey!, node: node)
             .then { balance -> Void in
                 completion(balance, nil)
@@ -268,20 +268,21 @@ public final class KinAccount {
 
      The aggregated balance is the combined balance of all linked accounts.
 
+     - Parameter publicAddress: An optional address to check the aggregated balance.
      - Parameter completion: A closure to be invoked once the request completes.
      */
-    public func aggergatedBalance(completion: @escaping BalanceCompletion) {
+    public func aggregatedBalance(for publicAddress: String? = nil, completion: @escaping BalanceCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
         }
 
-        Stellar.aggregatedBalance(account: stellarAccount.publicKey!, node: node)
+        Stellar.aggregatedBalance(account: publicAddress ?? stellarAccount.publicKey!, node: node)
             .then { balance -> Void in
                 completion(balance, nil)
             }
             .error { error in
-                completion(nil, KinError.aggergatedBalanceQueryFailed(error))
+                completion(nil, KinError.aggregatedBalanceQueryFailed(error))
         }
     }
 
@@ -356,7 +357,7 @@ public final class KinAccount {
             watch = nil
 
             linkBag = LinkBag()
-            
+
             p.signal(())
         }).add(to: linkBag)
 

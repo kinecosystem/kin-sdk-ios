@@ -22,6 +22,7 @@ public enum StellarError: Error {
     case dataDencodingFailed
     case signingFailed
     case destinationNotReadyForAsset (Error)
+    case decodeTransactionFailed
     case unknownError (Any?)
     case internalInconsistency
 }

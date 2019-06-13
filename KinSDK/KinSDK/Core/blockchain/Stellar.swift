@@ -11,7 +11,7 @@ import KinUtil
 
 public protocol Account {
     var publicKey: String? { get }
-    
+
     var sign: (([UInt8]) throws -> [UInt8])? { get }
 }
 
@@ -23,7 +23,7 @@ public enum Stellar {
     public struct Node {
         public let baseURL: URL
         public let network: Network
-        
+
         public init(baseURL: URL, network: Network = .testNet) {
             self.baseURL = baseURL
             self.network = network
@@ -54,7 +54,7 @@ public enum Stellar {
                                            amount: amount,
                                            asset: .native,
                                            source: source)
-                
+
                 return TransactionBuilder(source: source, node: node)
                     .set(memo: memo)
                     .set(fee: fee)
@@ -70,20 +70,20 @@ public enum Stellar {
                 }
             })
     }
-    
+
     /**
      Obtain the balance.
-     
+
      - parameter account: The `Account` whose balance will be retrieved.
      - parameter node: An object describing the network endpoint.
-     
+
      - Returns: A promise which will be signalled with the result of the operation.
      */
     public static func balance(account: String, node: Node) -> Promise<Kin> {
         return accountDetails(account: account, node: node)
             .then { accountDetails in
                 let p = Promise<Kin>()
-                
+
                 for balance in accountDetails.balances {
                     if balance.assetType == Asset.native.description {
                         return p.signal(balance.balanceNum)
@@ -91,7 +91,7 @@ public enum Stellar {
                 }
 
                 return p.signal(StellarError.missingBalance)
-            }
+        }
     }
 
     /**
@@ -154,15 +154,15 @@ public enum Stellar {
 
     /**
      Obtain details for the given account.
-     
+
      - parameter account: The `Account` whose details will be retrieved.
      - parameter node: An object describing the network endpoint.
-     
+
      - Returns: A promise which will be signalled with the result of the operation.
      */
     public static func accountDetails(account: String, node: Node) -> Promise<AccountDetails> {
         let url = Endpoint(node.baseURL).account(account).url
-        
+
         return issue(request: URLRequest(url: url))
             .then { data in
                 if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
@@ -173,30 +173,30 @@ public enum Stellar {
                         throw StellarError.unknownError(horizonError)
                     }
                 }
-                
+
                 return try Promise<AccountDetails>(JSONDecoder().decode(AccountDetails.self, from: data))
         }
     }
-    
+
     /**
      Observe transactions on the given node.  When `account` is non-`nil`, observations are
      limited to transactions involving the given account.
-     
+
      - parameter account: The `Account` whose transactions will be observed.  Optional.
      - parameter lastEventId: If non-`nil`, only transactions with a later event Id will be observed.
      The string _now_ will only observe transactions completed after observation begins.
      - parameter node: An object describing the network endpoint.
-     
+
      - Returns: An instance of `TxWatch`, which contains an `Observable` which emits `TxInfo` objects.
      */
     public static func txWatch(account: String? = nil,
                                lastEventId: String?,
                                node: Node) -> EventWatcher<TxEvent> {
         let url = Endpoint(node.baseURL).account(account).transactions().cursor(lastEventId).url
-        
+
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
-    
+
     /**
      Observe payments on the given node.  When `account` is non-`nil`, observations are
      limited to payments involving the given account.
@@ -215,14 +215,14 @@ public enum Stellar {
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
-    
+
     //MARK: -
-    
+
     public static func sequence(account: String, seqNum: UInt64 = 0, node: Node) -> Promise<UInt64> {
         if seqNum > 0 {
             return Promise().signal(seqNum)
         }
-        
+
         return accountDetails(account: account, node: node)
             .then { accountDetails in
                 return Promise<UInt64>().signal(accountDetails.seqNum + 1)
@@ -250,7 +250,7 @@ public enum Stellar {
         let hint = Data(BCKeyUtils.key(base32: publicKey).suffix(4))
         return try KinSDK.sign(transaction: tx, signer: signer, hint: hint, networkId: node.network.id)
     }
-    
+
     public static func postTransaction(envelope: TransactionEnvelope, node: Node) -> Promise<String> {
         let envelopeData: Data
         do {
@@ -259,19 +259,19 @@ public enum Stellar {
         catch {
             return Promise<String>(error)
         }
-        
+
         guard let urlEncodedEnvelope = envelopeData.base64EncodedString().urlEncoded else {
             return Promise<String>(StellarError.urlEncodingFailed)
         }
-        
+
         guard let httpBody = ("tx=" + urlEncodedEnvelope).data(using: .utf8) else {
             return Promise<String>(StellarError.dataEncodingFailed)
         }
-        
+
         var request = URLRequest(url: Endpoint(node.baseURL).transactions().url)
         request.httpMethod = "POST"
         request.httpBody = httpBody
-        
+
         return issue(request: request)
             .then { data in
                 if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data),
@@ -280,16 +280,16 @@ public enum Stellar {
                 {
                     throw error
                 }
-                
+
                 do {
                     let txResponse = try JSONDecoder().decode(TransactionResponse.self, from: data)
-                    
+
                     return Promise<String>(txResponse.hash)
                 }
                 catch {
                     throw error
                 }
-            }
+        }
     }
 
     /**

@@ -47,7 +47,7 @@ public struct TrustLineEntry: XDRDecodable {
     let reserved: Int32 = 0
 
     public var account: String {
-        return accountID.publicKey!
+        return accountID.publicKey
     }
 
     public init(from decoder: XDRDecoder) throws {
