@@ -2,11 +2,8 @@
 
 #  KinSDK
 
-[![CI Status](https://img.shields.io/travis/kinecosystem/kin-sdk-ios.svg?color=6f41e8)](https://travis-ci.org/kinecosystem/kin-sdk-ios)
 [![Version](https://img.shields.io/cocoapods/v/KinSDK.svg?color=6f41e8)](https://cocoapods.org/pods/KinSDK)
-[![License](https://img.shields.io/cocoapods/l/KinSDK.svg?color=6f41e8)](https://cocoapods.org/pods/KinSDK)
-[![Platform](https://img.shields.io/cocoapods/p/KinSDK.svg?color=6f41e8)](https://cocoapods.org/pods/KinSDK)
-
+[![CI Status](https://img.shields.io/travis/kinecosystem/kin-sdk-ios.svg)](https://travis-ci.org/kinecosystem/kin-sdk-ios)
 
 A library for using Kin.
 
