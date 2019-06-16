@@ -1,3 +1,5 @@
+TEST
+
 **Kin Ecosystem SDK License**
 
 **Last Updated:** March 11, 2019
