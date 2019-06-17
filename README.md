@@ -2,8 +2,14 @@
 
 #  KinSDK
 
-[![Version](https://img.shields.io/cocoapods/v/KinSDK.svg?color=6f41e8)](https://cocoapods.org/pods/KinSDK)
+[![Swift Version](https://img.shields.io/badge/Swift-5.0.x-blue.svg)](https://swift.org)
+[![Platforms](https://img.shields.io/cocoapods/p/KinSDK.svg)](https://cocoapods.org/pods/KinSDK)
+[![Build Status](https://travis-ci.org/facebook/facebook-swift-sdk.svg?branch=master)](https://travis-ci.org/facebook/facebook-swift-sdk)
 [![CI Status](https://img.shields.io/travis/kinecosystem/kin-sdk-ios.svg)](https://travis-ci.org/kinecosystem/kin-sdk-ios)
+<!-- [![Version](https://img.shields.io/cocoapods/v/KinSDK.svg?color=6f41e8)](https://cocoapods.org/pods/KinSDK) -->
+[![CocoaPods](https://img.shields.io/cocoapods/v/KinSDK.svg)](https://cocoapods.org/pods/KinSDK)
+<!-- [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) -->
+
 
 A library for using Kin.
 
