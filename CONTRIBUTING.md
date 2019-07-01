@@ -1,4 +1,4 @@
-# Contributing to kin-sdk-core-ios
+# Contributing to kin-sdk-ios
 
 Thank you very much for helping out with this project!
 Please read the following guidelines before making proposals:
