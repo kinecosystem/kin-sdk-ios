@@ -188,26 +188,20 @@ public struct DecoratedSignature: XDRCodable, XDREncodableStruct {
  A Kin `Transaction` is used to send payments.
  */
 public struct Transaction: XDRCodable {
+    public let fee: Quark
+    let sourceAccount: PublicKey
+    public let seqNum: UInt64 // TODO: sequenceNumber
+    public let operations: [Operation]
+    public let memo: Memo
+    public let timeBounds: TimeBounds?
+
+    public var signatures: [DecoratedSignature] = []
+    private let reserved: Int32 = 0
 
     /**
      Maximum length of a `Memo` object.
      */
     public static let MaxMemoLength = 28
-    let sourceAccount: PublicKey
-    let fee: Quark
-    let seqNum: UInt64
-    let timeBounds: TimeBounds?
-    let memo: Memo
-    let operations: [Operation]
-    let reserved: Int32 = 0
-
-    var memoString: String? {
-        if case let Memo.MEMO_TEXT(text) = memo {
-            return text
-        }
-
-        return nil
-    }
 
     /**
      Initialize a `Transaction`.
@@ -221,7 +215,7 @@ public struct Transaction: XDRCodable {
      - Parameter fee: Each transaction sets a fee in `Quark` that is paid by the source account.
      - Parameter operations: Transactions contain an arbitrary list of operations inside them. Typically there is just 1 operation.
      */
-    public init(sourceAccount: String,
+    public init(sourceAccount: String, // TODO: sourcePublicAddress
                 seqNum: UInt64,
                 timeBounds: TimeBounds?,
                 memo: Memo,
@@ -302,83 +296,68 @@ public struct Transaction: XDRCodable {
                                                   taggedTransaction: .ENVELOPE_TYPE_TX(self))
         return try XDREncoder.encode(payload).sha256
     }
-}
 
-protocol BaseTransaction {
-    var transaction: Transaction { get set }
-}
+    public mutating func sign(account: Account, networkId: Network.Id) throws {
+        let m = try hash(networkId: networkId)
 
-extension BaseTransaction {
-    public var fee: Quark {
-        return transaction.fee
-    }
-
-    public func hash(networkId: Network.Id) throws -> Data {
-        return try transaction.hash(networkId: networkId)
-    }
-
-    public var sequenceNumber: UInt64 {
-        return transaction.seqNum
-    }
-
-    public var sourcePublicAddress: String {
-        return transaction.sourceAccount.publicKey
-    }
-
-    public var timeBounds: TimeBounds? {
-        return transaction.timeBounds
-    }
-}
-
-public class RawTransaction: BaseTransaction {
-    var transaction: Transaction
-
-    public init(transaction: Transaction) {
-        self.transaction = transaction
-    }
-
-    public var operations: [Operation] {
-        return transaction.operations
-    }
-
-    public var memo: Memo {
-        return transaction.memo
-    }
-}
-
-public class PaymentTransaction: BaseTransaction {
-    var transaction: Transaction
-    let operation: PaymentOp
-
-    private static func findPaymentOperation(operations: [Operation]) -> PaymentOp? {
-        for operation in operations {
-            if case let Operation.Body.PAYMENT(paymentOperation) = operation.body {
-                return paymentOperation
+        try signatures.append({
+            guard let sign = account.sign else {
+                throw StellarError.missingSignClosure
             }
+
+            guard let publicKey = account.publicKey else {
+                throw StellarError.missingPublicKey
+            }
+
+            let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+            return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
+        }())
+    }
+
+    public mutating func sign(kinAccount: KinAccount, networkId: Network.Id) throws {
+        kinAccount.stellarAccount.sign = { message in
+            return try kinAccount.stellarAccount.sign(message: message, passphrase: "")
+        }
+
+        try sign(account: kinAccount.stellarAccount, networkId: networkId)
+
+        kinAccount.stellarAccount.sign = nil
+    }
+
+    var memoString: String? {
+        if case let Memo.MEMO_TEXT(text) = memo {
+            return text
         }
 
         return nil
     }
 
-    public init(transaction: Transaction) throws {
-        guard let operation = PaymentTransaction.findPaymentOperation(operations: transaction.operations) else {
-            throw StellarError.decodeTransactionFailed
+    public func envelope() -> Envelope {
+        return Envelope(transaction: self, signatures: signatures)
+    }
+}
+
+extension Transaction {
+    public struct Envelope: XDRCodable, XDREncodableStruct {
+        public let tx: Transaction
+        public let signatures: [DecoratedSignature]
+
+        /**
+         Initializes a `TransactionEnvelope` from a `XDRDecoder`.
+
+         - Parameter from: the `XDRDecoder` to decode.
+
+         - Throws:
+         */
+        public init(from decoder: XDRDecoder) throws {
+            tx = try decoder.decode(Transaction.self)
+            signatures = try decoder.decodeArray(DecoratedSignature.self)
         }
 
-        self.operation = operation
-        self.transaction = transaction
-    }
-
-    public var amount: Int64 {
-        return operation.amount
-    }
-
-    public var destinationPublicAddress: String {
-        return operation.destination.publicKey
-    }
-
-    public var memo: String? {
-        return transaction.memo.text
+        init(transaction: Transaction, signatures: [DecoratedSignature] = []) {
+            self.tx = transaction
+            self.signatures = signatures
+        }
     }
 }
 
