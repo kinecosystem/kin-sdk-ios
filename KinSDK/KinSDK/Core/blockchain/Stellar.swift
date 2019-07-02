@@ -47,9 +47,9 @@ public enum Stellar {
                                    amount: Int64,
                                    memo: Memo = .MEMO_NONE,
                                    node: Node,
-                                   fee: Quark) -> Promise<TransactionEnvelope> {
+                                   fee: Quark) -> Promise<Transaction.Envelope> {
         return balance(account: destination, node: node)
-            .then { _ -> Promise<TransactionEnvelope> in
+            .then { _ -> Promise<Transaction.Envelope> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
                                            asset: .native,
@@ -242,16 +242,13 @@ public enum Stellar {
         }
     }
 
-    public static func sign(transaction tx: Transaction, signer: Account, node: Node) throws -> TransactionEnvelope {
-        guard let publicKey = signer.publicKey else {
-            throw StellarError.missingPublicKey
-        }
-
-        let hint = Data(BCKeyUtils.key(base32: publicKey).suffix(4))
-        return try KinSDK.sign(transaction: tx, signer: signer, hint: hint, networkId: node.network.id)
+    public static func sign(transaction: Transaction, signer: Account, node: Node) throws -> Transaction.Envelope {
+        var transaction = transaction
+        try transaction.sign(account: signer, networkId: node.network.id)
+        return transaction.envelope()
     }
 
-    public static func postTransaction(envelope: TransactionEnvelope, node: Node) -> Promise<String> {
+    public static func postTransaction(envelope: Transaction.Envelope, node: Node) -> Promise<String> {
         let envelopeData: Data
         do {
             envelopeData = try Data(XDREncoder.encode(envelope))
@@ -311,5 +308,30 @@ public enum Stellar {
         }
 
         return promise
+    }
+
+    static func issue(request: URLRequest) -> Promise<Data> {
+        let p = Promise<Data>()
+
+        URLSession
+            .shared
+            .kinDataTask(with: request, completionHandler: { (data, _, error) in
+                if let error = error {
+                    p.signal(error)
+
+                    return
+                }
+
+                guard let data = data else {
+                    p.signal(StellarError.internalInconsistency)
+
+                    return
+                }
+
+                p.signal(data)
+            })
+            .resume()
+
+        return p
     }
 }

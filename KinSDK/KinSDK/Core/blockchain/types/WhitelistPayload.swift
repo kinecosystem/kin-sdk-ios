@@ -75,3 +75,6 @@ extension WhitelistPayload: Encodable {
         try container.encode(networkId, forKey: .networkId)
     }
 }
+
+@available(*, deprecated, renamed: "WhitelistPayload")
+public struct WhitelistEnvelope {}

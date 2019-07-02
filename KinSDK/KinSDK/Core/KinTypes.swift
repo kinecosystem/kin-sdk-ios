@@ -30,10 +30,10 @@ public protocol ServiceProvider {
 public typealias TransactionId = String
 
 /**
- Closure type used by the generate transaction API upon completion, which contains a `TransactionEnvelope`
+ Closure type used by the generate transaction API upon completion, which contains a `Transaction.Envelope`
  in case of success, or an error in case of failure.
  */
-public typealias GenerateTransactionCompletion = (TransactionEnvelope?, Error?) -> Void
+public typealias GenerateTransactionCompletion = (Transaction.Envelope?, Error?) -> Void
 
 /**
  Closure type used by the send transaction API upon completion, which contains a `TransactionId` in

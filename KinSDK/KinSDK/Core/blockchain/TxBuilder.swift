@@ -67,12 +67,12 @@ public /*final*/ class TransactionBuilder {
     }
 
     @available(*, deprecated, renamed: "build")
-    public func tx() -> Promise<Transaction> {
+    public func tx() -> Promise<RawTransaction> {
         return build()
     }
 
-    public func build() -> Promise<Transaction> {
-        let p = Promise<Transaction>()
+    public func build() -> Promise<RawTransaction> {
+        let p = Promise<RawTransaction>()
 
         guard let sourceKey = source.publicKey else {
             p.signal(StellarError.missingPublicKey)
@@ -90,7 +90,7 @@ public /*final*/ class TransactionBuilder {
                                           fee: fee,
                                           operations: operations)
 
-            p.signal(transaction)
+            p.signal(RawTransaction(transaction: transaction))
         }
         else {
             Stellar.sequence(account: sourceKey, seqNum: sequence, node: node)
@@ -101,7 +101,7 @@ public /*final*/ class TransactionBuilder {
                                                   memo: self.memo ?? .MEMO_NONE,
                                                   operations: self.operations)
 
-                    p.signal(transaction)
+                    p.signal(RawTransaction(transaction: transaction))
                 }
                 .error { _ in
                     p.signal(StellarError.missingSequence)
@@ -111,15 +111,16 @@ public /*final*/ class TransactionBuilder {
         return p
     }
 
-    public func envelope(networkId: Network.Id) -> Promise<TransactionEnvelope> {
-        let p = Promise<TransactionEnvelope>()
+    public func envelope(networkId: Network.Id) -> Promise<Transaction.Envelope> {
+        let p = Promise<Transaction.Envelope>()
 
         build()
-            .then { transaction in
+            .then { rawTransaction in
                 do {
-                    var transactionEnvelope = TransactionEnvelope(transaction: transaction)
-                    try transactionEnvelope.addSignature(account: self.source, networkId: networkId)
-                    p.signal(transactionEnvelope)
+                    var rawTransaction = rawTransaction
+                    try rawTransaction.addSignature(account: self.source, networkId: networkId)
+
+                    p.signal(rawTransaction.envelope())
                 }
                 catch {
                     p.signal(error)

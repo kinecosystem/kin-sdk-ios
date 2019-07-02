@@ -12,6 +12,8 @@
 		6814CA7822CA32CD009388AE /* PaymentTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6814CA7722CA32CD009388AE /* PaymentTransaction.swift */; };
 		6814CA7A22CA32F9009388AE /* RawTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6814CA7922CA32F9009388AE /* RawTransaction.swift */; };
 		6814CA7C22CA349C009388AE /* WhitelistPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6814CA7B22CA349C009388AE /* WhitelistPayload.swift */; };
+		6814CA8E22CB468E009388AE /* XDRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6814CA8622CB468E009388AE /* XDRTests.swift */; };
+		6814CA9B22CB4EAC009388AE /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D422A90D44008C01EC /* Transaction.swift */; };
 		68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68AF916322A90C6A008C01EC /* KinSDK.framework */; };
 		68AF917422A90C6A008C01EC /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 68AF916622A90C6A008C01EC /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		68AF91EB22A90D45008C01EC /* KeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91C622A90D44008C01EC /* KeyUtils.swift */; };
@@ -20,18 +22,15 @@
 		68AF91EE22A90D45008C01EC /* KinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91C922A90D44008C01EC /* KinError.swift */; };
 		68AF91EF22A90D45008C01EC /* KinTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91CA22A90D44008C01EC /* KinTypes.swift */; };
 		68AF91F022A90D45008C01EC /* Watchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91CB22A90D44008C01EC /* Watchers.swift */; };
-		68AF91F122A90D45008C01EC /* WhitelistEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91CC22A90D44008C01EC /* WhitelistEnvelope.swift */; };
 		68AF91F222A90D45008C01EC /* StellarErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91CE22A90D44008C01EC /* StellarErrors.swift */; };
 		68AF91F322A90D45008C01EC /* PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D022A90D44008C01EC /* PublicKey.swift */; };
 		68AF91F422A90D45008C01EC /* WrappedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D122A90D44008C01EC /* WrappedData.swift */; };
 		68AF91F522A90D45008C01EC /* Ledger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D222A90D44008C01EC /* Ledger.swift */; };
 		68AF91F622A90D45008C01EC /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D322A90D44008C01EC /* Operations.swift */; };
-		68AF91F722A90D45008C01EC /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D422A90D44008C01EC /* Transaction.swift */; };
 		68AF91F822A90D45008C01EC /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D522A90D44008C01EC /* Asset.swift */; };
 		68AF91F922A90D45008C01EC /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D622A90D44008C01EC /* Operation.swift */; };
 		68AF91FA22A90D45008C01EC /* Stellar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D722A90D44008C01EC /* Stellar.swift */; };
 		68AF91FB22A90D45008C01EC /* StellarResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D822A90D44008C01EC /* StellarResults.swift */; };
-		68AF91FC22A90D45008C01EC /* StellarUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D922A90D44008C01EC /* StellarUtils.swift */; };
 		68AF91FD22A90D45008C01EC /* StellarOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DA22A90D44008C01EC /* StellarOps.swift */; };
 		68AF91FE22A90D45008C01EC /* BCKeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DB22A90D44008C01EC /* BCKeyUtils.swift */; };
 		68AF91FF22A90D45008C01EC /* HorizonResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91DC22A90D44008C01EC /* HorizonResponses.swift */; };
@@ -133,6 +132,7 @@
 		6814CA7722CA32CD009388AE /* PaymentTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTransaction.swift; sourceTree = "<group>"; };
 		6814CA7922CA32F9009388AE /* RawTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawTransaction.swift; sourceTree = "<group>"; };
 		6814CA7B22CA349C009388AE /* WhitelistPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitelistPayload.swift; sourceTree = "<group>"; };
+		6814CA8622CB468E009388AE /* XDRTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XDRTests.swift; sourceTree = "<group>"; };
 		68AF916322A90C6A008C01EC /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68AF916622A90C6A008C01EC /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
 		68AF916722A90C6A008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -144,7 +144,6 @@
 		68AF91C922A90D44008C01EC /* KinError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinError.swift; sourceTree = "<group>"; };
 		68AF91CA22A90D44008C01EC /* KinTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinTypes.swift; sourceTree = "<group>"; };
 		68AF91CB22A90D44008C01EC /* Watchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watchers.swift; sourceTree = "<group>"; };
-		68AF91CC22A90D44008C01EC /* WhitelistEnvelope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhitelistEnvelope.swift; sourceTree = "<group>"; };
 		68AF91CE22A90D44008C01EC /* StellarErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarErrors.swift; sourceTree = "<group>"; };
 		68AF91D022A90D44008C01EC /* PublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKey.swift; sourceTree = "<group>"; };
 		68AF91D122A90D44008C01EC /* WrappedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrappedData.swift; sourceTree = "<group>"; };
@@ -155,7 +154,6 @@
 		68AF91D622A90D44008C01EC /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		68AF91D722A90D44008C01EC /* Stellar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stellar.swift; sourceTree = "<group>"; };
 		68AF91D822A90D44008C01EC /* StellarResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarResults.swift; sourceTree = "<group>"; };
-		68AF91D922A90D44008C01EC /* StellarUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarUtils.swift; sourceTree = "<group>"; };
 		68AF91DA22A90D44008C01EC /* StellarOps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarOps.swift; sourceTree = "<group>"; };
 		68AF91DB22A90D44008C01EC /* BCKeyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BCKeyUtils.swift; sourceTree = "<group>"; };
 		68AF91DC22A90D44008C01EC /* HorizonResponses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonResponses.swift; sourceTree = "<group>"; };
@@ -331,7 +329,6 @@
 				68AF91E722A90D45008C01EC /* Network.swift */,
 				68AF91E822A90D45008C01EC /* Utilities */,
 				68AF91CB22A90D44008C01EC /* Watchers.swift */,
-				68AF91CC22A90D44008C01EC /* WhitelistEnvelope.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -360,7 +357,6 @@
 				68AF91CF22A90D44008C01EC /* types */,
 				68AF91D722A90D44008C01EC /* Stellar.swift */,
 				68AF91D822A90D44008C01EC /* StellarResults.swift */,
-				68AF91D922A90D44008C01EC /* StellarUtils.swift */,
 				68AF91DA22A90D44008C01EC /* StellarOps.swift */,
 				68AF91DB22A90D44008C01EC /* BCKeyUtils.swift */,
 				68AF91DC22A90D44008C01EC /* HorizonResponses.swift */,
@@ -418,6 +414,7 @@
 				68AF920C22A90DA4008C01EC /* KinAccountTests.swift */,
 				68AF920D22A90DA4008C01EC /* KinClientTests.swift */,
 				68AF921022A90DA4008C01EC /* URLKinVersion.swift */,
+				6814CA8622CB468E009388AE /* XDRTests.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -839,7 +836,6 @@
 				68AF93DD22A93390008C01EC /* RestoreViewController.swift in Sources */,
 				68AF93D722A93390008C01EC /* PasswordLabel.swift in Sources */,
 				68AF920322A90D45008C01EC /* Data+extensions.swift in Sources */,
-				68AF91F122A90D45008C01EC /* WhitelistEnvelope.swift in Sources */,
 				68AF93C422A93390008C01EC /* UIFont+PreferredFont.swift in Sources */,
 				68AF93CC22A93390008C01EC /* BackupCompletedViewController.swift in Sources */,
 				68AF93D322A93390008C01EC /* KeyboardAdjustingScrollView.swift in Sources */,
@@ -852,7 +848,6 @@
 				68AF93E322A93390008C01EC /* LifeCycleProtocol.swift in Sources */,
 				68AF93D622A93390008C01EC /* QRViewController.swift in Sources */,
 				68AF91F222A90D45008C01EC /* StellarErrors.swift in Sources */,
-				68AF91F722A90D45008C01EC /* Transaction.swift in Sources */,
 				68AF93E222A93390008C01EC /* ExplanationTemplateView.swift in Sources */,
 				68AF91ED22A90D45008C01EC /* KinClient.swift in Sources */,
 				68AF93C822A93390008C01EC /* Password.swift in Sources */,
@@ -866,11 +861,11 @@
 				68AF91FF22A90D45008C01EC /* HorizonResponses.swift in Sources */,
 				68AF91F922A90D45008C01EC /* Operation.swift in Sources */,
 				68AF93CA22A93390008C01EC /* Appearance.swift in Sources */,
+				6814CA9B22CB4EAC009388AE /* Transaction.swift in Sources */,
 				68AF93D522A93390008C01EC /* QRView.swift in Sources */,
 				68AF93C122A9338F008C01EC /* Notification+Convenience.swift in Sources */,
 				68AF93BF22A9338F008C01EC /* KinBackupRestoreError.swift in Sources */,
 				6814CA7A22CA32F9009388AE /* RawTransaction.swift in Sources */,
-				68AF91FC22A90D45008C01EC /* StellarUtils.swift in Sources */,
 				68AF93E022A93390008C01EC /* RestoreIntroViewController.swift in Sources */,
 				68AF93CD22A93390008C01EC /* PasswordTextField.swift in Sources */,
 				68AF91F822A90D45008C01EC /* Asset.swift in Sources */,
@@ -924,6 +919,7 @@
 				68AF938622A9337A008C01EC /* PasswordTests.swift in Sources */,
 				68AF938722A9337A008C01EC /* KinBackupRestoreModuleTests.swift in Sources */,
 				68AF921522A90DA4008C01EC /* URLKinVersion.swift in Sources */,
+				6814CA8E22CB468E009388AE /* XDRTests.swift in Sources */,
 				68AF921322A90DA4008C01EC /* KeyStoreTests.swift in Sources */,
 				68AF938522A9337A008C01EC /* QRTests.swift in Sources */,
 				68AF921222A90DA4008C01EC /* KinClientTests.swift in Sources */,

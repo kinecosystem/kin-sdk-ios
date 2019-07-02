@@ -292,26 +292,25 @@ public struct Transaction: XDRCodable {
             throw StellarError.dataEncodingFailed
         }
 
-        let payload = TransactionSignaturePayload(networkId: WD32(data),
-                                                  taggedTransaction: .ENVELOPE_TYPE_TX(self))
+        let payload = TransactionSignaturePayload(networkId: WD32(data), taggedTransaction: .ENVELOPE_TYPE_TX(self))
+
         return try XDREncoder.encode(payload).sha256
     }
 
     public mutating func sign(account: Account, networkId: Network.Id) throws {
-        let m = try hash(networkId: networkId)
+        let message = Array(try hash(networkId: networkId))
 
-        try signatures.append({
-            guard let sign = account.sign else {
-                throw StellarError.missingSignClosure
-            }
+        guard let sign = account.sign else {
+            throw StellarError.missingSignClosure
+        }
 
-            guard let publicKey = account.publicKey else {
-                throw StellarError.missingPublicKey
-            }
+        guard let publicKey = account.publicKey else {
+            throw StellarError.missingPublicKey
+        }
 
-            let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
-            return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
-        }())
+        let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+
+        signatures.append(try DecoratedSignature(hint: hint, signature: sign(message)))
     }
 
     public mutating func sign(kinAccount: KinAccount, networkId: Network.Id) throws {
@@ -343,7 +342,7 @@ extension Transaction {
         public let signatures: [DecoratedSignature]
 
         /**
-         Initializes a `TransactionEnvelope` from a `XDRDecoder`.
+         Initializes a `Transaction.Envelope` from an `XDRDecoder`.
 
          - Parameter from: the `XDRDecoder` to decode.
 
@@ -361,54 +360,5 @@ extension Transaction {
     }
 }
 
-/**
- `TransactionEnvelope` wraps a `Transaction` and its signatures.
- */
-public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
-    public let tx: Transaction
-    public var signatures: [DecoratedSignature]
-
-    /**
-     Initializes a `TransactionEnvelope` from a `XDRDecoder`.
-
-     - Parameter from: the `XDRDecoder` to decode.
-
-     - Throws:
-     */
-    public init(from decoder: XDRDecoder) throws {
-        tx = try decoder.decode(Transaction.self)
-        signatures = try decoder.decodeArray(DecoratedSignature.self)
-    }
-
-    init(transaction: Transaction, signatures: [DecoratedSignature] = []) {
-        self.tx = transaction
-        self.signatures = signatures
-    }
-
-    public mutating func addSignature(account: Account, networkId: Network.Id) throws {
-        let m = try tx.hash(networkId: networkId)
-
-        try signatures.append({
-            guard let sign = account.sign else {
-                throw StellarError.missingSignClosure
-            }
-
-            guard let publicKey = account.publicKey else {
-                throw StellarError.missingPublicKey
-            }
-
-            let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
-            return try DecoratedSignature(hint: hint, signature: sign(Array(m)))
-        }())
-    }
-
-    public mutating func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
-        kinAccount.stellarAccount.sign = { message in
-            return try kinAccount.stellarAccount.sign(message: message, passphrase: "")
-        }
-
-        try addSignature(account: kinAccount.stellarAccount, networkId: networkId)
-
-        kinAccount.stellarAccount.sign = nil
-    }
-}
+@available(*, deprecated, renamed: "Transaction.Envelope")
+public struct TransactionEnvelope {}

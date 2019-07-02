@@ -34,13 +34,13 @@ class SendTransactionViewController: UIViewController {
         amountTextField.becomeFirstResponder()
     }
 
-    func whitelistTransaction(to url: URL, whitelistEnvelope: WhitelistEnvelope) -> Promise<TransactionEnvelope> {
-        let promise: Promise<TransactionEnvelope> = Promise()
+    func whitelistTransaction(to url: URL, whitelistPayload: WhitelistPayload) -> Promise<Transaction.Envelope> {
+        let promise: Promise<Transaction.Envelope> = Promise()
 
         var request = URLRequest(url: url)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        request.httpBody = try? JSONEncoder().encode(whitelistEnvelope)
+        request.httpBody = try? JSONEncoder().encode(whitelistPayload)
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data, let d = Data(base64Encoded: data) else {
@@ -49,7 +49,7 @@ class SendTransactionViewController: UIViewController {
             }
 
             do {
-                promise.signal(try XDRDecoder.decode(TransactionEnvelope.self, data: d))
+                promise.signal(try XDRDecoder.decode(Transaction.Envelope.self, data: d))
             }
             catch {
                 promise.signal(error)
@@ -66,7 +66,7 @@ class SendTransactionViewController: UIViewController {
         let address = addressTextField.text ?? ""
 
         promise(curry(kinAccount.buildTransaction)(address)(amount)(memoTextField.text)(0))
-            .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionEnvelope> in
+            .then(on: .main) { [weak self] transactionEnvelope -> Promise<Transaction.Envelope> in
                 guard let strongSelf = self else {
                     return Promise(KinError.unknown)
                 }
@@ -76,10 +76,10 @@ class SendTransactionViewController: UIViewController {
                 }
 
                 let networkId = Network.testNet.id
-                let whitelistEnvelope = WhitelistEnvelope(transactionEnvelope: transactionEnvelope, networkId: networkId)
+                let whitelistPayload = WhitelistPayload(transactionEnvelope: transactionEnvelope, networkId: networkId)
                 let url = URL(string: "http://34.239.111.38:3000/whitelist")!
 
-                return strongSelf.whitelistTransaction(to: url, whitelistEnvelope: whitelistEnvelope)
+                return strongSelf.whitelistTransaction(to: url, whitelistPayload: whitelistPayload)
             }
             .then(on: .main) { [weak self] transactionEnvelope -> Promise<TransactionId> in
                 guard let strongSelf = self else {

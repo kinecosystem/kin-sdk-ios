@@ -20,7 +20,7 @@ public struct TxEvent: Decodable, Equatable {
     public let hash: String
     public let created_at: Date
     public let source_account: String
-    public let envelope: TransactionEnvelope
+    public let envelope: Transaction.Envelope
     public let meta: TransactionMeta
 
     enum CodingKeys: String, CodingKey {
@@ -39,12 +39,10 @@ public struct TxEvent: Decodable, Equatable {
         self.source_account = try container.decode(String.self, forKey: .source_account)
 
         let eb64 = try container.decode(String.self, forKey: .envelope)
-        self.envelope = try XDRDecoder(data: Data(base64Encoded: eb64)!)
-            .decode(TransactionEnvelope.self)
+        self.envelope = try XDRDecoder(data: Data(base64Encoded: eb64)!).decode(Transaction.Envelope.self)
 
         let xb64 = try container.decode(String.self, forKey: .meta)
-        self.meta = try XDRDecoder(data: Data(base64Encoded: xb64)!)
-            .decode(TransactionMeta.self)
+        self.meta = try XDRDecoder(data: Data(base64Encoded: xb64)!).decode(TransactionMeta.self)
     }
 
     public static func ==(lhs: TxEvent, rhs: TxEvent) -> Bool {

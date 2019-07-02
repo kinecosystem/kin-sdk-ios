@@ -402,7 +402,7 @@ extension KinAccountTests {
         throw KinError.unknown
     }
 
-    func buildTransaction(kin: Kin, memo: String?, fee: Quark, completion: @escaping (TransactionEnvelope) -> Void) {
+    func buildTransaction(kin: Kin, memo: String?, fee: Quark, completion: @escaping (Transaction.Envelope) -> Void) {
         account0.buildTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (envelope, error) in
             DispatchQueue.main.async {
                 self.fail(on: error)
@@ -418,7 +418,7 @@ extension KinAccountTests {
         }
     }
 
-    func sendTransaction(_ envelope: TransactionEnvelope) throws -> TransactionId {
+    func sendTransaction(_ envelope: Transaction.Envelope) throws -> TransactionId {
         let txClosure = { (txComp: @escaping SendTransactionCompletion) in
             self.account0.sendTransaction(envelope, completion: txComp)
         }

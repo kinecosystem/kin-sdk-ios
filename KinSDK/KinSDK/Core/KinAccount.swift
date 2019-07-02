@@ -119,7 +119,7 @@ public final class KinAccount {
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
-     - Parameter completion: A completion with the `TransactionEnvelope` or an `Error`.
+     - Parameter completion: A completion with the `Transaction.Envelope` or an `Error`.
      */
     public func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
@@ -175,9 +175,9 @@ public final class KinAccount {
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
 
-     - Returns: A promise which is signalled with the `TransactionEnvelope` or an `Error`.
+     - Returns: A promise which is signalled with the `Transaction.Envelope` or an `Error`.
      */
-    public func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<TransactionEnvelope> {
+    public func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
             self.buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
         }
@@ -193,16 +193,16 @@ public final class KinAccount {
 
      - Attention: The completion block **is not dispatched on the main thread**.
 
-     - Parameter transactionEnvelope: The `TransactionEnvelope` to send.
+     - Parameter envelope: The `Transaction.Envelope` to send.
      - Parameter completion: A completion with the `TransactionId` or an `Error`.
      */
-    public func sendTransaction(_ transactionEnvelope: TransactionEnvelope, completion: @escaping SendTransactionCompletion) {
+    public func sendTransaction(_ envelope: Transaction.Envelope, completion: @escaping SendTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
         }
 
-        Stellar.postTransaction(envelope: transactionEnvelope, node: node)
+        Stellar.postTransaction(envelope: envelope, node: node)
             .then { txHash -> Void in
                 completion(txHash, nil)
             }
@@ -219,13 +219,13 @@ public final class KinAccount {
     /**
      Send a Kin transaction.
 
-     - Parameter transactionEnvelope: The `TransactionEnvelope` to send.
+     - Parameter envelope: The `Transaction.Envelope` to send.
 
      - Returns: A promise which is signalled with the `TransactionId` or an `Error`.
      */
-    public func sendTransaction(_ transactionEnvelope: TransactionEnvelope) -> Promise<TransactionId> {
+    public func sendTransaction(_ envelope: Transaction.Envelope) -> Promise<TransactionId> {
         let txClosure = { (txComp: @escaping SendTransactionCompletion) in
-            self.sendTransaction(transactionEnvelope, completion: txComp)
+            self.sendTransaction(envelope, completion: txComp)
         }
 
         return promise(txClosure)
@@ -403,7 +403,7 @@ extension KinAccount {
     }
 
     @available(*, deprecated, renamed: "buildTransaction")
-    public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<TransactionEnvelope> {
+    public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
         return buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee)
     }
 }

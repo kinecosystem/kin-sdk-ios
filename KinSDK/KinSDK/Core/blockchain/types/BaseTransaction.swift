@@ -41,6 +41,10 @@ extension BaseTransaction {
         return WhitelistPayload(transactionEnvelope: envelope(), networkId: networkId)
     }
 
+    public mutating func addSignature(account: Account, networkId: Network.Id) throws {
+        try transaction.sign(account: account, networkId: networkId)
+    }
+
     public mutating func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
         try transaction.sign(kinAccount: kinAccount, networkId: networkId)
     }
