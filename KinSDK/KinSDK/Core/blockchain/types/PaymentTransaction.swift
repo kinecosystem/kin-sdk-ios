@@ -8,17 +8,23 @@
 
 import Foundation
 
-public class PaymentTransaction: BaseTransaction {
+public class PaymentTransaction: InternalBaseTransaction {
     var transaction: Transaction
     let operation: PaymentOp
 
     private static func findPaymentOperation(operations: [Operation]) -> PaymentOp? {
+        var paymentOperations: [PaymentOp] = []
+
         for operation in operations {
             if case let Operation.Body.PAYMENT(paymentOperation) = operation.body {
-                return paymentOperation
+                paymentOperations.append(paymentOperation)
             }
         }
 
+        if paymentOperations.count == 1 {
+            return paymentOperations.first
+        }
+        
         return nil
     }
 

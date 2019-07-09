@@ -8,11 +8,15 @@
 
 import Foundation
 
-protocol BaseTransaction {
+public protocol BaseTransaction {
+
+}
+
+protocol InternalBaseTransaction: BaseTransaction {
     var transaction: Transaction { get set }
 }
 
-extension BaseTransaction {
+extension InternalBaseTransaction {
     public var fee: Quark {
         return transaction.fee
     }
