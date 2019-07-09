@@ -121,7 +121,7 @@ public final class KinAccount {
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
      - Parameter completion: A completion with the `Transaction.Envelope` or an `Error`.
      */
-    public func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
+    public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
             return
@@ -177,9 +177,9 @@ public final class KinAccount {
 
      - Returns: A promise which is signalled with the `Transaction.Envelope` or an `Error`.
      */
-    public func buildTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
+    public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
-            self.buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
+            self.buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
         }
 
         return promise(txClosure)
@@ -393,17 +393,17 @@ public final class KinAccount {
 // MARK: - Deprecated
 
 extension KinAccount {
-    @available(*, deprecated, renamed: "buildTransaction")
+    @available(*, deprecated, renamed: "buildPaymentTransaction")
     public func generateTransaction(to recipient: String,
                                     kin: Kin,
                                     memo: String? = nil,
                                     fee: Quark = 0,
                                     completion: @escaping GenerateTransactionCompletion) {
-        return buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: completion)
+        return buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: completion)
     }
 
-    @available(*, deprecated, renamed: "buildTransaction")
+    @available(*, deprecated, renamed: "buildPaymentTransaction")
     public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
-        return buildTransaction(to: recipient, kin: kin, memo: memo, fee: fee)
+        return buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee)
     }
 }
