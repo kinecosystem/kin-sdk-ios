@@ -132,7 +132,7 @@ public enum Stellar {
      - Returns: A promise which will be signalled with the result of the operation.
      */
     public static func controlledAccounts(account: String, node: Node) -> Promise<[ControlledAccount]> {
-        let url = Endpoint(node.baseURL).account(account).controlledBalances().url
+        let url = Endpoint(node.baseURL).account(account).controlledAccounts().url
 
         return issue(request: URLRequest(url: url))
             .then { data -> Promise<ControlledAccountsResponse> in

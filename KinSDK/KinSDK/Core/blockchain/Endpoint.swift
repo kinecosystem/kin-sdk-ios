@@ -63,7 +63,7 @@ struct AggregatedBalanceEndpoint: EndpointProtocol {
     let params: [String: Any]
 }
 
-struct ControlledBalancesEndpoint: EndpointProtocol {
+struct ControlledAccountsEndpoint: EndpointProtocol {
     let base: URL
     let params: [String: Any]
 }
@@ -108,8 +108,8 @@ extension AccountEndpoint {
         return KinSDK.aggregatedBalance(url: base, params: params)
     }
 
-    func controlledBalances() -> ControlledBalancesEndpoint {
-        return KinSDK.controlledBalances(url: base, params: params)
+    func controlledAccounts() -> ControlledAccountsEndpoint {
+        return KinSDK.controlledAccounts(url: base, params: params)
     }
 }
 
@@ -145,7 +145,7 @@ extension AggregatedBalanceEndpoint {
 
 }
 
-extension ControlledBalancesEndpoint {
+extension ControlledAccountsEndpoint {
 
 }
 
@@ -167,8 +167,8 @@ private func aggregatedBalance(url: URL, params: [String: Any]) -> AggregatedBal
     return AggregatedBalanceEndpoint(base: url.appendingPathComponent("aggregate_balance"), params: [:])
 }
 
-private func controlledBalances(url: URL, params: [String: Any]) -> ControlledBalancesEndpoint {
-    return ControlledBalancesEndpoint(base: url.appendingPathComponent("controlled_balances"), params: [:])
+private func controlledAccounts(url: URL, params: [String: Any]) -> ControlledAccountsEndpoint {
+    return ControlledAccountsEndpoint(base: url.appendingPathComponent("controlled_accounts"), params: [:])
 }
 
 private func cursor(url: URL, cursor: String?) -> CursorEndpoint {
