@@ -1,8 +1,8 @@
 use_frameworks!
 inhibit_all_warnings!
-install!  'cocoapods', 
-          :generate_multiple_pod_projects => true,  # Cocoapods 1.7.0
-          :incremental_installation => true         # Cocoapods 1.7.0
+# install!  'cocoapods', 
+#           :generate_multiple_pod_projects => true,  # Cocoapods 1.7.0
+#           :incremental_installation => true         # Cocoapods 1.7.0
 
 platform :ios, '9.0'
 workspace 'KinSDK'
