@@ -18,8 +18,5 @@ script:
       xcodebuild test -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSDK -destination 'platform=iOS Simulator,name=iPhone X';
     fi
 
-# before_install:
-#   - gem install cocoapods # Since Travis is not always on latest version
-
 after_success:
   - bash <(curl -s https://codecov.io/bash)
