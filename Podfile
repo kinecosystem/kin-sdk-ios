@@ -7,6 +7,9 @@ inhibit_all_warnings!
 platform :ios, '9.0'
 workspace 'KinSDK'
 
+source 'https://github.com/kinecosystem/kin-util-ios.git'
+source 'https://github.com/jedisct1/swift-sodium.git'
+
 abstract_target 'Dependencies' do
   pod 'KinUtil'
   pod 'Sodium'
