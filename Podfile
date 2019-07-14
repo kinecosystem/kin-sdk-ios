@@ -8,8 +8,8 @@ platform :ios, '9.0'
 workspace 'KinSDK'
 
 abstract_target 'Dependencies' do
-  pod 'KinUtil', '0.1.0'
-  pod 'Sodium', '0.8.0'
+  pod 'KinUtil'
+  pod 'Sodium'
 
   target 'KinSDK' do
     project 'KinSDK/KinSDK.xcodeproj'
