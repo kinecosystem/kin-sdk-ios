@@ -13,27 +13,13 @@ Pod::Spec.new do |s|
 
   s.source = { 
     :git => 'https://github.com/kinecosystem/kin-sdk-ios.git', 
-    :tag => s.version.to_s
+    :tag => s.version.to_s,
+    :submodules => true
   }
-  source_files = ['KinSDK/Core/**/*.swift',
-                  'KinSDK/ThirdParty/SHA256.swift',
-                  'KinSDK/ThirdParty/keychain-swift/KeychainSwift/*.swift']
-  s.source_files = source_files
+  s.source_files = ['KinSDK/KinSDK/**/*.swift',
+                    'KinSDK/ThirdParty/SHA256.swift',
+                    'KinSDK/ThirdParty/keychain-swift/KeychainSwift/*.swift']
 
   s.dependency 'KinUtil', '0.1.0'
   s.dependency 'Sodium', '0.8.0'
-
-  s.default_subspec = 'Core'
-
-  s.subspec 'Core' do |ss|
-    ss.source_files = source_files
-  end
-
-  s.subspec 'BackupRestore' do |ss|
-    root = 'KinSDK/Modules/BackupRestore'
-
-    ss.source_files = root+'/**/*.{strings,swift}'
-    ss.resources    = root+'/Assets.xcassets'
-    ss.dependency 'KinSDK/Core'
-  end
 end
