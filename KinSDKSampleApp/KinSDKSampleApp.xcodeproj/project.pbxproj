@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		68319EC722DC733F00EC2DDF /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68319EC622DC733F00EC2DDF /* KinSDK.framework */; };
+		6831A0E422DC9CFF00EC2DDF /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6831A0E322DC9CFF00EC2DDF /* KinSDK.framework */; };
 		68AF924522A91515008C01EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF924422A91515008C01EC /* AppDelegate.swift */; };
 		68AF924722A91515008C01EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF924622A91515008C01EC /* ViewController.swift */; };
 		68AF924A22A91515008C01EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF924822A91515008C01EC /* Main.storyboard */; };
@@ -31,7 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		68319EC622DC733F00EC2DDF /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6831A0E322DC9CFF00EC2DDF /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68AF924122A91515008C01EC /* KinSDKSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KinSDKSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68AF924422A91515008C01EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68AF924622A91515008C01EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68319EC722DC733F00EC2DDF /* KinSDK.framework in Frameworks */,
+				6831A0E422DC9CFF00EC2DDF /* KinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +124,7 @@
 		E409E564CDA8FEC8E941AD24 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				68319EC622DC733F00EC2DDF /* KinSDK.framework */,
+				6831A0E322DC9CFF00EC2DDF /* KinSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

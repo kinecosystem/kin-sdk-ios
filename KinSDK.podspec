@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
     :submodules => true
   }
   s.source_files = ['KinSDK/KinSDK/**/*.swift',
-                    'KinSDK/ThirdParty/SHA256.swift',
-                    'KinSDK/ThirdParty/keychain-swift/KeychainSwift/*.swift']
+                    'KinSDK/Dependencies/SHA256.swift',
+                    'KinSDK/Dependencies/keychain-swift/KeychainSwift/*.swift']
 
   s.dependency 'KinUtil', '0.1.0'
   s.dependency 'Sodium', '0.8.0'

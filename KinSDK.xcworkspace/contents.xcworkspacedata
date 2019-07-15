@@ -7,10 +7,4 @@
    <FileRef
       location = "group:KinSDKSampleApp/KinSDKSampleApp.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:Dependencies/kin-util-ios/KinUtil/KinUtil.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Dependencies/swift-sodium/Sodium.xcodeproj">
-   </FileRef>
 </Workspace>
