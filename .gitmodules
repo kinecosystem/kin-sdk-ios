@@ -1,0 +1,6 @@
+[submodule "Dependencies/kin-util-ios"]
+	path = Dependencies/kin-util-ios
+	url = https://github.com/kinecosystem/kin-util-ios
+[submodule "Dependencies/swift-sodium"]
+	path = Dependencies/swift-sodium
+	url = https://github.com/jedisct1/swift-sodium

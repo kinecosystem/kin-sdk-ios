@@ -2,15 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:KinSDK/KinSDK.xcodeproj">
+      location = "group:KinSDK.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
+      location = "group:KinSDKSampleApp/KinSDKSampleApp.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SampleApps/KinSDKSampleApp/KinSDKSampleApp.xcodeproj">
+      location = "group:Dependencies/kin-util-ios/KinUtil/KinUtil.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SampleApps/KinBackupRestoreSampleApp/KinBackupRestoreSampleApp.xcodeproj">
+      location = "group:Dependencies/swift-sodium/Sodium.xcodeproj">
    </FileRef>
 </Workspace>
