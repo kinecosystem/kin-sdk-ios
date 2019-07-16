@@ -107,6 +107,10 @@ public final class KinAccount {
         return promise(status)
     }
 
+    public func transactionBuilder() -> TransactionBuilder {
+        return TransactionBuilder(source: stellarAccount, node: node)
+    }
+
     /**
      Build a Kin transaction for a specific address.
 
