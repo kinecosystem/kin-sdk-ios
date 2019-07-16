@@ -25,7 +25,7 @@ public /*final*/ class TransactionBuilder {
 
     private var node: Stellar.Node
 
-    public init(source: Account, node: Stellar.Node) {
+    init(source: Account, node: Stellar.Node) {
         self.source = source
         self.node = node
     }
