@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -56,11 +56,11 @@
 		6831A10222DC9EB400EC2DDF /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831A0FD22DC9EB400EC2DDF /* KeychainSwift.swift */; };
 		6831A10322DC9EB400EC2DDF /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831A0FE22DC9EB400EC2DDF /* TegKeychainConstants.swift */; };
 		6831A10422DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831A0FF22DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift */; };
+		6831A2F922DDA96100EC2DDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931322A92DCF008C01EC /* Main.storyboard */; };
 		68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68AF916322A90C6A008C01EC /* KinSDK.framework */; };
 		68AF917422A90C6A008C01EC /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 68AF916622A90C6A008C01EC /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		68AF931022A92DCF008C01EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF930F22A92DCF008C01EC /* AppDelegate.swift */; };
 		68AF931222A92DCF008C01EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF931122A92DCF008C01EC /* ViewController.swift */; };
-		68AF931522A92DCF008C01EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931322A92DCF008C01EC /* Main.storyboard */; };
 		68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931622A92DD1008C01EC /* Assets.xcassets */; };
 		68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -474,11 +474,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 68AF917A22A90C6A008C01EC /* Build configuration list for PBXNativeTarget "KinSDKTests" */;
 			buildPhases = (
-				779BAFFE2312282B6762683B /* [CP] Check Pods Manifest.lock */,
 				68AF916822A90C6A008C01EC /* Sources */,
 				68AF916922A90C6A008C01EC /* Frameworks */,
 				68AF916A22A90C6A008C01EC /* Resources */,
-				39A6915C89CDE9BB4302F91D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -656,53 +654,11 @@
 			files = (
 				68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */,
 				68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */,
-				68AF931522A92DCF008C01EC /* Main.storyboard in Resources */,
+				6831A2F922DDA96100EC2DDF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		39A6915C89CDE9BB4302F91D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDK-KinSDKTests/Pods-Dependencies-KinSDK-KinSDKTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDK-KinSDKTests/Pods-Dependencies-KinSDK-KinSDKTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Dependencies-KinSDK-KinSDKTests/Pods-Dependencies-KinSDK-KinSDKTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		779BAFFE2312282B6762683B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Dependencies-KinSDK-KinSDKTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		68AF915F22A90C6A008C01EC /* Sources */ = {

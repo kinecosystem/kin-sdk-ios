@@ -15,7 +15,7 @@ script:
     fi
   - |
     if [ $TEST_MATRIX == "test" ]; then
-      xcodebuild test -workspace KinSDK.xcworkspace -scheme KinSDK -destination 'platform=iOS Simulator,name=iPhone X';
+      xcodebuild test -workspace KinSDK.xcworkspace -scheme KinSDKTestsHost -destination 'platform=iOS Simulator,name=iPhone X'
     fi
 
 after_success:
