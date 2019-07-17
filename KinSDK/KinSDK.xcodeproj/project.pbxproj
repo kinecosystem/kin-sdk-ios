@@ -13,7 +13,7 @@
 		6814CA7C22CA349C009388AE /* WhitelistPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6814CA7B22CA349C009388AE /* WhitelistPayload.swift */; };
 		6814CA8E22CB468E009388AE /* XDRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6814CA8622CB468E009388AE /* XDRTests.swift */; };
 		6814CA9B22CB4EAC009388AE /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF91D422A90D44008C01EC /* Transaction.swift */; };
-		683196E522D4773200EC2DDF /* TransactionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683196E422D4773200EC2DDF /* TransactionFactory.swift */; };
+		6831A2FB22DF5DE000EC2DDF /* TransactionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831A2FA22DF5DE000EC2DDF /* TransactionFactory.swift */; };
 		68460DB4F798A15AC1968593 /* Pods_Dependencies_KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5AD9100A0A995E5554E6B5 /* Pods_Dependencies_KinSDK.framework */; };
 		68AF916D22A90C6A008C01EC /* KinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68AF916322A90C6A008C01EC /* KinSDK.framework */; };
 		68AF917422A90C6A008C01EC /* KinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 68AF916622A90C6A008C01EC /* KinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -133,7 +133,7 @@
 		6814CA7922CA32F9009388AE /* RawTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawTransaction.swift; sourceTree = "<group>"; };
 		6814CA7B22CA349C009388AE /* WhitelistPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitelistPayload.swift; sourceTree = "<group>"; };
 		6814CA8622CB468E009388AE /* XDRTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XDRTests.swift; sourceTree = "<group>"; };
-		683196E422D4773200EC2DDF /* TransactionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFactory.swift; sourceTree = "<group>"; };
+		6831A2FA22DF5DE000EC2DDF /* TransactionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFactory.swift; sourceTree = "<group>"; };
 		68AF916322A90C6A008C01EC /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68AF916622A90C6A008C01EC /* KinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KinSDK.h; sourceTree = "<group>"; };
 		68AF916722A90C6A008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -373,8 +373,8 @@
 				6814CA7522CA3223009388AE /* BaseTransaction.swift */,
 				6814CA7722CA32CD009388AE /* PaymentTransaction.swift */,
 				6814CA7922CA32F9009388AE /* RawTransaction.swift */,
-				683196E422D4773200EC2DDF /* TransactionFactory.swift */,
 				6814CA7B22CA349C009388AE /* WhitelistPayload.swift */,
+				6831A2FA22DF5DE000EC2DDF /* TransactionFactory.swift */,
 			);
 			path = types;
 			sourceTree = "<group>";
@@ -900,7 +900,7 @@
 				68AF91FE22A90D45008C01EC /* BCKeyUtils.swift in Sources */,
 				68AF920522A90D45008C01EC /* XDRCodable.swift in Sources */,
 				68AF91FA22A90D45008C01EC /* Stellar.swift in Sources */,
-				683196E522D4773200EC2DDF /* TransactionFactory.swift in Sources */,
+				6831A2FB22DF5DE000EC2DDF /* TransactionFactory.swift in Sources */,
 				6814CA7622CA3223009388AE /* BaseTransaction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -123,7 +123,7 @@ public final class KinAccount {
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
-     - Parameter completion: A completion with the `Transaction.Envelope` or an `Error`.
+     - Parameter completion: A completion with the `PaymentTransaction` or an `Error`.
      */
     public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
@@ -156,9 +156,15 @@ public final class KinAccount {
                                 memo: try Memo(prefixedMemo),
                                 node: node,
                                 fee: fee)
-                .then { transactionEnvelope -> Void in
+                .then { baseTransaction -> Void in
                     self.stellarAccount.sign = nil
-                    completion(transactionEnvelope, nil)
+
+                    if let paymentTransaction = baseTransaction as? PaymentTransaction {
+                        completion(paymentTransaction, nil)
+                    }
+                    else {
+                        completion(nil, KinError.internalInconsistency)
+                    }
                 }
                 .error { error in
                     self.stellarAccount.sign = nil
@@ -179,9 +185,9 @@ public final class KinAccount {
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
 
-     - Returns: A promise which is signalled with the `Transaction.Envelope` or an `Error`.
+     - Returns: A promise which is signalled with the `PaymentTransaction` or an `Error`.
      */
-    public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
+    public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<PaymentTransaction> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
             self.buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
         }
@@ -407,7 +413,7 @@ extension KinAccount {
     }
 
     @available(*, deprecated, renamed: "buildPaymentTransaction")
-    public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
+    public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<PaymentTransaction> {
         return buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee)
     }
 }

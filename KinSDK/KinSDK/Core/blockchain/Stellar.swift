@@ -47,9 +47,9 @@ public enum Stellar {
                                    amount: Int64,
                                    memo: Memo = .MEMO_NONE,
                                    node: Node,
-                                   fee: Quark) -> Promise<Transaction.Envelope> {
+                                   fee: Quark) -> Promise<BaseTransaction> {
         return balance(account: destination, node: node)
-            .then { _ -> Promise<Transaction.Envelope> in
+            .then { _ -> Promise<BaseTransaction> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
                                            asset: .native,
@@ -59,7 +59,7 @@ public enum Stellar {
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
-                    .envelope(networkId: node.network.id)
+                    .build()
             }
             .mapError({ error -> Error in
                 switch error {

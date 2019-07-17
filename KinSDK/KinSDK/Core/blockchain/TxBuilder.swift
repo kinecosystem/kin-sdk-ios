@@ -67,12 +67,12 @@ public /*final*/ class TransactionBuilder {
     }
 
     @available(*, deprecated, renamed: "build")
-    public func tx() -> Promise<RawTransaction> {
+    public func tx() -> Promise<BaseTransaction> {
         return build()
     }
 
-    public func build() -> Promise<RawTransaction> {
-        let p = Promise<RawTransaction>()
+    public func build() -> Promise<BaseTransaction> {
+        let p = Promise<BaseTransaction>()
 
         guard let sourceKey = source.publicKey else {
             p.signal(StellarError.missingPublicKey)
@@ -90,7 +90,9 @@ public /*final*/ class TransactionBuilder {
                                           fee: fee,
                                           operations: operations)
 
-            p.signal(RawTransaction(transaction: transaction))
+
+
+            p.signal(transaction.wrapper())
         }
         else {
             Stellar.sequence(account: sourceKey, seqNum: sequence, node: node)
@@ -101,33 +103,11 @@ public /*final*/ class TransactionBuilder {
                                                   memo: self.memo ?? .MEMO_NONE,
                                                   operations: self.operations)
 
-                    p.signal(RawTransaction(transaction: transaction))
+                    p.signal(transaction.wrapper())
                 }
                 .error { _ in
                     p.signal(StellarError.missingSequence)
             }
-        }
-
-        return p
-    }
-
-    public func envelope(networkId: Network.Id) -> Promise<Transaction.Envelope> {
-        let p = Promise<Transaction.Envelope>()
-
-        build()
-            .then { rawTransaction in
-                do {
-                    var rawTransaction = rawTransaction
-                    try rawTransaction.addSignature(account: self.source, networkId: networkId)
-
-                    p.signal(rawTransaction.envelope())
-                }
-                catch {
-                    p.signal(error)
-                }
-            }
-            .error { error in
-                p.signal(error)
         }
 
         return p

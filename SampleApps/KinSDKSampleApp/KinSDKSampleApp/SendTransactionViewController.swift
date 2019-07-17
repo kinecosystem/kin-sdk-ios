@@ -66,17 +66,17 @@ class SendTransactionViewController: UIViewController {
         let address = addressTextField.text ?? ""
 
         promise(curry(kinAccount.buildPaymentTransaction)(address)(amount)(memoTextField.text)(0))
-            .then(on: .main) { [weak self] transactionEnvelope -> Promise<Transaction.Envelope> in
+            .then(on: .main) { [weak self] paymentTransaction -> Promise<Transaction.Envelope> in
                 guard let strongSelf = self else {
                     return Promise(KinError.unknown)
                 }
 
                 guard strongSelf.whitelistSegmentedControl.selectedSegmentIndex == 0 else {
-                    return Promise(transactionEnvelope)
+                    return Promise(paymentTransaction.envelope())
                 }
 
                 let networkId = Network.testNet.id
-                let whitelistPayload = WhitelistPayload(transactionEnvelope: transactionEnvelope, networkId: networkId)
+                let whitelistPayload = WhitelistPayload(transactionEnvelope: paymentTransaction.envelope(), networkId: networkId)
                 let url = URL(string: "http://34.239.111.38:3000/whitelist")!
 
                 return strongSelf.whitelistTransaction(to: url, whitelistPayload: whitelistPayload)

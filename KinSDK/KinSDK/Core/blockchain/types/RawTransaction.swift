@@ -8,13 +8,7 @@
 
 import Foundation
 
-public class RawTransaction: InternalBaseTransaction {
-    var transaction: Transaction
-
-    init(transaction: Transaction) {
-        self.transaction = transaction
-    }
-
+public class RawTransaction: BaseTransaction {
     public var operations: [Operation] {
         return transaction.operations
     }

@@ -8,8 +8,7 @@
 
 import Foundation
 
-public class PaymentTransaction: InternalBaseTransaction {
-    var transaction: Transaction
+public class PaymentTransaction: BaseTransaction {
     let operation: PaymentOp
 
     private static func findPaymentOperation(operations: [Operation]) -> PaymentOp? {
@@ -28,13 +27,14 @@ public class PaymentTransaction: InternalBaseTransaction {
         return nil
     }
 
-    init(transaction: Transaction) throws {
+    required init(tryWrapping transaction: Transaction) throws {
         guard let operation = PaymentTransaction.findPaymentOperation(operations: transaction.operations) else {
             throw StellarError.decodeTransactionFailed
         }
 
         self.operation = operation
-        self.transaction = transaction
+
+        super.init(wrapping: transaction)
     }
 
     public var amount: Int64 {
