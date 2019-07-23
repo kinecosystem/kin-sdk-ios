@@ -132,19 +132,19 @@ class KinAccountTests: XCTestCase {
         }
     }
 
-    func test_aggregated_balance() {
-        let expectation = XCTestExpectation()
-
-        account0.aggregatedBalance { (kin, error) in
-            self.fail(on: error)
-
-            XCTAssertNotNil(kin, "The aggregated balance should not be nil")
-
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: requestTimeout)
-    }
+//    func test_aggregated_balance() {
+//        let expectation = XCTestExpectation()
+//
+//        account0.aggregatedBalance { (kin, error) in
+//            self.fail(on: error)
+//
+//            XCTAssertNotNil(kin, "The aggregated balance should not be nil")
+//
+//            expectation.fulfill()
+//        }
+//
+//        wait(for: [expectation], timeout: requestTimeout)
+//    }
 
     // MARK: - Build Transaction
 

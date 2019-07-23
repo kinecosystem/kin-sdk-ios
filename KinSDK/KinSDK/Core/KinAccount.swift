@@ -273,51 +273,6 @@ public final class KinAccount {
         return promise(balance)
     }
 
-    /**
-     Retrieve the aggregated Kin balance.
-
-     The aggregated balance is the combined balance of all linked accounts.
-
-     - Parameter publicAddress: An optional address to check the aggregated balance.
-     - Parameter completion: A closure to be invoked once the request completes.
-     */
-    public func aggregatedBalance(for publicAddress: String? = nil, completion: @escaping BalanceCompletion) {
-        guard deleted == false else {
-            completion(nil, KinError.accountDeleted)
-            return
-        }
-
-        Stellar.aggregatedBalance(account: publicAddress ?? stellarAccount.publicKey!, node: node)
-            .then { balance -> Void in
-                completion(balance, nil)
-            }
-            .error { error in
-                completion(nil, error)
-        }
-    }
-
-    /**
-     Retrieve the controlled accounts.
-
-     The controlled accounts are all of the linked accounts.
-
-     - Parameter completion: A closure to be invoked once the request completes.
-     */
-    public func controlledAccounts(completion: @escaping ([ControlledAccount]?, Error?) -> Void) {
-        guard deleted == false else {
-            completion(nil, KinError.accountDeleted)
-            return
-        }
-
-        Stellar.controlledAccounts(account: stellarAccount.publicKey!, node: node)
-            .then { controlledAccounts -> Void in
-                completion(controlledAccounts, nil)
-            }
-            .error { error in
-                completion(nil, error)
-        }
-    }
-
     func accountData(completion: @escaping (AccountData?, Error?) -> Void) {
         Stellar.accountData(account: stellarAccount.publicKey!, node: node)
             .then { accountData in
