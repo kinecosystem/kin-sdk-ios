@@ -39,16 +39,6 @@ public enum KinError: Error {
     case balanceQueryFailed (Error)
 
     /**
-     Querying for the account aggregated balance failed.
-     */
-    case aggregatedBalanceQueryFailed (Error)
-
-    /**
-     Querying for the list of controlled accounts failed.
-     */
-    case controlledAccountsQueryFailed (Error)
-
-    /**
      The app id must be 4 characters and only numbers and/or letters.
      */
     case invalidAppId
@@ -99,10 +89,6 @@ extension KinError: LocalizedError {
             return "Payment failed"
         case .balanceQueryFailed:
             return "Balance query failed"
-        case .aggregatedBalanceQueryFailed:
-            return "Aggregated balance query failed"
-        case .controlledAccountsQueryFailed:
-            return "Controlled accounts query failed."
         case .invalidAppId:
             return "Invalid app id"
         case .invalidAmount:

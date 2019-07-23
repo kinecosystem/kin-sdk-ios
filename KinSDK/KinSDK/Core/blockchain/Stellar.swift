@@ -102,7 +102,7 @@ public enum Stellar {
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func aggregatedBalance(account: String, node: Node) -> Promise<Kin> {
+    static func aggregatedBalance(account: String, node: Node) -> Promise<Kin> {
         let url = Endpoint(node.baseURL).account(account).aggregatedBalance().url
 
         return issue(request: URLRequest(url: url))
@@ -131,7 +131,7 @@ public enum Stellar {
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func controlledAccounts(account: String, node: Node) -> Promise<[ControlledAccount]> {
+    static func controlledAccounts(account: String, node: Node) -> Promise<[ControlledAccount]> {
         let url = Endpoint(node.baseURL).account(account).controlledAccounts().url
 
         return issue(request: URLRequest(url: url))
@@ -149,6 +149,35 @@ public enum Stellar {
             }
             .then { controlledAccountsResponse -> Promise<[ControlledAccount]> in
                 return Promise(controlledAccountsResponse.controlledAccounts)
+        }
+    }
+
+    static func accountData(account: String, node: Node) -> Promise<AccountData> {
+        let url = Endpoint(node.baseURL).account(account).url
+
+        return issue(request: URLRequest(url: url))
+            .then { data -> Promise<AccountResponse> in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    if case 400...404 = horizonError.status {
+                        throw StellarError.invalidAccount
+                    }
+                    else {
+                        throw StellarError.unknownError(horizonError)
+                    }
+                }
+
+                return try Promise(JSONDecoder().decode(AccountResponse.self, from: data))
+            }
+            .then { accountResponse in
+                return Promise(AccountData(publicAddress: accountResponse.keyPair,
+                                           sequenceNumber: accountResponse.sequenceNumber,
+                                           pagingToken: accountResponse.pagingToken,
+                                           subentryCount: accountResponse.subentryCount,
+                                           thresholds: accountResponse.thresholds,
+                                           flags: accountResponse.flags,
+                                           balances: accountResponse.balances,
+                                           signers: accountResponse.signers,
+                                           data: accountResponse.data))
         }
     }
 

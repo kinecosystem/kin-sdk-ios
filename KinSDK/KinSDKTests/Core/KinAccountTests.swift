@@ -403,17 +403,17 @@ extension KinAccountTests {
     }
 
     func buildPaymentTransaction(kin: Kin, memo: String?, fee: Quark, completion: @escaping (Transaction.Envelope) -> Void) {
-        account0.buildPaymentTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (envelope, error) in
+        account0.buildPaymentTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (paymentTransaction, error) in
             DispatchQueue.main.async {
                 self.fail(on: error)
 
-                XCTAssertNotNil(envelope, "The envelope should not be nil")
+                XCTAssertNotNil(paymentTransaction, "The payment transaction should not be nil")
 
-                guard let envelope = envelope else {
+                guard let paymentTransaction = paymentTransaction else {
                     return
                 }
 
-                completion(envelope)
+                completion(paymentTransaction.envelope())
             }
         }
     }

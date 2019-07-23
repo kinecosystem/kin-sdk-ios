@@ -362,7 +362,6 @@ extension Transaction {
             self.signatures = signatures
         }
 
-        // ???: is this needed
         public func wrappedTransaction() -> BaseTransaction {
             return TransactionFactory.wrapping(transaction: tx)
         }

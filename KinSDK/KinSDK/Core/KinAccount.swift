@@ -292,7 +292,7 @@ public final class KinAccount {
                 completion(balance, nil)
             }
             .error { error in
-                completion(nil, KinError.aggregatedBalanceQueryFailed(error))
+                completion(nil, error)
         }
     }
 
@@ -314,7 +314,17 @@ public final class KinAccount {
                 completion(controlledAccounts, nil)
             }
             .error { error in
-                completion(nil, KinError.controlledAccountsQueryFailed(error))
+                completion(nil, error)
+        }
+    }
+
+    func accountData(completion: @escaping (AccountData?, Error?) -> Void) {
+        Stellar.accountData(account: stellarAccount.publicKey!, node: node)
+            .then { accountData in
+                completion(accountData, nil)
+            }
+            .error { error in
+                completion(nil, error)
         }
     }
 

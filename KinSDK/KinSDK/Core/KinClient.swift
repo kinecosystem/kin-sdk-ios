@@ -108,7 +108,7 @@ public final class KinClient {
             throw KinError.internalInconsistency
         }
 
-        let accountData = try JSONDecoder().decode(AccountData.self, from: data)
+        let accountData = try JSONDecoder().decode(StellarAccount.KeychainData.self, from: data)
 
         try KeyStore.importAccount(accountData,
                                    passphrase: passphrase,
