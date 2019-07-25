@@ -1,6 +1,6 @@
 #  Kin SDK for iOS
 
-[![Swift Version](https://img.shields.io/badge/Swift-5.0.x-blue.svg)](https://swift.org)
+[![Swift Version](https://img.shields.io/badge/Swift-5.0.x-orange.svg)](https://swift.org)
 [![Platforms](https://img.shields.io/cocoapods/p/KinSDK.svg)](https://cocoapods.org/pods/KinSDK)
 [![Build Status](https://api.travis-ci.com/kinecosystem/kin-sdk-ios.svg?branch=master)](https://travis-ci.org/kinecosystem/kin-sdk-ios)
 [![CocoaPods](https://img.shields.io/cocoapods/v/KinSDK.svg?color=6f41e8)](https://cocoapods.org/pods/KinSDK)
@@ -11,6 +11,7 @@ This library allows you to integrate Kin into your iOS application. [Give it a t
 ## Features
 
 * [Kin SDK (Core)](https://kinecosystem.github.io/kin-website-docs/docs/documentation/ios-sdk)
+* [Appreciation - Options Menu](https://kinecosystem.github.io/kin-website-docs/docs/documentation/appreciation-module-options-menu-ios)
 * [Backup and Restore](https://kinecosystem.github.io/kin-website-docs/docs/documentation/backup-restore-ios)
 
 ## Contributing
