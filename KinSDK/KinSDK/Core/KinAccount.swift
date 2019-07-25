@@ -28,7 +28,7 @@ public final class KinAccount {
         return stellarAccount.publicKey!
     }
 
-    public var extra: Data? {
+    var extra: Data? {
         get {
             guard let extra = try? stellarAccount.extra() else {
                 return nil
