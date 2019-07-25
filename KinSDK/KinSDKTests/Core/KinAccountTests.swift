@@ -132,20 +132,6 @@ class KinAccountTests: XCTestCase {
         }
     }
 
-//    func test_aggregated_balance() {
-//        let expectation = XCTestExpectation()
-//
-//        account0.aggregatedBalance { (kin, error) in
-//            self.fail(on: error)
-//
-//            XCTAssertNotNil(kin, "The aggregated balance should not be nil")
-//
-//            expectation.fulfill()
-//        }
-//
-//        wait(for: [expectation], timeout: requestTimeout)
-//    }
-
     // MARK: - Build Transaction
 
     func test_build_transaction_of_zero_kin() {
@@ -286,22 +272,6 @@ class KinAccountTests: XCTestCase {
         catch {
             XCTAssertTrue(false, "Something went wrong: \(error)")
         }
-    }
-
-    // MARK: - Account
-
-    func test_controlled_accounts() {
-        let expectation = XCTestExpectation()
-
-        account0.controlledAccounts { (controlledAccounts, error) in
-            self.fail(on: error)
-
-            XCTAssertNotNil(controlledAccounts, "The controlled accounts should not be nil")
-
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: requestTimeout)
     }
 
     // MARK: - Deleting Account
