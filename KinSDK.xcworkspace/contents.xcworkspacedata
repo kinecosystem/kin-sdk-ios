@@ -2,15 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:KinSDK/KinSDK.xcodeproj">
+      location = "group:KinSDK.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:SampleApps/KinSDKSampleApp/KinSDKSampleApp.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:SampleApps/KinBackupRestoreSampleApp/KinBackupRestoreSampleApp.xcodeproj">
+      location = "group:KinSDKSampleApp/KinSDKSampleApp.xcodeproj">
    </FileRef>
 </Workspace>

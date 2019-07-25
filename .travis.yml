@@ -1,7 +1,7 @@
 language: swift
 osx_image: xcode10.2
-xcode_project: KinSampleApp.xcodeproj
-xcode_scheme: KinSampleApp
+xcode_workspace: KinSDK.xcworkspace
+xcode_scheme: KinSDKTests
 xcode_sdk: iphonesimulator12.2
 
 env:
@@ -11,11 +11,11 @@ env:
 script:
   - |
     if [ $TEST_MATRIX == "build" ]; then 
-      xcodebuild -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSampleApp -sdk iphonesimulator12.2 -configuration "Debug"
+      xcodebuild -workspace KinSDK.xcworkspace -scheme KinSDKSampleApp -sdk iphonesimulator12.2 -configuration "Debug"
     fi
   - |
     if [ $TEST_MATRIX == "test" ]; then
-      xcodebuild test -workspace KinSampleApp/KinSampleApp.xcodeproj/project.xcworkspace -scheme KinSDK -destination 'platform=iOS Simulator,name=iPhone X';
+      xcodebuild test -workspace KinSDK.xcworkspace -scheme KinSDKTestsHost -destination 'platform=iOS Simulator,name=iPhone X'
     fi
 
 after_success:
