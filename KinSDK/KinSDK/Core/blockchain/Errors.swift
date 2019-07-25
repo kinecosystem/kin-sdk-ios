@@ -11,6 +11,7 @@ import Foundation
 public enum StellarError: Error {
     case memoTooLong (Any?)
     case missingAccount
+    case invalidAccount
     case missingPublicKey
     case missingHash
     case missingSequence
@@ -21,6 +22,7 @@ public enum StellarError: Error {
     case dataDencodingFailed
     case signingFailed
     case destinationNotReadyForAsset (Error)
+    case decodeTransactionFailed
     case unknownError (Any?)
     case internalInconsistency
 }

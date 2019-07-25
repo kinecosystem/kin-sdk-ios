@@ -108,7 +108,7 @@ public final class KinClient {
             throw KinError.internalInconsistency
         }
 
-        let accountData = try JSONDecoder().decode(AccountData.self, from: data)
+        let accountData = try JSONDecoder().decode(StellarAccount.KeychainData.self, from: data)
 
         try KeyStore.importAccount(accountData,
                                    passphrase: passphrase,
@@ -135,15 +135,15 @@ public final class KinClient {
     /**
      Cached minimum fee.
      */
-    private var _minFee: Stroop?
+    private var _minFee: Quark?
 
     /**
      Get the minimum fee for sending a transaction.
 
      - Returns: The minimum fee needed to send a transaction.
      */
-    public func minFee() -> Promise<Stroop> {
-        let promise = Promise<Stroop>()
+    public func minFee() -> Promise<Quark> {
+        let promise = Promise<Quark>()
 
         if let minFee = _minFee {
             promise.signal(minFee)

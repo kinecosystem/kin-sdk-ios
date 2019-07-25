@@ -1,22 +1,22 @@
 //
-// WhitelistEnvelope.swift
-// KinSDK
+//  WhitelistPayload.swift
+//  KinSDK
 //
-// Created by Kin Foundation.
-// Copyright © 2018 Kin Foundation. All rights reserved.
+//  Created by Corey Werner on 01/07/2019.
+//  Copyright © 2019 Kin Foundation. All rights reserved.
 //
 
 import Foundation
 
 /**
- `WhitelistEnvelope` wraps a `TransactionEnvelope` and the `Network.Id`.
+ `WhitelistPayload` wraps a `Transaction.Envelope` and the `Network.Id`.
  */
-public struct WhitelistEnvelope {
-    
+public struct WhitelistPayload {
+
     /**
-     The `TransactionEnvelope`.
+     The `Transaction.Envelope`.
      */
-    public let transactionEnvelope: TransactionEnvelope
+    public let transactionEnvelope: Transaction.Envelope
 
     /**
      The `Network.Id`.
@@ -29,20 +29,20 @@ public struct WhitelistEnvelope {
      - Parameter transactionEnvelope:
      - Parameter networkId:
      */
-    public init(transactionEnvelope: TransactionEnvelope, networkId: Network.Id) {
+    public init(transactionEnvelope: Transaction.Envelope, networkId: Network.Id) {
         self.transactionEnvelope = transactionEnvelope
         self.networkId = networkId
     }
 }
 
-extension WhitelistEnvelope {
+extension WhitelistPayload {
     enum CodingKeys: String, CodingKey {
         case transactionEnvelope = "tx_envelope"
         case networkId = "network_id"
     }
 }
 
-extension WhitelistEnvelope: Decodable {
+extension WhitelistPayload: Decodable {
     /**
      Initializes the `WhitelistEnvelope` with a Decoder.
 
@@ -52,13 +52,13 @@ extension WhitelistEnvelope: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
         let transactionEnvelopeData = try values.decode(Data.self, forKey: .transactionEnvelope)
-        transactionEnvelope = try XDRDecoder.decode(TransactionEnvelope.self, data: transactionEnvelopeData)
+        transactionEnvelope = try XDRDecoder.decode(Transaction.Envelope.self, data: transactionEnvelopeData)
 
         networkId = try values.decode(Network.Id.self, forKey: .networkId)
     }
 }
 
-extension WhitelistEnvelope: Encodable {
+extension WhitelistPayload: Encodable {
     /**
      Encode the `WhitelistEnvelope` into the given Encoder.
 
@@ -75,3 +75,6 @@ extension WhitelistEnvelope: Encodable {
         try container.encode(networkId, forKey: .networkId)
     }
 }
+
+@available(*, deprecated, renamed: "WhitelistPayload")
+public struct WhitelistEnvelope {}

@@ -8,6 +8,19 @@
 
 import Foundation
 
+
+
+
+
+public struct KeyPair {
+
+}
+
+
+
+
+
+
 struct CryptoKeyType {
     static let KEY_TYPE_ED25519: Int32 = 0
     static let KEY_TYPE_PRE_AUTH_TX: Int32 = 1
@@ -21,12 +34,11 @@ struct PublicKeyType {
 enum PublicKey: XDRCodable, Equatable {
     case PUBLIC_KEY_TYPE_ED25519 (WrappedData32)
 
-    var publicKey: String? {
-        if case .PUBLIC_KEY_TYPE_ED25519(let wrapper) = self {
+    var publicKey: String {
+        switch self {
+        case .PUBLIC_KEY_TYPE_ED25519(let wrapper):
             return BCKeyUtils.base32(publicKey: Array(wrapper.wrapped))
         }
-
-        return nil
     }
 
     init(from decoder: XDRDecoder) throws {

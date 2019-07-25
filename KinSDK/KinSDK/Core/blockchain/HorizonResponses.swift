@@ -17,7 +17,7 @@ struct HorizonError: Decodable {
     let extras: Extras?
 
     struct Extras: Decodable {
-        let resultXDR: String
+        let resultXDR: String?
 
         enum CodingKeys: String, CodingKey {
             case resultXDR = "result_xdr"
@@ -29,7 +29,7 @@ public struct NetworkParameters: Decodable {
     private let _links: Links
     private let _embedded: [String: [LedgerResponse]]
 
-    public var baseFee: Stroop {
+    public var baseFee: Quark {
         return _embedded["records"]!.first!.base_fee_in_stroops
     }
 }
@@ -97,9 +97,92 @@ struct LedgerResponse: Decodable {
     let _links: Links?
     let id: String
     let hash: String
-    let base_fee_in_stroops: Stroop
-    let base_reserve_in_stroops: Stroop
+    let base_fee_in_stroops: Quark
+    let base_reserve_in_stroops: Quark
     let max_tx_set_size: Int
+}
+
+public struct AggregatedBalanceResponse: Decodable {
+    let _links: Links
+    public let publicAddress: String
+    public let balance: Kin
+
+    private enum RootKeys: String, CodingKey {
+        case _links
+        case _embedded
+    }
+
+    private enum EmbeddedKeys: String, CodingKey {
+        case records
+    }
+
+    private enum AggregatedBalanceKeys: String, CodingKey {
+        case accountId = "account_id"
+        case balance = "aggregate_balance"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: RootKeys.self)
+        let embeddedContainer = try container.nestedContainer(keyedBy: EmbeddedKeys.self, forKey: ._embedded)
+        var aggregatedBalancesContainer = try embeddedContainer.nestedUnkeyedContainer(forKey: .records)
+        let aggregatedBalanceContainer = try aggregatedBalancesContainer.nestedContainer(keyedBy: AggregatedBalanceKeys.self)
+
+        self._links = try container.decode(Links.self, forKey: ._links)
+        self.publicAddress = try aggregatedBalanceContainer.decode(String.self, forKey: .accountId)
+        let balanceString = try aggregatedBalanceContainer.decode(String.self, forKey: .balance)
+
+        guard let balance = Kin(string: balanceString) else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: aggregatedBalanceContainer.codingPath + [AggregatedBalanceKeys.balance], debugDescription: "aggregate_balance must be a string parsable double"))
+        }
+
+        self.balance = balance
+    }
+}
+
+public struct ControlledAccountsResponse: Decodable {
+    let _links: Links
+    public let controlledAccounts: [ControlledAccount]
+
+    private enum RootKeys: String, CodingKey {
+        case _links
+        case _embedded
+    }
+
+    private enum EmbeddedKeys: String, CodingKey {
+        case records
+    }
+
+    private enum ControlledAccountKeys: String, CodingKey {
+        case accountId = "account_id"
+        case balance
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: RootKeys.self)
+        let embeddedContainer = try container.nestedContainer(keyedBy: EmbeddedKeys.self, forKey: ._embedded)
+        var controlledAccountsContainer = try embeddedContainer.nestedUnkeyedContainer(forKey: .records)
+        var controlledAccounts: [ControlledAccount] = []
+
+        while !controlledAccountsContainer.isAtEnd {
+            let controlledAccountContainer = try controlledAccountsContainer.nestedContainer(keyedBy: ControlledAccountKeys.self)
+            let publicAddress = try controlledAccountContainer.decode(String.self, forKey: .accountId)
+            let balanceString = try controlledAccountContainer.decode(String.self, forKey: .balance)
+
+            guard let balance = Kin(string: balanceString) else {
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: controlledAccountContainer.codingPath + [ControlledAccountKeys.balance], debugDescription: "balance must be a string parsable double"))
+            }
+
+            controlledAccounts.append(ControlledAccount(balance: balance, publicAddress: publicAddress))
+        }
+
+        self._links = try container.decode(Links.self, forKey: ._links)
+        self.controlledAccounts = controlledAccounts
+    }
+}
+
+public struct ControlledAccount: Decodable {
+    public let balance: Kin
+    public let publicAddress: String
 }
 
 struct Links: Decodable {

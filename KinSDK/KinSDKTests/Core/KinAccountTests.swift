@@ -137,7 +137,7 @@ class KinAccountTests: XCTestCase {
     func test_build_transaction_of_zero_kin() {
         let expectation = XCTestExpectation()
 
-        account0.generateTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
+        account0.buildPaymentTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
             if let _ = envelope {
                 XCTAssertTrue(false, "Envelope should be nil")
             }
@@ -166,7 +166,7 @@ class KinAccountTests: XCTestCase {
 
             let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
-            buildTransaction(kin: sendAmount, memo: nil, fee: 0) { envelope in
+            buildPaymentTransaction(kin: sendAmount, memo: nil, fee: 0) { envelope in
                 do {
                     let txId = try self.sendTransaction(envelope)
 
@@ -194,7 +194,7 @@ class KinAccountTests: XCTestCase {
 
             let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
-            buildTransaction(kin: sendAmount, memo: "memo", fee: 0) { envelope in
+            buildPaymentTransaction(kin: sendAmount, memo: "memo", fee: 0) { envelope in
                 do {
                     let txId = try self.sendTransaction(envelope)
 
@@ -222,7 +222,7 @@ class KinAccountTests: XCTestCase {
 
             let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
-            buildTransaction(kin: sendAmount, memo: "", fee: 0) { envelope in
+            buildPaymentTransaction(kin: sendAmount, memo: "", fee: 0) { envelope in
                 do {
                     let txId = try self.sendTransaction(envelope)
 
@@ -251,7 +251,7 @@ class KinAccountTests: XCTestCase {
             let balance = try getBalance(account0)
             let amount = balance * Kin(AssetUnitDivisor) + 1
 
-            buildTransaction(kin: amount, memo: nil, fee: 0) { envelope in
+            buildPaymentTransaction(kin: amount, memo: nil, fee: 0) { envelope in
                 do {
                     _ = try self.sendTransaction(envelope)
 
@@ -307,7 +307,7 @@ class KinAccountTests: XCTestCase {
 
             try kinClient.deleteAccount(at: 0)
 
-            account.generateTransaction(to: "", kin: 1, memo: nil, fee: 0) { (envelope, error) in
+            account.buildPaymentTransaction(to: "", kin: 1, memo: nil, fee: 0) { (envelope, error) in
                 guard let error = error else {
                     XCTAssertTrue(false, "Error should not be nil")
                     return
@@ -347,7 +347,7 @@ extension KinAccountTests {
         let group = DispatchGroup()
         group.enter()
 
-        let url = URL(string: "http://friendbot-testnet.kininfrastructure.com?addr=\(kinAccount.publicAddress)&amount\(amount)")!
+        let url = URL(string: "https://friendbot-testnet.kininfrastructure.com?addr=\(kinAccount.publicAddress)&amount\(amount)")!
         URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             guard
                 let data = data,
@@ -372,23 +372,23 @@ extension KinAccountTests {
         throw KinError.unknown
     }
 
-    func buildTransaction(kin: Kin, memo: String?, fee: Stroop, completion: @escaping (TransactionEnvelope) -> Void) {
-        account0.generateTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (envelope, error) in
+    func buildPaymentTransaction(kin: Kin, memo: String?, fee: Quark, completion: @escaping (Transaction.Envelope) -> Void) {
+        account0.buildPaymentTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (paymentTransaction, error) in
             DispatchQueue.main.async {
                 self.fail(on: error)
 
-                XCTAssertNotNil(envelope, "The envelope should not be nil")
+                XCTAssertNotNil(paymentTransaction, "The payment transaction should not be nil")
 
-                guard let envelope = envelope else {
+                guard let paymentTransaction = paymentTransaction else {
                     return
                 }
 
-                completion(envelope)
+                completion(paymentTransaction.envelope())
             }
         }
     }
 
-    func sendTransaction(_ envelope: TransactionEnvelope) throws -> TransactionId {
+    func sendTransaction(_ envelope: Transaction.Envelope) throws -> TransactionId {
         let txClosure = { (txComp: @escaping SendTransactionCompletion) in
             self.account0.sendTransaction(envelope, completion: txComp)
         }

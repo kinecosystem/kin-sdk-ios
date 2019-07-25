@@ -197,4 +197,3 @@ public struct Price: XDRDecodable {
         d = try decoder.decode(Int32.self)
     }
 }
-

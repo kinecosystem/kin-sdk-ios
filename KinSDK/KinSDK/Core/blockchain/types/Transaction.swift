@@ -139,127 +139,6 @@ public struct TimeBounds: XDRCodable, XDREncodableStruct {
     let maxTime: UInt64
 }
 
-/**
- A `Transaction` represents a transaction that modifies the ledger in the blockchain network.
- A Kin `Transaction` is used to send payments.
- */
-public struct Transaction: XDRCodable {
-
-    /**
-     Maximum length of a `Memo` object.
-     */
-    public static let MaxMemoLength = 28
-    let sourceAccount: PublicKey
-    let fee: Stroop
-    let seqNum: UInt64
-    let timeBounds: TimeBounds?
-    let memo: Memo
-    let operations: [Operation]
-    let reserved: Int32 = 0
-
-    var memoString: String? {
-        if case let Memo.MEMO_TEXT(text) = memo {
-            return text
-        }
-
-        return nil
-    }
-
-    /**
-     Initialize a `Transaction`.
-
-     - SeeAlso: [Transactions in the Stellar network](https://www.stellar.org/developers/guides/concepts/transactions.html).
-
-     - Parameter sourceAccount: The public address of the source account.
-     - Parameter seqNum: Each transaction has a sequence number.
-     - Parameter timeBounds: optional UNIX timestamp (in seconds) of a lower and upper bound of when this transaction will be valid. If a transaction is submitted too early or too late, it will fail to make it into the transaction set. maxTime equal 0 means that it’s not set.
-     - Parameter memo: optional extra information such as an order number.
-     - Parameter fee: Each transaction sets a fee in `Stroop` that is paid by the source account.
-     - Parameter operations: Transactions contain an arbitrary list of operations inside them. Typically there is just 1 operation.
-    */
-    public init(sourceAccount: String,
-                seqNum: UInt64,
-                timeBounds: TimeBounds?,
-                memo: Memo,
-                fee: Stroop? = nil,
-                operations: [Operation]) {
-        self.init(sourceAccount: .PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourceAccount))),
-                  seqNum: seqNum,
-                  timeBounds: timeBounds,
-                  memo: memo,
-                  fee: fee,
-                  operations: operations)
-    }
-
-    init(sourceAccount: PublicKey,
-         seqNum: UInt64,
-         timeBounds: TimeBounds?,
-         memo: Memo,
-         fee: Stroop? = nil,
-         operations: [Operation]) {
-        self.sourceAccount = sourceAccount
-        self.seqNum = seqNum
-        self.timeBounds = timeBounds
-        self.memo = memo
-        self.operations = operations
-
-        self.fee = fee ?? UInt32(100 * operations.count)
-    }
-
-    /**
-     Initializes a `Transaction` from a `XDRDecoder`.
-
-     - Parameter from: The `XDRDecoder` containing all the transaction information.
-
-     - Throws:
-     */
-    public init(from decoder: XDRDecoder) throws {
-        sourceAccount = try decoder.decode(PublicKey.self)
-        fee = try decoder.decode(UInt32.self)
-        seqNum = try decoder.decode(UInt64.self)
-        timeBounds = try decoder.decodeArray(TimeBounds.self).first
-        memo = try decoder.decode(Memo.self)
-        operations = try decoder.decodeArray(Operation.self)
-        _ = try decoder.decode(Int32.self)
-    }
-
-    /**
-    Encodes this `Transaction` to the given XDREncoder.
-
-    - Parameter to: the `XDREncoder` to encode to.
-
-     - Throws:
-    */
-    public func encode(to encoder: XDREncoder) throws {
-        try encoder.encode(sourceAccount)
-        try encoder.encode(fee)
-        try encoder.encode(seqNum)
-        try encoder.encodeOptional(timeBounds)
-        try encoder.encode(memo)
-        try encoder.encode(operations)
-        try encoder.encode(reserved)
-    }
-
-    /**
-     Hash representing the signature of the payload of the `Transaction`.
-
-     - Parameter networkId: the Network Id on which this `Transaction` is executed on.
-
-     - Returns: the hash `Data`
-
-     - Throws: `StellarError.dataEncodingFailed` if the network id could not be encoded.
-     */
-    public func hash(networkId: Network.Id) throws -> Data {
-        guard let data = networkId.data(using: .utf8)?.sha256 else {
-            throw StellarError.dataEncodingFailed
-        }
-        
-        let payload = TransactionSignaturePayload(networkId: WD32(data),
-                                                  taggedTransaction: .ENVELOPE_TYPE_TX(self))
-        return try XDREncoder.encode(payload).sha256
-    }
-}
-
 struct EnvelopeType {
     static let ENVELOPE_TYPE_SCP: Int32 = 1
     static let ENVELOPE_TYPE_TX: Int32 = 2
@@ -289,11 +168,11 @@ struct TransactionSignaturePayload: XDREncodableStruct {
     }
 }
 
-struct DecoratedSignature: XDRCodable, XDREncodableStruct {
+public struct DecoratedSignature: XDRCodable, XDREncodableStruct {
     let hint: WrappedData4;
     let signature: [UInt8]
 
-    init(from decoder: XDRDecoder) throws {
+    public init(from decoder: XDRDecoder) throws {
         hint = try decoder.decode(WrappedData4.self)
         signature = try decoder.decodeArray(UInt8.self)
     }
@@ -305,26 +184,189 @@ struct DecoratedSignature: XDRCodable, XDREncodableStruct {
 }
 
 /**
- `TransactionEnvelope` wraps a `Transaction` and its signature.
+ A `Transaction` represents a transaction that modifies the ledger in the blockchain network.
+ A Kin `Transaction` is used to send payments.
  */
-public struct TransactionEnvelope: XDRCodable, XDREncodableStruct {
-    public let tx: Transaction
-    let signatures: [DecoratedSignature]
+public struct Transaction: XDRCodable {
+    public let fee: Quark
+    let sourceAccount: PublicKey
+    public let seqNum: UInt64 // TODO: sequenceNumber
+    public let operations: [Operation]
+    public let memo: Memo
+    public let timeBounds: TimeBounds?
+
+    public var signatures: [DecoratedSignature] = []
+    private let reserved: Int32 = 0
 
     /**
-     Initializes a `TransactionEnvelope` from a `XDRDecoder`.
+     Maximum length of a `Memo` object.
+     */
+    public static let MaxMemoLength = 28
 
-     - Parameter from: the `XDRDecoder` to decode.
+    /**
+     Initialize a `Transaction`.
+
+     - SeeAlso: [Transactions in the Stellar network](https://www.stellar.org/developers/guides/concepts/transactions.html).
+
+     - Parameter sourceAccount: The public address of the source account.
+     - Parameter seqNum: Each transaction has a sequence number.
+     - Parameter timeBounds: optional UNIX timestamp (in seconds) of a lower and upper bound of when this transaction will be valid. If a transaction is submitted too early or too late, it will fail to make it into the transaction set. maxTime equal 0 means that it’s not set.
+     - Parameter memo: optional extra information such as an order number.
+     - Parameter fee: Each transaction sets a fee in `Quark` that is paid by the source account.
+     - Parameter operations: Transactions contain an arbitrary list of operations inside them. Typically there is just 1 operation.
+     */
+    public init(sourceAccount: String, // TODO: sourcePublicAddress
+                seqNum: UInt64,
+                timeBounds: TimeBounds?,
+                memo: Memo,
+                fee: Quark? = nil,
+                operations: [Operation]) {
+        self.init(sourceAccount: .PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourceAccount))),
+                  seqNum: seqNum,
+                  timeBounds: timeBounds,
+                  memo: memo,
+                  fee: fee,
+                  operations: operations)
+    }
+
+    init(sourceAccount: PublicKey,
+         seqNum: UInt64,
+         timeBounds: TimeBounds?,
+         memo: Memo,
+         fee: Quark? = nil,
+         operations: [Operation]) {
+        self.sourceAccount = sourceAccount
+        self.seqNum = seqNum
+        self.timeBounds = timeBounds
+        self.memo = memo
+        self.operations = operations
+
+        self.fee = fee ?? UInt32(100 * operations.count)
+    }
+
+    /**
+     Initializes a `Transaction` from a `XDRDecoder`.
+
+     - Parameter from: The `XDRDecoder` containing all the transaction information.
 
      - Throws:
      */
     public init(from decoder: XDRDecoder) throws {
-        tx = try decoder.decode(Transaction.self)
-        signatures = try decoder.decodeArray(DecoratedSignature.self)
+        sourceAccount = try decoder.decode(PublicKey.self)
+        fee = try decoder.decode(UInt32.self)
+        seqNum = try decoder.decode(UInt64.self)
+        timeBounds = try decoder.decodeArray(TimeBounds.self).first
+        memo = try decoder.decode(Memo.self)
+        operations = try decoder.decodeArray(Operation.self)
+        _ = try decoder.decode(Int32.self)
     }
 
-    init(tx: Transaction, signatures: [DecoratedSignature]) {
-        self.tx = tx
-        self.signatures = signatures
+    /**
+     Encodes this `Transaction` to the given XDREncoder.
+
+     - Parameter to: the `XDREncoder` to encode to.
+
+     - Throws:
+     */
+    public func encode(to encoder: XDREncoder) throws {
+        try encoder.encode(sourceAccount)
+        try encoder.encode(fee)
+        try encoder.encode(seqNum)
+        try encoder.encodeOptional(timeBounds)
+        try encoder.encode(memo)
+        try encoder.encode(operations)
+        try encoder.encode(reserved)
+    }
+
+    /**
+     Hash representing the signature of the payload of the `Transaction`.
+
+     - Parameter networkId: the Network Id on which this `Transaction` is executed on.
+
+     - Returns: the hash `Data`
+
+     - Throws: `StellarError.dataEncodingFailed` if the network id could not be encoded.
+     */
+    public func hash(networkId: Network.Id) throws -> Data {
+        guard let data = networkId.data(using: .utf8)?.sha256 else {
+            throw StellarError.dataEncodingFailed
+        }
+
+        let payload = TransactionSignaturePayload(networkId: WD32(data), taggedTransaction: .ENVELOPE_TYPE_TX(self))
+
+        return try XDREncoder.encode(payload).sha256
+    }
+
+    public mutating func sign(account: Account, networkId: Network.Id) throws {
+        let message = Array(try hash(networkId: networkId))
+
+        guard let sign = account.sign else {
+            throw StellarError.missingSignClosure
+        }
+
+        guard let publicKey = account.publicKey else {
+            throw StellarError.missingPublicKey
+        }
+
+        let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+
+        signatures.append(try DecoratedSignature(hint: hint, signature: sign(message)))
+    }
+
+    public mutating func sign(kinAccount: KinAccount, networkId: Network.Id) throws {
+        kinAccount.stellarAccount.sign = { message in
+            return try kinAccount.stellarAccount.sign(message: message, passphrase: "")
+        }
+
+        try sign(account: kinAccount.stellarAccount, networkId: networkId)
+
+        kinAccount.stellarAccount.sign = nil
+    }
+
+    var memoString: String? {
+        if case let Memo.MEMO_TEXT(text) = memo {
+            return text
+        }
+
+        return nil
+    }
+
+    public func envelope() -> Envelope {
+        return Envelope(transaction: self, signatures: signatures)
+    }
+
+    public func wrapper() -> BaseTransaction {
+        return TransactionFactory.wrapping(transaction: self)
     }
 }
+
+extension Transaction {
+    public struct Envelope: XDRCodable, XDREncodableStruct {
+        public let tx: Transaction
+        public let signatures: [DecoratedSignature]
+
+        /**
+         Initializes a `Transaction.Envelope` from an `XDRDecoder`.
+
+         - Parameter from: the `XDRDecoder` to decode.
+
+         - Throws:
+         */
+        public init(from decoder: XDRDecoder) throws {
+            tx = try decoder.decode(Transaction.self)
+            signatures = try decoder.decodeArray(DecoratedSignature.self)
+        }
+
+        init(transaction: Transaction, signatures: [DecoratedSignature] = []) {
+            self.tx = transaction
+            self.signatures = signatures
+        }
+
+        public func wrappedTransaction() -> BaseTransaction {
+            return TransactionFactory.wrapping(transaction: tx)
+        }
+    }
+}
+
+@available(*, deprecated, renamed: "Transaction.Envelope")
+public struct TransactionEnvelope {}
