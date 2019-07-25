@@ -19,13 +19,6 @@ enum KeyStoreErrors: Error {
     case encryptionFailed
 }
 
-public struct AccountData: Codable {
-    let pkey: String
-    let seed: String
-    let salt: String
-    let extra: Data?
-}
-
 public class StellarAccount: Account {
     fileprivate let storageKey: String
 
@@ -67,12 +60,12 @@ public class StellarAccount: Account {
         self.storageKey = storageKey
     }
 
-    fileprivate func accountData() throws -> AccountData {
+    fileprivate func accountData() throws -> KeychainData {
         guard let data = KeychainStorage.retrieve(storageKey) else {
             throw KeyStoreErrors.loadFailed
         }
 
-        return try JSONDecoder().decode(AccountData.self, from: data)
+        return try JSONDecoder().decode(KeychainData.self, from: data)
     }
 
     private func seed(passphrase: String) -> [UInt8]? {
@@ -83,7 +76,7 @@ public class StellarAccount: Account {
         return StellarAccount.seed(accountData: accountData, passphrase: passphrase)
     }
 
-    fileprivate static func seed(accountData: AccountData, passphrase: String) -> [UInt8]? {
+    fileprivate static func seed(accountData: KeychainData, passphrase: String) -> [UInt8]? {
         guard let seed = try? KeyUtils.seed(from: passphrase,
                                             encryptedSeed: accountData.seed,
                                             salt: accountData.salt) else {
@@ -91,6 +84,15 @@ public class StellarAccount: Account {
         }
 
         return seed
+    }
+}
+
+extension StellarAccount {
+    public struct KeychainData: Codable {
+        let pkey: String
+        let seed: String
+        let salt: String
+        let extra: Data?
     }
 }
 
@@ -112,7 +114,7 @@ public struct KeyStore {
     public static func set(extra: Data?, for account: StellarAccount) throws {
         let accountData = try account.accountData()
 
-        let newData = AccountData(pkey: accountData.pkey,
+        let newData = StellarAccount.KeychainData(pkey: accountData.pkey,
                                   seed: accountData.seed,
                                   salt: accountData.salt,
                                   extra: extra)
@@ -142,7 +144,7 @@ public struct KeyStore {
         return account
     }
 
-    public static func importAccount(_ accountData: AccountData,
+    public static func importAccount(_ accountData: StellarAccount.KeychainData,
                                      passphrase: String,
                                      newPassphrase: String) throws {
         // Re-encrypting will test that the passphrase is correct.
@@ -155,9 +157,9 @@ public struct KeyStore {
 
     public static func exportAccount(account: StellarAccount,
                                      passphrase: String,
-                                     newPassphrase: String) -> AccountData? {
+                                     newPassphrase: String) -> StellarAccount.KeychainData? {
         if let accountData = try? account.accountData() {
-            let reencryptedAD: AccountData?
+            let reencryptedAD: StellarAccount.KeychainData?
             if passphrase != newPassphrase {
                 reencryptedAD = try? reencrypt(accountData,
                                                passphrase: passphrase,
@@ -175,7 +177,7 @@ public struct KeyStore {
     }
 
     private static func accountData(passphrase: String,
-                                    seed: [UInt8]? = nil) throws -> AccountData {
+                                    seed: [UInt8]? = nil) throws -> StellarAccount.KeychainData {
         guard let salt = KeyUtils.salt() else {
             throw KeyStoreErrors.noSalt
         }
@@ -194,15 +196,15 @@ public struct KeyStore {
             throw KeyStoreErrors.keypairGenerationFailed
         }
 
-        return AccountData(pkey: BCKeyUtils.base32(publicKey: keypair.publicKey),
-                           seed: Data(encryptedSeed).hexString,
-                           salt: salt,
-                           extra: nil)
+        return StellarAccount.KeychainData(pkey: BCKeyUtils.base32(publicKey: keypair.publicKey),
+                                           seed: Data(encryptedSeed).hexString,
+                                           salt: salt,
+                                           extra: nil)
     }
 
-    private static func reencrypt(_ accountData: AccountData,
+    private static func reencrypt(_ accountData: StellarAccount.KeychainData,
                                   passphrase: String,
-                                  newPassphrase: String) throws -> AccountData {
+                                  newPassphrase: String) throws -> StellarAccount.KeychainData {
         let eseed = accountData.seed
         let salt = accountData.salt
 
@@ -217,13 +219,13 @@ public struct KeyStore {
             throw KeyStoreErrors.encryptionFailed
         }
 
-        return AccountData(pkey: accountData.pkey,
-                           seed: Data(encryptedSeed).hexString,
-                           salt: newSalt,
-                           extra: nil)
+        return StellarAccount.KeychainData(pkey: accountData.pkey,
+                                           seed: Data(encryptedSeed).hexString,
+                                           salt: newSalt,
+                                           extra: nil)
     }
 
-    private static func save(accountData: AccountData, key: String) throws {
+    private static func save(accountData: StellarAccount.KeychainData, key: String) throws {
         let data = try JSONEncoder().encode(accountData)
 
         guard KeychainStorage.save(data, forKey: key) else {

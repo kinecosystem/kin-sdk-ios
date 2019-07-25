@@ -334,6 +334,10 @@ public struct Transaction: XDRCodable {
     public func envelope() -> Envelope {
         return Envelope(transaction: self, signatures: signatures)
     }
+
+    public func wrapper() -> BaseTransaction {
+        return TransactionFactory.wrapping(transaction: self)
+    }
 }
 
 extension Transaction {
@@ -356,6 +360,10 @@ extension Transaction {
         init(transaction: Transaction, signatures: [DecoratedSignature] = []) {
             self.tx = transaction
             self.signatures = signatures
+        }
+
+        public func wrappedTransaction() -> BaseTransaction {
+            return TransactionFactory.wrapping(transaction: tx)
         }
     }
 }

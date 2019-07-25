@@ -8,15 +8,13 @@
 
 import Foundation
 
-public protocol BaseTransaction {
+public class BaseTransaction {
+    var transaction: Transaction
 
-}
+    init(wrapping transaction: Transaction) {
+        self.transaction = transaction
+    }
 
-protocol InternalBaseTransaction: BaseTransaction {
-    var transaction: Transaction { get set }
-}
-
-extension InternalBaseTransaction {
     public var fee: Quark {
         return transaction.fee
     }
@@ -45,11 +43,11 @@ extension InternalBaseTransaction {
         return WhitelistPayload(transactionEnvelope: envelope(), networkId: networkId)
     }
 
-    public mutating func addSignature(account: Account, networkId: Network.Id) throws {
+    public func addSignature(account: Account, networkId: Network.Id) throws {
         try transaction.sign(account: account, networkId: networkId)
     }
 
-    public mutating func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
+    public func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
         try transaction.sign(kinAccount: kinAccount, networkId: networkId)
     }
 }

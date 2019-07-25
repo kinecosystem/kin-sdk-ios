@@ -28,7 +28,7 @@ public final class KinAccount {
         return stellarAccount.publicKey!
     }
 
-    public var extra: Data? {
+    var extra: Data? {
         get {
             guard let extra = try? stellarAccount.extra() else {
                 return nil
@@ -107,6 +107,10 @@ public final class KinAccount {
         return promise(status)
     }
 
+    public func transactionBuilder() -> TransactionBuilder {
+        return TransactionBuilder(source: stellarAccount, node: node)
+    }
+
     /**
      Build a Kin transaction for a specific address.
 
@@ -119,7 +123,7 @@ public final class KinAccount {
      - Parameter kin: The amount of Kin to be sent.
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
-     - Parameter completion: A completion with the `Transaction.Envelope` or an `Error`.
+     - Parameter completion: A completion with the `PaymentTransaction` or an `Error`.
      */
     public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
@@ -152,9 +156,15 @@ public final class KinAccount {
                                 memo: try Memo(prefixedMemo),
                                 node: node,
                                 fee: fee)
-                .then { transactionEnvelope -> Void in
+                .then { baseTransaction -> Void in
                     self.stellarAccount.sign = nil
-                    completion(transactionEnvelope, nil)
+
+                    if let paymentTransaction = baseTransaction as? PaymentTransaction {
+                        completion(paymentTransaction, nil)
+                    }
+                    else {
+                        completion(nil, KinError.internalInconsistency)
+                    }
                 }
                 .error { error in
                     self.stellarAccount.sign = nil
@@ -175,9 +185,9 @@ public final class KinAccount {
      - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
 
-     - Returns: A promise which is signalled with the `Transaction.Envelope` or an `Error`.
+     - Returns: A promise which is signalled with the `PaymentTransaction` or an `Error`.
      */
-    public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
+    public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<PaymentTransaction> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
             self.buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
         }
@@ -263,48 +273,13 @@ public final class KinAccount {
         return promise(balance)
     }
 
-    /**
-     Retrieve the aggregated Kin balance.
-
-     The aggregated balance is the combined balance of all linked accounts.
-
-     - Parameter publicAddress: An optional address to check the aggregated balance.
-     - Parameter completion: A closure to be invoked once the request completes.
-     */
-    public func aggregatedBalance(for publicAddress: String? = nil, completion: @escaping BalanceCompletion) {
-        guard deleted == false else {
-            completion(nil, KinError.accountDeleted)
-            return
-        }
-
-        Stellar.aggregatedBalance(account: publicAddress ?? stellarAccount.publicKey!, node: node)
-            .then { balance -> Void in
-                completion(balance, nil)
+    func accountData(completion: @escaping (AccountData?, Error?) -> Void) {
+        Stellar.accountData(account: stellarAccount.publicKey!, node: node)
+            .then { accountData in
+                completion(accountData, nil)
             }
             .error { error in
-                completion(nil, KinError.aggregatedBalanceQueryFailed(error))
-        }
-    }
-
-    /**
-     Retrieve the controlled accounts.
-
-     The controlled accounts are all of the linked accounts.
-
-     - Parameter completion: A closure to be invoked once the request completes.
-     */
-    public func controlledAccounts(completion: @escaping ([ControlledAccount]?, Error?) -> Void) {
-        guard deleted == false else {
-            completion(nil, KinError.accountDeleted)
-            return
-        }
-
-        Stellar.controlledAccounts(account: stellarAccount.publicKey!, node: node)
-            .then { controlledAccounts -> Void in
-                completion(controlledAccounts, nil)
-            }
-            .error { error in
-                completion(nil, KinError.controlledAccountsQueryFailed(error))
+                completion(nil, error)
         }
     }
 
@@ -403,7 +378,7 @@ extension KinAccount {
     }
 
     @available(*, deprecated, renamed: "buildPaymentTransaction")
-    public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<Transaction.Envelope> {
+    public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<PaymentTransaction> {
         return buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee)
     }
 }
