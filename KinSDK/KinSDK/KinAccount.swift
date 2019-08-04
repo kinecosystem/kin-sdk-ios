@@ -365,6 +365,20 @@ public final class KinAccount {
     }
 }
 
+// MARK: Batch Payments
+
+extension KinAccount {
+    public func paymentQueue() /* -> PaymentQueue */ {
+
+    }
+
+    public func pendingBalance() -> Kin {
+        return 0
+    }
+
+//    public func pendingBalanceListener() 
+}
+
 // MARK: - Deprecated
 
 extension KinAccount {
