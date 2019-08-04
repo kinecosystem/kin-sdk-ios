@@ -61,6 +61,11 @@ public enum Stellar {
                     .add(operation: op)
                     .build()
             }
+            .then { transaction -> Promise<BaseTransaction> in
+                try transaction.addSignature(account: source, networkId: node.network.id)
+
+                return Promise(transaction)
+            }
             .mapError({ error -> Error in
                 switch error {
                 case StellarError.missingAccount, StellarError.missingBalance:
