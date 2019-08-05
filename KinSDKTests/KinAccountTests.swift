@@ -18,15 +18,13 @@ class KinAccountTests: XCTestCase {
     var account1: KinAccount!
     var issuer: StellarAccount?
 
-    let endpoint = "https://horizon-testnet.kininfrastructure.com"
-    let sNetwork: Network = .testNet
-    lazy var kNetwork: Network = .testNet
+    let endpoint = IntegEnvironment.networkUrl
+    lazy var kNetwork: Network = .custom(IntegEnvironment.networkPassphrase)
 
     let requestTimeout: TimeInterval = 30
 
     override func setUp() {
         super.setUp()
-
         continueAfterFailure = false
 
         guard let appId = try? AppId("test") else {
@@ -347,7 +345,7 @@ extension KinAccountTests {
         let group = DispatchGroup()
         group.enter()
 
-        let url = URL(string: "https://friendbot-testnet.kininfrastructure.com?addr=\(kinAccount.publicAddress)&amount\(amount)")!
+        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(kinAccount.publicAddress)&amount\(amount)")!
         URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             guard
                 let data = data,
