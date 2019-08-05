@@ -345,7 +345,7 @@ extension KinAccountTests {
         let group = DispatchGroup()
         group.enter()
 
-        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(kinAccount.publicAddress)&amount\(amount)")!
+        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(kinAccount.publicAddress)&amount=\(amount)")!
         URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             guard
                 let data = data,
