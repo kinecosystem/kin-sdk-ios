@@ -65,6 +65,7 @@
 		68AF931222A92DCF008C01EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF931122A92DCF008C01EC /* ViewController.swift */; };
 		68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931622A92DD1008C01EC /* Assets.xcassets */; };
 		68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */; };
+		C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B037F022F76259001F98B8 /* IntegEnvironment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -220,6 +221,7 @@
 		68AF931622A92DD1008C01EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68AF931922A92DD1008C01EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68AF931B22A92DD1008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2B037F022F76259001F98B8 /* IntegEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,6 +427,7 @@
 				68319EB222DC62CF00EC2DDF /* URLKinVersion.swift */,
 				68319EAF22DC62CE00EC2DDF /* XDRTests.swift */,
 				68AF917322A90C6A008C01EC /* Info.plist */,
+				C2B037F022F76259001F98B8 /* IntegEnvironment.swift */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
@@ -732,6 +735,7 @@
 				68319EB322DC62CF00EC2DDF /* KeyStoreTests.swift in Sources */,
 				68319EB822DC62CF00EC2DDF /* URLKinVersion.swift in Sources */,
 				68319EB522DC62CF00EC2DDF /* XDRTests.swift in Sources */,
+				C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */,
 				68319EB722DC62CF00EC2DDF /* AppIdTests.swift in Sources */,
 				68319EB622DC62CF00EC2DDF /* KinClientTests.swift in Sources */,
 			);

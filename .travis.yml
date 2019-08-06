@@ -15,6 +15,8 @@ script:
     fi
   - |
     if [ $TEST_MATRIX == "test" ]; then
+      # inject integration environment params for testing from env variable by string replacing content of a template file  
+      sed -e  "s@INTEG_TESTS_NETWORK_URL@$INTEG_TESTS_NETWORK_URL@" -e "s@INTEG_TESTS_NETWORK_PASSPHRASE@$INTEG_TESTS_NETWORK_PASSPHRASE@" -e "s@INTEG_TESTS_NETWORK_FRIENDBOT@$INTEG_TESTS_NETWORK_FRIENDBOT@" scripts/IntegEnvironmentTemplate.swift > KinSDKTests/IntegEnvironment.swift
       xcodebuild test -workspace KinSDK.xcworkspace -scheme KinSDKTestsHost -destination 'platform=iOS Simulator,name=iPhone X'
     fi
 
