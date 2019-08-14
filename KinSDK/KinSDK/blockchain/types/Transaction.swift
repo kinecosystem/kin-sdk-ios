@@ -187,6 +187,7 @@ public struct DecoratedSignature: XDRCodable, XDREncodableStruct {
  A `Transaction` represents a transaction that modifies the ledger in the blockchain network.
  A Kin `Transaction` is used to send payments.
  */
+// TODO: remove public
 public struct Transaction: XDRCodable {
     public let fee: Quark
     let sourceAccount: PublicKey

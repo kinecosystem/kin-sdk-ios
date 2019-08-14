@@ -10,10 +10,10 @@ import Foundation
 
 class TransactionFactory {
     static func wrapping(transaction: Transaction) -> BaseTransaction {
-        do {
-            return try PaymentTransaction(tryWrapping: transaction)
+        if let transaction = try? PaymentTransaction(tryWrapping: transaction) {
+            return transaction
         }
-        catch {
+        else {
             return RawTransaction(wrapping: transaction)
         }
     }

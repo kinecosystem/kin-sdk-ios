@@ -10,17 +10,19 @@ import Foundation
 
 public protocol PaymentQueueDelegate: NSObjectProtocol {
     func paymentEnqueued(pendingPayment: PaymentQueue.PendingPayment)
-    func transactionSubmitted(transaction: Any /* BatchPaymentTransaction */, payments: [PaymentQueue.PendingPayment])
-    func transactionSubmissionSuccess(transaction: Any /* BatchPaymentTransaction */, payments: [PaymentQueue.PendingPayment])
-    func transactionSubmissionFailed(transaction: Any /* BatchPaymentTransaction */, payments: [PaymentQueue.PendingPayment], error: Error)
+    func transactionSend(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment])
+    func transactionSendSuccess(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment])
+    func transactionSendFailed(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment], error: Error)
 }
 
 public class PaymentQueue {
-    public init(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) {
+    public weak var delegate: PaymentQueue?
+
+    public func enqueuePayment(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) throws {
 
     }
 
-    public func setTransactionInterceptor(_ interceptor: Any /* TransactionInterceptor */) {
+    public func setTransactionInterceptor(_ interceptor: TransactionInterceptor) {
 
     }
 
@@ -37,29 +39,18 @@ public class PaymentQueue {
 
 extension PaymentQueue {
     public class Status {
-        public var paymentsInProgress: Bool {
+        public var transactionInProgress: Bool {
             return false
         }
 
         public var pendingPaymentsCount: Int {
             return 0
         }
-
-        public var pendingTransactionsCount: Int {
-            return 0
-        }
-
-        public var ongoingPaymentsCount: Int {
-            return 0
-        }
-
-        public var ongoingTransactionsCount: Int {
-            return 0
-        }
     }
 }
 
 extension PaymentQueue {
+    // ???: change to struct
     public class PendingPayment {
         public var destinationPublicKey: String {
             return ""
@@ -77,8 +68,8 @@ extension PaymentQueue {
             return 0
         }
 
-        public func transaction() /* -> BatchPaymentTransaction */ {
-
+        public func transaction() -> BatchPaymentTransaction {
+            return nil!
         }
 
         public var metaData: Any {
