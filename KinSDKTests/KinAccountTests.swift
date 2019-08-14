@@ -135,7 +135,7 @@ class KinAccountTests: XCTestCase {
     func test_build_transaction_of_zero_kin() {
         let expectation = XCTestExpectation()
 
-        account0.buildPaymentTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
+        account0.generateTransaction(to: account1.publicAddress, kin: 0, memo: nil, fee: 0) { (envelope, error) in
             if let _ = envelope {
                 XCTAssertTrue(false, "Envelope should be nil")
             }
@@ -164,7 +164,7 @@ class KinAccountTests: XCTestCase {
 
             let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
-            buildPaymentTransaction(kin: sendAmount, memo: nil, fee: 0) { envelope in
+            generateTransaction(kin: sendAmount, memo: nil, fee: 0) { envelope in
                 do {
                     let txId = try self.sendTransaction(envelope)
 
@@ -192,7 +192,7 @@ class KinAccountTests: XCTestCase {
 
             let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
-            buildPaymentTransaction(kin: sendAmount, memo: "memo", fee: 0) { envelope in
+            generateTransaction(kin: sendAmount, memo: "memo", fee: 0) { envelope in
                 do {
                     let txId = try self.sendTransaction(envelope)
 
@@ -220,7 +220,7 @@ class KinAccountTests: XCTestCase {
 
             let (sendAmount, startBalance0, startBalance1) = try prepareCompareBalance()
 
-            buildPaymentTransaction(kin: sendAmount, memo: "", fee: 0) { envelope in
+            generateTransaction(kin: sendAmount, memo: "", fee: 0) { envelope in
                 do {
                     let txId = try self.sendTransaction(envelope)
 
@@ -249,7 +249,7 @@ class KinAccountTests: XCTestCase {
             let balance = try getBalance(account0)
             let amount = balance * Kin(AssetUnitDivisor) + 1
 
-            buildPaymentTransaction(kin: amount, memo: nil, fee: 0) { envelope in
+            generateTransaction(kin: amount, memo: nil, fee: 0) { envelope in
                 do {
                     _ = try self.sendTransaction(envelope)
 
@@ -305,7 +305,7 @@ class KinAccountTests: XCTestCase {
 
             try kinClient.deleteAccount(at: 0)
 
-            account.buildPaymentTransaction(to: "", kin: 1, memo: nil, fee: 0) { (envelope, error) in
+            account.generateTransaction(to: "", kin: 1, memo: nil, fee: 0) { (envelope, error) in
                 guard let error = error else {
                     XCTAssertTrue(false, "Error should not be nil")
                     return
@@ -370,8 +370,8 @@ extension KinAccountTests {
         throw KinError.unknown
     }
 
-    func buildPaymentTransaction(kin: Kin, memo: String?, fee: Quark, completion: @escaping (Transaction.Envelope) -> Void) {
-        account0.buildPaymentTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (paymentTransaction, error) in
+    func generateTransaction(kin: Kin, memo: String?, fee: Quark, completion: @escaping (Transaction.Envelope) -> Void) {
+        account0.generateTransaction(to: account1.publicAddress, kin: kin, memo: memo, fee: fee) { (paymentTransaction, error) in
             DispatchQueue.main.async {
                 self.fail(on: error)
 
