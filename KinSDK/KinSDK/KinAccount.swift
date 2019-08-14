@@ -113,12 +113,20 @@ public final class KinAccount {
 
 
 
-    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor) {
-
+    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor) -> Promise<TransactionId> {
+        return Promise("")
     }
 
-    public func sendWhitelistTransaction(_ whitelist: String, interceptor: TransactionInterceptor) {
+    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor, completion: @escaping (Result<TransactionId, Error>) -> Void) {
+        completion(.success(""))
+    }
 
+    public func sendWhitelistTransaction(_ whitelist: String, interceptor: TransactionInterceptor) -> Promise<TransactionId> {
+        return Promise("")
+    }
+
+    public func sendWhitelistTransaction(_ whitelist: String, interceptor: TransactionInterceptor, completion: @escaping (Result<TransactionId, Error>) -> Void) {
+        completion(.success(""))
     }
 
 
