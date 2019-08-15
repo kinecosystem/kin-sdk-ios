@@ -74,6 +74,7 @@
 		68F38BFF23053C880013DBD1 /* PaymentsQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */; };
 		68F38C0B230559100013DBD1 /* PendingPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0A230559100013DBD1 /* PendingPayment.swift */; };
 		68F38C0D2305779B0013DBD1 /* TransactionTasksQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */; };
+		68F38C0F23057EA80013DBD1 /* PaymentsQueueManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0E23057EA80013DBD1 /* PaymentsQueueManagerTests.swift */; };
 		C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B037F022F76259001F98B8 /* IntegEnvironment.swift */; };
 /* End PBXBuildFile section */
 
@@ -239,6 +240,7 @@
 		68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsQueueManager.swift; sourceTree = "<group>"; };
 		68F38C0A230559100013DBD1 /* PendingPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPayment.swift; sourceTree = "<group>"; };
 		68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTasksQueueManager.swift; sourceTree = "<group>"; };
+		68F38C0E23057EA80013DBD1 /* PaymentsQueueManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsQueueManagerTests.swift; sourceTree = "<group>"; };
 		C2B037F022F76259001F98B8 /* IntegEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -463,6 +465,7 @@
 				68319EAF22DC62CE00EC2DDF /* XDRTests.swift */,
 				68AF917322A90C6A008C01EC /* Info.plist */,
 				C2B037F022F76259001F98B8 /* IntegEnvironment.swift */,
+				68F38C0E23057EA80013DBD1 /* PaymentsQueueManagerTests.swift */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
@@ -777,6 +780,7 @@
 			files = (
 				68319EB422DC62CF00EC2DDF /* KinAccountTests.swift in Sources */,
 				68319EB322DC62CF00EC2DDF /* KeyStoreTests.swift in Sources */,
+				68F38C0F23057EA80013DBD1 /* PaymentsQueueManagerTests.swift in Sources */,
 				68319EB822DC62CF00EC2DDF /* URLKinVersion.swift in Sources */,
 				68319EB522DC62CF00EC2DDF /* XDRTests.swift in Sources */,
 				C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */,
