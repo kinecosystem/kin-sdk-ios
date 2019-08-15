@@ -71,6 +71,9 @@
 		68AF931222A92DCF008C01EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF931122A92DCF008C01EC /* ViewController.swift */; };
 		68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931622A92DD1008C01EC /* Assets.xcassets */; };
 		68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */; };
+		68F38BFF23053C880013DBD1 /* PaymentsQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */; };
+		68F38C0B230559100013DBD1 /* PendingPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0A230559100013DBD1 /* PendingPayment.swift */; };
+		68F38C0D2305779B0013DBD1 /* TransactionTasksQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */; };
 		C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B037F022F76259001F98B8 /* IntegEnvironment.swift */; };
 /* End PBXBuildFile section */
 
@@ -233,6 +236,9 @@
 		68AF931622A92DD1008C01EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68AF931922A92DD1008C01EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68AF931B22A92DD1008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsQueueManager.swift; sourceTree = "<group>"; };
+		68F38C0A230559100013DBD1 /* PendingPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPayment.swift; sourceTree = "<group>"; };
+		68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTasksQueueManager.swift; sourceTree = "<group>"; };
 		C2B037F022F76259001F98B8 /* IntegEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -407,6 +413,9 @@
 				686316802302D0B200C71132 /* TransactionProcess.swift */,
 				686316822303C0D500C71132 /* BatchPaymentTransaction.swift */,
 				686316842303DF9A00C71132 /* PaymentOperation.swift */,
+				68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */,
+				68F38C0A230559100013DBD1 /* PendingPayment.swift */,
+				68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */,
 			);
 			path = BulkPayments;
 			sourceTree = "<group>";
@@ -731,6 +740,7 @@
 				68319E9622DC62AA00EC2DDF /* TransactionFactory.swift in Sources */,
 				68319E9D22DC62AA00EC2DDF /* Operation.swift in Sources */,
 				686316812302D0B200C71132 /* TransactionProcess.swift in Sources */,
+				68F38BFF23053C880013DBD1 /* PaymentsQueueManager.swift in Sources */,
 				6831A00522DC9C0C00EC2DDF /* SHA256.swift in Sources */,
 				68319E9422DC62AA00EC2DDF /* WhitelistPayload.swift in Sources */,
 				68319E9A22DC62AA00EC2DDF /* RawTransaction.swift in Sources */,
@@ -749,12 +759,14 @@
 				68319E9022DC62AA00EC2DDF /* Version.swift in Sources */,
 				6844DE4E22E9C19E00D0CF87 /* AccountData.swift in Sources */,
 				68319EAC22DC62AA00EC2DDF /* KinClient.swift in Sources */,
+				68F38C0B230559100013DBD1 /* PendingPayment.swift in Sources */,
 				6863167F2302628A00C71132 /* TransactionInterceptor.swift in Sources */,
 				68319E8922DC62AA00EC2DDF /* KeyUtils.swift in Sources */,
 				6831A10422DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift in Sources */,
 				68319EA422DC62AA00EC2DDF /* TxBuilder.swift in Sources */,
 				68319E9822DC62AA00EC2DDF /* Operations.swift in Sources */,
 				6844DE5122E9C1D700D0CF87 /* AccountResponse.swift in Sources */,
+				68F38C0D2305779B0013DBD1 /* TransactionTasksQueueManager.swift in Sources */,
 				68319E9E22DC62AA00EC2DDF /* Stellar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -253,14 +253,11 @@ public final class KinAccount {
 
         return String(data: jsonData, encoding: .utf8)
     }
-}
 
-// MARK: Batch Payments
 
-extension KinAccount {
-    public func paymentQueue() -> PaymentQueue {
-        return nil!
-    }
+    public lazy var paymentQueue: PaymentQueue = {
+        return PaymentQueue(publicAddress: publicAddress)
+    }()
 
     public func pendingBalance(_ completion: @escaping (Result<Kin, Error>) -> Void) {
         completion(.success(Kin(0)))

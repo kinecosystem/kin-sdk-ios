@@ -17,7 +17,7 @@ public class TransactionProcess {
         return nil!
     }
 
-    var payments: [PaymentQueue.PendingPayment] {
+    var payments: [PendingPayment] {
         return []
     }
 

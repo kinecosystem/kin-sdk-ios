@@ -9,17 +9,34 @@
 import Foundation
 
 public protocol PaymentQueueDelegate: NSObjectProtocol {
-    func paymentEnqueued(pendingPayment: PaymentQueue.PendingPayment)
-    func transactionSend(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment])
-    func transactionSendSuccess(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment])
-    func transactionSendFailed(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment], error: Error)
+    func paymentEnqueued(pendingPayment: PendingPayment)
+    func transactionSend(transaction: BatchPaymentTransaction, payments: [PendingPayment])
+    func transactionSendSuccess(transaction: BatchPaymentTransaction, payments: [PendingPayment])
+    func transactionSendFailed(transaction: BatchPaymentTransaction, payments: [PendingPayment], error: Error)
 }
 
-public class PaymentQueue {
-    public weak var delegate: PaymentQueue?
+public class PaymentQueue: NSObject {
+    public weak var delegate: PaymentQueueDelegate?
 
-    public func enqueuePayment(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) throws {
+    let sourcePublicAddress: String
 
+    private let paymentsQueueManager = PaymentsQueueManager()
+    private let transactionTasksQueueManager = TransactionTasksQueueManager()
+
+    init(publicAddress: String) {
+        self.sourcePublicAddress = publicAddress
+
+        super.init()
+
+        paymentsQueueManager.delegate = self
+    }
+
+    public func enqueuePayment(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) throws -> PendingPayment {
+        let pendingPayment = PendingPayment(destinationPublicAddress: publicAddress, sourcePublicAddress: sourcePublicAddress, amount: amount, metadata: metadata)
+
+        paymentsQueueManager.enqueue(pendingPayment: pendingPayment)
+
+        return pendingPayment
     }
 
     public func setTransactionInterceptor(_ interceptor: TransactionInterceptor) {
@@ -32,60 +49,17 @@ public class PaymentQueue {
         }
     }
 
-    public var status: Status {
-        return Status()
+    public var transactionInProgress: Bool {
+        return paymentsQueueManager.inProgress
+    }
+
+    public var pendingPaymentsCount: Int {
+        return paymentsQueueManager.operationsCount
     }
 }
 
-extension PaymentQueue {
-    public class Status {
-        public var transactionInProgress: Bool {
-            return false
-        }
-
-        public var pendingPaymentsCount: Int {
-            return 0
-        }
-    }
-}
-
-extension PaymentQueue {
-    // ???: change to struct
-    public class PendingPayment {
-        public var destinationPublicKey: String {
-            return ""
-        }
-
-        public var sourcePublicKey: String {
-            return ""
-        }
-
-        public var amount: Kin {
-            return 0
-        }
-
-        public var operationIndex: Int {
-            return 0
-        }
-
-        public func transaction() -> BatchPaymentTransaction {
-            return nil!
-        }
-
-        public var metaData: Any {
-            return {}
-        }
-
-        public var status: Status {
-            return .pending
-        }
-    }
-}
-
-extension PaymentQueue.PendingPayment {
-    public enum Status {
-        case pending
-        case completed
-        case failed
+extension PaymentQueue: PaymentsQueueManagerDelegate {
+    func paymentsQueueManager(_ manager: PaymentsQueueManager, dequeueing pendingPayments: [PendingPayment]) {
+        transactionTasksQueueManager.enqueue(pendingPayments: pendingPayments)
     }
 }
