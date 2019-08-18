@@ -121,14 +121,6 @@ public final class KinAccount {
         completion(.success(""))
     }
 
-    public func sendWhitelistTransaction(_ whitelist: String, interceptor: TransactionInterceptor) -> Promise<TransactionId> {
-        return Promise("")
-    }
-
-    public func sendWhitelistTransaction(_ whitelist: String, interceptor: TransactionInterceptor, completion: @escaping (Result<TransactionId, Error>) -> Void) {
-        completion(.success(""))
-    }
-
 
 
     /**
