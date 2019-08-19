@@ -108,7 +108,7 @@ public final class KinAccount {
     }
 
     public func transactionBuilder() -> TransactionBuilder {
-        return TransactionBuilder(source: stellarAccount, node: node)
+        return TransactionBuilder(sourcePublicAddress: stellarAccount.publicKey, node: node)
     }
 
 
@@ -316,10 +316,6 @@ extension KinAccount {
             return
         }
 
-        stellarAccount.sign = { message in
-            return try self.stellarAccount.sign(message: message, passphrase: "")
-        }
-
         do {
             Stellar.transaction(source: stellarAccount,
                                 destination: recipient,
@@ -328,8 +324,6 @@ extension KinAccount {
                                 node: node,
                                 fee: fee)
                 .then { baseTransaction -> Void in
-                    self.stellarAccount.sign = nil
-
                     if let paymentTransaction = baseTransaction as? PaymentTransaction {
                         completion(paymentTransaction, nil)
                     }
@@ -338,12 +332,10 @@ extension KinAccount {
                     }
                 }
                 .error { error in
-                    self.stellarAccount.sign = nil
                     completion(nil, KinError.transactionCreationFailed(error))
             }
         }
         catch {
-            self.stellarAccount.sign = nil
             completion(nil, error)
         }
     }

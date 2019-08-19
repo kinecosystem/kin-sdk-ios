@@ -16,7 +16,7 @@ public class TxBuilder: TransactionBuilder {
 
 // TODO: uncomment final after removing TxBuilder
 public /*final*/ class TransactionBuilder {
-    private var source: Account
+    private var sourcePublicAddress: String?
     private var memo: Memo?
     private var fee: Quark?
     private var timeBounds: TimeBounds?
@@ -25,8 +25,8 @@ public /*final*/ class TransactionBuilder {
 
     private var node: Stellar.Node
 
-    init(source: Account, node: Stellar.Node) {
-        self.source = source
+    init(sourcePublicAddress: String?, node: Stellar.Node) {
+        self.sourcePublicAddress = sourcePublicAddress
         self.node = node
     }
 
@@ -74,13 +74,13 @@ public /*final*/ class TransactionBuilder {
     public func build() -> Promise<BaseTransaction> {
         let p = Promise<BaseTransaction>()
 
-        guard let sourceKey = source.publicKey else {
+        guard let sourcePublicAddress = sourcePublicAddress else {
             p.signal(StellarError.missingPublicKey)
 
             return p
         }
 
-        let pk = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourceKey)))
+        let pk = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
 
         if sequence > 0 {
             let transaction = Transaction(sourceAccount: pk,
@@ -95,7 +95,7 @@ public /*final*/ class TransactionBuilder {
             p.signal(transaction.wrapper())
         }
         else {
-            Stellar.sequence(account: sourceKey, seqNum: sequence, node: node)
+            Stellar.sequence(account: sourcePublicAddress, seqNum: sequence, node: node)
                 .then { sequenceNumber in
                     let transaction = Transaction(sourceAccount: pk,
                                                   seqNum: sequenceNumber,

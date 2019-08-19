@@ -11,12 +11,12 @@ import Foundation
 extension Operation {
     public static func createAccount(destination: String,
                                      balance: Int64,
-                                     source: Account? = nil) -> Operation {
+                                     sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 
         var sourcePK: PublicKey? = nil
-        if let source = source, let pk = source.publicKey {
-            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: pk)))
+        if let sourcePublicAddress = sourcePublicAddress {
+            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
         }
 
         return Operation(sourceAccount: sourcePK,
@@ -27,12 +27,12 @@ extension Operation {
     public static func payment(destination: String,
                                amount: Int64,
                                asset: Asset,
-                               source: Account? = nil) -> Operation {
+                               sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 
         var sourcePK: PublicKey? = nil
-        if let source = source, let pk = source.publicKey {
-            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: pk)))
+        if let sourcePublicAddress = sourcePublicAddress {
+            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
         }
 
         return Operation(sourceAccount: sourcePK,
@@ -42,10 +42,10 @@ extension Operation {
 
     }
 
-    public static func manageData(key: String, value: Data?, source: Account? = nil) -> Operation {
+    public static func manageData(key: String, value: Data?, sourcePublicAddress: String? = nil) -> Operation {
         var sourcePK: PublicKey? = nil
-        if let source = source, let pk = source.publicKey {
-            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: pk)))
+        if let sourcePublicAddress = sourcePublicAddress {
+            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
         }
 
         return Operation(sourceAccount: sourcePK,

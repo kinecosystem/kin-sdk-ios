@@ -43,7 +43,7 @@ public class BaseTransaction {
         return WhitelistPayload(transactionEnvelope: envelope(), networkId: networkId)
     }
 
-    public func addSignature(account: Account, networkId: Network.Id) throws {
+    public func addSignature(account: StellarAccount, networkId: Network.Id) throws {
         try transaction.sign(account: account, networkId: networkId)
     }
 

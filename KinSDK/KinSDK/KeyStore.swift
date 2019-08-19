@@ -19,7 +19,7 @@ enum KeyStoreErrors: Error {
     case encryptionFailed
 }
 
-public class StellarAccount: Account {
+public class StellarAccount {
     fileprivate let storageKey: String
 
     public var publicKey: String? {
@@ -33,8 +33,6 @@ public class StellarAccount: Account {
     public func extra() throws -> Data? {
         return try accountData().extra
     }
-
-    public var sign: (([UInt8]) throws -> [UInt8])?
 
     public func sign(message: [UInt8], passphrase: String) throws -> [UInt8] {
         guard let signingKey = secretKey(passphrase: passphrase) else {

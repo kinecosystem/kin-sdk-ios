@@ -9,12 +9,6 @@
 import Foundation
 import KinUtil 
 
-public protocol Account {
-    var publicKey: String? { get }
-
-    var sign: (([UInt8]) throws -> [UInt8])? { get }
-}
-
 /**
  `Stellar` provides an API for communicating with Stellar Horizon servers, with an emphasis on
  supporting non-native assets.
@@ -42,7 +36,7 @@ public enum Stellar {
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func transaction(source: Account,
+    public static func transaction(source: StellarAccount,
                                    destination: String,
                                    amount: Int64,
                                    memo: Memo = .MEMO_NONE,
@@ -53,9 +47,9 @@ public enum Stellar {
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
                                            asset: .native,
-                                           source: source)
+                                           sourcePublicAddress: source.publicKey)
 
-                return TransactionBuilder(source: source, node: node)
+                return TransactionBuilder(sourcePublicAddress: source.publicKey, node: node)
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
@@ -276,7 +270,7 @@ public enum Stellar {
         }
     }
 
-    public static func sign(transaction: Transaction, signer: Account, node: Node) throws -> Transaction.Envelope {
+    public static func sign(transaction: Transaction, signer: StellarAccount, node: Node) throws -> Transaction.Envelope {
         var transaction = transaction
         try transaction.sign(account: signer, networkId: node.network.id)
         return transaction.envelope()

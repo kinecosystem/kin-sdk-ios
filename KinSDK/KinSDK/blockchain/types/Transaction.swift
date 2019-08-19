@@ -298,30 +298,20 @@ public struct Transaction: XDRCodable {
         return try XDREncoder.encode(payload).sha256
     }
 
-    public mutating func sign(account: Account, networkId: Network.Id) throws {
-        let message = Array(try hash(networkId: networkId))
-
-        guard let sign = account.sign else {
-            throw StellarError.missingSignClosure
-        }
-
+    public mutating func sign(account: StellarAccount, networkId: Network.Id) throws {
         guard let publicKey = account.publicKey else {
             throw StellarError.missingPublicKey
         }
 
+        let message = Array(try hash(networkId: networkId))
         let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+        let signature = try account.sign(message: message, passphrase: "")
 
-        signatures.append(try DecoratedSignature(hint: hint, signature: sign(message)))
+        signatures.append(DecoratedSignature(hint: hint, signature: signature))
     }
 
     public mutating func sign(kinAccount: KinAccount, networkId: Network.Id) throws {
-        kinAccount.stellarAccount.sign = { message in
-            return try kinAccount.stellarAccount.sign(message: message, passphrase: "")
-        }
-
         try sign(account: kinAccount.stellarAccount, networkId: networkId)
-
-        kinAccount.stellarAccount.sign = nil
     }
 
     var memoString: String? {
