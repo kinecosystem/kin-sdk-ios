@@ -26,7 +26,6 @@ extension Operation {
     
     public static func payment(destination: String,
                                amount: Int64,
-                               asset: Asset,
                                sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 
@@ -37,7 +36,7 @@ extension Operation {
 
         return Operation(sourceAccount: sourcePK,
                          body: Operation.Body.PAYMENT(PaymentOp(destination: destPK,
-                                                                asset: asset,
+                                                                asset: .native,
                                                                 amount: amount)))
 
     }

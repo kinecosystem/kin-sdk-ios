@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import KinUtil 
+import KinUtil
 
 /**
  `Stellar` provides an API for communicating with Stellar Horizon servers, with an emphasis on
@@ -46,7 +46,6 @@ public enum Stellar {
             .then { _ -> Promise<BaseTransaction> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
-                                           asset: .native,
                                            sourcePublicAddress: source.publicKey)
 
                 return TransactionBuilder(sourcePublicAddress: source.publicKey, node: node)

@@ -24,8 +24,9 @@ extension SendTransactionParams {
             m = try Memo(memo)
         }
 
-//        PaymentOp(destination: <#T##PublicKey#>, asset: Asset.native, amount: Int64(amount))
-//        Operation(sourceAccount: publicAddress, body: .PAYMENT(<#T##PaymentOp#>))
-        return SendTransactionParams(operations: [], fee: fee, memo: m)
+        let amountInt = (amount as NSDecimalNumber).int64Value
+
+        let operation = Operation.payment(destination: publicAddress, amount: amountInt)
+        return SendTransactionParams(operations: [operation], fee: fee, memo: m)
     }
 }

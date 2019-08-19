@@ -108,7 +108,7 @@ public final class KinAccount {
     }
 
     public func transactionBuilder() -> TransactionBuilder {
-        return TransactionBuilder(sourcePublicAddress: stellarAccount.publicKey, node: node)
+        return TransactionBuilder(sourcePublicAddress: publicAddress, node: node)
     }
 
 

@@ -66,11 +66,6 @@ public /*final*/ class TransactionBuilder {
         return self
     }
 
-    @available(*, deprecated, renamed: "build")
-    public func tx() -> Promise<BaseTransaction> {
-        return build()
-    }
-
     public func build() -> Promise<BaseTransaction> {
         let p = Promise<BaseTransaction>()
 
@@ -111,5 +106,14 @@ public /*final*/ class TransactionBuilder {
         }
 
         return p
+    }
+}
+
+// MARK: - Deprecated
+
+extension TransactionBuilder {
+    @available(*, deprecated, renamed: "build")
+    public func tx() -> Promise<BaseTransaction> {
+        return build()
     }
 }
