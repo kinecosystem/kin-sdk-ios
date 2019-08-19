@@ -39,6 +39,10 @@ public class PaymentQueue: NSObject {
         return pendingPayment
     }
 
+    func enqueueTransactionParams(_ params: SendTransactionParams) -> TransactionParamsOperation {
+        return transactionTasksQueueManager.enqueue(transactionParams: params)
+    }
+
     public func setTransactionInterceptor(_ interceptor: TransactionInterceptor) {
 
     }

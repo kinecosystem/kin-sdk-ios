@@ -24,6 +24,7 @@ extension SendTransactionParams {
             m = try Memo(memo)
         }
 
+//        PaymentOp(destination: <#T##PublicKey#>, asset: Asset.native, amount: Int64(amount))
 //        Operation(sourceAccount: publicAddress, body: .PAYMENT(<#T##PaymentOp#>))
         return SendTransactionParams(operations: [], fee: fee, memo: m)
     }

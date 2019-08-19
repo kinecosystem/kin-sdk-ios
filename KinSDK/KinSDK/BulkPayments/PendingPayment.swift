@@ -21,10 +21,6 @@ public class PendingPayment {
         self.amount = amount
         self.metadata = metadata
     }
-
-//    lazy var operation: Operation = {
-//        return Operation(pendingPayment: self)
-//    }()
 }
 
 extension PendingPayment {
@@ -34,18 +30,3 @@ extension PendingPayment {
         case failed
     }
 }
-
-//extension PendingPayment {
-//    class Operation: Foundation.Operation {
-//        let pendingPayment: PendingPayment
-//
-//        init(pendingPayment: PendingPayment) {
-//            self.pendingPayment = pendingPayment
-//
-//            super.init()
-//
-//            queuePriority = .normal
-//            name = "Pending Payment From \(pendingPayment.sourcePublicAddress) To \(pendingPayment.destinationPublicAddress)"
-//        }
-//    }
-//}
