@@ -242,7 +242,8 @@ public struct Transaction: XDRCodable {
         self.memo = memo
         self.operations = operations
 
-        self.fee = fee ?? UInt32(100 * operations.count)
+        // ???: where is the 100 coming from, should is use the asset diviser?
+        self.fee = fee ?? Quark(100 * operations.count)
     }
 
     /**
@@ -254,7 +255,7 @@ public struct Transaction: XDRCodable {
      */
     public init(from decoder: XDRDecoder) throws {
         sourceAccount = try decoder.decode(PublicKey.self)
-        fee = try decoder.decode(UInt32.self)
+        fee = try decoder.decode(Quark.self)
         seqNum = try decoder.decode(UInt64.self)
         timeBounds = try decoder.decodeArray(TimeBounds.self).first
         memo = try decoder.decode(Memo.self)

@@ -9,6 +9,12 @@
 import Foundation
 
 class TransactionTasksQueueManager {
+    let account: StellarAccount
+
+    init(account: StellarAccount) {
+        self.account = account
+    }
+
     private lazy var tasksQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.name = "Transaction Tasks Queue Manager"
@@ -17,11 +23,11 @@ class TransactionTasksQueueManager {
     }()
 
     func enqueue(pendingPayments: [PendingPayment]) {
-        pendingPayments.forEach { tasksQueue.addOperation(PendingPaymentOperation($0)) }
+        pendingPayments.forEach { tasksQueue.addOperation(PendingPaymentOperation($0, account: account)) }
     }
 
     func enqueue(transactionParams: SendTransactionParams) -> TransactionParamsOperation {
-        let operation = TransactionParamsOperation(transactionParams)
+        let operation = TransactionParamsOperation(transactionParams, account: account)
         tasksQueue.addOperation(operation)
         return operation
     }

@@ -264,7 +264,7 @@ public final class KinAccount {
 
 
     public lazy var paymentQueue: PaymentQueue = {
-        return PaymentQueue(publicAddress: publicAddress)
+        return PaymentQueue(account: stellarAccount)
     }()
 
     public func pendingBalance(_ completion: @escaping (Result<Kin, Error>) -> Void) {
@@ -302,13 +302,6 @@ extension KinAccount {
             return
         }
 
-        let kinInt = ((kin * Decimal(AssetUnitDivisor)) as NSDecimalNumber).int64Value
-
-        guard kinInt > 0 else {
-            completion(nil, KinError.invalidAmount)
-            return
-        }
-
         let prefixedMemo = Memo.prependAppIdIfNeeded(appId, to: memo ?? "")
 
         guard prefixedMemo.utf8.count <= Transaction.MaxMemoLength else {
@@ -319,7 +312,7 @@ extension KinAccount {
         do {
             Stellar.transaction(source: stellarAccount,
                                 destination: recipient,
-                                amount: kinInt,
+                                amount: kin.toQuark(),
                                 memo: try Memo(prefixedMemo),
                                 node: node,
                                 fee: fee)

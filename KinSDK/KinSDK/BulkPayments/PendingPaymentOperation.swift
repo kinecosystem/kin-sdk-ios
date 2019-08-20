@@ -10,10 +10,12 @@ import Foundation
 
 class PendingPaymentOperation: Foundation.Operation {
     let pendingPayment: PendingPayment
+    let account: StellarAccount
 
-    init(_ pendingPayment: PendingPayment) {
+    init(_ pendingPayment: PendingPayment, account: StellarAccount) {
         self.pendingPayment = pendingPayment
-
+        self.account = account
+        
         super.init()
 
         queuePriority = .normal
@@ -27,6 +29,6 @@ class PendingPaymentOperation: Foundation.Operation {
 
         // Send to blockchain
 
-        
+
     }
 }

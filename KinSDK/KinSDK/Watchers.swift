@@ -80,13 +80,13 @@ public class BalanceWatch {
                                  .LEDGER_ENTRY_UPDATED(let le):
                                 if case let LedgerEntry.Data.TRUSTLINE(trustlineEntry) = le.data {
                                     if trustlineEntry.account == account {
-                                        balance = Decimal(Double(trustlineEntry.balance) / Double(AssetUnitDivisor))
+                                        balance = trustlineEntry.balance.toKin()
                                         return balance
                                     }
                                 }
                                 else if case let LedgerEntry.Data.ACCOUNT(accountEntry) = le.data {
                                     if accountEntry.accountID.publicKey == account {
-                                        balance = Decimal(Double(accountEntry.balance) / Double(AssetUnitDivisor))
+                                        balance = accountEntry.balance.toKin()
                                         return balance
                                     }
                                 }

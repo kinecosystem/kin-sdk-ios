@@ -38,7 +38,7 @@ public enum Stellar {
      */
     public static func transaction(source: StellarAccount,
                                    destination: String,
-                                   amount: Int64,
+                                   amount: Quark,
                                    memo: Memo = .MEMO_NONE,
                                    node: Node,
                                    fee: Quark) -> Promise<BaseTransaction> {

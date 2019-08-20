@@ -21,14 +21,14 @@ private func decodeData(from decoder: XDRDecoder, capacity: Int) throws -> Data 
 
 public struct CreateAccountOp: XDRCodable, XDREncodableStruct {
     let destination: PublicKey
-    let balance: Int64
+    let balance: Quark
 
     public init(from decoder: XDRDecoder) throws {
         destination = try decoder.decode(PublicKey.self)
-        balance = try decoder.decode(Int64.self)
+        balance = try decoder.decode(Quark.self)
     }
 
-    init(destination: PublicKey, balance: Int64) {
+    init(destination: PublicKey, balance: Quark) {
         self.destination = destination
         self.balance = balance
     }
@@ -37,15 +37,15 @@ public struct CreateAccountOp: XDRCodable, XDREncodableStruct {
 struct PaymentOp: XDRCodable, XDREncodableStruct {
     let destination: PublicKey
     let asset: Asset
-    let amount: Int64
+    let amount: Quark
 
     init(from decoder: XDRDecoder) throws {
         destination = try decoder.decode(PublicKey.self)
         asset = try decoder.decode(Asset.self)
-        amount = try decoder.decode(Int64.self)
+        amount = try decoder.decode(Quark.self)
     }
 
-    init(destination: PublicKey, asset: Asset, amount: Int64) {
+    init(destination: PublicKey, asset: Asset, amount: Quark) {
         self.destination = destination
         self.asset = asset
         self.amount = amount

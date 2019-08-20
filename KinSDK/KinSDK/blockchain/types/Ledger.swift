@@ -41,7 +41,7 @@ public struct AccountEntry: XDRDecodable {
 public struct TrustLineEntry: XDRDecodable {
     let accountID: AccountID
     public let asset: Asset
-    public let balance: Int64
+    public let balance: Quark
     let limit: Int64
     let flags: UInt32
     let reserved: Int32 = 0
@@ -53,7 +53,7 @@ public struct TrustLineEntry: XDRDecodable {
     public init(from decoder: XDRDecoder) throws {
         accountID = try decoder.decode(AccountID.self)
         asset = try decoder.decode(Asset.self)
-        balance = try decoder.decode(Int64.self)
+        balance = try decoder.decode(Quark.self)
         limit = try decoder.decode(Int64.self)
         flags = try decoder.decode(UInt32.self)
         _ = try decoder.decode(Int32.self)

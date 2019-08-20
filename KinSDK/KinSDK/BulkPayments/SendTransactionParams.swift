@@ -24,9 +24,8 @@ extension SendTransactionParams {
             m = try Memo(memo)
         }
 
-        let amountInt = (amount as NSDecimalNumber).int64Value
-
-        let operation = Operation.payment(destination: publicAddress, amount: amountInt)
+        let operation = Operation.payment(destination: publicAddress, amount: amount.toQuark())
+        
         return SendTransactionParams(operations: [operation], fee: fee, memo: m)
     }
 }

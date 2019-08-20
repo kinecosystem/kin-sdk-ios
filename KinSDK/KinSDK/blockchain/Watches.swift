@@ -12,6 +12,7 @@ import KinUtil
 public struct Payment {
     public var source: String
     public var destination: String
+    // ???: shouldnt this be quark and not kin?
     public var amount: Decimal
     public var asset: Asset
 }

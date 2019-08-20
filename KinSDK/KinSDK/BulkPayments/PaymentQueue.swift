@@ -18,13 +18,17 @@ public protocol PaymentQueueDelegate: NSObjectProtocol {
 public class PaymentQueue: NSObject {
     public weak var delegate: PaymentQueueDelegate?
 
+    let account: StellarAccount
     let sourcePublicAddress: String
 
     private let paymentsQueueManager = PaymentsQueueManager()
-    private let transactionTasksQueueManager = TransactionTasksQueueManager()
+    private lazy var transactionTasksQueueManager: TransactionTasksQueueManager = {
+        return TransactionTasksQueueManager(account: account)
+    }()
 
-    init(publicAddress: String) {
-        self.sourcePublicAddress = publicAddress
+    init(account: StellarAccount) {
+        self.account = account
+        self.sourcePublicAddress = account.publicKey!
 
         super.init()
 

@@ -10,9 +10,11 @@ import Foundation
 
 class TransactionParamsOperation: Foundation.Operation {
     let transactionParams: SendTransactionParams
+    let account: StellarAccount
 
-    init(_ transactionParams: SendTransactionParams) {
+    init(_ transactionParams: SendTransactionParams, account: StellarAccount) {
         self.transactionParams = transactionParams
+        self.account = account
 
         super.init()
 
@@ -25,6 +27,6 @@ class TransactionParamsOperation: Foundation.Operation {
             return
         }
 
-        
+
     }
 }

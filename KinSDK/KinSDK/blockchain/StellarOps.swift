@@ -10,7 +10,7 @@ import Foundation
 
 extension Operation {
     public static func createAccount(destination: String,
-                                     balance: Int64,
+                                     balance: Quark,
                                      sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 
@@ -25,7 +25,7 @@ extension Operation {
     }
     
     public static func payment(destination: String,
-                               amount: Int64,
+                               amount: Quark,
                                sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 

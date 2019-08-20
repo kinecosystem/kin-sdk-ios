@@ -71,6 +71,7 @@
 		68AF931222A92DCF008C01EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF931122A92DCF008C01EC /* ViewController.swift */; };
 		68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931622A92DD1008C01EC /* Assets.xcassets */; };
 		68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */; };
+		68F1A6C6230BC80600DCADA2 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C5230BC80600DCADA2 /* Assets.swift */; };
 		68F38BFF23053C880013DBD1 /* PaymentsQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */; };
 		68F38C0B230559100013DBD1 /* PendingPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0A230559100013DBD1 /* PendingPayment.swift */; };
 		68F38C0D2305779B0013DBD1 /* TransactionTasksQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */; };
@@ -239,6 +240,7 @@
 		68AF931622A92DD1008C01EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68AF931922A92DD1008C01EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68AF931B22A92DD1008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68F1A6C5230BC80600DCADA2 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsQueueManager.swift; sourceTree = "<group>"; };
 		68F38C0A230559100013DBD1 /* PendingPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPayment.swift; sourceTree = "<group>"; };
 		68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTasksQueueManager.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				68319E8622DC62AA00EC2DDF /* KinTypes.swift */,
 				68319E8722DC62AA00EC2DDF /* KinAccounts.swift */,
 				68319E8822DC62AA00EC2DDF /* KinClient.swift */,
+				68F1A6C5230BC80600DCADA2 /* Assets.swift */,
 			);
 			name = KinSDK;
 			path = KinSDK/KinSDK;
@@ -726,6 +729,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68F1A6C6230BC80600DCADA2 /* Assets.swift in Sources */,
 				68319EA022DC62AA00EC2DDF /* StellarOps.swift in Sources */,
 				68319E9222DC62AA00EC2DDF /* PublicKey.swift in Sources */,
 				6863167323018FF100C71132 /* SendTransactionParams.swift in Sources */,
