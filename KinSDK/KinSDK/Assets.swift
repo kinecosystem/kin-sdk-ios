@@ -8,9 +8,6 @@
 
 import Foundation
 
-
-internal let AssetUnitDivisor: Int32 = 100_000
-
 /**
  Kin is the native currency of the network.
  */
@@ -25,7 +22,6 @@ extension Kin {
 /**
  Quark is the smallest amount unit. It is one-hundred-thousandth of a Kin: `1/100000` or `0.00001`.
  */
-// ???: should this be int64? one could technically have more quark than what holds in 32.
 public typealias Quark = Int64
 
 extension Quark {
@@ -36,3 +32,5 @@ extension Quark {
 
 @available(*, deprecated, renamed: "Quark")
 public typealias Stroop = Quark
+
+let AssetUnitDivisor: Int64 = 100_000

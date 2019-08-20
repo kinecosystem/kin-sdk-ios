@@ -72,6 +72,7 @@
 		68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931622A92DD1008C01EC /* Assets.xcassets */; };
 		68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */; };
 		68F1A6C6230BC80600DCADA2 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C5230BC80600DCADA2 /* Assets.swift */; };
+		68F1A6C8230C1BBC00DCADA2 /* AssetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */; };
 		68F38BFF23053C880013DBD1 /* PaymentsQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */; };
 		68F38C0B230559100013DBD1 /* PendingPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0A230559100013DBD1 /* PendingPayment.swift */; };
 		68F38C0D2305779B0013DBD1 /* TransactionTasksQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */; };
@@ -241,6 +242,7 @@
 		68AF931922A92DD1008C01EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68AF931B22A92DD1008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68F1A6C5230BC80600DCADA2 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetTests.swift; sourceTree = "<group>"; };
 		68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsQueueManager.swift; sourceTree = "<group>"; };
 		68F38C0A230559100013DBD1 /* PendingPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPayment.swift; sourceTree = "<group>"; };
 		68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTasksQueueManager.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 				68AF917322A90C6A008C01EC /* Info.plist */,
 				C2B037F022F76259001F98B8 /* IntegEnvironment.swift */,
 				68F38C0E23057EA80013DBD1 /* PaymentsQueueManagerTests.swift */,
+				68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
@@ -796,6 +799,7 @@
 				68319EB822DC62CF00EC2DDF /* URLKinVersion.swift in Sources */,
 				68319EB522DC62CF00EC2DDF /* XDRTests.swift in Sources */,
 				C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */,
+				68F1A6C8230C1BBC00DCADA2 /* AssetTests.swift in Sources */,
 				68319EB722DC62CF00EC2DDF /* AppIdTests.swift in Sources */,
 				68319EB622DC62CF00EC2DDF /* KinClientTests.swift in Sources */,
 			);
