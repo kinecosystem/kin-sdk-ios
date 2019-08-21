@@ -29,8 +29,8 @@ public class PaymentWatch {
         return txWatch.eventSource.lastEventId
     }
 
-    init(node: Stellar.Node, account: String, cursor: String? = nil) {
-        self.txWatch = Stellar.txWatch(account: account, lastEventId: cursor, node: node)
+    init(account: String, cursor: String? = nil) {
+        self.txWatch = Stellar.txWatch(account: account, lastEventId: cursor)
 
         self.emitter = self.txWatch.emitter
             .filter({ ti in
@@ -65,10 +65,10 @@ public class BalanceWatch {
     */
     public let emitter: StatefulObserver<Kin>
 
-    init(node: Stellar.Node, account: String, balance: Kin? = nil) {
+    init(account: String, balance: Kin? = nil) {
         var balance = balance ?? Decimal(0)
 
-        self.txWatch = Stellar.txWatch(account: account, lastEventId: "now", node: node)
+        self.txWatch = Stellar.txWatch(account: account, lastEventId: "now")
 
         self.emitter = txWatch.emitter
             .map({ txEvent in
@@ -122,8 +122,8 @@ public class CreationWatch {
      */
     public let emitter: Observable<Bool>
 
-    init(node: Stellar.Node, account: String) {
-        self.paymentWatch = Stellar.paymentWatch(account: account, lastEventId: nil, node: node)
+    init(account: String) {
+        self.paymentWatch = Stellar.paymentWatch(account: account, lastEventId: nil)
 
         self.emitter = paymentWatch.emitter
             .map({ _ in

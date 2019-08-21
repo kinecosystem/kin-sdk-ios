@@ -283,14 +283,12 @@ public struct Transaction: XDRCodable {
     /**
      Hash representing the signature of the payload of the `Transaction`.
 
-     - Parameter networkId: the Network Id on which this `Transaction` is executed on.
-
      - Returns: the hash `Data`
 
      - Throws: `StellarError.dataEncodingFailed` if the network id could not be encoded.
      */
-    public func hash(networkId: Network.Id) throws -> Data {
-        guard let data = networkId.data(using: .utf8)?.sha256 else {
+    public func hash() throws -> Data {
+        guard let data = Stellar.Node.current.network.id.data(using: .utf8)?.sha256 else {
             throw StellarError.dataEncodingFailed
         }
 
@@ -299,20 +297,20 @@ public struct Transaction: XDRCodable {
         return try XDREncoder.encode(payload).sha256
     }
 
-    public mutating func sign(account: StellarAccount, networkId: Network.Id) throws {
+    public mutating func sign(account: StellarAccount) throws {
         guard let publicKey = account.publicKey else {
             throw StellarError.missingPublicKey
         }
 
-        let message = Array(try hash(networkId: networkId))
+        let message = Array(try hash())
         let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
         let signature = try account.sign(message: message, passphrase: "")
 
         signatures.append(DecoratedSignature(hint: hint, signature: signature))
     }
 
-    public mutating func sign(kinAccount: KinAccount, networkId: Network.Id) throws {
-        try sign(account: kinAccount.stellarAccount, networkId: networkId)
+    public mutating func sign(kinAccount: KinAccount) throws {
+        try sign(account: kinAccount.stellarAccount)
     }
 
     var memoString: String? {

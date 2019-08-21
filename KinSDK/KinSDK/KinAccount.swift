@@ -15,7 +15,6 @@ import KinUtil
  */
 public final class KinAccount {
     internal let stellarAccount: StellarAccount
-    fileprivate let node: Stellar.Node
     fileprivate let appId: AppId
 
     var deleted = false
@@ -41,9 +40,8 @@ public final class KinAccount {
         }
     }
 
-    init(stellarAccount: StellarAccount, node: Stellar.Node, appId: AppId) {
+    init(stellarAccount: StellarAccount, appId: AppId) {
         self.stellarAccount = stellarAccount
-        self.node = node
         self.appId = appId
     }
 
@@ -108,7 +106,7 @@ public final class KinAccount {
     }
 
     public func transactionBuilder() -> TransactionBuilder {
-        return TransactionBuilder(sourcePublicAddress: publicAddress, node: node)
+        return TransactionBuilder(sourcePublicAddress: publicAddress)
     }
 
 
@@ -153,7 +151,7 @@ public final class KinAccount {
             return
         }
 
-        Stellar.balance(account: stellarAccount.publicKey!, node: node)
+        Stellar.balance(account: stellarAccount.publicKey!)
             .then { balance -> Void in
                 completion(balance, nil)
             }
@@ -172,7 +170,7 @@ public final class KinAccount {
     }
 
     func accountData(completion: @escaping (AccountData?, Error?) -> Void) {
-        Stellar.accountData(account: stellarAccount.publicKey!, node: node)
+        Stellar.accountData(account: stellarAccount.publicKey!)
             .then { accountData in
                 completion(accountData, nil)
             }
@@ -193,7 +191,7 @@ public final class KinAccount {
             throw KinError.accountDeleted
         }
 
-        return BalanceWatch(node: node, account: stellarAccount.publicKey!, balance: balance)
+        return BalanceWatch(account: stellarAccount.publicKey!, balance: balance)
     }
 
     /**
@@ -208,7 +206,7 @@ public final class KinAccount {
             throw KinError.accountDeleted
         }
 
-        return PaymentWatch(node: node, account: stellarAccount.publicKey!, cursor: cursor)
+        return PaymentWatch(account: stellarAccount.publicKey!, cursor: cursor)
     }
 
     /**
@@ -224,7 +222,7 @@ public final class KinAccount {
         let p = Promise<Void>()
 
         var linkBag = LinkBag()
-        var watch: CreationWatch? = CreationWatch(node: node, account: stellarAccount.publicKey!)
+        var watch: CreationWatch? = CreationWatch(account: stellarAccount.publicKey!)
 
         _ = watch?.emitter.on(next: { _ in
             watch = nil
@@ -314,7 +312,6 @@ extension KinAccount {
                                 destination: recipient,
                                 amount: kin.toQuark(),
                                 memo: try Memo(prefixedMemo),
-                                node: node,
                                 fee: fee)
                 .then { baseTransaction -> Void in
                     if let paymentTransaction = baseTransaction as? PaymentTransaction {
@@ -370,7 +367,7 @@ extension KinAccount {
             return
         }
 
-        Stellar.postTransaction(envelope: envelope, node: node)
+        Stellar.postTransaction(envelope: envelope)
             .then { txHash -> Void in
                 completion(txHash, nil)
             }

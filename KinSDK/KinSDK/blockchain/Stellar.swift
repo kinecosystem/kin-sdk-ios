@@ -15,6 +15,8 @@ import KinUtil
  */
 public enum Stellar {
     public struct Node {
+        static var current: Node = .init(baseURL: URL(string: "")!)
+
         public let baseURL: URL
         public let network: Network
 
@@ -31,7 +33,6 @@ public enum Stellar {
      - Parameter destination: The public key of the receiving account, as a base32 string.
      - Parameter amount: The amount to be sent.
      - Parameter memo: A short string placed in the MEMO field of the transaction.
-     - Parameter node: An object describing the network endpoint.
      - Parameter fee: The fee in `Quark`s used when the transaction is not whitelisted.
 
      - Returns: A promise which will be signalled with the result of the operation.
@@ -40,22 +41,21 @@ public enum Stellar {
                                    destination: String,
                                    amount: Quark,
                                    memo: Memo = .MEMO_NONE,
-                                   node: Node,
                                    fee: Quark) -> Promise<BaseTransaction> {
-        return balance(account: destination, node: node)
+        return balance(account: destination)
             .then { _ -> Promise<BaseTransaction> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
                                            sourcePublicAddress: source.publicKey)
 
-                return TransactionBuilder(sourcePublicAddress: source.publicKey, node: node)
+                return TransactionBuilder(sourcePublicAddress: source.publicKey)
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
                     .build()
             }
             .then { transaction -> Promise<BaseTransaction> in
-                try transaction.addSignature(account: source, networkId: node.network.id)
+                try transaction.addSignature(account: source)
 
                 return Promise(transaction)
             }
@@ -73,12 +73,11 @@ public enum Stellar {
      Obtain the balance.
 
      - parameter account: The `Account` whose balance will be retrieved.
-     - parameter node: An object describing the network endpoint.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func balance(account: String, node: Node) -> Promise<Kin> {
-        return accountDetails(account: account, node: node)
+    public static func balance(account: String) -> Promise<Kin> {
+        return accountDetails(account: account)
             .then { accountDetails in
                 let p = Promise<Kin>()
 
@@ -92,66 +91,8 @@ public enum Stellar {
         }
     }
 
-    /**
-     Obtain the aggregated balance.
-
-     - parameter account: The `Account` whose aggregated balance will be retrieved.
-     - parameter node: An object describing the network endpoint.
-
-     - Returns: A promise which will be signalled with the result of the operation.
-     */
-    static func aggregatedBalance(account: String, node: Node) -> Promise<Kin> {
-        let url = Endpoint(node.baseURL).account(account).aggregatedBalance().url
-
-        return issue(request: URLRequest(url: url))
-            .then { data -> Promise<AggregatedBalanceResponse> in
-                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
-                    if case 400...404 = horizonError.status {
-                        throw StellarError.invalidAccount
-                    }
-                    else {
-                        throw StellarError.unknownError(horizonError)
-                    }
-                }
-
-                return try Promise(JSONDecoder().decode(AggregatedBalanceResponse.self, from: data))
-            }
-            .then { aggregatedBalanceResponse -> Promise<Kin> in
-                return Promise(aggregatedBalanceResponse.balance)
-        }
-    }
-
-    /**
-     Obtain the controlled accounts.
-
-     - parameter account: The `Account` whose aggregated balance will be retrieved.
-     - parameter node: An object describing the network endpoint.
-
-     - Returns: A promise which will be signalled with the result of the operation.
-     */
-    static func controlledAccounts(account: String, node: Node) -> Promise<[ControlledAccount]> {
-        let url = Endpoint(node.baseURL).account(account).controlledAccounts().url
-
-        return issue(request: URLRequest(url: url))
-            .then { data -> Promise<ControlledAccountsResponse> in
-                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
-                    if case 400...404 = horizonError.status {
-                        throw StellarError.invalidAccount
-                    }
-                    else {
-                        throw StellarError.unknownError(horizonError)
-                    }
-                }
-
-                return try Promise(JSONDecoder().decode(ControlledAccountsResponse.self, from: data))
-            }
-            .then { controlledAccountsResponse -> Promise<[ControlledAccount]> in
-                return Promise(controlledAccountsResponse.controlledAccounts)
-        }
-    }
-
-    static func accountData(account: String, node: Node) -> Promise<AccountData> {
-        let url = Endpoint(node.baseURL).account(account).url
+    static func accountData(account: String) -> Promise<AccountData> {
+        let url = Endpoint(Node.current.baseURL).account(account).url
 
         return issue(request: URLRequest(url: url))
             .then { data -> Promise<AccountResponse> in
@@ -183,12 +124,11 @@ public enum Stellar {
      Obtain details for the given account.
 
      - parameter account: The `Account` whose details will be retrieved.
-     - parameter node: An object describing the network endpoint.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func accountDetails(account: String, node: Node) -> Promise<AccountDetails> {
-        let url = Endpoint(node.baseURL).account(account).url
+    public static func accountDetails(account: String) -> Promise<AccountDetails> {
+        let url = Endpoint(Node.current.baseURL).account(account).url
 
         return issue(request: URLRequest(url: url))
             .then { data in
@@ -206,58 +146,52 @@ public enum Stellar {
     }
 
     /**
-     Observe transactions on the given node.  When `account` is non-`nil`, observations are
+     Observe transactions.  When `account` is non-`nil`, observations are
      limited to transactions involving the given account.
 
      - parameter account: The `Account` whose transactions will be observed.  Optional.
      - parameter lastEventId: If non-`nil`, only transactions with a later event Id will be observed.
      The string _now_ will only observe transactions completed after observation begins.
-     - parameter node: An object describing the network endpoint.
 
      - Returns: An instance of `TxWatch`, which contains an `Observable` which emits `TxInfo` objects.
      */
-    public static func txWatch(account: String? = nil,
-                               lastEventId: String?,
-                               node: Node) -> EventWatcher<TxEvent> {
-        let url = Endpoint(node.baseURL).account(account).transactions().cursor(lastEventId).url
+    public static func txWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<TxEvent> {
+        let url = Endpoint(Node.current.baseURL).account(account).transactions().cursor(lastEventId).url
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
 
     /**
-     Observe payments on the given node.  When `account` is non-`nil`, observations are
+     Observe payments.  When `account` is non-`nil`, observations are
      limited to payments involving the given account.
 
      - parameter account: The `Account` whose payments will be observed.  Optional.
      - parameter lastEventId: If non-`nil`, only payments with a later event Id will be observed.
      The string _now_ will only observe payments made after observation begins.
-     - parameter node: An object describing the network endpoint.
 
      - Returns: An instance of `PaymentWatch`, which contains an `Observable` which emits `PaymentEvent` objects.
      */
-    public static func paymentWatch(account: String? = nil,
-                                    lastEventId: String?,
-                                    node: Node) -> EventWatcher<PaymentEvent> {
-        let url = Endpoint(node.baseURL).account(account).payments().cursor(lastEventId).url
+    public static func paymentWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<PaymentEvent> {
+        let url = Endpoint(Node.current.baseURL).account(account).payments().cursor(lastEventId).url
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
 
     //MARK: -
 
-    public static func sequence(account: String, seqNum: UInt64 = 0, node: Node) -> Promise<UInt64> {
+    public static func sequence(account: String, seqNum: UInt64 = 0) -> Promise<UInt64> {
         if seqNum > 0 {
             return Promise().signal(seqNum)
         }
 
-        return accountDetails(account: account, node: node)
+        return accountDetails(account: account)
             .then { accountDetails in
                 return Promise<UInt64>().signal(accountDetails.seqNum + 1)
         }
     }
 
-    public static func networkParameters(node: Node) -> Promise<NetworkParameters> {
-        let url = Endpoint(node.baseURL).ledgers().order(.descending).limit(1).url
+    public static func networkParameters() -> Promise<NetworkParameters> {
+        let url = Endpoint(Node.current.baseURL).ledgers().order(.descending).limit(1).url
 
         return issue(request: URLRequest(url: url))
             .then { data in
@@ -269,13 +203,13 @@ public enum Stellar {
         }
     }
 
-    public static func sign(transaction: Transaction, signer: StellarAccount, node: Node) throws -> Transaction.Envelope {
+    public static func sign(transaction: Transaction, signer: StellarAccount) throws -> Transaction.Envelope {
         var transaction = transaction
-        try transaction.sign(account: signer, networkId: node.network.id)
+        try transaction.sign(account: signer)
         return transaction.envelope()
     }
 
-    public static func postTransaction(envelope: Transaction.Envelope, node: Node) -> Promise<String> {
+    public static func postTransaction(envelope: Transaction.Envelope) -> Promise<String> {
         let envelopeData: Data
         do {
             envelopeData = try Data(XDREncoder.encode(envelope))
@@ -292,7 +226,7 @@ public enum Stellar {
             return Promise<String>(StellarError.dataEncodingFailed)
         }
 
-        var request = URLRequest(url: Endpoint(node.baseURL).transactions().url)
+        var request = URLRequest(url: Endpoint(Node.current.baseURL).transactions().url)
         request.httpMethod = "POST"
         request.httpBody = httpBody
 
@@ -319,14 +253,12 @@ public enum Stellar {
     /**
      Get the minimum fee for sending a transaction.
 
-     - Parameter node: An object describing the network endpoint.
-
      - Returns: The minimum fee needed to send a transaction.
      */
-    public static func minFee(node: Node) -> Promise<Quark> {
+    public static func minFee() -> Promise<Quark> {
         let promise = Promise<Quark>()
 
-        Stellar.networkParameters(node: node)
+        Stellar.networkParameters()
             .then { networkParameters in
                 promise.signal(networkParameters.baseFee)
             }

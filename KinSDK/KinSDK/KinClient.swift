@@ -30,18 +30,16 @@ public final class KinClient {
      - Parameter appId: The `AppId` of the host application.
      */
     public init(with nodeProviderUrl: URL, network: Network, appId: AppId) {
-        self.node = Stellar.Node(baseURL: nodeProviderUrl, network: network)
+        Stellar.Node.current = Stellar.Node(baseURL: nodeProviderUrl, network: network)
 
-        self.accounts = KinAccounts(node: node, appId: appId)
-
-        self.network = network
+        self.accounts = KinAccounts(appId: appId)
     }
 
     /**
      The `URL` of the node this client communicates to.
      */
     public var url: URL {
-        return node.baseURL
+        return Stellar.Node.current.baseURL
     }
 
     /**
@@ -49,12 +47,12 @@ public final class KinClient {
      */
     public private(set) var accounts: KinAccounts
 
-    internal let node: Stellar.Node
-
     /**
      The `Network` of the network which this client communicates to.
      */
-    public let network: Network
+    public var network: Network {
+        return Stellar.Node.current.network
+    }
 
     /**
      Adds an account associated to this client, and returns it.
@@ -149,7 +147,7 @@ public final class KinClient {
             promise.signal(minFee)
         }
         else {
-            Stellar.minFee(node: node)
+            Stellar.minFee()
                 .then { [weak self] fee in
                     self?._minFee = fee
                     promise.signal(fee)

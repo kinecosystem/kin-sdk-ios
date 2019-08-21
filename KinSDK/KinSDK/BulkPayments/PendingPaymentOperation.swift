@@ -15,7 +15,7 @@ class PendingPaymentOperation: Foundation.Operation {
     init(_ pendingPayment: PendingPayment, account: StellarAccount) {
         self.pendingPayment = pendingPayment
         self.account = account
-        
+
         super.init()
 
         queuePriority = .normal
@@ -29,6 +29,9 @@ class PendingPaymentOperation: Foundation.Operation {
 
         // Send to blockchain
 
+        let fee: Quark = 0 // ???:
+
+        Stellar.transaction(source: account, destination: pendingPayment.destinationPublicAddress, amount: pendingPayment.amount.toQuark(), fee: fee)
 
     }
 }

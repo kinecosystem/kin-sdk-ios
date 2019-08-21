@@ -19,8 +19,8 @@ public class BaseTransaction {
         return transaction.fee
     }
 
-    public func hash(networkId: Network.Id) throws -> Data {
-        return try transaction.hash(networkId: networkId)
+    public func hash() throws -> Data {
+        return try transaction.hash()
     }
 
     public var sequenceNumber: UInt64 {
@@ -39,15 +39,15 @@ public class BaseTransaction {
         return transaction.envelope()
     }
 
-    public func whitelistPayload(networkId: Network.Id) -> WhitelistPayload {
-        return WhitelistPayload(transactionEnvelope: envelope(), networkId: networkId)
+    public func whitelistPayload() -> WhitelistPayload {
+        return WhitelistPayload(transactionEnvelope: envelope(), networkId: Stellar.Node.current.network.id)
     }
 
-    public func addSignature(account: StellarAccount, networkId: Network.Id) throws {
-        try transaction.sign(account: account, networkId: networkId)
+    public func addSignature(account: StellarAccount) throws {
+        try transaction.sign(account: account)
     }
 
-    public func addSignature(kinAccount: KinAccount, networkId: Network.Id) throws {
-        try transaction.sign(kinAccount: kinAccount, networkId: networkId)
+    public func addSignature(kinAccount: KinAccount) throws {
+        try transaction.sign(kinAccount: kinAccount)
     }
 }

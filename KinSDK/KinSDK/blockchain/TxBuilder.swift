@@ -23,11 +23,8 @@ public /*final*/ class TransactionBuilder {
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
 
-    private var node: Stellar.Node
-
-    init(sourcePublicAddress: String?, node: Stellar.Node) {
+    init(sourcePublicAddress: String?) {
         self.sourcePublicAddress = sourcePublicAddress
-        self.node = node
     }
 
     public func set(memo: Memo) -> TransactionBuilder {
@@ -90,7 +87,7 @@ public /*final*/ class TransactionBuilder {
             p.signal(transaction.wrapper())
         }
         else {
-            Stellar.sequence(account: sourcePublicAddress, seqNum: sequence, node: node)
+            Stellar.sequence(account: sourcePublicAddress, seqNum: sequence)
                 .then { sequenceNumber in
                     let transaction = Transaction(sourceAccount: pk,
                                                   seqNum: sequenceNumber,
