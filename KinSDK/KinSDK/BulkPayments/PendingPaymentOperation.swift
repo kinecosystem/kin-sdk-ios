@@ -27,8 +27,6 @@ class PendingPaymentOperation: Foundation.Operation {
             return
         }
 
-        // Send to blockchain
-
         let fee: Quark = 0 // ???:
 
         Stellar.transaction(source: account, destination: pendingPayment.destinationPublicAddress, amount: pendingPayment.amount.toQuark(), fee: fee)

@@ -27,10 +27,16 @@ class TransactionParamsOperation: Foundation.Operation {
             return
         }
 
-        let destination = "" // ???:
-        let amount = Kin(0).toQuark() // ???:
-        let memo: Memo = transactionParams.memo ?? .MEMO_NONE
+        if let operation = transactionParams.operations.first {
+            switch operation.body {
+            case .PAYMENT(let paymentOp):
+                let memo: Memo = transactionParams.memo ?? .MEMO_NONE
 
-        Stellar.transaction(source: account, destination: destination, amount: amount, memo: memo, fee: transactionParams.fee)
+                Stellar.transaction(source: account, destination: paymentOp.destination.publicKey, amount: paymentOp.amount, memo: memo, fee: transactionParams.fee)
+
+            default:
+                break
+            }
+        }
     }
 }
