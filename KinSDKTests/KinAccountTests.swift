@@ -48,8 +48,8 @@ class KinAccountTests: XCTestCase {
         self.account0 = account0
         self.account1 = account1
 
-        createAccountAndFund(kinAccount: account0, amount: 100)
-        createAccountAndFund(kinAccount: account1, amount: 100)
+        KinAccountTests.createAccountAndFund(publicAddress: account0.publicAddress, amount: 100)
+        KinAccountTests.createAccountAndFund(publicAddress: account1.publicAddress, amount: 100)
     }
 
     override func tearDown() {
@@ -341,11 +341,11 @@ class KinAccountTests: XCTestCase {
 }
 
 extension KinAccountTests {
-    func createAccountAndFund(kinAccount: KinAccount, amount: Kin) {
+    static func createAccountAndFund(publicAddress: String, amount: Kin) {
         let group = DispatchGroup()
         group.enter()
 
-        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(kinAccount.publicAddress)&amount=\(amount)")!
+        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(publicAddress)&amount=\(amount)")!
         URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             guard
                 let data = data,

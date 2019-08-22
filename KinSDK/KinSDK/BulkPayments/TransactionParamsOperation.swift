@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TransactionParamsOperation: Foundation.Operation {
+class TransactionParamsOperation: SendTransactionOperation {
     let transactionParams: SendTransactionParams
     let account: StellarAccount
 
@@ -22,20 +22,22 @@ class TransactionParamsOperation: Foundation.Operation {
         name = "Transaction Params Operation"
     }
 
-    override func main() {
-        if isCancelled {
-            return
-        }
-
+    override func transactionToSend(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
         if let operation = transactionParams.operations.first {
             switch operation.body {
             case .PAYMENT(let paymentOp):
                 let memo: Memo = transactionParams.memo ?? .MEMO_NONE
 
                 Stellar.transaction(source: account, destination: paymentOp.destination.publicKey, amount: paymentOp.amount, memo: memo, fee: transactionParams.fee)
+                    .then { baseTransaction in
+                        completion(.success(baseTransaction))
+                    }
+                    .error { error in
+                        completion(.failure(error))
+                }
 
             default:
-                break
+                completion(.failure(KinError.internalInconsistency))
             }
         }
     }

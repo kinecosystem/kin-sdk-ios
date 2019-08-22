@@ -43,6 +43,8 @@ class KeyStoreTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
+
+        KeyStore.removeAll()
     }
 
     func test_extra_data() {

@@ -73,6 +73,8 @@
 		68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */; };
 		68F1A6C6230BC80600DCADA2 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C5230BC80600DCADA2 /* Assets.swift */; };
 		68F1A6C8230C1BBC00DCADA2 /* AssetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */; };
+		68F1A6CA230E6A5900DCADA2 /* SendTransactionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */; };
+		68F1A6CC230E768C00DCADA2 /* TransactionTasksQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6CB230E768C00DCADA2 /* TransactionTasksQueueTests.swift */; };
 		68F38BFF23053C880013DBD1 /* PaymentsQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */; };
 		68F38C0B230559100013DBD1 /* PendingPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0A230559100013DBD1 /* PendingPayment.swift */; };
 		68F38C0D2305779B0013DBD1 /* TransactionTasksQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */; };
@@ -243,6 +245,8 @@
 		68AF931B22A92DD1008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68F1A6C5230BC80600DCADA2 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetTests.swift; sourceTree = "<group>"; };
+		68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTransactionOperation.swift; sourceTree = "<group>"; };
+		68F1A6CB230E768C00DCADA2 /* TransactionTasksQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTasksQueueTests.swift; sourceTree = "<group>"; };
 		68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsQueueManager.swift; sourceTree = "<group>"; };
 		68F38C0A230559100013DBD1 /* PendingPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPayment.swift; sourceTree = "<group>"; };
 		68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTasksQueueManager.swift; sourceTree = "<group>"; };
@@ -429,6 +433,7 @@
 				68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */,
 				68F38C102309703C0013DBD1 /* TransactionParamsOperation.swift */,
 				68F38C122309704D0013DBD1 /* PendingPaymentOperation.swift */,
+				68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */,
 			);
 			path = BulkPayments;
 			sourceTree = "<group>";
@@ -478,6 +483,7 @@
 				C2B037F022F76259001F98B8 /* IntegEnvironment.swift */,
 				68F38C0E23057EA80013DBD1 /* PaymentsQueueManagerTests.swift */,
 				68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */,
+				68F1A6CB230E768C00DCADA2 /* TransactionTasksQueueTests.swift */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
@@ -743,6 +749,7 @@
 				68319EA522DC62AA00EC2DDF /* StellarEventSource.swift in Sources */,
 				68319EA822DC62AA00EC2DDF /* XDRCodable.swift in Sources */,
 				68319E8A22DC62AA00EC2DDF /* KeyStore.swift in Sources */,
+				68F1A6CA230E6A5900DCADA2 /* SendTransactionOperation.swift in Sources */,
 				68319EA222DC62AA00EC2DDF /* HorizonResponses.swift in Sources */,
 				68319E9C22DC62AA00EC2DDF /* Asset.swift in Sources */,
 				68319E9522DC62AA00EC2DDF /* WrappedData.swift in Sources */,
@@ -793,6 +800,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68F1A6CC230E768C00DCADA2 /* TransactionTasksQueueTests.swift in Sources */,
 				68319EB422DC62CF00EC2DDF /* KinAccountTests.swift in Sources */,
 				68319EB322DC62CF00EC2DDF /* KeyStoreTests.swift in Sources */,
 				68F38C0F23057EA80013DBD1 /* PaymentsQueueManagerTests.swift in Sources */,

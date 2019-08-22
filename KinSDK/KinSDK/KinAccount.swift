@@ -293,7 +293,7 @@ extension KinAccount {
      - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
      - Parameter completion: A completion with the `PaymentTransaction` or an `Error`.
      */
-//    @available(*, deprecated, renamed: "")
+    @available(*, deprecated, renamed: "sendTransaction(params:interceptor:completion:)")
     public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
@@ -340,7 +340,7 @@ extension KinAccount {
 
      - Returns: A promise which is signalled with the `PaymentTransaction` or an `Error`.
      */
-//    @available(*, deprecated, renamed: "")
+    @available(*, deprecated, renamed: "sendTransaction(params:interceptor:)")
     public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<PaymentTransaction> {
         let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
             self.generateTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
@@ -360,7 +360,7 @@ extension KinAccount {
      - Parameter envelope: The `Transaction.Envelope` to send.
      - Parameter completion: A completion with the `TransactionId` or an `Error`.
      */
-//    @available(*, deprecated, renamed: "")
+    @available(*, deprecated)
     public func sendTransaction(_ envelope: Transaction.Envelope, completion: @escaping SendTransactionCompletion) {
         guard deleted == false else {
             completion(nil, KinError.accountDeleted)
@@ -388,7 +388,7 @@ extension KinAccount {
 
      - Returns: A promise which is signalled with the `TransactionId` or an `Error`.
      */
-//    @available(*, deprecated, renamed: "")
+    @available(*, deprecated)
     public func sendTransaction(_ envelope: Transaction.Envelope) -> Promise<TransactionId> {
         let txClosure = { (txComp: @escaping SendTransactionCompletion) in
             self.sendTransaction(envelope, completion: txComp)

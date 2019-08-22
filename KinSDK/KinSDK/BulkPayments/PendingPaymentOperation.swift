@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PendingPaymentOperation: Foundation.Operation {
+class PendingPaymentOperation: SendTransactionOperation {
     let pendingPayment: PendingPayment
     let account: StellarAccount
 
@@ -22,14 +22,15 @@ class PendingPaymentOperation: Foundation.Operation {
         name = "Pending Payment Operation"
     }
 
-    override func main() {
-        if isCancelled {
-            return
-        }
-
+    override func transactionToSend(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
         let fee: Quark = 0 // ???:
 
         Stellar.transaction(source: account, destination: pendingPayment.destinationPublicAddress, amount: pendingPayment.amount.toQuark(), fee: fee)
-
+            .then { baseTransaction in
+                completion(.success(baseTransaction))
+            }
+            .error { error in
+                completion(.failure(error))
+        }
     }
 }
