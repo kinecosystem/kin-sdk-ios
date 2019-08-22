@@ -13,33 +13,15 @@ import Foundation
  */
 public final class KinClient {
     /**
-     Convenience initializer to instantiate a `KinClient` with a `ServiceProvider`.
+     Instantiates a `KinClient` with a `Network` and an `AppId`.
 
-     - Parameter provider: The `ServiceProvider` instance that provides the `URL` and `Network`.
-     - Parameter appId: The `AppId` of the host application.
-     */
-    public convenience init(provider: ServiceProvider, appId: AppId) {
-        self.init(with: provider.url, network: provider.network, appId: appId)
-    }
-
-    /**
-     Instantiates a `KinClient` with a `URL` and a `Network`.
-
-     - Parameter nodeProviderUrl: The `URL` of the node this client will communicate to.
      - Parameter network: The `Network` to be used.
      - Parameter appId: The `AppId` of the host application.
      */
-    public init(with nodeProviderUrl: URL, network: Network, appId: AppId) {
-        Stellar.Node.current = Stellar.Node(baseURL: nodeProviderUrl, network: network)
+    public init(network: Network, appId: AppId) {
+        Network.current = network
 
         self.accounts = KinAccounts(appId: appId)
-    }
-
-    /**
-     The `URL` of the node this client communicates to.
-     */
-    public var url: URL {
-        return Stellar.Node.current.baseURL
     }
 
     /**
@@ -51,7 +33,7 @@ public final class KinClient {
      The `Network` of the network which this client communicates to.
      */
     public var network: Network {
-        return Stellar.Node.current.network
+        return Network.current
     }
 
     /**
@@ -158,5 +140,17 @@ public final class KinClient {
         }
 
         return promise
+    }
+}
+
+// MARK: - Deprecated
+
+extension KinClient {
+    /**
+     The `URL` of the node this client communicates to.
+     */
+    @available(*, deprecated, renamed: "network.url")
+    public var url: URL {
+        return Network.current.url
     }
 }

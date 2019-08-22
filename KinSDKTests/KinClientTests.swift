@@ -11,6 +11,7 @@ import XCTest
 
 class KinClientTests: XCTestCase {
     var kinClient: KinClient!
+    
     override func setUp() {
         super.setUp()
 
@@ -19,8 +20,7 @@ class KinClientTests: XCTestCase {
             return
         }
 
-        kinClient = KinClient(with: URL(string: "http://localhost:8000")!, network: .testNet, appId: appId)
-
+        kinClient = KinClient(network: .testNet, appId: appId)
     }
 
     override func tearDown() {

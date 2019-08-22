@@ -10,16 +10,6 @@ import UIKit
 import KinSDK
 import SafariServices
 
-struct Provider: ServiceProvider {
-    public let url: URL
-    public let network: Network
-
-    init(url: URL, network: Network) {
-        self.url = url
-        self.network = network
-    }
-}
-
 class HomeViewController: UIViewController {
     @IBOutlet weak var testNetButton: UIButton!
     @IBOutlet weak var mainNetButton: UIButton!
@@ -41,16 +31,10 @@ class HomeViewController: UIViewController {
 
     @IBAction func networkSelected(_ sender: UIButton) {
         let production = sender == mainNetButton
+        let network: Network = production ? .mainNet : .testNet
 
-        let provider: Provider
-        if production {
-            provider = Provider(url: URL(string: "https://horizon.kininfrastructure.com")!, network: .mainNet)
-        } else {
-            provider = Provider(url: URL(string: "http://horizon-testnet.kininfrastructure.com")!, network: .testNet)
-        }
-        
         do {
-            let kinClient = KinClient(provider: provider, appId: try AppId("test"))
+            let kinClient = KinClient(network: network, appId: try AppId("test"))
             
             if let kinAccount = kinClient.accounts.first {
                 //if we already have the account, pass it on to KinSampleViewController

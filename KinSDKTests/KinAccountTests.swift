@@ -18,8 +18,7 @@ class KinAccountTests: XCTestCase {
     var account1: KinAccount!
     var issuer: StellarAccount?
 
-    let endpoint = IntegEnvironment.networkUrl
-    lazy var kNetwork: Network = .custom(IntegEnvironment.networkPassphrase)
+    let network: Network = .custom(id: IntegEnvironment.networkPassphrase, url: URL(string: IntegEnvironment.networkUrl)!)
 
     let requestTimeout: TimeInterval = 30
 
@@ -32,7 +31,7 @@ class KinAccountTests: XCTestCase {
             return
         }
 
-        kinClient = KinClient(with: URL(string: endpoint)!, network: kNetwork, appId: appId)
+        kinClient = KinClient(network: network, appId: appId)
 
         KeyStore.removeAll()
 

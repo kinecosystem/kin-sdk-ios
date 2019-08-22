@@ -288,7 +288,7 @@ public struct Transaction: XDRCodable {
      - Throws: `StellarError.dataEncodingFailed` if the network id could not be encoded.
      */
     public func hash() throws -> Data {
-        guard let data = Stellar.Node.current.network.id.data(using: .utf8)?.sha256 else {
+        guard let data = Network.current.id.data(using: .utf8)?.sha256 else {
             throw StellarError.dataEncodingFailed
         }
 

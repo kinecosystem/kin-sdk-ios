@@ -10,21 +10,6 @@ import Foundation
 import KinUtil
 
 /**
- A protocol to encapsulate the formation of the endpoint `URL` and the `Network`.
- */
-public protocol ServiceProvider {
-    /**
-     The `URL` of the block chain node.
-     */
-    var url: URL { get }
-
-    /**
-     The `Network` to be used.
-     */
-    var network: Network { get }
-}
-
-/**
  Type for `Transaction` identifier.
  */
 public typealias TransactionId = String

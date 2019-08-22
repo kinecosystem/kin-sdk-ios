@@ -14,18 +14,6 @@ import KinUtil
  supporting non-native assets.
  */
 public enum Stellar {
-    public struct Node {
-        static var current: Node = .init(baseURL: URL(string: "")!)
-
-        public let baseURL: URL
-        public let network: Network
-
-        public init(baseURL: URL, network: Network = .testNet) {
-            self.baseURL = baseURL
-            self.network = network
-        }
-    }
-
     /**
      Generate a transaction envelope for the given account.
 
@@ -92,7 +80,7 @@ public enum Stellar {
     }
 
     static func accountData(account: String) -> Promise<AccountData> {
-        let url = Endpoint(Node.current.baseURL).account(account).url
+        let url = Endpoint().account(account).url
 
         return issue(request: URLRequest(url: url))
             .then { data -> Promise<AccountResponse> in
@@ -128,7 +116,7 @@ public enum Stellar {
      - Returns: A promise which will be signalled with the result of the operation.
      */
     public static func accountDetails(account: String) -> Promise<AccountDetails> {
-        let url = Endpoint(Node.current.baseURL).account(account).url
+        let url = Endpoint().account(account).url
 
         return issue(request: URLRequest(url: url))
             .then { data in
@@ -156,7 +144,7 @@ public enum Stellar {
      - Returns: An instance of `TxWatch`, which contains an `Observable` which emits `TxInfo` objects.
      */
     public static func txWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<TxEvent> {
-        let url = Endpoint(Node.current.baseURL).account(account).transactions().cursor(lastEventId).url
+        let url = Endpoint().account(account).transactions().cursor(lastEventId).url
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
@@ -172,7 +160,7 @@ public enum Stellar {
      - Returns: An instance of `PaymentWatch`, which contains an `Observable` which emits `PaymentEvent` objects.
      */
     public static func paymentWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<PaymentEvent> {
-        let url = Endpoint(Node.current.baseURL).account(account).payments().cursor(lastEventId).url
+        let url = Endpoint().account(account).payments().cursor(lastEventId).url
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
@@ -191,7 +179,7 @@ public enum Stellar {
     }
 
     public static func networkParameters() -> Promise<NetworkParameters> {
-        let url = Endpoint(Node.current.baseURL).ledgers().order(.descending).limit(1).url
+        let url = Endpoint().ledgers().order(.descending).limit(1).url
 
         return issue(request: URLRequest(url: url))
             .then { data in
@@ -226,7 +214,7 @@ public enum Stellar {
             return Promise<String>(StellarError.dataEncodingFailed)
         }
 
-        var request = URLRequest(url: Endpoint(Node.current.baseURL).transactions().url)
+        var request = URLRequest(url: Endpoint().transactions().url)
         request.httpMethod = "POST"
         request.httpBody = httpBody
 

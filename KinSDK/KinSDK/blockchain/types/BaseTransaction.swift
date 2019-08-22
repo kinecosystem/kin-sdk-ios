@@ -40,7 +40,7 @@ public class BaseTransaction {
     }
 
     public func whitelistPayload() -> WhitelistPayload {
-        return WhitelistPayload(transactionEnvelope: envelope(), networkId: Stellar.Node.current.network.id)
+        return WhitelistPayload(transactionEnvelope: envelope(), networkId: Network.current.id)
     }
 
     public func addSignature(account: StellarAccount) throws {
