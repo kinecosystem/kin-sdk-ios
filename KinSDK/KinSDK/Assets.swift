@@ -14,7 +14,16 @@ import Foundation
 public typealias Kin = Decimal
 
 extension Kin {
+    /**
+     Convert `Kin` into `Quark`.
+
+     This value should only be used to fees.
+     */
     public func toQuark() -> Quark {
+        return (self * Decimal(AssetUnitDivisor) as NSDecimalNumber).uint32Value
+    }
+
+    func toQuarkAsBlockchainUnit() -> Int64 {
         return (self * Decimal(AssetUnitDivisor) as NSDecimalNumber).int64Value
     }
 }
@@ -22,7 +31,7 @@ extension Kin {
 /**
  Quark is the smallest amount unit. It is one-hundred-thousandth of a Kin: `1/100000` or `0.00001`.
  */
-public typealias Quark = Int64
+public typealias Quark = UInt32
 
 extension Quark {
     public func toKin() -> Kin {
@@ -33,4 +42,4 @@ extension Quark {
 @available(*, deprecated, renamed: "Quark")
 public typealias Stroop = Quark
 
-let AssetUnitDivisor: Int64 = 100_000
+let AssetUnitDivisor: UInt32 = 100_000

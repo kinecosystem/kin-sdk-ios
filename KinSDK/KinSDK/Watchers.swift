@@ -66,7 +66,7 @@ public class BalanceWatch {
     public let emitter: StatefulObserver<Kin>
 
     init(account: String, balance: Kin? = nil) {
-        var balance = balance ?? Decimal(0)
+        var balance = balance ?? Kin(0)
 
         self.txWatch = Stellar.txWatch(account: account, lastEventId: "now")
 
@@ -80,13 +80,13 @@ public class BalanceWatch {
                                  .LEDGER_ENTRY_UPDATED(let le):
                                 if case let LedgerEntry.Data.TRUSTLINE(trustlineEntry) = le.data {
                                     if trustlineEntry.account == account {
-                                        balance = trustlineEntry.balance.toKin()
+                                        balance = Kin(trustlineEntry.balance)
                                         return balance
                                     }
                                 }
                                 else if case let LedgerEntry.Data.ACCOUNT(accountEntry) = le.data {
                                     if accountEntry.accountID.publicKey == account {
-                                        balance = accountEntry.balance.toKin()
+                                        balance = Kin(accountEntry.balance)
                                         return balance
                                     }
                                 }

@@ -27,7 +27,7 @@ public enum Stellar {
      */
     public static func transaction(source: StellarAccount,
                                    destination: String,
-                                   amount: Quark,
+                                   amount: Kin,
                                    memo: Memo = .MEMO_NONE,
                                    fee: Quark) -> Promise<BaseTransaction> {
         return balance(account: destination)

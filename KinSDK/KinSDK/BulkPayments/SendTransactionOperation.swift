@@ -32,7 +32,7 @@ class SendTransactionOperation: Foundation.Operation {
                     
                     switch result {
                     case .success(let transactionHash):
-                        break
+                        print("hash \(transactionHash)")
 
                     case .failure(let error):
                         self.error(error)

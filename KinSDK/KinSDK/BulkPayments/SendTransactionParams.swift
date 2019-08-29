@@ -24,7 +24,7 @@ extension SendTransactionParams {
             m = try Memo(memo)
         }
 
-        let operation = Operation.payment(destination: publicAddress, amount: amount.toQuark())
+        let operation = Operation.payment(destination: publicAddress, amount: amount)
         
         return SendTransactionParams(operations: [operation], fee: fee, memo: m)
     }

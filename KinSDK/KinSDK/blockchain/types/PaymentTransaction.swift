@@ -37,8 +37,8 @@ public class PaymentTransaction: BaseTransaction {
         super.init(wrapping: transaction)
     }
 
-    public var amount: Int64 {
-        return operation.amount
+    public var amount: Kin {
+        return Kin(operation.amount)
     }
 
     public var destinationPublicAddress: String {

@@ -28,7 +28,7 @@ class TransactionParamsOperation: SendTransactionOperation {
             case .PAYMENT(let paymentOp):
                 let memo: Memo = transactionParams.memo ?? .MEMO_NONE
 
-                Stellar.transaction(source: account, destination: paymentOp.destination.publicKey, amount: paymentOp.amount, memo: memo, fee: transactionParams.fee)
+                Stellar.transaction(source: account, destination: paymentOp.destination.publicKey, amount: Kin(paymentOp.amount), memo: memo, fee: transactionParams.fee)
                     .then { baseTransaction in
                         completion(.success(baseTransaction))
                     }

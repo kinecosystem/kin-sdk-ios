@@ -307,7 +307,7 @@ extension KinAccount {
         do {
             Stellar.transaction(source: stellarAccount,
                                 destination: recipient,
-                                amount: kin.toQuark(),
+                                amount: kin,
                                 memo: try Memo(prefixedMemo),
                                 fee: fee)
                 .then { baseTransaction -> Void in

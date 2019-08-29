@@ -10,7 +10,7 @@ import Foundation
 
 extension Operation {
     public static func createAccount(destination: String,
-                                     balance: Quark,
+                                     balance: Kin,
                                      sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 
@@ -19,13 +19,13 @@ extension Operation {
             sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
         }
 
-        return Operation(sourceAccount: sourcePK,
-                         body: Operation.Body.CREATE_ACCOUNT(CreateAccountOp(destination: destPK,
-                                                                             balance: balance)))
+        let account = CreateAccountOp(destination: destPK, balance: balance.toQuarkAsBlockchainUnit())
+
+        return Operation(sourceAccount: sourcePK, body: Operation.Body.CREATE_ACCOUNT(account))
     }
     
     public static func payment(destination: String,
-                               amount: Quark,
+                               amount: Kin,
                                sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 
@@ -34,10 +34,9 @@ extension Operation {
             sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
         }
 
-        return Operation(sourceAccount: sourcePK,
-                         body: Operation.Body.PAYMENT(PaymentOp(destination: destPK,
-                                                                asset: .native,
-                                                                amount: amount)))
+        let payment = PaymentOp(destination: destPK, asset: .native, amount: amount.toQuarkAsBlockchainUnit())
+
+        return Operation(sourceAccount: sourcePK, body: Operation.Body.PAYMENT(payment))
 
     }
 

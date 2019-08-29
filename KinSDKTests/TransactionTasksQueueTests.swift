@@ -50,7 +50,7 @@ class TransactionTasksQueueTests: XCTestCase {
 
         transactionTasksQueueManager.enqueue(pendingPayments: [createPendingPayment()])
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 100)
     }
 }
 
