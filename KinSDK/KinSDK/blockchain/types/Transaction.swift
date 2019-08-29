@@ -304,7 +304,7 @@ public struct Transaction: XDRCodable {
 
         let message = Array(try hash())
         let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
-        let signature = try account.sign(message: message, passphrase: "")
+        let signature = try account.sign(message: message)
 
         signatures.append(DecoratedSignature(hint: hint, signature: signature))
     }

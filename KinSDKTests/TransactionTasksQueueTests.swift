@@ -10,7 +10,6 @@ import XCTest
 @testable import KinSDK
 
 class TransactionTasksQueueTests: XCTestCase {
-    let passphrase = "a phrase"
     var account1: StellarAccount!
     var account2: StellarAccount!
     var transactionTasksQueueManager: TransactionTasksQueueManager!
@@ -24,8 +23,8 @@ class TransactionTasksQueueTests: XCTestCase {
             XCTAssertTrue(false, "Unable to clear existing accounts!")
         }
 
-        account1 = try? KeyStore.newAccount(passphrase: passphrase)
-        account2 = try? KeyStore.newAccount(passphrase: passphrase)
+        account1 = try? KeyStore.newAccount()
+        account2 = try? KeyStore.newAccount()
 
         KinAccountTests.createAccountAndFund(publicAddress: account1.publicKey!, amount: 100)
         KinAccountTests.createAccountAndFund(publicAddress: account2.publicKey!, amount: 100)

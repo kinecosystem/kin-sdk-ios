@@ -10,9 +10,6 @@ import XCTest
 @testable import KinSDK
 
 class KeyStoreTests: XCTestCase {
-    
-    let passphrase = "a phrase"
-
     var account1: StellarAccount!
     var account2: StellarAccount!
     var issuer: StellarAccount!
@@ -26,15 +23,14 @@ class KeyStoreTests: XCTestCase {
             XCTAssertTrue(false, "Unable to clear existing accounts!")
         }
 
-        self.account1 = try? KeyStore.newAccount(passphrase: passphrase)
-        self.account2 = try? KeyStore.newAccount(passphrase: passphrase)
+        self.account1 = try? KeyStore.newAccount()
+        self.account2 = try? KeyStore.newAccount()
 
         if account1 == nil || account2 == nil {
             XCTAssertTrue(false, "Unable to create account(s)!")
         }
 
-        issuer = try? KeyStore.importSecretSeed("SCML43HASLG5IIN34KCJLDQ6LPWYQ3HIROP5CRBHVC46YRMJ6QLOYQJS",
-                                                passphrase: passphrase)
+        issuer = try? KeyStore.importSecretSeed("SCML43HASLG5IIN34KCJLDQ6LPWYQ3HIROP5CRBHVC46YRMJ6QLOYQJS")
 
         if issuer == nil {
             XCTAssertTrue(false, "Unable to import issuer account!")
@@ -76,17 +72,13 @@ class KeyStoreTests: XCTestCase {
     }
 
     func test_export_with_different_passphrase() {
-        let store = KeyStore.exportAccount(account: account1,
-                                           passphrase: passphrase,
-                                           newPassphrase: "new phrase")
+        let store = KeyStore.exportAccount(account: account1, passphrase: "new phrase")
 
         XCTAssertNotNil(store)
     }
 
     func test_export_with_same_passphrase() {
-        let store = KeyStore.exportAccount(account: account1,
-                                           passphrase: passphrase,
-                                           newPassphrase: passphrase)
+        let store = KeyStore.exportAccount(account: account1, passphrase: "")
 
         XCTAssertNotNil(store)
     }
@@ -94,11 +86,9 @@ class KeyStoreTests: XCTestCase {
     func test_import_with_different_passphrase() {
         let count = KeyStore.count()
 
-        let store = KeyStore.exportAccount(account: account1,
-                                           passphrase: passphrase,
-                                           newPassphrase: "new phrase")
+        let store = KeyStore.exportAccount(account: account1, passphrase: "new phrase")
 
-        try? KeyStore.importAccount(store!, passphrase: "new phrase", newPassphrase: passphrase)
+        try? KeyStore.importAccount(store!, passphrase: "new phrase")
 
         XCTAssert(KeyStore.count() == count + 1)
     }
@@ -106,24 +96,18 @@ class KeyStoreTests: XCTestCase {
     func test_import_with_same_passphrase() {
         let count = KeyStore.count()
 
-        let store = KeyStore.exportAccount(account: account1,
-                                           passphrase: passphrase,
-                                           newPassphrase: passphrase)
+        let store = KeyStore.exportAccount(account: account1, passphrase: "")
 
-        try? KeyStore.importAccount(store!, passphrase: passphrase, newPassphrase: passphrase)
+        try? KeyStore.importAccount(store!, passphrase: "")
 
         XCTAssert(KeyStore.count() == count + 1)
     }
 
     func test_import_with_different_wrong_passphrase() {
-        let store = KeyStore.exportAccount(account: account1,
-                                           passphrase: passphrase,
-                                           newPassphrase: "new phrase")
+        let store = KeyStore.exportAccount(account: account1, passphrase: "new phrase")
 
         do {
-            try KeyStore.importAccount(store!,
-                                       passphrase: "wrong phrase",
-                                       newPassphrase: passphrase)
+            try KeyStore.importAccount(store!, passphrase: "wrong phrase")
 
             XCTFail("Expected exception.")
         }
@@ -131,14 +115,10 @@ class KeyStoreTests: XCTestCase {
     }
 
     func test_import_with_same_wrong_passphrase() {
-        let store = KeyStore.exportAccount(account: account1,
-                                           passphrase: passphrase,
-                                           newPassphrase: "new phrase")
+        let store = KeyStore.exportAccount(account: account1, passphrase: "")
 
         do {
-            try KeyStore.importAccount(store!,
-                                       passphrase: "wrong phrase",
-                                       newPassphrase: "wrong phrase")
+            try KeyStore.importAccount(store!, passphrase: "wrong phrase")
 
             XCTFail("Expected exception.")
         }
@@ -148,8 +128,7 @@ class KeyStoreTests: XCTestCase {
     func test_seed_import() {
         let count = KeyStore.count()
 
-        let account = try? KeyStore.importSecretSeed("SCML43HASLG5IIN34KCJLDQ6LPWYQ3HIROP5CRBHVC46YRMJ6QLOYQJS",
-                                                     passphrase: passphrase)
+        let account = try? KeyStore.importSecretSeed("SCML43HASLG5IIN34KCJLDQ6LPWYQ3HIROP5CRBHVC46YRMJ6QLOYQJS")
 
         XCTAssertNotNil(account)
 

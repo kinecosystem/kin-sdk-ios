@@ -74,9 +74,9 @@ extension Network {
         case .mainNet:
             return URL(string: "https://horizon.kininfrastructure.com")!
         case .testNet:
-            return URL(string: "http://horizon-testnet.kininfrastructure.com")!
+            return URL(string: "https://horizon-testnet.kininfrastructure.com")!
         case .playground:
-            return URL(string: "http://horizon-testnet.kininfrastructure.com")!
+            return URL(string: "https://horizon-testnet.kininfrastructure.com")!
         case .custom(_, let url):
             return url
         }

@@ -90,9 +90,7 @@ public final class KinClient {
 
         let accountData = try JSONDecoder().decode(StellarAccount.KeychainData.self, from: data)
 
-        try KeyStore.importAccount(accountData,
-                                   passphrase: passphrase,
-                                   newPassphrase: "")
+        try KeyStore.importAccount(accountData, passphrase: passphrase)
 
         guard let account = accounts.last else {
             throw KinError.internalInconsistency

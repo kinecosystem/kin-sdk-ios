@@ -53,9 +53,7 @@ public final class KinAccount {
      - Returns: A JSON representation of the data as a string
      */
     public func export(passphrase: String) throws -> String {
-        let ad = KeyStore.exportAccount(account: stellarAccount,
-                                        passphrase: "",
-                                        newPassphrase: passphrase)
+        let ad = KeyStore.exportAccount(account: stellarAccount, passphrase: passphrase)
 
         guard let jsonString = try String(data: JSONEncoder().encode(ad), encoding: .utf8) else {
             throw KinError.internalInconsistency
@@ -238,16 +236,15 @@ public final class KinAccount {
     /**
      Exports this account as a Key Store JSON string, to be backed up by the user.
 
-     - parameter passphrase: The passphrase used to create the associated account.
-     - parameter exportPassphrase: A new passphrase, to encrypt the Key Store JSON.
+     - parameter passphrase: A new passphrase, to encrypt the Key Store JSON.
 
      - throws: If the passphrase is invalid, or if exporting the associated account fails.
 
      - returns: a prettified JSON string of the `account` exported; `nil` if `account` is `nil`.
      */
     @available(*, unavailable)
-    private func exportKeyStore(passphrase: String, exportPassphrase: String) throws -> String? {
-        let accountData = KeyStore.exportAccount(account: stellarAccount, passphrase: passphrase, newPassphrase: exportPassphrase)
+    private func exportKeyStore(passphrase: String) throws -> String? {
+        let accountData = KeyStore.exportAccount(account: stellarAccount, passphrase: passphrase)
 
         guard let store = accountData else {
             throw KinError.internalInconsistency

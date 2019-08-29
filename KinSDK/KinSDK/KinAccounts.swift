@@ -45,7 +45,7 @@ public final class KinAccounts {
             self.cacheLock.unlock()
         }
 
-        let account = createKinAccount(stellarAccount: try KeyStore.newAccount(passphrase: ""))
+        let account = createKinAccount(stellarAccount: try KeyStore.newAccount())
 
         cache[count - 1] = account
 
