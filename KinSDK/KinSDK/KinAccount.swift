@@ -109,7 +109,7 @@ public final class KinAccount {
 
 
 
-    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor) -> Promise<TransactionId> {
+    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor? = nil) -> Promise<TransactionId> {
         let promise = Promise<TransactionId>()
 
         sendTransaction(params, interceptor: interceptor) { result in
@@ -124,7 +124,7 @@ public final class KinAccount {
         return promise
     }
 
-    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor, completion: @escaping (Result<TransactionId, Error>) -> Void) {
+    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor? = nil, completion: @escaping (Result<TransactionId, Error>) -> Void) {
         paymentQueue.enqueueTransactionParams(params, completion: completion)
     }
 
