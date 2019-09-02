@@ -65,6 +65,11 @@ public enum KinError: Error {
     case signingFailed
 
     /**
+     Thrown when a transaction operation has been cancelled.
+     */
+    case transactionOperationCancelled
+
+    /**
      An internal error happened in the KinSDK.
      */
     case internalInconsistency
@@ -99,6 +104,8 @@ extension KinError: LocalizedError {
             return "Account Deleted"
         case .signingFailed:
             return "Signing Failed"
+        case .transactionOperationCancelled:
+            return "Transaction Operation Cancelled"
         case .internalInconsistency:
             return "Internal Inconsistency"
         case .unknown:

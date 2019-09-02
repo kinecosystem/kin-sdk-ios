@@ -57,6 +57,7 @@
 		6831A10322DC9EB400EC2DDF /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831A0FE22DC9EB400EC2DDF /* TegKeychainConstants.swift */; };
 		6831A10422DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831A0FF22DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift */; };
 		6831A2F922DDA96100EC2DDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931322A92DCF008C01EC /* Main.storyboard */; };
+		68414F92231BD34300FDBEC0 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68414F91231BD34300FDBEC0 /* AsynchronousOperation.swift */; };
 		6844DE4E22E9C19E00D0CF87 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6844DE4322E9C19D00D0CF87 /* AccountData.swift */; };
 		6844DE5122E9C1D700D0CF87 /* AccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6844DE5022E9C1D700D0CF87 /* AccountResponse.swift */; };
 		6863165C22F0724E00C71132 /* PaymentQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6863165B22F0724E00C71132 /* PaymentQueue.swift */; };
@@ -223,6 +224,7 @@
 		6831A0FD22DC9EB400EC2DDF /* KeychainSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
 		6831A0FE22DC9EB400EC2DDF /* TegKeychainConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TegKeychainConstants.swift; sourceTree = "<group>"; };
 		6831A0FF22DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwiftAccessOptions.swift; sourceTree = "<group>"; };
+		68414F91231BD34300FDBEC0 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
 		6844DE4322E9C19D00D0CF87 /* AccountData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
 		6844DE5022E9C1D700D0CF87 /* AccountResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountResponse.swift; sourceTree = "<group>"; };
 		6863165B22F0724E00C71132 /* PaymentQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQueue.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				68F38C102309703C0013DBD1 /* TransactionParamsOperation.swift */,
 				68F38C122309704D0013DBD1 /* PendingPaymentOperation.swift */,
 				68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */,
+				68414F91231BD34300FDBEC0 /* AsynchronousOperation.swift */,
 			);
 			path = BulkPayments;
 			sourceTree = "<group>";
@@ -757,6 +760,7 @@
 				68319EA322DC62AA00EC2DDF /* Errors.swift in Sources */,
 				68319E8F22DC62AA00EC2DDF /* Bundle+Kin.swift in Sources */,
 				68319E8E22DC62AA00EC2DDF /* Watchers.swift in Sources */,
+				68414F92231BD34300FDBEC0 /* AsynchronousOperation.swift in Sources */,
 				68319EA722DC62AA00EC2DDF /* Watches.swift in Sources */,
 				68319EA922DC62AA00EC2DDF /* Endpoint.swift in Sources */,
 				68F38C132309704D0013DBD1 /* PendingPaymentOperation.swift in Sources */,

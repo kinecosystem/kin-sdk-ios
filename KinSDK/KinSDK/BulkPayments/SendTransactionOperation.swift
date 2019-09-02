@@ -8,18 +8,26 @@
 
 import Foundation
 
-class SendTransactionOperation: Foundation.Operation {
+class SendTransactionOperation: AsynchronousOperation {
+    var result: Result<TransactionId, Error>? {
+        didSet {
+            markFinished()
+        }
+    }
+
     func transactionToSend(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
         fatalError("Subclass must implement")
     }
 
-    override func main() {
+    override func workItem() {
         if isCancelled {
+            markFinished()
             return
         }
 
         transactionToSend { result in
             if self.isCancelled {
+                self.markFinished()
                 return
             }
 
@@ -27,28 +35,29 @@ class SendTransactionOperation: Foundation.Operation {
             case .success(let baseTransaction):
                 self.send(transactionEnvelop: baseTransaction.envelope(), completion: { result in
                     if self.isCancelled {
+                        self.markFinished()
                         return
                     }
-                    
+
                     switch result {
-                    case .success(let transactionHash):
-                        print("hash \(transactionHash)")
+                    case .success(let transactionId):
+                        self.result = .success(transactionId)
 
                     case .failure(let error):
-                        self.error(error)
+                        self.result = .failure(error)
                     }
                 })
 
             case .failure(let error):
-                self.error(error)
+                self.result = .failure(error)
             }
         }
     }
 
-    private func send(transactionEnvelop: Transaction.Envelope, completion: @escaping (Result<String, Error>) -> Void) {
+    private func send(transactionEnvelop: Transaction.Envelope, completion: @escaping (Result<TransactionId, Error>) -> Void) {
         Stellar.postTransaction(envelope: transactionEnvelop)
-            .then { transactionHash -> Void in
-                completion(.success(transactionHash))
+            .then { transactionId -> Void in
+                completion(.success(transactionId))
             }
             .error { error in
                 if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
@@ -58,9 +67,5 @@ class SendTransactionOperation: Foundation.Operation {
 
                 completion(.failure(KinError.paymentFailed(error)))
         }
-    }
-
-    private func error(_ error: Error) {
-
     }
 }

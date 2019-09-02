@@ -37,6 +37,8 @@ class PaymentsQueueManagerTests: XCTestCase {
     }
 
     func testMaxPendingPayments() {
+        // TODO: also test the array items are equal to the delegate pendingPayments
+
         for _ in 0...paymentsQueueManager.maxPendingPayments {
             paymentsQueueManager.enqueue(pendingPayment: createPendingPayment())
         }

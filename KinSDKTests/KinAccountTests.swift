@@ -78,7 +78,7 @@ class KinAccountTests: XCTestCase {
             XCTAssertNotEqual(balance, 0)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -100,7 +100,7 @@ class KinAccountTests: XCTestCase {
             XCTAssertNotEqual(balanceChecked, 0)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -125,7 +125,7 @@ class KinAccountTests: XCTestCase {
             XCTAssertNotEqual(balanceChecked, 0)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -181,7 +181,7 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -209,7 +209,7 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -237,7 +237,7 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -267,7 +267,34 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
+        }
+    }
+
+    // MARK: - Transaction
+
+    func testSendTransaction() {
+        do {
+            let expectation = XCTestExpectation()
+
+            let transactionParams = try SendTransactionParams.createSendPaymentParams(publicAddress: account1.publicAddress, amount: 10, fee: 0)
+
+            print("||| start")
+            account0.sendTransaction(transactionParams, interceptor: self) { result in
+                print("||| result")
+                switch result {
+                case .success(let transactionId):
+                    XCTAssertNotNil(transactionId, "Expected a transaction id when completing.")
+
+                case .failure(let error):
+                    self.fail(on: error)
+                }
+            }
+
+            wait(for: [expectation], timeout: requestTimeout)
+        }
+        catch {
+            self.fail(on: error)
         }
     }
 
@@ -321,7 +348,7 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -334,7 +361,7 @@ class KinAccountTests: XCTestCase {
             XCTAssertNotNil(data, "Unable to retrieve keyStore account: \(String(describing: account0))")
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 }
@@ -405,7 +432,7 @@ extension KinAccountTests {
                 balance = try self.getBalance(account)
             }
             catch {
-                XCTAssertTrue(false, "Something went wrong: \(error)")
+                self.fail(on: error)
             }
 
             return balance > 0
@@ -457,5 +484,11 @@ extension KinAccountTests {
         if let error = error {
             XCTAssertTrue(false, "Something went wrong: \(error)")
         }
+    }
+}
+
+extension KinAccountTests: TransactionInterceptor {
+    func interceptTransactionSending(process: TransactionProcess) throws -> TransactionId {
+        return ""
     }
 }

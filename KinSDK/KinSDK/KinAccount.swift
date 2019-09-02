@@ -125,12 +125,7 @@ public final class KinAccount {
     }
 
     public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor, completion: @escaping (Result<TransactionId, Error>) -> Void) {
-        let operation = paymentQueue.enqueueTransactionParams(params)
-
-        operation.completionBlock = {
-            // this is a potential way to signal a completion. keep in mind the strong reference and the inability to know of success from the completion block.
-            completion(.success(""))
-        }
+        paymentQueue.enqueueTransactionParams(params, completion: completion)
     }
 
 

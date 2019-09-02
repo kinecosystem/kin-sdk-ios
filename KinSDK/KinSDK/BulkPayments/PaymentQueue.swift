@@ -43,8 +43,25 @@ public class PaymentQueue: NSObject {
         return pendingPayment
     }
 
-    func enqueueTransactionParams(_ params: SendTransactionParams) -> TransactionParamsOperation {
-        return transactionTasksQueueManager.enqueue(transactionParams: params)
+    func enqueueTransactionParams(_ params: SendTransactionParams, completion: @escaping (Result<TransactionId, Error>) -> Void) {
+        let transactionParamsOperation = transactionTasksQueueManager.enqueue(transactionParams: params)
+
+        transactionParamsOperation.completionBlock = {
+            if transactionParamsOperation.isCancelled {
+                completion(.failure(KinError.transactionOperationCancelled))
+                return
+            }
+
+            guard let result = transactionParamsOperation.result else {
+                // This should never happen.
+                completion(.failure(KinError.internalInconsistency))
+                return
+            }
+
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
     }
 
     public func setTransactionInterceptor(_ interceptor: TransactionInterceptor) {

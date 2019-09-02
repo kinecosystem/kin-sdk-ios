@@ -197,7 +197,7 @@ public enum Stellar {
         return transaction.envelope()
     }
 
-    public static func postTransaction(envelope: Transaction.Envelope) -> Promise<String> {
+    public static func postTransaction(envelope: Transaction.Envelope) -> Promise<TransactionId> {
         let envelopeData: Data
         do {
             envelopeData = try Data(XDREncoder.encode(envelope))
@@ -230,7 +230,7 @@ public enum Stellar {
                 do {
                     let txResponse = try JSONDecoder().decode(TransactionResponse.self, from: data)
 
-                    return Promise<String>(txResponse.hash)
+                    return Promise<TransactionId>(txResponse.hash)
                 }
                 catch {
                     throw error
