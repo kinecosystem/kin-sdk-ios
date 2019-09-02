@@ -57,6 +57,7 @@
 		6831A10322DC9EB400EC2DDF /* TegKeychainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831A0FE22DC9EB400EC2DDF /* TegKeychainConstants.swift */; };
 		6831A10422DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831A0FF22DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift */; };
 		6831A2F922DDA96100EC2DDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931322A92DCF008C01EC /* Main.storyboard */; };
+		6836FDBD231D3C4800712529 /* PendingPaymentOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6836FDBC231D3C4800712529 /* PendingPaymentOperationTests.swift */; };
 		68414F92231BD34300FDBEC0 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68414F91231BD34300FDBEC0 /* AsynchronousOperation.swift */; };
 		68414FA0231D35E000FDBEC0 /* AsynchronousOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68414F9F231D35E000FDBEC0 /* AsynchronousOperationTests.swift */; };
 		6844DE4E22E9C19E00D0CF87 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6844DE4322E9C19D00D0CF87 /* AccountData.swift */; };
@@ -225,6 +226,7 @@
 		6831A0FD22DC9EB400EC2DDF /* KeychainSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
 		6831A0FE22DC9EB400EC2DDF /* TegKeychainConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TegKeychainConstants.swift; sourceTree = "<group>"; };
 		6831A0FF22DC9EB400EC2DDF /* KeychainSwiftAccessOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSwiftAccessOptions.swift; sourceTree = "<group>"; };
+		6836FDBC231D3C4800712529 /* PendingPaymentOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPaymentOperationTests.swift; sourceTree = "<group>"; };
 		68414F91231BD34300FDBEC0 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
 		68414F9F231D35E000FDBEC0 /* AsynchronousOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperationTests.swift; sourceTree = "<group>"; };
 		6844DE4322E9C19D00D0CF87 /* AccountData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
@@ -490,6 +492,7 @@
 				68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */,
 				68F1A6CB230E768C00DCADA2 /* TransactionTasksQueueTests.swift */,
 				68414F9F231D35E000FDBEC0 /* AsynchronousOperationTests.swift */,
+				6836FDBC231D3C4800712529 /* PendingPaymentOperationTests.swift */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 				68319EB422DC62CF00EC2DDF /* KinAccountTests.swift in Sources */,
 				68319EB322DC62CF00EC2DDF /* KeyStoreTests.swift in Sources */,
 				68F38C0F23057EA80013DBD1 /* PaymentsQueueManagerTests.swift in Sources */,
+				6836FDBD231D3C4800712529 /* PendingPaymentOperationTests.swift in Sources */,
 				68319EB822DC62CF00EC2DDF /* URLKinVersion.swift in Sources */,
 				68319EB522DC62CF00EC2DDF /* XDRTests.swift in Sources */,
 				C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */,

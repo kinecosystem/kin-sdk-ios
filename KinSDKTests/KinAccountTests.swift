@@ -18,37 +18,16 @@ class KinAccountTests: XCTestCase {
     var account1: KinAccount!
     var issuer: StellarAccount?
 
-    let network: Network = .custom(id: IntegEnvironment.networkPassphrase, url: URL(string: IntegEnvironment.networkUrl)!)
-
     let requestTimeout: TimeInterval = 30
 
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
 
-        guard let appId = try? AppId("test") else {
-            XCTAssertTrue(false, "Unable to create app id")
-            return
-        }
+        kinClient = KinClientTests.createKinClient()
 
-        kinClient = KinClient(network: network, appId: appId)
-
-        KeyStore.removeAll()
-
-        if KeyStore.count() > 0 {
-            XCTAssertTrue(false, "Unable to clear existing accounts!")
-        }
-
-        guard let account0 = try? kinClient.addAccount(), let account1 = try? kinClient.addAccount() else {
-            XCTAssertTrue(false, "Unable to create account(s)!")
-            return
-        }
-
-        self.account0 = account0
-        self.account1 = account1
-
-        KinAccountTests.createAccountAndFund(publicAddress: account0.publicAddress, amount: 100)
-        KinAccountTests.createAccountAndFund(publicAddress: account1.publicAddress, amount: 100)
+        account0 = KinAccountTests.createAccount(kinClient: kinClient)
+        account1 = KinAccountTests.createAccount(kinClient: kinClient)
     }
 
     override func tearDown() {
@@ -367,27 +346,6 @@ class KinAccountTests: XCTestCase {
 }
 
 extension KinAccountTests {
-    static func createAccountAndFund(publicAddress: String, amount: Kin) {
-        let group = DispatchGroup()
-        group.enter()
-
-        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(publicAddress)&amount=\(amount)")!
-        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-            guard
-                let data = data,
-                let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
-                let _ = jsonOpt as? [String: Any]
-                else {
-                    print("Unable to parse json for createAccount().")
-
-                    group.leave()
-                    return
-            }
-            group.leave()
-        }).resume()
-        group.wait()
-    }
-
     func getBalance(_ account: KinAccount) throws -> Kin {
         if let balance: Decimal = try serialize(account.balance) {
             return balance
@@ -490,5 +448,43 @@ extension KinAccountTests {
 extension KinAccountTests: TransactionInterceptor {
     func interceptTransactionSending(process: TransactionProcess) throws -> TransactionId {
         return ""
+    }
+}
+
+// MARK: - Reusable
+
+extension KinAccountTests {
+    static func createAccount(kinClient: KinClient, amount: Kin = 100) -> KinAccount {
+        guard let account = try? kinClient.addAccount() else {
+            XCTAssertTrue(false, "Unable to create account")
+            fatalError()
+        }
+
+        KinAccountTests.createAccountAndFund(publicAddress: account.publicAddress, amount: amount)
+
+        return account
+    }
+
+    static func createAccountAndFund(publicAddress: String, amount: Kin) {
+        let group = DispatchGroup()
+        group.enter()
+
+        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(publicAddress)&amount=\(amount)")!
+
+        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+            guard let data = data,
+                let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
+                let _ = jsonOpt as? [String: Any]
+                else {
+                    print("Unable to parse json for createAccount().")
+
+                    group.leave()
+                    return
+            }
+
+            group.leave()
+        }).resume()
+
+        group.wait()
     }
 }
