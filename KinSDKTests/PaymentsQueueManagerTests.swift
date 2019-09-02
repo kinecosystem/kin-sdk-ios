@@ -27,7 +27,7 @@ class PaymentsQueueManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        paymentsQueueManager = PaymentsQueueManager(maxPaymentsTime: 4, maxTimeoutTime: 10)
+        paymentsQueueManager = PaymentsQueueManager(maxPaymentsTime: 0.5, maxTimeoutTime: 2)
         paymentsQueueManager.delegate = self
 
         pendingPaymentsCallback = nil
@@ -73,15 +73,14 @@ class PaymentsQueueManagerTests: XCTestCase {
 
     func testDelayBetweenPaymentsTimer() {
         let expectation = XCTestExpectation()
-        let deadline: DispatchTime = .now() + maxPaymentsTime
 
         paymentsQueueManager.enqueue(pendingPayment: createPendingPayment())
 
-        DispatchQueue.main.asyncAfter(deadline: deadline - fractionTime) {
+        Timer.scheduledTimer(withTimeInterval: maxPaymentsTime - fractionTime, repeats: false) { _ in
             XCTAssertFalse(self.didDequeueing, "The timeout was called too early")
         }
 
-        DispatchQueue.main.asyncAfter(deadline: deadline + fractionTime) {
+        Timer.scheduledTimer(withTimeInterval: maxPaymentsTime + fractionTime, repeats: false) { _ in
             XCTAssertTrue(self.didDequeueing, "The timeout wasnt called")
             expectation.fulfill()
         }
@@ -94,18 +93,18 @@ class PaymentsQueueManagerTests: XCTestCase {
         let iterations = Int(ceil(maxTimeoutTime / maxPaymentsTime))
 
         for i in 0..<iterations {
-            let deadline = (maxPaymentsTime - fractionTime) * TimeInterval(i)
+            let time = (maxPaymentsTime - fractionTime) * TimeInterval(i)
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + deadline) {
+            Timer.scheduledTimer(withTimeInterval: time, repeats: false) { _ in
                 self.paymentsQueueManager.enqueue(pendingPayment: self.createPendingPayment())
+
+                if i + 1 == iterations {
+                    XCTAssertFalse(self.didDequeueing, "The timeout was called too early")
+                }
             }
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + maxTimeoutTime - fractionTime) {
-            XCTAssertFalse(self.didDequeueing, "The timeout was called too early")
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + maxTimeoutTime + fractionTime) {
+        Timer.scheduledTimer(withTimeInterval: maxTimeoutTime + fractionTime, repeats: false) { _ in
             XCTAssertTrue(self.didDequeueing, "The timeout wasnt called")
             expectation.fulfill()
         }
@@ -122,7 +121,7 @@ class PaymentsQueueManagerTests: XCTestCase {
 
         XCTAssertTrue(paymentsQueueManager.inProgress, "Should be in progress")
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + maxPaymentsTime + fractionTime) {
+        Timer.scheduledTimer(withTimeInterval: maxPaymentsTime + fractionTime, repeats: false) { _ in
             XCTAssertFalse(self.paymentsQueueManager.inProgress, "Should not be in progress")
             expectation.fulfill()
         }
