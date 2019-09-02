@@ -40,7 +40,7 @@ class PaymentsQueueManagerTests: XCTestCase {
     }
 
     func createPendingPayment() -> PendingPayment {
-        return PendingPayment(destinationPublicAddress: "", sourcePublicAddress: "", amount: 1, metadata: nil)
+        return PendingPayment(destinationPublicAddress: "", sourcePublicAddress: "", amount: 1)
     }
 
     func testMaxPendingPayments() {

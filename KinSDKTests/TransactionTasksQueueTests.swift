@@ -42,10 +42,12 @@ class TransactionTasksQueueTests: XCTestCase {
         let source = source ?? account1.publicKey!
         let destination = destination ?? account2.publicKey!
 
-        return PendingPayment(destinationPublicAddress: destination, sourcePublicAddress: source, amount: 1, metadata: nil)
+        return PendingPayment(destinationPublicAddress: destination, sourcePublicAddress: source, amount: 1)
     }
 
-    func testQueue() {
+    func testEnqueuePendingPayments() {
+        // TODO: this test cant be completed until after the events manager is set up
+
         let expectation = XCTestExpectation()
 
         transactionTasksQueueManager.enqueue(pendingPayments: [createPendingPayment()])

@@ -16,7 +16,7 @@ public class PendingPayment {
     public let metadata: AnyObject?
     public internal(set) var status: Status = .pending
 
-    init(destinationPublicAddress: String, sourcePublicAddress: String, amount: Kin, metadata: AnyObject?) {
+    init(destinationPublicAddress: String, sourcePublicAddress: String, amount: Kin, metadata: AnyObject? = nil) {
         self.destinationPublicAddress = destinationPublicAddress
         self.sourcePublicAddress = sourcePublicAddress
         self.amount = amount
