@@ -25,9 +25,6 @@ class TransactionTasksQueueManager {
     func enqueue(pendingPayments: [PendingPayment]) {
         pendingPayments.forEach {
             let operation = PendingPaymentOperation($0, account: account)
-            operation.completionBlock = {
-                
-            }
             tasksQueue.addOperation(operation)
         }
     }
