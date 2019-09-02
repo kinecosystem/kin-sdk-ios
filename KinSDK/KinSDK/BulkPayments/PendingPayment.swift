@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public class PendingPayment {
     public let destinationPublicAddress: String
     public let sourcePublicAddress: String
@@ -28,5 +29,15 @@ extension PendingPayment {
         case pending
         case completed
         case failed
+    }
+}
+
+extension PendingPayment: Equatable {
+    public static func == (lhs: PendingPayment, rhs: PendingPayment) -> Bool {
+        return lhs.destinationPublicAddress == rhs.destinationPublicAddress
+            && lhs.sourcePublicAddress == rhs.sourcePublicAddress
+            && lhs.amount == rhs.amount
+//            && lhs.metadata === rhs.metadata // ???: comparing point in memory
+            && lhs.status == rhs.status
     }
 }

@@ -14,16 +14,21 @@ protocol PaymentsQueueManagerDelegate: NSObjectProtocol {
 
 class PaymentsQueueManager {
     let maxPendingPayments = 100
-    let maxDelayBetweenPayments: TimeInterval = 4
-    let maxTimeout: TimeInterval = 10
-    private var delayBetweenPaymentsTimer: Timer?
+    let maxPaymentsTime: TimeInterval
+    let maxTimeoutTime: TimeInterval
+    private var paymentsTimer: Timer?
     private var timeoutTimer: Timer?
     private var payments: [PendingPayment] = []
 
     weak var delegate: PaymentsQueueManagerDelegate?
 
+    init(maxPaymentsTime: TimeInterval = 4, maxTimeoutTime: TimeInterval = 10) {
+        self.maxPaymentsTime = maxPaymentsTime
+        self.maxTimeoutTime = maxTimeoutTime
+    }
+
     var inProgress: Bool {
-        return timeoutTimer != nil || delayBetweenPaymentsTimer != nil
+        return timeoutTimer != nil || paymentsTimer != nil
     }
 
     var operationsCount: Int {
@@ -50,18 +55,18 @@ class PaymentsQueueManager {
 
     private func updateTimers() {
         if timeoutTimer == nil {
-            timeoutTimer = .scheduledTimer(timeInterval: maxTimeout, target: self, selector: #selector(dequeue), userInfo: nil, repeats: false)
+            timeoutTimer = .scheduledTimer(timeInterval: maxTimeoutTime, target: self, selector: #selector(dequeue), userInfo: nil, repeats: false)
         }
 
-        delayBetweenPaymentsTimer?.invalidate()
-        delayBetweenPaymentsTimer = .scheduledTimer(timeInterval: maxDelayBetweenPayments, target: self, selector: #selector(dequeue), userInfo: nil, repeats: false)
+        paymentsTimer?.invalidate()
+        paymentsTimer = .scheduledTimer(timeInterval: maxPaymentsTime, target: self, selector: #selector(dequeue), userInfo: nil, repeats: false)
     }
 
     private func removeTimers() {
         timeoutTimer?.invalidate()
         timeoutTimer = nil
 
-        delayBetweenPaymentsTimer?.invalidate()
-        delayBetweenPaymentsTimer = nil
+        paymentsTimer?.invalidate()
+        paymentsTimer = nil
     }
 }

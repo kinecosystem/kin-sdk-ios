@@ -11,19 +11,26 @@ import XCTest
 
 class PaymentsQueueManagerTests: XCTestCase {
     var paymentsQueueManager: PaymentsQueueManager!
+    var pendingPaymentsCallback: (([PendingPayment]) -> ())?
     var didDequeueing = false
-    var maxDelayBetweenPayments: TimeInterval {
-        return paymentsQueueManager.maxDelayBetweenPayments
+
+    var maxPaymentsTime: TimeInterval {
+        return paymentsQueueManager.maxPaymentsTime
     }
-    var maxTimeout: TimeInterval {
-        return paymentsQueueManager.maxTimeout
+    var maxTimeoutTime: TimeInterval {
+        return paymentsQueueManager.maxTimeoutTime
+    }
+    var fractionTime: TimeInterval {
+        return maxPaymentsTime * 0.1
     }
 
     override func setUp() {
         super.setUp()
 
-        paymentsQueueManager = PaymentsQueueManager()
+        paymentsQueueManager = PaymentsQueueManager(maxPaymentsTime: 4, maxTimeoutTime: 10)
         paymentsQueueManager.delegate = self
+
+        pendingPaymentsCallback = nil
 
         didDequeueing = false
     }
@@ -37,8 +44,6 @@ class PaymentsQueueManagerTests: XCTestCase {
     }
 
     func testMaxPendingPayments() {
-        // TODO: also test the array items are equal to the delegate pendingPayments
-
         for _ in 0...paymentsQueueManager.maxPendingPayments {
             paymentsQueueManager.enqueue(pendingPayment: createPendingPayment())
         }
@@ -47,46 +52,65 @@ class PaymentsQueueManagerTests: XCTestCase {
         XCTAssertEqual(paymentsQueueManager.operationsCount, 1, "The queue should have only 1 item")
     }
 
+    func testPendingPaymentsFromDelegate() {
+        let expectation = XCTestExpectation()
+
+        var pendingPayments: [PendingPayment] = []
+
+        pendingPaymentsCallback = { delegatePendingPayments in
+            XCTAssertEqual(delegatePendingPayments, pendingPayments, "The arrays should be the same")
+            expectation.fulfill()
+        }
+
+        for _ in 0..<paymentsQueueManager.maxPendingPayments {
+            let pendingPayment = createPendingPayment()
+            pendingPayments.append(pendingPayment)
+            paymentsQueueManager.enqueue(pendingPayment: pendingPayment)
+        }
+
+        wait(for: [expectation], timeout: maxTimeoutTime)
+    }
+
     func testDelayBetweenPaymentsTimer() {
         let expectation = XCTestExpectation()
-        let deadline: DispatchTime = .now() + maxDelayBetweenPayments
+        let deadline: DispatchTime = .now() + maxPaymentsTime
 
         paymentsQueueManager.enqueue(pendingPayment: createPendingPayment())
 
-        DispatchQueue.main.asyncAfter(deadline: deadline - 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: deadline - fractionTime) {
             XCTAssertFalse(self.didDequeueing, "The timeout was called too early")
         }
 
-        DispatchQueue.main.asyncAfter(deadline: deadline + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: deadline + fractionTime) {
             XCTAssertTrue(self.didDequeueing, "The timeout wasnt called")
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: maxTimeout + 1)
+        wait(for: [expectation], timeout: maxTimeoutTime + fractionTime)
     }
 
     func testTimeoutTimer() {
         let expectation = XCTestExpectation()
-        let iterations = Int(ceil(maxTimeout / maxDelayBetweenPayments))
+        let iterations = Int(ceil(maxTimeoutTime / maxPaymentsTime))
 
         for i in 0..<iterations {
-            let deadline = maxDelayBetweenPayments * TimeInterval(i) - 0.1
+            let deadline = (maxPaymentsTime - fractionTime) * TimeInterval(i)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + deadline) {
                 self.paymentsQueueManager.enqueue(pendingPayment: self.createPendingPayment())
             }
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + maxTimeout - 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + maxTimeoutTime - fractionTime) {
             XCTAssertFalse(self.didDequeueing, "The timeout was called too early")
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + maxTimeout + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + maxTimeoutTime + fractionTime) {
             XCTAssertTrue(self.didDequeueing, "The timeout wasnt called")
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: maxTimeout + 1)
+        wait(for: [expectation], timeout: maxTimeoutTime + fractionTime)
     }
 
     func testInProgess() {
@@ -98,17 +122,18 @@ class PaymentsQueueManagerTests: XCTestCase {
 
         XCTAssertTrue(paymentsQueueManager.inProgress, "Should be in progress")
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + maxDelayBetweenPayments + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + maxPaymentsTime + fractionTime) {
             XCTAssertFalse(self.paymentsQueueManager.inProgress, "Should not be in progress")
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: maxTimeout)
+        wait(for: [expectation], timeout: maxTimeoutTime)
     }
 }
 
 extension PaymentsQueueManagerTests: PaymentsQueueManagerDelegate {
     func paymentsQueueManager(_ manager: PaymentsQueueManager, dequeueing pendingPayments: [PendingPayment]) {
         didDequeueing = true
+        pendingPaymentsCallback?(pendingPayments)
     }
 }
