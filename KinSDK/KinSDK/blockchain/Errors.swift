@@ -17,6 +17,7 @@ public enum StellarError: Error {
     case missingSequence
     case missingBalance
     case missingSignClosure
+    case missingPayment
     case urlEncodingFailed
     case dataEncodingFailed
     case dataDencodingFailed

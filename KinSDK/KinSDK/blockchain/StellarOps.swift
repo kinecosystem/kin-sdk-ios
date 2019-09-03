@@ -37,7 +37,10 @@ extension Operation {
         let payment = PaymentOp(destination: destPK, asset: .native, amount: amount.toQuarkAsBlockchainUnit())
 
         return Operation(sourceAccount: sourcePK, body: Operation.Body.PAYMENT(payment))
+    }
 
+    static func payment(pendingPayment: PendingPayment) -> Operation {
+        return payment(destination: pendingPayment.destinationPublicAddress, amount: pendingPayment.amount, sourcePublicAddress: pendingPayment.sourcePublicAddress)
     }
 
     public static func manageData(key: String, value: Data?, sourcePublicAddress: String? = nil) -> Operation {

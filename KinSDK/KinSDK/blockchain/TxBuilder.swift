@@ -27,36 +27,42 @@ public /*final*/ class TransactionBuilder {
         self.sourcePublicAddress = sourcePublicAddress
     }
 
+    @discardableResult
     public func set(memo: Memo) -> TransactionBuilder {
         self.memo = memo
 
         return self
     }
 
+    @discardableResult
     public func set(fee: Quark) -> TransactionBuilder {
         self.fee = fee
 
         return self
     }
 
+    @discardableResult
     public func set(timeBounds: TimeBounds) -> TransactionBuilder {
         self.timeBounds = timeBounds
 
         return self
     }
 
+    @discardableResult
     public func set(sequence: UInt64) -> TransactionBuilder {
         self.sequence = sequence
 
         return self
     }
 
+    @discardableResult
     public func add(operation: Operation) -> TransactionBuilder {
         operations.append(operation)
 
         return self
     }
 
+    @discardableResult
     public func add(operations: [Operation]) -> TransactionBuilder {
         self.operations += operations
 

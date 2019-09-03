@@ -25,7 +25,7 @@ class PendingPaymentOperation: SendTransactionOperation {
     override func transactionToSend(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
         let fee: Quark = 0 // ???:
 
-        Stellar.transaction(source: account, destination: pendingPayment.destinationPublicAddress, amount: pendingPayment.amount, fee: fee)
+        Stellar.transaction(source: account, pendingPayments: [pendingPayment], fee: fee)
             .then { baseTransaction in
                 completion(.success(baseTransaction))
             }

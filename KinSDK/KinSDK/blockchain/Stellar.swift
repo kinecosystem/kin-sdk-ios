@@ -58,6 +58,39 @@ public enum Stellar {
     }
 
     /**
+     Generate a transaction envelope for the given pending payments.
+
+     - Parameter source: The account from which the payment will be made.
+     - Parameter pendingPayments: The pending payments to add to the transaction.
+     - Parameter fee: The fee in `Quark`s used when the transaction is not whitelisted.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
+    public static func transaction(source: StellarAccount, pendingPayments: [PendingPayment], fee: Quark) -> Promise<BaseTransaction> {
+        guard let firstPendingPayment = pendingPayments.first else {
+            return Promise(StellarError.missingPayment)
+        }
+
+        return TransactionBuilder(sourcePublicAddress: firstPendingPayment.sourcePublicAddress)
+            .set(fee: fee)
+            .add(operations: pendingPayments.map { Operation.payment(pendingPayment: $0) })
+            .build()
+            .then { transaction -> Promise<BaseTransaction> in
+                try transaction.addSignature(account: source)
+
+                return Promise(transaction)
+            }
+            .mapError({ error -> Error in
+                switch error {
+                case StellarError.missingAccount, StellarError.missingBalance:
+                    return StellarError.destinationNotReadyForAsset(error)
+                default:
+                    return error
+                }
+            })
+    }
+
+    /**
      Obtain the balance.
 
      - parameter account: The `Account` whose balance will be retrieved.
