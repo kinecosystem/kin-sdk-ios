@@ -30,7 +30,23 @@ class PendingPaymentOperationTests: XCTestCase {
         kinClient.deleteKeystore()
     }
 
-    func testPendingPaymentWith() {
-//        let pendingPayment = PendingPayment(destinationPublicAddress: <#T##String#>, sourcePublicAddress: <#T##String#>, amount: <#T##Kin#>)
+    func testPendingPaymentWithAmount() {
+        let expectation = XCTestExpectation()
+
+        let pendingPayment = PendingPayment(destinationPublicAddress: account0.publicAddress, sourcePublicAddress: account1.publicAddress, amount: 10)
+
+        let operation = PendingPaymentOperation(pendingPayment, account: account0.stellarAccount)
+        operation.completionBlock = {
+            // ???: check for failure
+
+            expectation.fulfill()
+        }
+        operation.start()
+
+        wait(for: [expectation], timeout: 5)
+    }
+
+    func testPendingPaymentWithZeroAmount() {
+        // TODO:
     }
 }

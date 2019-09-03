@@ -103,6 +103,11 @@ public struct KeyStore {
         return KeychainStorage.account(at: index)
     }
 
+    // TODO: make function to get StellarAccount by publicAddress
+    //    static func account(with publicAddress: String) -> StellarAccount? {
+//
+//    }
+
     public static func set(extra: Data?, for account: StellarAccount) throws {
         let accountData = try account.accountData()
 

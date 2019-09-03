@@ -27,9 +27,11 @@ class PendingPaymentOperation: SendTransactionOperation {
 
         Stellar.transaction(source: account, destination: pendingPayment.destinationPublicAddress, amount: pendingPayment.amount, fee: fee)
             .then { baseTransaction in
+                self.pendingPayment.status = .completed
                 completion(.success(baseTransaction))
             }
             .error { error in
+                self.pendingPayment.status = .failed
                 completion(.failure(error))
         }
     }

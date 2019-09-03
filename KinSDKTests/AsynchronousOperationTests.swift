@@ -32,6 +32,7 @@ class AsynchronousOperationTests: XCTestCase {
         XCTAssertTrue(operation.isExecuting, "Operation should be executing")
         XCTAssertFalse(operation.isFinished, "Operation shouldn't be finished")
         XCTAssertFalse(operation.isReady, "Operation shouldn't be ready")
+        XCTAssertFalse(operation.isCancelled, "Operation shouldn't be cancelled")
     }
 
     func testOperationIsFinished() {
@@ -42,6 +43,7 @@ class AsynchronousOperationTests: XCTestCase {
             XCTAssertFalse(operation.isExecuting, "Operation shouldn't be executing")
             XCTAssertTrue(operation.isFinished, "Operation shouldn be finished")
             XCTAssertFalse(operation.isReady, "Operation shouldn't be ready")
+            XCTAssertFalse(operation.isCancelled, "Operation shouldn't be cancelled")
 
             expectation.fulfill()
         }
@@ -55,7 +57,28 @@ class AsynchronousOperationTests: XCTestCase {
 
         XCTAssertFalse(operation.isExecuting, "Operation shouldn't be executing")
         XCTAssertFalse(operation.isFinished, "Operation shouldn't be finished")
-        XCTAssertTrue(operation.isReady, "Operation shouldn be ready")
+        XCTAssertTrue(operation.isReady, "Operation should be ready")
+        XCTAssertFalse(operation.isCancelled, "Operation shouldn't be cancelled")
+    }
+
+    func testOperationIsCancelled() {
+        let expectation = XCTestExpectation()
+
+        let operation = AsynchronousTestOperation()
+
+        operation.completionBlock = {
+            XCTAssertFalse(operation.isExecuting, "Operation shouldn't be executing")
+            XCTAssertTrue(operation.isFinished, "Operation shouldn't be finished")
+            XCTAssertFalse(operation.isReady, "Operation shouldn't be ready")
+            XCTAssertTrue(operation.isCancelled, "Operation should be cancelled")
+
+            expectation.fulfill()
+        }
+
+        operation.start()
+        operation.cancel()
+
+        wait(for: [expectation], timeout: 1)
     }
 }
 
