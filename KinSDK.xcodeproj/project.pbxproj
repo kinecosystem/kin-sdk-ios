@@ -82,7 +82,7 @@
 		68F38C0D2305779B0013DBD1 /* TransactionTasksQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */; };
 		68F38C0F23057EA80013DBD1 /* PaymentsQueueManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C0E23057EA80013DBD1 /* PaymentsQueueManagerTests.swift */; };
 		68F38C112309703C0013DBD1 /* TransactionParamsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C102309703C0013DBD1 /* TransactionParamsOperation.swift */; };
-		68F38C132309704D0013DBD1 /* PendingPaymentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C122309704D0013DBD1 /* PendingPaymentOperation.swift */; };
+		68F38C132309704D0013DBD1 /* PendingPaymentsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C122309704D0013DBD1 /* PendingPaymentsOperation.swift */; };
 		C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B037F022F76259001F98B8 /* IntegEnvironment.swift */; };
 /* End PBXBuildFile section */
 
@@ -256,7 +256,7 @@
 		68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTasksQueueManager.swift; sourceTree = "<group>"; };
 		68F38C0E23057EA80013DBD1 /* PaymentsQueueManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsQueueManagerTests.swift; sourceTree = "<group>"; };
 		68F38C102309703C0013DBD1 /* TransactionParamsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionParamsOperation.swift; sourceTree = "<group>"; };
-		68F38C122309704D0013DBD1 /* PendingPaymentOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPaymentOperation.swift; sourceTree = "<group>"; };
+		68F38C122309704D0013DBD1 /* PendingPaymentsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPaymentsOperation.swift; sourceTree = "<group>"; };
 		C2B037F022F76259001F98B8 /* IntegEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -436,7 +436,7 @@
 				68F38C0A230559100013DBD1 /* PendingPayment.swift */,
 				68F38C0C2305779B0013DBD1 /* TransactionTasksQueueManager.swift */,
 				68F38C102309703C0013DBD1 /* TransactionParamsOperation.swift */,
-				68F38C122309704D0013DBD1 /* PendingPaymentOperation.swift */,
+				68F38C122309704D0013DBD1 /* PendingPaymentsOperation.swift */,
 				68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */,
 				68414F91231BD34300FDBEC0 /* AsynchronousOperation.swift */,
 			);
@@ -766,7 +766,7 @@
 				68414F92231BD34300FDBEC0 /* AsynchronousOperation.swift in Sources */,
 				68319EA722DC62AA00EC2DDF /* Watches.swift in Sources */,
 				68319EA922DC62AA00EC2DDF /* Endpoint.swift in Sources */,
-				68F38C132309704D0013DBD1 /* PendingPaymentOperation.swift in Sources */,
+				68F38C132309704D0013DBD1 /* PendingPaymentsOperation.swift in Sources */,
 				68319EA622DC62AA00EC2DDF /* Data+extensions.swift in Sources */,
 				68319E9622DC62AA00EC2DDF /* TransactionFactory.swift in Sources */,
 				68319E9D22DC62AA00EC2DDF /* Operation.swift in Sources */,

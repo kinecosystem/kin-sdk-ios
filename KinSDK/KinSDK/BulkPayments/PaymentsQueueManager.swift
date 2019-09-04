@@ -13,7 +13,7 @@ protocol PaymentsQueueManagerDelegate: NSObjectProtocol {
 }
 
 class PaymentsQueueManager {
-    let maxPendingPayments = 100
+    let maxPendingPayments = TransactionTasksQueueManager.maxPendingPaymentCount
     let maxPaymentsTime: TimeInterval
     let maxTimeoutTime: TimeInterval
     private var paymentsTimer: Timer?
