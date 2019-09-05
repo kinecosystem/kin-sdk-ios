@@ -11,8 +11,6 @@ import Foundation
 class TransactionTasksQueueManager {
     static let maxPendingPaymentCount = 100
 
-//    var accumulatedPendingPaymentsOperation: PendingPaymentsOperation?
-
     let account: StellarAccount
 
     init(account: StellarAccount) {
@@ -26,6 +24,8 @@ class TransactionTasksQueueManager {
         return queue
     }()
 
+    // MARK: Inspecting
+
     var operationCount: Int {
         return tasksQueue.operationCount
     }
@@ -38,6 +38,16 @@ class TransactionTasksQueueManager {
             return tasksQueue.isSuspended
         }
     }
+
+    // MARK: Accessing
+
+    var pendingPaymentsOperations: [PendingPaymentsOperation] {
+        return tasksQueue.operations.filter({ operation -> Bool in
+            return operation.isKind(of: PendingPaymentsOperation.self)
+        }) as? [PendingPaymentsOperation] ?? []
+    }
+
+    // MARK: Adding
 
     func enqueue(pendingPayments: [PendingPayment]) {
         guard pendingPayments.count > 0 else {
@@ -62,11 +72,11 @@ class TransactionTasksQueueManager {
         if offsetCount > 0 || iterations > 1 {
             for i in 0..<iterations {
                 let start = i == 0 ? 0 : maxPendingPaymentCount * i - offsetCount
-                let end = min(totalCount, maxPendingPaymentCount * (i + 1) - 1) - offsetCount
+                let end = min(totalCount, maxPendingPaymentCount * (i + 1)) - offsetCount
                 let pendingPaymentsSlice = Array(pendingPayments[start..<end])
 
-                if i == 0 {
-                    lastPendingPaymentsOperation?.attemptToAdd(pendingPaymentsSlice)
+                if i == 0, let operation = lastPendingPaymentsOperation {
+                    operation.attemptToAdd(pendingPaymentsSlice)
                 }
                 else {
                     arrayOfPendingPayments.append(pendingPaymentsSlice)
@@ -82,32 +92,11 @@ class TransactionTasksQueueManager {
 
             tasksQueue.addOperation(operation)
         }
-
-//        if let operation = accumulatedPendingPaymentsOperation,
-//            operation.isReady,
-//            !operation.isCancelled,
-//            maxPendingPaymentCount > operation.pendingPayments.count
-//        {
-//            let currentCount = operation.pendingPayments.count + pendingPayments.count
-//            let removeCount = max(0, currentCount - maxPendingPaymentCount)
-//            let index = pendingPayments.count - removeCount
-//            let removedPendingPayments = (0..<index).map { pendingPayments.remove(at: $0) }
-//
-//            operation.attemptToAdd(removedPendingPayments)
-//        }
-//
-//        let operation = PendingPaymentsOperation(pendingPayments, account: account)
-//
-//        tasksQueue.addOperation(operation)
     }
 
     func enqueue(transactionParams: SendTransactionParams) -> TransactionParamsOperation {
         let operation = TransactionParamsOperation(transactionParams, account: account)
         tasksQueue.addOperation(operation)
         return operation
-    }
-
-    func processMessage() {
-
     }
 }

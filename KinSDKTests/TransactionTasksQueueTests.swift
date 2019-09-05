@@ -10,41 +10,15 @@ import XCTest
 @testable import KinSDK
 
 class TransactionTasksQueueTests: XCTestCase {
-    // !!!: creating accounts takes about 10 sec per test function. instead reuse the accounts. move this logic to a more central location like the KinAccountTests
-    static let account1: StellarAccount = {
-        let account = try! KeyStore.newAccount()
-        KinAccountTests.createAccountAndFund(publicAddress: account.publicKey!, amount: 99999)
-        return account
-    }()
-
-    static let account2: StellarAccount = {
-        let account = try! KeyStore.newAccount()
-        KinAccountTests.createAccountAndFund(publicAddress: account.publicKey!, amount: 99999)
-        return account
-    }()
-
-    var account1: StellarAccount {
-        return TransactionTasksQueueTests.account1
-    }
-
-    var account2: StellarAccount {
-        return TransactionTasksQueueTests.account2
-    }
-
     var transactionTasksQueueManager: TransactionTasksQueueManager!
 
     override func setUp() {
         super.setUp()
 
-        transactionTasksQueueManager = TransactionTasksQueueManager(account: account1)
-    }
-
-    func createPendingPayment(source: String? = nil, destination: String? = nil) -> PendingPayment {
-        // ???: to avoid the time overhead of creating accounts, maybe just pass empty strings
-        let source = source ?? account1.publicKey!
-        let destination = destination ?? account2.publicKey!
-
-        return PendingPayment(destinationPublicAddress: destination, sourcePublicAddress: source, amount: 1)
+        // These tests are for the queue and not the operations. No need to create real accounts.
+        let account = StellarAccount(storageKey: "")
+        transactionTasksQueueManager = TransactionTasksQueueManager(account: account)
+        transactionTasksQueueManager.isSuspended = true
     }
 
     func testEnqueueZeroPendingPayments() {
@@ -57,63 +31,74 @@ class TransactionTasksQueueTests: XCTestCase {
         enqueuePendingPayments(count: 1)
 
         XCTAssertEqual(transactionTasksQueueManager.operationCount, 1)
+        numberOfPendingPaymentsInOperations([1])
     }
 
     func testEnqueueMaxPendingPayments() {
-        enqueuePendingPayments(count: TransactionTasksQueueManager.maxPendingPaymentCount)
+        enqueuePendingPayments(count: maxPendingPaymentCount)
 
         XCTAssertEqual(transactionTasksQueueManager.operationCount, 1)
+        numberOfPendingPaymentsInOperations([maxPendingPaymentCount])
     }
 
     func testEnqueueOverMaxPendingPayments() {
-        enqueuePendingPayments(count: TransactionTasksQueueManager.maxPendingPaymentCount + 1)
+        enqueuePendingPayments(count: maxPendingPaymentCount + 1)
 
         XCTAssertEqual(transactionTasksQueueManager.operationCount, 2)
+        numberOfPendingPaymentsInOperations([maxPendingPaymentCount, 1])
     }
 
     func testEnqueueSinglePendingPaymentWithSingleExistingPendingPayment() {
-        transactionTasksQueueManager.isSuspended = true
         enqueuePendingPayments(count: 1)
         enqueuePendingPayments(count: 1)
-        transactionTasksQueueManager.isSuspended = false
 
-        // TODO: verify the single operation has 2 pending payments
         XCTAssertEqual(transactionTasksQueueManager.operationCount, 1)
+        numberOfPendingPaymentsInOperations([2])
     }
 
     func testEnqueueSinglePendingPaymentWithUnderMaxExistingPendingPayments() {
-        transactionTasksQueueManager.isSuspended = true
         enqueuePendingPayments(count: 1)
-        enqueuePendingPayments(count: TransactionTasksQueueManager.maxPendingPaymentCount - 1)
-        transactionTasksQueueManager.isSuspended = false
+        enqueuePendingPayments(count: maxPendingPaymentCount - 1)
 
         XCTAssertEqual(transactionTasksQueueManager.operationCount, 1)
+        numberOfPendingPaymentsInOperations([maxPendingPaymentCount])
     }
 
     func testEnqueueSinglePendingPaymentWithOverMaxExistingPendingPayments() {
-        transactionTasksQueueManager.isSuspended = true
         enqueuePendingPayments(count: 1)
-        enqueuePendingPayments(count: TransactionTasksQueueManager.maxPendingPaymentCount + 1)
-        transactionTasksQueueManager.isSuspended = false
+        enqueuePendingPayments(count: maxPendingPaymentCount + 1)
 
         XCTAssertEqual(transactionTasksQueueManager.operationCount, 2)
+        numberOfPendingPaymentsInOperations([maxPendingPaymentCount, 2])
     }
 
     func testEnqueueMaxPendingPaymentsWithSingleExistingPendingPayment() {
-        transactionTasksQueueManager.isSuspended = true
-        enqueuePendingPayments(count: TransactionTasksQueueManager.maxPendingPaymentCount)
+        enqueuePendingPayments(count: maxPendingPaymentCount)
         enqueuePendingPayments(count: 1)
-        transactionTasksQueueManager.isSuspended = false
 
         XCTAssertEqual(transactionTasksQueueManager.operationCount, 2)
+        numberOfPendingPaymentsInOperations([maxPendingPaymentCount, 1])
     }
 }
 
 // MARK: - Convenience
 
 extension TransactionTasksQueueTests {
+    var maxPendingPaymentCount: Int {
+        return TransactionTasksQueueManager.maxPendingPaymentCount
+    }
+
     func enqueuePendingPayments(count: Int) {
-        let pendingPayments = (0..<count).map { _ in createPendingPayment() }
+        let pendingPayments = (0..<count).map { _ in
+            PendingPayment(destinationPublicAddress: "", sourcePublicAddress: "", amount: 1)
+        }
         transactionTasksQueueManager.enqueue(pendingPayments: pendingPayments)
+    }
+
+    func numberOfPendingPaymentsInOperations(_ counts: [Int]) {
+        counts.enumerated().forEach { (index: Int, count: Int) in
+            let operation = transactionTasksQueueManager.pendingPaymentsOperations[index]
+            XCTAssertEqual(operation.pendingPayments.count, count)
+        }
     }
 }
