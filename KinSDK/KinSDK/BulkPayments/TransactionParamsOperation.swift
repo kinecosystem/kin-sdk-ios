@@ -22,7 +22,7 @@ class TransactionParamsOperation: SendTransactionOperation {
         name = "Transaction Params Operation"
     }
 
-    override func transactionToSend(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
+    override func buildTransaction(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
         if let operation = transactionParams.operations.first {
             switch operation.body {
             case .PAYMENT(let paymentOp):

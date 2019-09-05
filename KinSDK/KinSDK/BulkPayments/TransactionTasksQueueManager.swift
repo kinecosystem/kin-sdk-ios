@@ -11,12 +11,6 @@ import Foundation
 class TransactionTasksQueueManager {
     static let maxPendingPaymentCount = 100
 
-    let account: StellarAccount
-
-    init(account: StellarAccount) {
-        self.account = account
-    }
-
     private lazy var tasksQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.name = "Transaction Tasks Queue Manager"
@@ -24,7 +18,13 @@ class TransactionTasksQueueManager {
         return queue
     }()
 
-    // MARK: Inspecting
+    let account: StellarAccount
+
+    init(account: StellarAccount) {
+        self.account = account
+    }
+
+    // MARK: Inspecting Operations
 
     var operationCount: Int {
         return tasksQueue.operationCount
@@ -39,7 +39,7 @@ class TransactionTasksQueueManager {
         }
     }
 
-    // MARK: Accessing
+    // MARK: Accessing Operations
 
     var pendingPaymentsOperations: [PendingPaymentsOperation] {
         return tasksQueue.operations.filter({ operation -> Bool in
@@ -47,9 +47,9 @@ class TransactionTasksQueueManager {
         }) as? [PendingPaymentsOperation] ?? []
     }
 
-    // MARK: Adding
+    // MARK: Adding Operations
 
-    func enqueue(pendingPayments: [PendingPayment]) {
+    func enqueue(pendingPayments: [PendingPayment], fee: Quark, transactionInterceptor: TransactionInterceptor?) {
         guard pendingPayments.count > 0 else {
             return
         }
@@ -88,8 +88,8 @@ class TransactionTasksQueueManager {
         }
 
         arrayOfPendingPayments.forEach { pendingPayments in
-            let operation = PendingPaymentsOperation(pendingPayments, account: account)
-
+            let operation = PendingPaymentsOperation(pendingPayments, fee: fee, account: account)
+            operation.transactionInterceptor = transactionInterceptor
             tasksQueue.addOperation(operation)
         }
     }

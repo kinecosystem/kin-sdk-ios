@@ -35,6 +35,8 @@ public class PaymentQueue: NSObject {
         paymentsQueueManager.delegate = self
     }
 
+    // MARK: Enqueuing
+
     public func enqueuePayment(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) throws -> PendingPayment {
         let pendingPayment = PendingPayment(destinationPublicAddress: publicAddress, sourcePublicAddress: sourcePublicAddress, amount: amount, metadata: metadata)
 
@@ -44,35 +46,29 @@ public class PaymentQueue: NSObject {
     }
 
     func enqueueTransactionParams(_ params: SendTransactionParams, completion: @escaping (Result<TransactionId, Error>) -> Void) {
-        let transactionParamsOperation = transactionTasksQueueManager.enqueue(transactionParams: params)
+        DispatchQueue.global(qos: .background).async {
+            let transactionParamsOperation = self.transactionTasksQueueManager.enqueue(transactionParams: params)
 
-        transactionParamsOperation.completionBlock = {
-            if transactionParamsOperation.isCancelled {
-                completion(.failure(KinError.transactionOperationCancelled))
-                return
-            }
+            transactionParamsOperation.completionBlock = {
+                DispatchQueue.main.async {
+                    if transactionParamsOperation.isCancelled {
+                        completion(.failure(KinError.transactionOperationCancelled))
+                        return
+                    }
 
-            guard let result = transactionParamsOperation.result else {
-                // This should never happen.
-                completion(.failure(KinError.internalInconsistency))
-                return
-            }
+                    guard let result = transactionParamsOperation.result else {
+                        // This should never happen.
+                        completion(.failure(KinError.internalInconsistency))
+                        return
+                    }
 
-            DispatchQueue.main.async {
-                completion(result)
+                    completion(result)
+                }
             }
         }
     }
 
-    public func setTransactionInterceptor(_ interceptor: TransactionInterceptor) {
-
-    }
-
-    public var fee: Int = 0 {
-        didSet {
-
-        }
-    }
+    // MARK: Inspecting
 
     public var transactionInProgress: Bool {
         return paymentsQueueManager.inProgress
@@ -81,10 +77,28 @@ public class PaymentQueue: NSObject {
     public var pendingPaymentsCount: Int {
         return paymentsQueueManager.operationsCount
     }
+
+    // MARK: Operation Properties
+
+    // ???: should this be weak
+    public var transactionInterceptor: TransactionInterceptor?
+
+    public var fee: Quark = 0
 }
 
 extension PaymentQueue: PaymentsQueueManagerDelegate {
     func paymentsQueueManager(_ manager: PaymentsQueueManager, dequeueing pendingPayments: [PendingPayment]) {
-        transactionTasksQueueManager.enqueue(pendingPayments: pendingPayments)
+        DispatchQueue.global(qos: .background).async {
+            func enqueue() {
+                self.transactionTasksQueueManager.enqueue(pendingPayments: pendingPayments, fee: self.fee, transactionInterceptor: self.transactionInterceptor)
+            }
+
+            if self.fee == 0 {
+                Stellar.minFee().then { self.fee = $0 }.finally { enqueue() }
+            }
+            else {
+                enqueue()
+            }
+        }
     }
 }

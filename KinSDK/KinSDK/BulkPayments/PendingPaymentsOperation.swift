@@ -10,10 +10,12 @@ import Foundation
 
 class PendingPaymentsOperation: SendTransactionOperation {
     private(set) var pendingPayments: [PendingPayment]
+    let fee: Quark
     let account: StellarAccount
 
-    init(_ pendingPayments: [PendingPayment], account: StellarAccount) {
+    init(_ pendingPayments: [PendingPayment], fee: Quark, account: StellarAccount) {
         self.pendingPayments = pendingPayments
+        self.fee = fee
         self.account = account
 
         super.init()
@@ -22,9 +24,7 @@ class PendingPaymentsOperation: SendTransactionOperation {
         name = "Pending Payments Operation"
     }
 
-    override func transactionToSend(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
-        let fee: Quark = 0 // ???:
-
+    override func buildTransaction(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
         Stellar.transaction(source: account, pendingPayments: pendingPayments, fee: fee)
             .then { baseTransaction in
                 completion(.success(baseTransaction))

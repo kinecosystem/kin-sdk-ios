@@ -73,6 +73,7 @@
 		68AF931222A92DCF008C01EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF931122A92DCF008C01EC /* ViewController.swift */; };
 		68AF931722A92DD1008C01EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931622A92DD1008C01EC /* Assets.xcassets */; };
 		68AF931A22A92DD1008C01EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AF931822A92DD1008C01EC /* LaunchScreen.storyboard */; };
+		68EB194A23210EFC00A93C32 /* PaymentQueueTransactionProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EB194923210EFC00A93C32 /* PaymentQueueTransactionProcess.swift */; };
 		68F1A6C6230BC80600DCADA2 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C5230BC80600DCADA2 /* Assets.swift */; };
 		68F1A6C8230C1BBC00DCADA2 /* AssetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */; };
 		68F1A6CA230E6A5900DCADA2 /* SendTransactionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */; };
@@ -247,6 +248,7 @@
 		68AF931622A92DD1008C01EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68AF931922A92DD1008C01EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68AF931B22A92DD1008C01EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68EB194923210EFC00A93C32 /* PaymentQueueTransactionProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQueueTransactionProcess.swift; sourceTree = "<group>"; };
 		68F1A6C5230BC80600DCADA2 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetTests.swift; sourceTree = "<group>"; };
 		68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTransactionOperation.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				68F38C122309704D0013DBD1 /* PendingPaymentsOperation.swift */,
 				68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */,
 				68414F91231BD34300FDBEC0 /* AsynchronousOperation.swift */,
+				68EB194923210EFC00A93C32 /* PaymentQueueTransactionProcess.swift */,
 			);
 			path = BulkPayments;
 			sourceTree = "<group>";
@@ -745,6 +748,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				68F1A6C6230BC80600DCADA2 /* Assets.swift in Sources */,
+				68EB194A23210EFC00A93C32 /* PaymentQueueTransactionProcess.swift in Sources */,
 				68319EA022DC62AA00EC2DDF /* StellarOps.swift in Sources */,
 				68319E9222DC62AA00EC2DDF /* PublicKey.swift in Sources */,
 				6863167323018FF100C71132 /* SendTransactionParams.swift in Sources */,

@@ -9,12 +9,6 @@
 import Foundation
 
 public class BatchPaymentTransaction: BaseTransaction {
-    public var payments: [PaymentOperation] {
-        return []
-    }
-
-    public var memo: String {
-        return ""
-    }
+//    public let payments: [PaymentOperation]
+//    public let memo: String
 }
-

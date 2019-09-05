@@ -9,14 +9,12 @@
 import Foundation
 
 class SendTransactionOperation: AsynchronousOperation {
+    var transactionInterceptor: TransactionInterceptor?
+    
     var result: Result<TransactionId, Error>? {
         didSet {
             markFinished()
         }
-    }
-
-    func transactionToSend(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
-        fatalError("Subclass must implement")
     }
 
     override func workItem() {
@@ -25,7 +23,27 @@ class SendTransactionOperation: AsynchronousOperation {
             return
         }
 
-        transactionToSend { result in
+        if let transactionInterceptor = transactionInterceptor {
+            transactionInterceptorFlow(transactionInterceptor)
+        }
+        else {
+            standardFlow()
+        }
+    }
+
+    private func transactionInterceptorFlow(_ transactionInterceptor: TransactionInterceptor) {
+        let transactionProcess = TransactionProcess()
+
+        do {
+            let transactionId = try transactionInterceptor.interceptTransactionSending(process: transactionProcess)
+        }
+        catch {
+            // ???:
+        }
+    }
+
+    private func standardFlow() {
+        buildTransaction { result in
             if self.isCancelled {
                 self.markFinished()
                 return
@@ -52,6 +70,10 @@ class SendTransactionOperation: AsynchronousOperation {
                 self.result = .failure(error)
             }
         }
+    }
+
+    func buildTransaction(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
+        fatalError("Subclass must implement")
     }
 
     private func send(transactionEnvelop: Transaction.Envelope, completion: @escaping (Result<TransactionId, Error>) -> Void) {

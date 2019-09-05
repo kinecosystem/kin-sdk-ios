@@ -272,6 +272,11 @@ public enum Stellar {
     }
 
     /**
+     Cached minimum fee.
+     */
+    private static var _minFee: Quark?
+
+    /**
      Get the minimum fee for sending a transaction.
 
      - Returns: The minimum fee needed to send a transaction.
@@ -279,12 +284,18 @@ public enum Stellar {
     public static func minFee() -> Promise<Quark> {
         let promise = Promise<Quark>()
 
-        Stellar.networkParameters()
-            .then { networkParameters in
-                promise.signal(networkParameters.baseFee)
+        if let minFee = _minFee {
+            promise.signal(minFee)
+        }
+        else {
+            Stellar.networkParameters()
+                .then { networkParameters in
+                    _minFee = networkParameters.baseFee
+                    promise.signal(networkParameters.baseFee)
+                }
+                .error { error in
+                    promise.signal(error)
             }
-            .error { error in
-                promise.signal(error)
         }
 
         return promise

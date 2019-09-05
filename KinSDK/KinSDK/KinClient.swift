@@ -109,35 +109,14 @@ public final class KinClient {
 
         accounts.flushCache()
     }
-
-    /**
-     Cached minimum fee.
-     */
-    private var _minFee: Quark?
-
+    
     /**
      Get the minimum fee for sending a transaction.
 
      - Returns: The minimum fee needed to send a transaction.
      */
     public func minFee() -> Promise<Quark> {
-        let promise = Promise<Quark>()
-
-        if let minFee = _minFee {
-            promise.signal(minFee)
-        }
-        else {
-            Stellar.minFee()
-                .then { [weak self] fee in
-                    self?._minFee = fee
-                    promise.signal(fee)
-                }
-                .error { error in
-                    promise.signal(error)
-            }
-        }
-
-        return promise
+        return Stellar.minFee()
     }
 }
 

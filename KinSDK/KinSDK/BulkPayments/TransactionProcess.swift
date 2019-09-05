@@ -9,23 +9,15 @@
 import Foundation
 
 public class TransactionProcess {
-    var transaction: Transaction {
+    public func transaction() -> BaseTransaction {
         return nil!
     }
 
-    func transaction(memo: String) -> Transaction {
-        return nil!
-    }
-
-    var payments: [PendingPayment] {
-        return []
-    }
-
-    func send(transaction: Transaction) -> TransactionId {
+    public func send(transaction: BaseTransaction) -> TransactionId {
         return ""
     }
 
-    func send(whitelistPayload: String) -> TransactionId {
+    public func send(whitelistPayload: String) -> TransactionId {
         return ""
     }
 }
