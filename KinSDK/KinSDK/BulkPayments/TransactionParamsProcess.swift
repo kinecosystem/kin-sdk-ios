@@ -11,7 +11,7 @@ import Foundation
 class TransactionParamsProcess: TransactionProcess {
     let transactionParams: SendTransactionParams
 
-    init(account: StellarAccount, transactionParams: SendTransactionParams) {
+    init(transactionParams: SendTransactionParams, account: StellarAccount) {
         self.transactionParams = transactionParams
 
         super.init(account: account)

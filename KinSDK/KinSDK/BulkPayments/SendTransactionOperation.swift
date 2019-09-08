@@ -31,7 +31,9 @@ class SendTransactionOperation: AsynchronousOperation {
 
         if let transactionInterceptor = transactionInterceptor {
             do {
-                result = .success(try transactionInterceptor.interceptTransactionSending(process: transactionProcess))
+                let transactionId = try transactionInterceptor.interceptTransactionSending(process: transactionProcess)
+
+                result = .success(transactionId)
             }
             catch {
                 result = .failure(error)
@@ -40,7 +42,9 @@ class SendTransactionOperation: AsynchronousOperation {
         else {
             do {
                 let transaction = try transactionProcess.transaction()
-                result = transactionProcess.send(transaction: transaction)
+                let transactionId = try transactionProcess.send(transaction: transaction)
+
+                result = .success(transactionId)
             }
             catch {
                 result = .failure(error)

@@ -36,7 +36,7 @@ public class PaymentTransaction: BaseTransaction {
 
         super.init(wrapping: transaction)
     }
-
+    
     public var amount: Kin {
         return Kin(operation.amount)
     }

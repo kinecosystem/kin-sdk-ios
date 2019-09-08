@@ -12,7 +12,7 @@ public class PaymentQueueTransactionProcess: TransactionProcess {
     public let pendingPayments: [PendingPayment]
     let fee: Quark
 
-    init(account: StellarAccount, pendingPayments: [PendingPayment], fee: Quark) {
+    init(pendingPayments: [PendingPayment], fee: Quark, account: StellarAccount) {
         self.pendingPayments = pendingPayments
         self.fee = fee
 

@@ -9,6 +9,7 @@
 import Foundation
 
 public class BatchPaymentTransaction: BaseTransaction {
+    // ???: where is this PaymentOperation coming from? When is it set?
 //    public let payments: [PaymentOperation]
-//    public let memo: String
+//    public let memo: String?
 }

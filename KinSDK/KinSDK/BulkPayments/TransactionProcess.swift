@@ -19,7 +19,7 @@ public class TransactionProcess {
         fatalError("Subclass must implement")
     }
 
-    public func send(transaction: BaseTransaction) -> Result<TransactionId, Error> {
+    public func send(transaction: BaseTransaction) throws -> TransactionId {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
 
@@ -43,10 +43,16 @@ public class TransactionProcess {
 
         dispatchGroup.wait()
 
-        return result
+        switch result {
+        case .success(let transactionId):
+            return transactionId
+        case .failure(let error):
+            throw error
+        }
     }
 
-    public func send(whitelistPayload: String) -> Result<TransactionId, Error> {
-        return Result!
-    }
+    // ???: change this to Transaction.Envelope and remove the one above.
+//    public func send(whitelistPayload: String) -> Result<TransactionId, Error> {
+//        return Result!
+//    }
 }

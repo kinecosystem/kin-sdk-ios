@@ -69,8 +69,8 @@ class TxBuilder: TransactionBuilder {
         return self
     }
 
-    func build<Tx: BaseTransaction>(_: Tx.Type) -> Promise<Tx> {
-        let p = Promise<Tx>()
+    func build() -> Promise<Transaction> {
+        let p = Promise<Transaction>()
 
         guard let sourcePublicAddress = sourcePublicAddress else {
             p.signal(StellarError.missingPublicKey)
@@ -90,7 +90,7 @@ class TxBuilder: TransactionBuilder {
 
 
 
-            p.signal(Tx(wrapping: transaction))
+            p.signal(transaction)
         }
         else {
             Stellar.sequence(account: sourcePublicAddress, seqNum: sequence)
@@ -101,7 +101,7 @@ class TxBuilder: TransactionBuilder {
                                                   memo: self.memo ?? .MEMO_NONE,
                                                   operations: self.operations)
 
-                    p.signal(Tx(wrapping: transaction))
+                    p.signal(transaction)
                 }
                 .error { _ in
                     p.signal(StellarError.missingSequence)

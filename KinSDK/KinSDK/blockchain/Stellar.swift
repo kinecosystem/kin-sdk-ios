@@ -31,7 +31,7 @@ public enum Stellar {
                                    memo: Memo = .MEMO_NONE,
                                    fee: Quark) -> Promise<BaseTransaction> {
         return balance(account: destination)
-            .then { _ -> Promise<BaseTransaction> in
+            .then { _ -> Promise<Transaction> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
                                            sourcePublicAddress: source.publicKey)
@@ -40,12 +40,13 @@ public enum Stellar {
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
-                    .build(BaseTransaction.self)
+                    .build()
             }
             .then { transaction -> Promise<BaseTransaction> in
-                try transaction.addSignature(account: source)
+                let baseTransaction = BaseTransaction(wrapping: transaction)
+                try baseTransaction.addSignature(account: source)
 
-                return Promise(transaction)
+                return Promise(baseTransaction)
             }
             .mapError({ error -> Error in
                 switch error {
@@ -76,11 +77,12 @@ public enum Stellar {
             .set(memo: memo)
             .set(fee: fee)
             .add(operations: pendingPayments.map { Operation.payment(pendingPayment: $0) })
-            .build(BatchPaymentTransaction.self)
+            .build()
             .then { transaction -> Promise<BatchPaymentTransaction> in
-                try transaction.addSignature(account: source)
+                let batchPaymentTransaction = BatchPaymentTransaction(wrapping: transaction)
+                try batchPaymentTransaction.addSignature(account: source)
 
-                return Promise(transaction)
+                return Promise(batchPaymentTransaction)
             }
             .mapError({ error -> Error in
                 switch error {

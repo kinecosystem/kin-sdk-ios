@@ -12,7 +12,7 @@ import Foundation
 public class BaseTransaction {
     var transaction: Transaction
 
-    required init(wrapping transaction: Transaction) {
+    init(wrapping transaction: Transaction) {
         self.transaction = transaction
     }
 

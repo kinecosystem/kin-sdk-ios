@@ -25,7 +25,7 @@ class PendingPaymentsOperation: SendTransactionOperation {
     }
 
     override func createTransactionProcess() -> TransactionProcess {
-        return PaymentQueueTransactionProcess(account: account, pendingPayments: pendingPayments, fee: fee)
+        return PaymentQueueTransactionProcess(pendingPayments: pendingPayments, fee: fee, account: account)
     }
 
     // TODO: needs tests

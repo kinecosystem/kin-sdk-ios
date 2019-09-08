@@ -23,6 +23,6 @@ class TransactionParamsOperation: SendTransactionOperation {
     }
 
     override func createTransactionProcess() -> TransactionProcess {
-        return TransactionParamsProcess(account: account, transactionParams: transactionParams)
+        return TransactionParamsProcess(transactionParams: transactionParams, account: account)
     }
 }
