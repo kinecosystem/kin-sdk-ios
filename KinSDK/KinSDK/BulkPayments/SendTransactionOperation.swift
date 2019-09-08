@@ -17,77 +17,34 @@ class SendTransactionOperation: AsynchronousOperation {
         }
     }
 
+    func createTransactionProcess() -> TransactionProcess {
+        fatalError("Subclass must implement")
+    }
+
     override func workItem() {
         if isCancelled {
             markFinished()
             return
         }
 
+        let transactionProcess = createTransactionProcess()
+
         if let transactionInterceptor = transactionInterceptor {
-            transactionInterceptorFlow(transactionInterceptor)
+            do {
+                result = .success(try transactionInterceptor.interceptTransactionSending(process: transactionProcess))
+            }
+            catch {
+                result = .failure(error)
+            }
         }
         else {
-            standardFlow()
-        }
-    }
-
-    private func transactionInterceptorFlow(_ transactionInterceptor: TransactionInterceptor) {
-        let transactionProcess = TransactionProcess()
-
-        do {
-            let transactionId = try transactionInterceptor.interceptTransactionSending(process: transactionProcess)
-        }
-        catch {
-            // ???:
-        }
-    }
-
-    private func standardFlow() {
-        buildTransaction { result in
-            if self.isCancelled {
-                self.markFinished()
-                return
+            do {
+                let transaction = try transactionProcess.transaction()
+                result = transactionProcess.send(transaction: transaction)
             }
-
-            switch result {
-            case .success(let baseTransaction):
-                self.send(transactionEnvelop: baseTransaction.envelope(), completion: { result in
-                    if self.isCancelled {
-                        self.markFinished()
-                        return
-                    }
-
-                    switch result {
-                    case .success(let transactionId):
-                        self.result = .success(transactionId)
-
-                    case .failure(let error):
-                        self.result = .failure(error)
-                    }
-                })
-
-            case .failure(let error):
-                self.result = .failure(error)
+            catch {
+                result = .failure(error)
             }
-        }
-    }
-
-    func buildTransaction(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
-        fatalError("Subclass must implement")
-    }
-
-    private func send(transactionEnvelop: Transaction.Envelope, completion: @escaping (Result<TransactionId, Error>) -> Void) {
-        Stellar.postTransaction(envelope: transactionEnvelop)
-            .then { transactionId -> Void in
-                completion(.success(transactionId))
-            }
-            .error { error in
-                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
-                    completion(.failure(KinError.insufficientFunds))
-                    return
-                }
-
-                completion(.failure(KinError.paymentFailed(error)))
         }
     }
 }

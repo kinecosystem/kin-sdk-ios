@@ -8,10 +8,11 @@
 
 import Foundation
 
+// TODO: rename to Transaction
 public class BaseTransaction {
     var transaction: Transaction
 
-    init(wrapping transaction: Transaction) {
+    required init(wrapping transaction: Transaction) {
         self.transaction = transaction
     }
 

@@ -103,12 +103,6 @@ public final class KinAccount {
         return promise(status)
     }
 
-    public func transactionBuilder() -> TransactionBuilder {
-        return TransactionBuilder(sourcePublicAddress: publicAddress)
-    }
-
-
-
     public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor? = nil) -> Promise<TransactionId> {
         let promise = Promise<TransactionId>()
 
@@ -127,8 +121,6 @@ public final class KinAccount {
     public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor? = nil, completion: @escaping (Result<TransactionId, Error>) -> Void) {
         paymentQueue.enqueueTransactionParams(params, completion: completion)
     }
-
-
 
     /**
      Retrieve the current Kin balance.

@@ -9,15 +9,44 @@
 import Foundation
 
 public class TransactionProcess {
-    public func transaction() -> BaseTransaction {
-        return nil!
+    let account: StellarAccount
+
+    init(account: StellarAccount) {
+        self.account = account
     }
 
-    public func send(transaction: BaseTransaction) -> TransactionId {
-        return ""
+    public func transaction() throws -> BaseTransaction {
+        fatalError("Subclass must implement")
     }
 
-    public func send(whitelistPayload: String) -> TransactionId {
-        return ""
+    public func send(transaction: BaseTransaction) -> Result<TransactionId, Error> {
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        var result: Result<TransactionId, Error> = .failure(KinError.internalInconsistency)
+
+        Stellar.postTransaction(envelope: transaction.envelope())
+            .then { transactionId -> Void in
+                result = .success(transactionId)
+                dispatchGroup.leave()
+            }
+            .error { error in
+                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
+                    result = .failure(KinError.insufficientFunds)
+                }
+                else {
+                    result = .failure(KinError.paymentFailed(error))
+                }
+
+                dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+
+        return result
+    }
+
+    public func send(whitelistPayload: String) -> Result<TransactionId, Error> {
+        return Result!
     }
 }

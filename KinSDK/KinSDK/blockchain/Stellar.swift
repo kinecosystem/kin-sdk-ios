@@ -40,7 +40,7 @@ public enum Stellar {
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
-                    .build()
+                    .build(BaseTransaction.self)
             }
             .then { transaction -> Promise<BaseTransaction> in
                 try transaction.addSignature(account: source)
@@ -62,20 +62,22 @@ public enum Stellar {
 
      - Parameter source: The account from which the payment will be made.
      - Parameter pendingPayments: The pending payments to add to the transaction.
+     - Parameter memo: A short string placed in the MEMO field of the transaction.
      - Parameter fee: The fee in `Quark`s used when the transaction is not whitelisted.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func transaction(source: StellarAccount, pendingPayments: [PendingPayment], fee: Quark) -> Promise<BaseTransaction> {
+    static func transaction(source: StellarAccount, pendingPayments: [PendingPayment], memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<BatchPaymentTransaction> {
         guard let firstPendingPayment = pendingPayments.first else {
             return Promise(StellarError.missingPayment)
         }
 
         return TransactionBuilder(sourcePublicAddress: firstPendingPayment.sourcePublicAddress)
+            .set(memo: memo)
             .set(fee: fee)
             .add(operations: pendingPayments.map { Operation.payment(pendingPayment: $0) })
-            .build()
-            .then { transaction -> Promise<BaseTransaction> in
+            .build(BatchPaymentTransaction.self)
+            .then { transaction -> Promise<BatchPaymentTransaction> in
                 try transaction.addSignature(account: source)
 
                 return Promise(transaction)

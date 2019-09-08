@@ -22,23 +22,7 @@ class TransactionParamsOperation: SendTransactionOperation {
         name = "Transaction Params Operation"
     }
 
-    override func buildTransaction(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
-        if let operation = transactionParams.operations.first {
-            switch operation.body {
-            case .PAYMENT(let paymentOp):
-                let memo: Memo = transactionParams.memo ?? .MEMO_NONE
-
-                Stellar.transaction(source: account, destination: paymentOp.destination.publicKey, amount: Kin(paymentOp.amount), memo: memo, fee: transactionParams.fee)
-                    .then { baseTransaction in
-                        completion(.success(baseTransaction))
-                    }
-                    .error { error in
-                        completion(.failure(error))
-                }
-
-            default:
-                completion(.failure(KinError.internalInconsistency))
-            }
-        }
+    override func createTransactionProcess() -> TransactionProcess {
+        return TransactionParamsProcess(account: account, transactionParams: transactionParams)
     }
 }

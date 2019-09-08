@@ -24,14 +24,8 @@ class PendingPaymentsOperation: SendTransactionOperation {
         name = "Pending Payments Operation"
     }
 
-    override func buildTransaction(completion: @escaping (Result<BaseTransaction, Error>) -> Void) {
-        Stellar.transaction(source: account, pendingPayments: pendingPayments, fee: fee)
-            .then { baseTransaction in
-                completion(.success(baseTransaction))
-            }
-            .error { error in
-                completion(.failure(error))
-        }
+    override func createTransactionProcess() -> TransactionProcess {
+        return PaymentQueueTransactionProcess(account: account, pendingPayments: pendingPayments, fee: fee)
     }
 
     // TODO: needs tests

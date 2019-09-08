@@ -9,15 +9,49 @@
 import Foundation
 
 public class PaymentQueueTransactionProcess: TransactionProcess {
-    public override func transaction() -> BatchPaymentTransaction {
-        return nil!
+    public let pendingPayments: [PendingPayment]
+    let fee: Quark
+
+    init(account: StellarAccount, pendingPayments: [PendingPayment], fee: Quark) {
+        self.pendingPayments = pendingPayments
+        self.fee = fee
+
+        super.init(account: account)
     }
 
-    public func transaction(memo: String) -> BatchPaymentTransaction {
-        return nil!
+    public override func transaction() throws -> BatchPaymentTransaction {
+        return try transaction(memo: nil)
     }
 
-    public var pendingPayments: [PendingPayment] {
-        return []
+    public func transaction(memo memoString: String?) throws -> BatchPaymentTransaction {
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        var result: Result<BatchPaymentTransaction, Error> = .failure(KinError.internalInconsistency)
+
+        var memo: Memo = .MEMO_NONE
+
+        if let memoString = memoString {
+            memo = try Memo(memoString)
+        }
+
+        Stellar.transaction(source: account, pendingPayments: pendingPayments, memo: memo, fee: fee)
+            .then { transaction in
+                result = .success(transaction)
+                dispatchGroup.leave()
+            }
+            .error { error in
+                result = .failure(error)
+                dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+
+        switch result {
+        case .success(let transaction):
+            return transaction
+        case .failure(let error):
+            throw error
+        }
     }
 }
