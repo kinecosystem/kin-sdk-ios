@@ -111,135 +111,25 @@ public final class KinAccount {
         return TransactionBuilder(source: stellarAccount, node: node)
     }
 
-    /**
-     Build a Kin transaction for a specific address.
 
-     The completion block is called after the transaction is posted on the network, which is prior
-     to confirmation.
 
-     - Attention: The completion block **is not dispatched on the main thread**.
-
-     - Parameter recipient: The recipient's public address.
-     - Parameter kin: The amount of Kin to be sent.
-     - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
-     - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
-     - Parameter completion: A completion with the `PaymentTransaction` or an `Error`.
-     */
-    public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
-        guard deleted == false else {
-            completion(nil, KinError.accountDeleted)
-            return
-        }
-
-        let kinInt = ((kin * Decimal(AssetUnitDivisor)) as NSDecimalNumber).int64Value
-
-        guard kinInt > 0 else {
-            completion(nil, KinError.invalidAmount)
-            return
-        }
-
-        let prefixedMemo = Memo.prependAppIdIfNeeded(appId, to: memo ?? "")
-
-        guard prefixedMemo.utf8.count <= Transaction.MaxMemoLength else {
-            completion(nil, StellarError.memoTooLong(prefixedMemo))
-            return
-        }
-
-        stellarAccount.sign = { message in
-            return try self.stellarAccount.sign(message: message, passphrase: "")
-        }
-
-        do {
-            Stellar.transaction(source: stellarAccount,
-                                destination: recipient,
-                                amount: kinInt,
-                                memo: try Memo(prefixedMemo),
-                                node: node,
-                                fee: fee)
-                .then { baseTransaction -> Void in
-                    self.stellarAccount.sign = nil
-
-                    if let paymentTransaction = baseTransaction as? PaymentTransaction {
-                        completion(paymentTransaction, nil)
-                    }
-                    else {
-                        completion(nil, KinError.internalInconsistency)
-                    }
-                }
-                .error { error in
-                    self.stellarAccount.sign = nil
-                    completion(nil, KinError.transactionCreationFailed(error))
-            }
-        }
-        catch {
-            self.stellarAccount.sign = nil
-            completion(nil, error)
-        }
+    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor) -> Promise<TransactionId> {
+        return Promise("")
     }
 
-    /**
-     Build a Kin transaction for a specific address.
-
-     - Parameter recipient: The recipient's public address.
-     - Parameter kin: The amount of Kin to be sent.
-     - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
-     - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
-
-     - Returns: A promise which is signalled with the `PaymentTransaction` or an `Error`.
-     */
-    public func buildPaymentTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<PaymentTransaction> {
-        let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
-            self.buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
-        }
-
-        return promise(txClosure)
+    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor, completion: @escaping (Result<TransactionId, Error>) -> Void) {
+        completion(.success(""))
     }
 
-    /**
-     Send a Kin transaction.
-
-     The completion block is called after the transaction is posted on the network, which is prior
-     to confirmation.
-
-     - Attention: The completion block **is not dispatched on the main thread**.
-
-     - Parameter envelope: The `Transaction.Envelope` to send.
-     - Parameter completion: A completion with the `TransactionId` or an `Error`.
-     */
-    public func sendTransaction(_ envelope: Transaction.Envelope, completion: @escaping SendTransactionCompletion) {
-        guard deleted == false else {
-            completion(nil, KinError.accountDeleted)
-            return
-        }
-
-        Stellar.postTransaction(envelope: envelope, node: node)
-            .then { txHash -> Void in
-                completion(txHash, nil)
-            }
-            .error { error in
-                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
-                    completion(nil, KinError.insufficientFunds)
-                    return
-                }
-
-                completion(nil, KinError.paymentFailed(error))
-        }
+    public func sendWhitelistTransaction(_ whitelist: String, interceptor: TransactionInterceptor) -> Promise<TransactionId> {
+        return Promise("")
     }
 
-    /**
-     Send a Kin transaction.
-
-     - Parameter envelope: The `Transaction.Envelope` to send.
-
-     - Returns: A promise which is signalled with the `TransactionId` or an `Error`.
-     */
-    public func sendTransaction(_ envelope: Transaction.Envelope) -> Promise<TransactionId> {
-        let txClosure = { (txComp: @escaping SendTransactionCompletion) in
-            self.sendTransaction(envelope, completion: txComp)
-        }
-
-        return promise(txClosure)
+    public func sendWhitelistTransaction(_ whitelist: String, interceptor: TransactionInterceptor, completion: @escaping (Result<TransactionId, Error>) -> Void) {
+        completion(.success(""))
     }
+
+
 
     /**
      Retrieve the current Kin balance.
@@ -365,20 +255,158 @@ public final class KinAccount {
     }
 }
 
+// MARK: Batch Payments
+
+extension KinAccount {
+    public func paymentQueue() -> PaymentQueue {
+        return nil!
+    }
+
+    public func pendingBalance(_ completion: @escaping (Result<Kin, Error>) -> Void) {
+        completion(.success(Kin(0)))
+    }
+
+    public func pendingBalance() -> Promise<Kin> {
+        return Promise(0)
+    }
+
+//    public func pendingBalanceListener() 
+}
+
 // MARK: - Deprecated
 
 extension KinAccount {
-    @available(*, deprecated, renamed: "buildPaymentTransaction")
-    public func generateTransaction(to recipient: String,
-                                    kin: Kin,
-                                    memo: String? = nil,
-                                    fee: Quark = 0,
-                                    completion: @escaping GenerateTransactionCompletion) {
-        return buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: completion)
+    /**
+     Build a Kin transaction for a specific address.
+
+     The completion block is called after the transaction is posted on the network, which is prior
+     to confirmation.
+
+     - Attention: The completion block **is not dispatched on the main thread**.
+
+     - Parameter recipient: The recipient's public address.
+     - Parameter kin: The amount of Kin to be sent.
+     - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
+     - Parameter completion: A completion with the `PaymentTransaction` or an `Error`.
+     */
+//    @available(*, deprecated, renamed: "")
+    public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark = 0, completion: @escaping GenerateTransactionCompletion) {
+        guard deleted == false else {
+            completion(nil, KinError.accountDeleted)
+            return
+        }
+
+        let kinInt = ((kin * Decimal(AssetUnitDivisor)) as NSDecimalNumber).int64Value
+
+        guard kinInt > 0 else {
+            completion(nil, KinError.invalidAmount)
+            return
+        }
+
+        let prefixedMemo = Memo.prependAppIdIfNeeded(appId, to: memo ?? "")
+
+        guard prefixedMemo.utf8.count <= Transaction.MaxMemoLength else {
+            completion(nil, StellarError.memoTooLong(prefixedMemo))
+            return
+        }
+
+        stellarAccount.sign = { message in
+            return try self.stellarAccount.sign(message: message, passphrase: "")
+        }
+
+        do {
+            Stellar.transaction(source: stellarAccount,
+                                destination: recipient,
+                                amount: kinInt,
+                                memo: try Memo(prefixedMemo),
+                                node: node,
+                                fee: fee)
+                .then { baseTransaction -> Void in
+                    self.stellarAccount.sign = nil
+
+                    if let paymentTransaction = baseTransaction as? PaymentTransaction {
+                        completion(paymentTransaction, nil)
+                    }
+                    else {
+                        completion(nil, KinError.internalInconsistency)
+                    }
+                }
+                .error { error in
+                    self.stellarAccount.sign = nil
+                    completion(nil, KinError.transactionCreationFailed(error))
+            }
+        }
+        catch {
+            self.stellarAccount.sign = nil
+            completion(nil, error)
+        }
     }
 
-    @available(*, deprecated, renamed: "buildPaymentTransaction")
+    /**
+     Build a Kin transaction for a specific address.
+
+     - Parameter recipient: The recipient's public address.
+     - Parameter kin: The amount of Kin to be sent.
+     - Parameter memo: An optional string, up-to 28 bytes in length, included on the transaction record.
+     - Parameter fee: The fee in `Quark`s used if the transaction is not whitelisted.
+
+     - Returns: A promise which is signalled with the `PaymentTransaction` or an `Error`.
+     */
+//    @available(*, deprecated, renamed: "")
     public func generateTransaction(to recipient: String, kin: Kin, memo: String? = nil, fee: Quark) -> Promise<PaymentTransaction> {
-        return buildPaymentTransaction(to: recipient, kin: kin, memo: memo, fee: fee)
+        let txClosure = { (txComp: @escaping GenerateTransactionCompletion) in
+            self.generateTransaction(to: recipient, kin: kin, memo: memo, fee: fee, completion: txComp)
+        }
+
+        return promise(txClosure)
+    }
+
+    /**
+     Send a Kin transaction.
+
+     The completion block is called after the transaction is posted on the network, which is prior
+     to confirmation.
+
+     - Attention: The completion block **is not dispatched on the main thread**.
+
+     - Parameter envelope: The `Transaction.Envelope` to send.
+     - Parameter completion: A completion with the `TransactionId` or an `Error`.
+     */
+//    @available(*, deprecated, renamed: "")
+    public func sendTransaction(_ envelope: Transaction.Envelope, completion: @escaping SendTransactionCompletion) {
+        guard deleted == false else {
+            completion(nil, KinError.accountDeleted)
+            return
+        }
+
+        Stellar.postTransaction(envelope: envelope, node: node)
+            .then { txHash -> Void in
+                completion(txHash, nil)
+            }
+            .error { error in
+                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
+                    completion(nil, KinError.insufficientFunds)
+                    return
+                }
+
+                completion(nil, KinError.paymentFailed(error))
+        }
+    }
+
+    /**
+     Send a Kin transaction.
+
+     - Parameter envelope: The `Transaction.Envelope` to send.
+
+     - Returns: A promise which is signalled with the `TransactionId` or an `Error`.
+     */
+//    @available(*, deprecated, renamed: "")
+    public func sendTransaction(_ envelope: Transaction.Envelope) -> Promise<TransactionId> {
+        let txClosure = { (txComp: @escaping SendTransactionCompletion) in
+            self.sendTransaction(envelope, completion: txComp)
+        }
+
+        return promise(txClosure)
     }
 }
