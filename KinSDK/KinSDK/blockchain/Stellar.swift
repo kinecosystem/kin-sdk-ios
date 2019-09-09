@@ -29,7 +29,7 @@ public enum Stellar {
                                    destination: String,
                                    amount: Kin,
                                    memo: Memo = .MEMO_NONE,
-                                   fee: Quark) -> Promise<BaseTransaction> {
+                                   fee: Quark) -> Promise<PaymentTransaction> {
         return balance(account: destination)
             .then { _ -> Promise<Transaction> in
                 let op = Operation.payment(destination: destination,
@@ -42,8 +42,8 @@ public enum Stellar {
                     .add(operation: op)
                     .build()
             }
-            .then { transaction -> Promise<BaseTransaction> in
-                let baseTransaction = BaseTransaction(wrapping: transaction)
+            .then { transaction -> Promise<PaymentTransaction> in
+                let baseTransaction = try PaymentTransaction(tryWrapping: transaction)
                 try baseTransaction.addSignature(account: source)
 
                 return Promise(baseTransaction)

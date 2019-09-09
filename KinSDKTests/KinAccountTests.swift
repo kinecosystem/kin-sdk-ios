@@ -273,30 +273,30 @@ class KinAccountTests: XCTestCase {
 
     // MARK: - Transaction
 
-    func testSendTransaction() {
-        do {
-            let expectation = XCTestExpectation()
-
-            let transactionParams = try SendTransactionParams.createSendPaymentParams(publicAddress: account1.publicAddress, amount: 10, fee: 0)
-
-            print("||| start")
-            account0.sendTransaction(transactionParams, interceptor: self) { result in
-                print("||| result")
-                switch result {
-                case .success(let transactionId):
-                    XCTAssertNotNil(transactionId, "Expected a transaction id when completing.")
-
-                case .failure(let error):
-                    self.fail(on: error)
-                }
-            }
-
-            wait(for: [expectation], timeout: requestTimeout)
-        }
-        catch {
-            self.fail(on: error)
-        }
-    }
+//    func testSendTransaction() {
+//        do {
+//            let expectation = XCTestExpectation()
+//
+//            let transactionParams = try SendTransactionParams.createSendPaymentParams(publicAddress: account1.publicAddress, amount: 10, fee: 0)
+//
+//            print("||| start")
+//            account0.sendTransaction(transactionParams, interceptor: self) { result in
+//                print("||| result")
+//                switch result {
+//                case .success(let transactionId):
+//                    XCTAssertNotNil(transactionId, "Expected a transaction id when completing.")
+//
+//                case .failure(let error):
+//                    self.fail(on: error)
+//                }
+//            }
+//
+//            wait(for: [expectation], timeout: requestTimeout)
+//        }
+//        catch {
+//            self.fail(on: error)
+//        }
+//    }
 
     // MARK: - Deleting Account
 

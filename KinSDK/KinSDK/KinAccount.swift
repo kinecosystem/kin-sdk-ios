@@ -284,6 +284,11 @@ extension KinAccount {
             return
         }
 
+        guard kin > 0 else {
+            completion(nil, KinError.invalidAmount)
+            return
+        }
+
         let prefixedMemo = Memo.prependAppIdIfNeeded(appId, to: memo ?? "")
 
         guard prefixedMemo.utf8.count <= Transaction.MaxMemoLength else {
@@ -297,13 +302,8 @@ extension KinAccount {
                                 amount: kin,
                                 memo: try Memo(prefixedMemo),
                                 fee: fee)
-                .then { baseTransaction -> Void in
-                    if let paymentTransaction = baseTransaction as? PaymentTransaction {
-                        completion(paymentTransaction, nil)
-                    }
-                    else {
-                        completion(nil, KinError.internalInconsistency)
-                    }
+                .then { paymentTransaction -> Void in
+                    completion(paymentTransaction, nil)
                 }
                 .error { error in
                     completion(nil, KinError.transactionCreationFailed(error))

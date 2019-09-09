@@ -88,8 +88,6 @@ class TxBuilder: TransactionBuilder {
                                           fee: fee,
                                           operations: operations)
 
-
-
             p.signal(transaction)
         }
         else {
