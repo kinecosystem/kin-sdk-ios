@@ -22,7 +22,7 @@ class TransactionTasksQueueTests: XCTestCase {
     }
 
     func testEnqueueZeroPendingPayments() {
-        transactionTasksQueueManager.enqueue(pendingPayments: [])
+        transactionTasksQueueManager.enqueue(pendingPayments: [], fee: 0)
 
         XCTAssertEqual(transactionTasksQueueManager.operationCount, 0)
     }
@@ -92,7 +92,7 @@ extension TransactionTasksQueueTests {
         let pendingPayments = (0..<count).map { _ in
             PendingPayment(destinationPublicAddress: "", sourcePublicAddress: "", amount: 1)
         }
-        transactionTasksQueueManager.enqueue(pendingPayments: pendingPayments)
+        transactionTasksQueueManager.enqueue(pendingPayments: pendingPayments, fee: 0)
     }
 
     func numberOfPendingPaymentsInOperations(_ counts: [Int]) {

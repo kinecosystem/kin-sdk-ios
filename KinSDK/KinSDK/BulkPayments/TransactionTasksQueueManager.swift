@@ -53,7 +53,7 @@ class TransactionTasksQueueManager {
 
     // MARK: Adding Operations
 
-    func enqueue(pendingPayments: [PendingPayment], fee: Quark, transactionInterceptor: TransactionInterceptor?) {
+    func enqueue(pendingPayments: [PendingPayment], fee: Quark, transactionInterceptor: TransactionInterceptor? = nil) {
         guard pendingPayments.count > 0 else {
             return
         }

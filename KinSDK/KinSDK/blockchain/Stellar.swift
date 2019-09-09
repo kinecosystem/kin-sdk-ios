@@ -79,7 +79,7 @@ public enum Stellar {
             .add(operations: pendingPayments.map { Operation.payment(pendingPayment: $0) })
             .build()
             .then { transaction -> Promise<BatchPaymentTransaction> in
-                let batchPaymentTransaction = BatchPaymentTransaction(wrapping: transaction)
+                let batchPaymentTransaction = try BatchPaymentTransaction(tryWrapping: transaction)
                 try batchPaymentTransaction.addSignature(account: source)
 
                 return Promise(batchPaymentTransaction)
