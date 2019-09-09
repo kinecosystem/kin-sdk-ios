@@ -69,17 +69,17 @@ public enum Stellar {
      - Returns: A promise which will be signalled with the result of the operation.
      */
     static func transaction(source: StellarAccount, pendingPayments: [PendingPayment], memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<BatchPaymentTransaction> {
-        guard let firstPendingPayment = pendingPayments.first else {
+        guard pendingPayments.count > 0 else {
             return Promise(StellarError.missingPayment)
         }
 
-        return TransactionBuilder(sourcePublicAddress: firstPendingPayment.sourcePublicAddress)
+        return TransactionBuilder(sourcePublicAddress: source.publicKey)
             .set(memo: memo)
             .set(fee: fee)
             .add(operations: pendingPayments.map { Operation.payment(pendingPayment: $0) })
             .build()
             .then { transaction -> Promise<BatchPaymentTransaction> in
-                let batchPaymentTransaction = try BatchPaymentTransaction(tryWrapping: transaction)
+                let batchPaymentTransaction = try BatchPaymentTransaction(tryWrapping: transaction, sourcePublicAddress: source.publicKey!)
                 try batchPaymentTransaction.addSignature(account: source)
 
                 return Promise(batchPaymentTransaction)

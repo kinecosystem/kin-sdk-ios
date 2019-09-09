@@ -51,8 +51,7 @@ public class TransactionProcess {
         }
     }
 
-    // ???: change this to Transaction.Envelope and remove the one above.
-//    public func send(whitelistPayload: String) -> Result<TransactionId, Error> {
+//    public func send(whitelistTransaction: Data) -> Result<TransactionId, Error> {
 //        return Result!
 //    }
 }

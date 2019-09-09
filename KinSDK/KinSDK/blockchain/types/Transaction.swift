@@ -325,7 +325,7 @@ public struct Transaction: XDRCodable {
     }
 
     public func wrapper() -> BaseTransaction {
-        return TransactionFactory.wrapping(transaction: self)
+        return TransactionFactory.wrapping(transaction: self, sourcePublicAddress: sourceAccount.publicKey)
     }
 }
 
@@ -352,7 +352,7 @@ extension Transaction {
         }
 
         public func wrappedTransaction() -> BaseTransaction {
-            return TransactionFactory.wrapping(transaction: tx)
+            return TransactionFactory.wrapping(transaction: tx, sourcePublicAddress: tx.sourceAccount.publicKey)
         }
     }
 }

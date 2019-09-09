@@ -36,13 +36,24 @@ class PaymentsQueueManager {
     }
 
     func enqueue(pendingPayment: PendingPayment) {
-        if operationsCount >= maxPendingPayments {
-            dequeue()
+        func enqueu() {
+            updateTimers()
+
+            payments.append(pendingPayment)
+
+            if operationsCount >= maxPendingPayments {
+                dequeue()
+            }
         }
 
-        updateTimers()
-
-        payments.append(pendingPayment)
+        if Thread.isMainThread {
+            enqueu()
+        }
+        else {
+            DispatchQueue.main.async {
+                enqueu()
+            }
+        }
     }
 
     @objc private func dequeue() {

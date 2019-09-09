@@ -9,8 +9,7 @@
 import Foundation
 
 public class BatchPaymentTransaction: BaseTransaction {
-    // ???: where is this PaymentOperation coming from? When is it set? Should all PaymentOp become PaymentOperation
-//    public let payments: [PaymentOperation]
+    public let payments: [PaymentOperation]
 
     private static func findPaymentOperations(operations: [Operation]) -> [PaymentOp]? {
         var paymentOperations: [PaymentOp] = []
@@ -24,12 +23,14 @@ public class BatchPaymentTransaction: BaseTransaction {
         return paymentOperations.count > 1 ? paymentOperations : nil
     }
 
-    required init(tryWrapping transaction: Transaction) throws {
+    required init(tryWrapping transaction: Transaction, sourcePublicAddress: String) throws {
         guard let operations = BatchPaymentTransaction.findPaymentOperations(operations: transaction.operations) else {
             throw StellarError.decodeTransactionFailed
         }
 
-//        self.operations = operations
+        self.payments = operations.map({ operation -> PaymentOperation in
+            return PaymentOperation(sourcePublicAddress: sourcePublicAddress, destinationPublicAddress: operation.destination.publicKey, amount: Kin(operation.amount))
+        })
 
         super.init(wrapping: transaction)
     }
