@@ -9,7 +9,7 @@
 import Foundation
 
 public struct PaymentOperation {
-    public let source: String
-    public let destination: String
+    public let sourcePublicAddress: String
+    public let destinationPublicAddress: String
     public let amount: Kin
 }

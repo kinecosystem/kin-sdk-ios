@@ -20,11 +20,7 @@ public class PaymentTransaction: BaseTransaction {
             }
         }
 
-        if paymentOperations.count == 1 {
-            return paymentOperations.first
-        }
-        
-        return nil
+        return paymentOperations.count == 1 ? paymentOperations.first : nil
     }
 
     required init(tryWrapping transaction: Transaction) throws {

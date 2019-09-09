@@ -10,8 +10,10 @@ import Foundation
 
 class TransactionFactory {
     static func wrapping(transaction: Transaction) -> BaseTransaction {
-        // TODO: add BatchPaymentsTransaction
-        if let transaction = try? PaymentTransaction(tryWrapping: transaction) {
+        if let transaction = try? BatchPaymentTransaction(tryWrapping: transaction) {
+            return transaction
+        }
+        else if let transaction = try? PaymentTransaction(tryWrapping: transaction) {
             return transaction
         }
         else {
