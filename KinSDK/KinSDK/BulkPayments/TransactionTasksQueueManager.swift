@@ -24,7 +24,7 @@ class TransactionTasksQueueManager {
         self.account = account
     }
 
-    // MARK: Inspecting Operations
+    // MARK: Inspecting
 
     var operationCount: Int {
         return tasksQueue.operationCount
@@ -37,6 +37,10 @@ class TransactionTasksQueueManager {
         get {
             return tasksQueue.isSuspended
         }
+    }
+
+    var inProgress: Bool {
+        return !isSuspended && operationCount > 0
     }
 
     // MARK: Accessing Operations

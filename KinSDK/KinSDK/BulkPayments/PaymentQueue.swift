@@ -71,7 +71,7 @@ public class PaymentQueue: NSObject {
     // MARK: Inspecting
 
     public var transactionInProgress: Bool {
-        return paymentsQueueManager.inProgress
+        return transactionTasksQueueManager.inProgress
     }
 
     public var pendingPaymentsCount: Int {
