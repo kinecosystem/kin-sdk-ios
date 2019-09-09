@@ -9,13 +9,7 @@
 import Foundation
 import KinUtil
 
-@available(*, deprecated, renamed: "TransactionBuilder")
-class TxBuilder: TransactionBuilder {
-
-}
-
-// TODO: uncomment final after removing TxBuilder
-/*final*/ class TransactionBuilder {
+final class TransactionBuilder {
     private var sourcePublicAddress: String?
     private var memo: Memo?
     private var fee: Quark?
@@ -80,26 +74,22 @@ class TxBuilder: TransactionBuilder {
 
         let pk = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
 
-        if sequence > 0 {
-            let transaction = Transaction(sourceAccount: pk,
-                                          seqNum: sequence,
-                                          timeBounds: timeBounds,
-                                          memo: memo ?? .MEMO_NONE,
-                                          fee: fee,
-                                          operations: operations)
+        func createTransaction(sequenceNumber: UInt64, fee: Quark? = nil) -> Transaction {
+            return Transaction(sourceAccount: pk,
+                               seqNum: sequenceNumber,
+                               timeBounds: timeBounds,
+                               memo: memo ?? .MEMO_NONE,
+                               fee: fee,
+                               operations: operations)
+        }
 
-            p.signal(transaction)
+        if sequence > 0 {
+            p.signal(createTransaction(sequenceNumber: sequence, fee: fee))
         }
         else {
             Stellar.sequence(account: sourcePublicAddress, seqNum: sequence)
                 .then { sequenceNumber in
-                    let transaction = Transaction(sourceAccount: pk,
-                                                  seqNum: sequenceNumber,
-                                                  timeBounds: self.timeBounds,
-                                                  memo: self.memo ?? .MEMO_NONE,
-                                                  operations: self.operations)
-
-                    p.signal(transaction)
+                    p.signal(createTransaction(sequenceNumber: sequenceNumber))
                 }
                 .error { _ in
                     p.signal(StellarError.missingSequence)

@@ -13,7 +13,7 @@ import KinUtil
  `Stellar` provides an API for communicating with Stellar Horizon servers, with an emphasis on
  supporting non-native assets.
  */
-public enum Stellar {
+public class Stellar {
     /**
      Generate a transaction envelope for the given account.
 
