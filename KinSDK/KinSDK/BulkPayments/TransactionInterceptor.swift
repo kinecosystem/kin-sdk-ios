@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol TransactionInterceptor: NSObjectProtocol {
-    func interceptTransactionSending(process: TransactionProcess) throws -> TransactionId
+    func interceptTransactionSending<TxP: TransactionProcess>(process: TxP) throws -> TransactionId
 }

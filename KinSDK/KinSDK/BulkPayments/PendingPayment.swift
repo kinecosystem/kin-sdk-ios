@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class PendingPayment {
     public let destinationPublicAddress: String
     public let sourcePublicAddress: String

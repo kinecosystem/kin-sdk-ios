@@ -138,3 +138,15 @@ class KeyStoreTests: XCTestCase {
     }
 
 }
+
+// MARK: - Reusable
+
+extension KeyStoreTests {
+    static func removeAll() {
+        KeyStore.removeAll()
+
+        if KeyStore.count() > 0 {
+            XCTAssertTrue(false, "Unable to clear existing accounts!")
+        }
+    }
+}

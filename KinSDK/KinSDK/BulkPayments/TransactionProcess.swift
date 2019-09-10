@@ -8,23 +8,21 @@
 
 import Foundation
 
-public class TransactionProcess {
-    let account: StellarAccount
+public protocol TransactionProcess {
+    associatedtype Tx: BaseTransaction
 
-    init(account: StellarAccount) {
-        self.account = account
-    }
+    func transaction() throws -> Tx
+    func sendTransaction(_ transaction: BaseTransaction) throws -> TransactionId
+    func sendWhitelistTransaction(data: Data) throws -> TransactionId
+}
 
-    public func transaction() throws -> BaseTransaction {
-        fatalError("Subclass must implement")
-    }
-
-    public func send(transaction: BaseTransaction) throws -> TransactionId {
+extension TransactionProcess {
+    public func sendTransaction(_ transaction: BaseTransaction) throws -> TransactionId {
         return try send(transactionEnvelope: transaction.envelope())
     }
 
-    public func send(whitelistTransactionData: Data) throws -> TransactionId {
-        guard let data = Data(base64Encoded: whitelistTransactionData) else {
+    public func sendWhitelistTransaction(data: Data) throws -> TransactionId {
+        guard let data = Data(base64Encoded: data) else {
             throw KinError.internalInconsistency
         }
 

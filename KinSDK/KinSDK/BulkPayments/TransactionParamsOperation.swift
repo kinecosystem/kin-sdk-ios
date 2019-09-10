@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TransactionParamsOperation: SendTransactionOperation {
+final class TransactionParamsOperation: SendTransactionOperation<TransactionParamsProcess> {
     let transactionParams: SendTransactionParams
     let account: StellarAccount
 
@@ -22,7 +22,7 @@ class TransactionParamsOperation: SendTransactionOperation {
         name = "Transaction Params Operation"
     }
 
-    override func createTransactionProcess() -> TransactionProcess {
+    override func createTransactionProcess() -> TransactionParamsProcess {
         return TransactionParamsProcess(transactionParams: transactionParams, account: account)
     }
 }

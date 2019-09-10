@@ -10,14 +10,14 @@ import Foundation
 
 class TransactionParamsProcess: TransactionProcess {
     let transactionParams: SendTransactionParams
+    let account: StellarAccount
 
     init(transactionParams: SendTransactionParams, account: StellarAccount) {
         self.transactionParams = transactionParams
-
-        super.init(account: account)
+        self.account = account
     }
 
-    override func transaction() throws -> BaseTransaction {
+    func transaction() throws -> BaseTransaction {
         var result: Result<BaseTransaction, Error> = .failure(KinError.internalInconsistency)
 
         if let operation = transactionParams.operations.first {

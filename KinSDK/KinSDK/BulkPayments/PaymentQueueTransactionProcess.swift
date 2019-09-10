@@ -11,15 +11,15 @@ import Foundation
 public class PaymentQueueTransactionProcess: TransactionProcess {
     public let pendingPayments: [PendingPayment]
     let fee: Quark
+    let account: StellarAccount
 
     init(pendingPayments: [PendingPayment], fee: Quark, account: StellarAccount) {
         self.pendingPayments = pendingPayments
         self.fee = fee
-
-        super.init(account: account)
+        self.account = account
     }
 
-    public override func transaction() throws -> BatchPaymentTransaction {
+    public func transaction() throws -> BatchPaymentTransaction {
         return try transaction(memo: nil)
     }
 

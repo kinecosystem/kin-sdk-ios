@@ -8,16 +8,16 @@
 
 import Foundation
 
-class SendTransactionOperation: AsynchronousOperation {
+class SendTransactionOperation<TxP: TransactionProcess>: AsynchronousOperation {
     var transactionInterceptor: TransactionInterceptor?
-    
+
     var result: Result<TransactionId, Error>? {
         didSet {
             markFinished()
         }
     }
 
-    func createTransactionProcess() -> TransactionProcess {
+    func createTransactionProcess() -> TxP {
         fatalError("Subclass must implement")
     }
 
@@ -38,7 +38,7 @@ class SendTransactionOperation: AsynchronousOperation {
             }
             else {
                 let transaction = try transactionProcess.transaction()
-                transactionId = try transactionProcess.send(transaction: transaction)
+                transactionId = try transactionProcess.sendTransaction(transaction)
             }
 
             result = .success(transactionId)

@@ -20,10 +20,6 @@ class AsynchronousOperation: Foundation.Operation {
         }
     }
 
-    final override public var isAsynchronous: Bool {
-        return true
-    }
-
     final override public var isExecuting: Bool {
         return state == .executing
     }
@@ -34,6 +30,10 @@ class AsynchronousOperation: Foundation.Operation {
 
     final override public var isReady: Bool {
         return state == .ready
+    }
+
+    final override public var isAsynchronous: Bool {
+        return true
     }
 
     final public func markFinished() {
