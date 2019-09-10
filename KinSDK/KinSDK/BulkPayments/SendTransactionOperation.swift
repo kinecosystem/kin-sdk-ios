@@ -27,28 +27,22 @@ class SendTransactionOperation: AsynchronousOperation {
             return
         }
 
-        let transactionProcess = createTransactionProcess()
+        do {
+            let transactionProcess = createTransactionProcess()
+            let transactionId: TransactionId
 
-        if let transactionInterceptor = transactionInterceptor {
-            do {
-                let transactionId = try transactionInterceptor.interceptTransactionSending(process: transactionProcess)
-
-                result = .success(transactionId)
+            if let transactionInterceptor = transactionInterceptor {
+                transactionId = try transactionInterceptor.interceptTransactionSending(process: transactionProcess)
             }
-            catch {
-                result = .failure(error)
-            }
-        }
-        else {
-            do {
+            else {
                 let transaction = try transactionProcess.transaction()
-                let transactionId = try transactionProcess.send(transaction: transaction)
+                transactionId = try transactionProcess.send(transaction: transaction)
+            }
 
-                result = .success(transactionId)
-            }
-            catch {
-                result = .failure(error)
-            }
+            result = .success(transactionId)
+        }
+        catch {
+            result = .failure(error)
         }
     }
 }
