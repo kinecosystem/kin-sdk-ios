@@ -46,7 +46,7 @@ public class PaymentQueue: NSObject {
     }
 
     func enqueueTransactionParams(_ params: SendTransactionParams, completion: @escaping (Result<TransactionId, Error>) -> Void) {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .utility).async {
             let transactionParamsOperation = self.transactionTasksQueueManager.enqueue(transactionParams: params)
 
             transactionParamsOperation.completionBlock = {
@@ -90,7 +90,7 @@ public class PaymentQueue: NSObject {
 
 extension PaymentQueue: PaymentsQueueManagerDelegate {
     func paymentsQueueManager(_ manager: PaymentsQueueManager, dequeueing pendingPayments: [PendingPayment]) {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .utility).async {
             func enqueue() {
                 self.transactionTasksQueueManager.enqueue(pendingPayments: pendingPayments, fee: self.fee, transactionInterceptor: self.transactionInterceptor)
             }

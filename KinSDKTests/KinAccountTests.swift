@@ -446,7 +446,7 @@ extension KinAccountTests {
 }
 
 extension KinAccountTests: TransactionInterceptor {
-    func interceptTransactionSending(process: TransactionProcess) throws -> TransactionId {
+    func interceptTransactionSending<TxP>(process: TxP) throws -> TransactionId where TxP : TransactionProcess {
         return ""
     }
 }

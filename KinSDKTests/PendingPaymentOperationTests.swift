@@ -31,19 +31,19 @@ class PendingPaymentOperationTests: XCTestCase {
     }
 
     func testPendingPaymentWithAmount() {
-//        let expectation = XCTestExpectation()
-//
-//        let pendingPayment = PendingPayment(destinationPublicAddress: account0.publicAddress, sourcePublicAddress: account1.publicAddress, amount: 10)
-//
-//        let operation = PendingPaymentOperation(pendingPayment, account: account0.stellarAccount)
-//        operation.completionBlock = {
-//            // ???: check for failure
-//
-//            expectation.fulfill()
-//        }
-//        operation.start()
-//
-//        wait(for: [expectation], timeout: 5)
+        let expectation = XCTestExpectation()
+
+        let pendingPayment = PendingPayment(destinationPublicAddress: account0.publicAddress, sourcePublicAddress: account1.publicAddress, amount: 10)
+
+        let operation = PendingPaymentsOperation([pendingPayment], fee: 0, account: account0.stellarAccount)
+        operation.completionBlock = {
+            // ???: check for failure
+
+            expectation.fulfill()
+        }
+        operation.start()
+
+        wait(for: [expectation], timeout: 5)
     }
 
     func testPendingPaymentWithZeroAmount() {

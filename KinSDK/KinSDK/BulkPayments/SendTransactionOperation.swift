@@ -8,28 +8,21 @@
 
 import Foundation
 
-class SendTransactionOperation<TxP: TransactionProcess>: AsynchronousOperation {
+class SendTransactionOperation<TxP: TransactionProcess>: Foundation.Operation {
     var transactionInterceptor: TransactionInterceptor?
 
-    var result: Result<TransactionId, Error>? {
-        didSet {
-            markFinished()
-        }
-    }
+    var result: Result<TransactionId, Error>?
 
     func createTransactionProcess() -> TxP {
         fatalError("Subclass must implement")
     }
 
-    override func workItem() {
+    override func main() {
         if isCancelled {
-            markFinished()
             return
         }
 
         do {
-            // ???: seems like an async operation isnt needed anymore. look into removing it
-
             let transactionProcess = createTransactionProcess()
             let transactionId: TransactionId
 

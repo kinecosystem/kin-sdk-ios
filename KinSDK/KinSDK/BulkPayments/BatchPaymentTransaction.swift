@@ -20,7 +20,7 @@ public class BatchPaymentTransaction: BaseTransaction {
             }
         }
 
-        return paymentOperations.count > 1 ? paymentOperations : nil
+        return paymentOperations.count > 0 ? paymentOperations : nil
     }
 
     required init(tryWrapping transaction: Transaction, sourcePublicAddress: String) throws {
