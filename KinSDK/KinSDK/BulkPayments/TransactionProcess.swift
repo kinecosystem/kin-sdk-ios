@@ -20,12 +20,26 @@ public class TransactionProcess {
     }
 
     public func send(transaction: BaseTransaction) throws -> TransactionId {
+        return try send(transactionEnvelope: transaction.envelope())
+    }
+
+    public func send(whitelistTransactionData: Data) throws -> TransactionId {
+        guard let data = Data(base64Encoded: whitelistTransactionData) else {
+            throw KinError.internalInconsistency
+        }
+
+        let transactionEnvelope = try XDRDecoder.decode(Transaction.Envelope.self, data: data)
+
+        return try send(transactionEnvelope: transactionEnvelope)
+    }
+
+    private func send(transactionEnvelope: Transaction.Envelope) throws -> TransactionId {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
 
         var result: Result<TransactionId, Error> = .failure(KinError.internalInconsistency)
 
-        Stellar.postTransaction(envelope: transaction.envelope())
+        Stellar.postTransaction(envelope: transactionEnvelope)
             .then { transactionId -> Void in
                 result = .success(transactionId)
                 dispatchGroup.leave()
@@ -50,8 +64,4 @@ public class TransactionProcess {
             throw error
         }
     }
-
-//    public func send(whitelistTransaction: Data) -> Result<TransactionId, Error> {
-//        return Result!
-//    }
 }
