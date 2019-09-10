@@ -28,6 +28,8 @@ class SendTransactionOperation: AsynchronousOperation {
         }
 
         do {
+            // ???: seems like an async operation isnt needed anymore. look into removing it
+
             let transactionProcess = createTransactionProcess()
             let transactionId: TransactionId
 

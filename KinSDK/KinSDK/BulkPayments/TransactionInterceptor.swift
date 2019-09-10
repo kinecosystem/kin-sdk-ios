@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol TransactionInterceptor {
+public protocol TransactionInterceptor: NSObjectProtocol {
     func interceptTransactionSending(process: TransactionProcess) throws -> TransactionId
 }
