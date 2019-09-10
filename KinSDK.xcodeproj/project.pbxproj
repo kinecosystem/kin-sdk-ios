@@ -85,6 +85,7 @@
 		68F38C112309703C0013DBD1 /* TransactionParamsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C102309703C0013DBD1 /* TransactionParamsOperation.swift */; };
 		68F38C132309704D0013DBD1 /* PendingPaymentsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F38C122309704D0013DBD1 /* PendingPaymentsOperation.swift */; };
 		68FA22EE2324F0A300713600 /* TransactionParamsProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FA22ED2324F0A300713600 /* TransactionParamsProcess.swift */; };
+		68FA22FA23277EC800713600 /* TransactionProcessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FA22F923277EC800713600 /* TransactionProcessTests.swift */; };
 		C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B037F022F76259001F98B8 /* IntegEnvironment.swift */; };
 /* End PBXBuildFile section */
 
@@ -261,6 +262,7 @@
 		68F38C102309703C0013DBD1 /* TransactionParamsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionParamsOperation.swift; sourceTree = "<group>"; };
 		68F38C122309704D0013DBD1 /* PendingPaymentsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPaymentsOperation.swift; sourceTree = "<group>"; };
 		68FA22ED2324F0A300713600 /* TransactionParamsProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionParamsProcess.swift; sourceTree = "<group>"; };
+		68FA22F923277EC800713600 /* TransactionProcessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionProcessTests.swift; sourceTree = "<group>"; };
 		C2B037F022F76259001F98B8 /* IntegEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -496,6 +498,7 @@
 				68F1A6C7230C1BBC00DCADA2 /* AssetTests.swift */,
 				68F1A6CB230E768C00DCADA2 /* TransactionTasksQueueTests.swift */,
 				68414F9F231D35E000FDBEC0 /* AsynchronousOperationTests.swift */,
+				68FA22F923277EC800713600 /* TransactionProcessTests.swift */,
 			);
 			path = KinSDKTests;
 			sourceTree = "<group>";
@@ -823,6 +826,7 @@
 				68319EB522DC62CF00EC2DDF /* XDRTests.swift in Sources */,
 				C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */,
 				68F1A6C8230C1BBC00DCADA2 /* AssetTests.swift in Sources */,
+				68FA22FA23277EC800713600 /* TransactionProcessTests.swift in Sources */,
 				68319EB722DC62CF00EC2DDF /* AppIdTests.swift in Sources */,
 				68414FA0231D35E000FDBEC0 /* AsynchronousOperationTests.swift in Sources */,
 				68319EB622DC62CF00EC2DDF /* KinClientTests.swift in Sources */,

@@ -6,4 +6,11 @@
 //  Copyright © 2019 Kin Foundation. All rights reserved.
 //
 
-import Foundation
+import XCTest
+@testable import KinSDK
+
+class TransactionProcessTests: XCTestCase {
+    func testSendTransaction() {
+        
+    }
+}

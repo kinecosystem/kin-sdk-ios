@@ -80,8 +80,10 @@ public class PaymentQueue: NSObject {
 
     // MARK: Operation Properties
 
-    // ???: should this be weak
-    public var transactionInterceptor: TransactionInterceptor?
+    /**
+     - Note: The delegate functions will be called from a background thread.
+     */
+    weak public var transactionInterceptor: TransactionInterceptor?
 
     public var fee: Quark = 0
 }
@@ -94,7 +96,7 @@ extension PaymentQueue: PaymentsQueueManagerDelegate {
             }
 
             if self.fee == 0 {
-                Stellar.minFee().then { self.fee = $0 }.finally { enqueue() }
+                Stellar.minFee().then({ self.fee = $0 }).finally({ enqueue() })
             }
             else {
                 enqueue()
