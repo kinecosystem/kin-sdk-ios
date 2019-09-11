@@ -29,15 +29,15 @@ public class PaymentWatch {
         return txWatch.eventSource.lastEventId
     }
 
-    init(account: String, cursor: String? = nil) {
-        self.txWatch = Stellar.txWatch(account: account, lastEventId: cursor)
+    init(essentials: Essentials, cursor: String? = nil) {
+        self.txWatch = essentials.stellar.txWatch(account: essentials.stellarAccount.publicKey, lastEventId: cursor)
 
         self.emitter = self.txWatch.emitter
             .filter({ ti in
                 ti.payments.count > 0
             })
             .map({
-                return PaymentInfo(txEvent: $0, account: account)
+                return PaymentInfo(txEvent: $0, account: essentials.stellarAccount.publicKey!)
             })
 
         self.emitter.add(to: linkBag)
@@ -65,10 +65,10 @@ public class BalanceWatch {
     */
     public let emitter: StatefulObserver<Kin>
 
-    init(account: String, balance: Kin? = nil) {
+    init(essentials: Essentials, balance: Kin? = nil) {
         var balance = balance ?? Kin(0)
 
-        self.txWatch = Stellar.txWatch(account: account, lastEventId: "now")
+        self.txWatch = essentials.stellar.txWatch(account: essentials.stellarAccount.publicKey, lastEventId: "now")
 
         self.emitter = txWatch.emitter
             .map({ txEvent in
@@ -79,13 +79,13 @@ public class BalanceWatch {
                             case .LEDGER_ENTRY_CREATED(let le),
                                  .LEDGER_ENTRY_UPDATED(let le):
                                 if case let LedgerEntry.Data.TRUSTLINE(trustlineEntry) = le.data {
-                                    if trustlineEntry.account == account {
+                                    if trustlineEntry.account == essentials.stellarAccount.publicKey {
                                         balance = Kin(trustlineEntry.balance)
                                         return balance
                                     }
                                 }
                                 else if case let LedgerEntry.Data.ACCOUNT(accountEntry) = le.data {
-                                    if accountEntry.accountID.publicKey == account {
+                                    if accountEntry.accountID.publicKey == essentials.stellarAccount.publicKey {
                                         balance = Kin(accountEntry.balance)
                                         return balance
                                     }
@@ -122,8 +122,8 @@ public class CreationWatch {
      */
     public let emitter: Observable<Bool>
 
-    init(account: String) {
-        self.paymentWatch = Stellar.paymentWatch(account: account, lastEventId: nil)
+    init(essentials: Essentials) {
+        self.paymentWatch = essentials.stellar.paymentWatch(account: essentials.stellarAccount.publicKey, lastEventId: nil)
 
         self.emitter = paymentWatch.emitter
             .map({ _ in

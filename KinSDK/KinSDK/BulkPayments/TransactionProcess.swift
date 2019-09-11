@@ -37,21 +37,23 @@ extension TransactionProcess {
 
         var result: Result<TransactionId, Error> = .failure(KinError.internalInconsistency)
 
-        Stellar.postTransaction(envelope: transactionEnvelope)
-            .then { transactionId -> Void in
-                result = .success(transactionId)
-                dispatchGroup.leave()
-            }
-            .error { error in
-                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
-                    result = .failure(KinError.insufficientFunds)
-                }
-                else {
-                    result = .failure(KinError.paymentFailed(error))
-                }
-
-                dispatchGroup.leave()
-        }
+        // TODO: fix path
+        dispatchGroup.leave()
+//        Stellar.postTransaction(envelope: transactionEnvelope)
+//            .then { transactionId -> Void in
+//                result = .success(transactionId)
+//                dispatchGroup.leave()
+//            }
+//            .error { error in
+//                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
+//                    result = .failure(KinError.insufficientFunds)
+//                }
+//                else {
+//                    result = .failure(KinError.paymentFailed(error))
+//                }
+//
+//                dispatchGroup.leave()
+//        }
 
         dispatchGroup.wait()
 

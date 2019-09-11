@@ -10,10 +10,9 @@ import Foundation
 import KinUtil
 
 /**
- `Stellar` provides an API for communicating with Stellar Horizon servers, with an emphasis on
- supporting non-native assets.
+ `StellarProtocol` provides an API for communicating with Stellar Horizon servers.
  */
-public class Stellar {
+protocol StellarProtocol {
     /**
      Generate a transaction envelope for the given account.
 
@@ -25,18 +24,95 @@ public class Stellar {
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    public static func transaction(source: StellarAccount,
-                                   destination: String,
-                                   amount: Kin,
-                                   memo: Memo = .MEMO_NONE,
-                                   fee: Quark) -> Promise<PaymentTransaction> {
+    func transaction(source: StellarAccount, destination: String, amount: Kin, memo: Memo, fee: Quark) -> Promise<PaymentTransaction>
+
+    /**
+     Generate a transaction envelope for the given pending payments.
+
+     - Parameter source: The account from which the payment will be made.
+     - Parameter pendingPayments: The pending payments to add to the transaction.
+     - Parameter memo: A short string placed in the MEMO field of the transaction.
+     - Parameter fee: The fee in `Quark`s used when the transaction is not whitelisted.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
+    func transaction(source: StellarAccount, pendingPayments: [PendingPayment], memo: Memo, fee: Quark) -> Promise<BatchPaymentTransaction>
+
+    func postTransaction(envelope: Transaction.Envelope) -> Promise<TransactionId>
+
+    /**
+     Obtain the balance.
+
+     - parameter account: The `Account` whose balance will be retrieved.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
+    func balance(account: String) -> Promise<Kin>
+
+    func accountData(account: String) -> Promise<AccountData>
+
+    /**
+     Obtain details for the given account.
+
+     - parameter account: The `Account` whose details will be retrieved.
+
+     - Returns: A promise which will be signalled with the result of the operation.
+     */
+    func accountDetails(account: String) -> Promise<AccountDetails>
+
+    /**
+     Observe transactions.  When `account` is non-`nil`, observations are
+     limited to transactions involving the given account.
+
+     - parameter account: The `Account` whose transactions will be observed.  Optional.
+     - parameter lastEventId: If non-`nil`, only transactions with a later event Id will be observed.
+     The string _now_ will only observe transactions completed after observation begins.
+
+     - Returns: An instance of `TxWatch`, which contains an `Observable` which emits `TxInfo` objects.
+     */
+    func txWatch(account: String?, lastEventId: String?) -> EventWatcher<TxEvent>
+
+    /**
+     Observe payments.  When `account` is non-`nil`, observations are
+     limited to payments involving the given account.
+
+     - parameter account: The `Account` whose payments will be observed.  Optional.
+     - parameter lastEventId: If non-`nil`, only payments with a later event Id will be observed.
+     The string _now_ will only observe payments made after observation begins.
+
+     - Returns: An instance of `PaymentWatch`, which contains an `Observable` which emits `PaymentEvent` objects.
+     */
+    func paymentWatch(account: String?, lastEventId: String?) -> EventWatcher<PaymentEvent>
+
+    func sequence(account: String, seqNum: UInt64) -> Promise<UInt64>
+
+    func networkParameters() -> Promise<NetworkParameters>
+
+    func sign(transaction: Transaction, signer: StellarAccount) throws -> Transaction.Envelope
+
+    /**
+     Get the minimum fee for sending a transaction.
+
+     - Returns: The minimum fee needed to send a transaction.
+     */
+    func minFee() -> Promise<Quark>
+
+    func issue(request: URLRequest) -> Promise<Data>
+}
+
+
+
+
+
+class Stellar: StellarProtocol {
+    func transaction(source: StellarAccount, destination: String, amount: Kin, memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<PaymentTransaction> {
         return balance(account: destination)
             .then { _ -> Promise<Transaction> in
                 let op = Operation.payment(destination: destination,
                                            amount: amount,
                                            sourcePublicAddress: source.publicKey)
 
-                return TransactionBuilder(sourcePublicAddress: source.publicKey)
+                return TransactionBuilder(sourcePublicAddress: source.publicKey, stellar: self)
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
@@ -58,22 +134,12 @@ public class Stellar {
             })
     }
 
-    /**
-     Generate a transaction envelope for the given pending payments.
-
-     - Parameter source: The account from which the payment will be made.
-     - Parameter pendingPayments: The pending payments to add to the transaction.
-     - Parameter memo: A short string placed in the MEMO field of the transaction.
-     - Parameter fee: The fee in `Quark`s used when the transaction is not whitelisted.
-
-     - Returns: A promise which will be signalled with the result of the operation.
-     */
-    static func transaction(source: StellarAccount, pendingPayments: [PendingPayment], memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<BatchPaymentTransaction> {
+    func transaction(source: StellarAccount, pendingPayments: [PendingPayment], memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<BatchPaymentTransaction> {
         guard pendingPayments.count > 0 else {
             return Promise(StellarError.missingPayment)
         }
 
-        return TransactionBuilder(sourcePublicAddress: source.publicKey)
+        return TransactionBuilder(sourcePublicAddress: source.publicKey, stellar: self)
             .set(memo: memo)
             .set(fee: fee)
             .add(operations: pendingPayments.map { Operation.payment(pendingPayment: $0) })
@@ -94,147 +160,7 @@ public class Stellar {
             })
     }
 
-    /**
-     Obtain the balance.
-
-     - parameter account: The `Account` whose balance will be retrieved.
-
-     - Returns: A promise which will be signalled with the result of the operation.
-     */
-    public static func balance(account: String) -> Promise<Kin> {
-        return accountDetails(account: account)
-            .then { accountDetails in
-                let p = Promise<Kin>()
-
-                for balance in accountDetails.balances {
-                    if balance.assetType == Asset.native.description {
-                        return p.signal(balance.balanceNum)
-                    }
-                }
-
-                return p.signal(StellarError.missingBalance)
-        }
-    }
-
-    static func accountData(account: String) -> Promise<AccountData> {
-        let url = Endpoint().account(account).url
-
-        return issue(request: URLRequest(url: url))
-            .then { data -> Promise<AccountResponse> in
-                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
-                    if case 400...404 = horizonError.status {
-                        throw StellarError.invalidAccount
-                    }
-                    else {
-                        throw StellarError.unknownError(horizonError)
-                    }
-                }
-
-                return try Promise(JSONDecoder().decode(AccountResponse.self, from: data))
-            }
-            .then { accountResponse in
-                return Promise(AccountData(publicAddress: accountResponse.keyPair,
-                                           sequenceNumber: accountResponse.sequenceNumber,
-                                           pagingToken: accountResponse.pagingToken,
-                                           subentryCount: accountResponse.subentryCount,
-                                           thresholds: accountResponse.thresholds,
-                                           flags: accountResponse.flags,
-                                           balances: accountResponse.balances,
-                                           signers: accountResponse.signers,
-                                           data: accountResponse.data))
-        }
-    }
-
-    /**
-     Obtain details for the given account.
-
-     - parameter account: The `Account` whose details will be retrieved.
-
-     - Returns: A promise which will be signalled with the result of the operation.
-     */
-    public static func accountDetails(account: String) -> Promise<AccountDetails> {
-        let url = Endpoint().account(account).url
-
-        return issue(request: URLRequest(url: url))
-            .then { data in
-                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
-                    if horizonError.status == 404 {
-                        throw StellarError.missingAccount
-                    }
-                    else {
-                        throw StellarError.unknownError(horizonError)
-                    }
-                }
-
-                return try Promise<AccountDetails>(JSONDecoder().decode(AccountDetails.self, from: data))
-        }
-    }
-
-    /**
-     Observe transactions.  When `account` is non-`nil`, observations are
-     limited to transactions involving the given account.
-
-     - parameter account: The `Account` whose transactions will be observed.  Optional.
-     - parameter lastEventId: If non-`nil`, only transactions with a later event Id will be observed.
-     The string _now_ will only observe transactions completed after observation begins.
-
-     - Returns: An instance of `TxWatch`, which contains an `Observable` which emits `TxInfo` objects.
-     */
-    public static func txWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<TxEvent> {
-        let url = Endpoint().account(account).transactions().cursor(lastEventId).url
-
-        return EventWatcher(eventSource: StellarEventSource(url: url))
-    }
-
-    /**
-     Observe payments.  When `account` is non-`nil`, observations are
-     limited to payments involving the given account.
-
-     - parameter account: The `Account` whose payments will be observed.  Optional.
-     - parameter lastEventId: If non-`nil`, only payments with a later event Id will be observed.
-     The string _now_ will only observe payments made after observation begins.
-
-     - Returns: An instance of `PaymentWatch`, which contains an `Observable` which emits `PaymentEvent` objects.
-     */
-    public static func paymentWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<PaymentEvent> {
-        let url = Endpoint().account(account).payments().cursor(lastEventId).url
-
-        return EventWatcher(eventSource: StellarEventSource(url: url))
-    }
-
-    //MARK: -
-
-    public static func sequence(account: String, seqNum: UInt64 = 0) -> Promise<UInt64> {
-        if seqNum > 0 {
-            return Promise().signal(seqNum)
-        }
-
-        return accountDetails(account: account)
-            .then { accountDetails in
-                return Promise<UInt64>().signal(accountDetails.seqNum + 1)
-        }
-    }
-
-    public static func networkParameters() -> Promise<NetworkParameters> {
-        let url = Endpoint().ledgers().order(.descending).limit(1).url
-
-        return issue(request: URLRequest(url: url))
-            .then { data in
-                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
-                    throw StellarError.unknownError(horizonError)
-                }
-
-                return try Promise(JSONDecoder().decode(NetworkParameters.self, from: data))
-        }
-    }
-
-    public static func sign(transaction: Transaction, signer: StellarAccount) throws -> Transaction.Envelope {
-        var transaction = transaction
-        try transaction.sign(account: signer)
-        return transaction.envelope()
-    }
-
-    public static func postTransaction(envelope: Transaction.Envelope) -> Promise<TransactionId> {
+    func postTransaction(envelope: Transaction.Envelope) -> Promise<TransactionId> {
         let envelopeData: Data
         do {
             envelopeData = try Data(XDREncoder.encode(envelope))
@@ -275,26 +201,125 @@ public class Stellar {
         }
     }
 
+    func balance(account: String) -> Promise<Kin> {
+        return accountDetails(account: account)
+            .then { accountDetails in
+                let p = Promise<Kin>()
+
+                for balance in accountDetails.balances {
+                    if balance.assetType == Asset.native.description {
+                        return p.signal(balance.balanceNum)
+                    }
+                }
+
+                return p.signal(StellarError.missingBalance)
+        }
+    }
+
+    func accountData(account: String) -> Promise<AccountData> {
+        let url = Endpoint().account(account).url
+
+        return issue(request: URLRequest(url: url))
+            .then { data -> Promise<AccountResponse> in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    if case 400...404 = horizonError.status {
+                        throw StellarError.invalidAccount
+                    }
+                    else {
+                        throw StellarError.unknownError(horizonError)
+                    }
+                }
+
+                return try Promise(JSONDecoder().decode(AccountResponse.self, from: data))
+            }
+            .then { accountResponse in
+                return Promise(AccountData(publicAddress: accountResponse.keyPair,
+                                           sequenceNumber: accountResponse.sequenceNumber,
+                                           pagingToken: accountResponse.pagingToken,
+                                           subentryCount: accountResponse.subentryCount,
+                                           thresholds: accountResponse.thresholds,
+                                           flags: accountResponse.flags,
+                                           balances: accountResponse.balances,
+                                           signers: accountResponse.signers,
+                                           data: accountResponse.data))
+        }
+    }
+
+    func accountDetails(account: String) -> Promise<AccountDetails> {
+        let url = Endpoint().account(account).url
+
+        return issue(request: URLRequest(url: url))
+            .then { data in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    if horizonError.status == 404 {
+                        throw StellarError.missingAccount
+                    }
+                    else {
+                        throw StellarError.unknownError(horizonError)
+                    }
+                }
+
+                return try Promise<AccountDetails>(JSONDecoder().decode(AccountDetails.self, from: data))
+        }
+    }
+
+    func txWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<TxEvent> {
+        let url = Endpoint().account(account).transactions().cursor(lastEventId).url
+
+        return EventWatcher(eventSource: StellarEventSource(url: url))
+    }
+
+    func paymentWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<PaymentEvent> {
+        let url = Endpoint().account(account).payments().cursor(lastEventId).url
+
+        return EventWatcher(eventSource: StellarEventSource(url: url))
+    }
+
+    func sequence(account: String, seqNum: UInt64 = 0) -> Promise<UInt64> {
+        if seqNum > 0 {
+            return Promise().signal(seqNum)
+        }
+
+        return accountDetails(account: account)
+            .then { accountDetails in
+                return Promise<UInt64>().signal(accountDetails.seqNum + 1)
+        }
+    }
+
+    func networkParameters() -> Promise<NetworkParameters> {
+        let url = Endpoint().ledgers().order(.descending).limit(1).url
+
+        return issue(request: URLRequest(url: url))
+            .then { data in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    throw StellarError.unknownError(horizonError)
+                }
+
+                return try Promise(JSONDecoder().decode(NetworkParameters.self, from: data))
+        }
+    }
+
+    func sign(transaction: Transaction, signer: StellarAccount) throws -> Transaction.Envelope {
+        var transaction = transaction
+        try transaction.sign(account: signer)
+        return transaction.envelope()
+    }
+
     /**
      Cached minimum fee.
      */
-    private static var _minFee: Quark?
+    private var _minFee: Quark?
 
-    /**
-     Get the minimum fee for sending a transaction.
-
-     - Returns: The minimum fee needed to send a transaction.
-     */
-    public static func minFee() -> Promise<Quark> {
+    func minFee() -> Promise<Quark> {
         let promise = Promise<Quark>()
 
         if let minFee = _minFee {
             promise.signal(minFee)
         }
         else {
-            Stellar.networkParameters()
-                .then { networkParameters in
-                    _minFee = networkParameters.baseFee
+            networkParameters()
+                .then { [weak self] networkParameters in
+                    self?._minFee = networkParameters.baseFee
                     promise.signal(networkParameters.baseFee)
                 }
                 .error { error in
@@ -305,7 +330,7 @@ public class Stellar {
         return promise
     }
 
-    static func issue(request: URLRequest) -> Promise<Data> {
+    func issue(request: URLRequest) -> Promise<Data> {
         let p = Promise<Data>()
 
         URLSession

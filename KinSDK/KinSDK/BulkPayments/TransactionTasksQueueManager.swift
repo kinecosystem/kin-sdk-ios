@@ -18,10 +18,10 @@ class TransactionTasksQueueManager {
         return queue
     }()
 
-    let account: StellarAccount
+    let essentials: Essentials
 
-    init(account: StellarAccount) {
-        self.account = account
+    init(essentials: Essentials) {
+        self.essentials = essentials
     }
 
     // MARK: Inspecting
@@ -92,14 +92,14 @@ class TransactionTasksQueueManager {
         }
 
         arrayOfPendingPayments.forEach { pendingPayments in
-            let operation = PendingPaymentsOperation(pendingPayments, fee: fee, account: account)
+            let operation = PendingPaymentsOperation(pendingPayments, fee: fee, essentials: essentials)
             operation.transactionInterceptor = transactionInterceptor
             tasksQueue.addOperation(operation)
         }
     }
 
     func enqueue(transactionParams: SendTransactionParams) -> TransactionParamsOperation {
-        let operation = TransactionParamsOperation(transactionParams, account: account)
+        let operation = TransactionParamsOperation(transactionParams, essentials: essentials)
         tasksQueue.addOperation(operation)
         return operation
     }

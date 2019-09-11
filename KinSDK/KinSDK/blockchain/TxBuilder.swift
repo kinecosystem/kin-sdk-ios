@@ -10,15 +10,18 @@ import Foundation
 import KinUtil
 
 final class TransactionBuilder {
-    private var sourcePublicAddress: String?
+    private let sourcePublicAddress: String?
+    // TODO: Stellar creates a TransactionBuilder which then uses Stellar. Fix this pattern.
+    private let stellar: StellarProtocol
     private var memo: Memo?
     private var fee: Quark?
     private var timeBounds: TimeBounds?
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
 
-    init(sourcePublicAddress: String?) {
+    init(sourcePublicAddress: String?, stellar: StellarProtocol) {
         self.sourcePublicAddress = sourcePublicAddress
+        self.stellar = stellar
     }
 
     @discardableResult
@@ -87,7 +90,7 @@ final class TransactionBuilder {
             p.signal(createTransaction(sequenceNumber: sequence, fee: fee))
         }
         else {
-            Stellar.sequence(account: sourcePublicAddress, seqNum: sequence)
+            stellar.sequence(account: sourcePublicAddress, seqNum: sequence)
                 .then { sequenceNumber in
                     p.signal(createTransaction(sequenceNumber: sequenceNumber))
                 }

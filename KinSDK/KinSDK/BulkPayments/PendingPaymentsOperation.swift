@@ -11,21 +11,22 @@ import Foundation
 final class PendingPaymentsOperation: SendTransactionOperation<PaymentQueueTransactionProcess> {
     private(set) var pendingPayments: [PendingPayment]
     let fee: Quark
-    let account: StellarAccount
+    let essentials: Essentials
 
-    init(_ pendingPayments: [PendingPayment], fee: Quark, account: StellarAccount) {
+    init(_ pendingPayments: [PendingPayment], fee: Quark, essentials: Essentials) {
         self.pendingPayments = pendingPayments
         self.fee = fee
-        self.account = account
+        self.essentials = essentials
 
         super.init()
 
+        // TODO: test priority
         queuePriority = .normal
         name = "Pending Payments Operation"
     }
 
     override func createTransactionProcess() -> PaymentQueueTransactionProcess {
-        return PaymentQueueTransactionProcess(pendingPayments: pendingPayments, fee: fee, account: account)
+        return PaymentQueueTransactionProcess(pendingPayments: pendingPayments, fee: fee, essentials: essentials)
     }
 
     // TODO: needs tests
