@@ -28,7 +28,27 @@
 		68AF929922A9202E008C01EC /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF929222A9202E008C01EC /* UIKitExtensions.swift */; };
 		68AF929A22A9202E008C01EC /* KinSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF929322A9202E008C01EC /* KinSampleViewController.swift */; };
 		68AF929B22A9202E008C01EC /* HelperExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AF929422A9202E008C01EC /* HelperExtensions.swift */; };
+		E03448352328EF3E00E1D89F /* KinUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E03448342328EF3E00E1D89F /* KinUtil.framework */; };
+		E03448372328EF3E00E1D89F /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E03448362328EF3E00E1D89F /* Sodium.framework */; };
+		E03448392328EF5600E1D89F /* KinUtil.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E03448342328EF3E00E1D89F /* KinUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E034483A2328EF5600E1D89F /* Sodium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E03448362328EF3E00E1D89F /* Sodium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E034483B2328EF5600E1D89F /* KinSDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6831A0E322DC9CFF00EC2DDF /* KinSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E03448382328EF4300E1D89F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E03448392328EF5600E1D89F /* KinUtil.framework in CopyFiles */,
+				E034483A2328EF5600E1D89F /* Sodium.framework in CopyFiles */,
+				E034483B2328EF5600E1D89F /* KinSDK.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6831A0E322DC9CFF00EC2DDF /* KinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +74,8 @@
 		68AF929222A9202E008C01EC /* UIKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		68AF929322A9202E008C01EC /* KinSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinSampleViewController.swift; sourceTree = "<group>"; };
 		68AF929422A9202E008C01EC /* HelperExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperExtensions.swift; sourceTree = "<group>"; };
+		E03448342328EF3E00E1D89F /* KinUtil.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KinUtil.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E03448362328EF3E00E1D89F /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +83,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E03448352328EF3E00E1D89F /* KinUtil.framework in Frameworks */,
+				E03448372328EF3E00E1D89F /* Sodium.framework in Frameworks */,
 				6831A0E422DC9CFF00EC2DDF /* KinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,6 +148,8 @@
 		E409E564CDA8FEC8E941AD24 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E03448342328EF3E00E1D89F /* KinUtil.framework */,
+				E03448362328EF3E00E1D89F /* Sodium.framework */,
 				6831A0E322DC9CFF00EC2DDF /* KinSDK.framework */,
 			);
 			name = Frameworks;
@@ -136,6 +162,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 68AF925322A91515008C01EC /* Build configuration list for PBXNativeTarget "KinSDKSampleApp" */;
 			buildPhases = (
+				E03448382328EF4300E1D89F /* CopyFiles */,
 				68AF923D22A91515008C01EC /* Sources */,
 				68AF923E22A91515008C01EC /* Frameworks */,
 				68AF923F22A91515008C01EC /* Resources */,
