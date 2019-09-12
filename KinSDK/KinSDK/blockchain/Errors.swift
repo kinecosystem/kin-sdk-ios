@@ -12,11 +12,11 @@ public enum StellarError: Error {
     case memoTooLong (Any?)
     case missingAccount
     case invalidAccount
-    case missingPublicKey
     case missingHash
     case missingSequence
     case missingBalance
     case missingSignClosure
+    case missingPayment
     case urlEncodingFailed
     case dataEncodingFailed
     case dataDencodingFailed

@@ -18,38 +18,16 @@ class KinAccountTests: XCTestCase {
     var account1: KinAccount!
     var issuer: StellarAccount?
 
-    let endpoint = IntegEnvironment.networkUrl
-    lazy var kNetwork: Network = .custom(IntegEnvironment.networkPassphrase)
-
     let requestTimeout: TimeInterval = 30
 
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
 
-        guard let appId = try? AppId("test") else {
-            XCTAssertTrue(false, "Unable to create app id")
-            return
-        }
+        kinClient = KinClientTests.createKinClient()
 
-        kinClient = KinClient(with: URL(string: endpoint)!, network: kNetwork, appId: appId)
-
-        KeyStore.removeAll()
-
-        if KeyStore.count() > 0 {
-            XCTAssertTrue(false, "Unable to clear existing accounts!")
-        }
-
-        guard let account0 = try? kinClient.addAccount(), let account1 = try? kinClient.addAccount() else {
-            XCTAssertTrue(false, "Unable to create account(s)!")
-            return
-        }
-
-        self.account0 = account0
-        self.account1 = account1
-
-        createAccountAndFund(kinAccount: account0, amount: 100)
-        createAccountAndFund(kinAccount: account1, amount: 100)
+        account0 = KinAccountTests.createAccount(kinClient: kinClient)
+        account1 = KinAccountTests.createAccount(kinClient: kinClient)
     }
 
     override func tearDown() {
@@ -79,7 +57,7 @@ class KinAccountTests: XCTestCase {
             XCTAssertNotEqual(balance, 0)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -101,7 +79,7 @@ class KinAccountTests: XCTestCase {
             XCTAssertNotEqual(balanceChecked, 0)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -126,7 +104,7 @@ class KinAccountTests: XCTestCase {
             XCTAssertNotEqual(balanceChecked, 0)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -182,7 +160,7 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -210,7 +188,7 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -238,7 +216,7 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout * 2)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -268,9 +246,36 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
+
+    // MARK: - Transaction
+
+//    func testSendTransaction() {
+//        do {
+//            let expectation = XCTestExpectation()
+//
+//            let transactionParams = try SendTransactionParams.createSendPaymentParams(publicAddress: account1.publicAddress, amount: 10, fee: 0)
+//
+//            print("||| start")
+//            account0.sendTransaction(transactionParams, interceptor: self) { result in
+//                print("||| result")
+//                switch result {
+//                case .success(let transactionId):
+//                    XCTAssertNotNil(transactionId, "Expected a transaction id when completing.")
+//
+//                case .failure(let error):
+//                    self.fail(on: error)
+//                }
+//            }
+//
+//            wait(for: [expectation], timeout: requestTimeout)
+//        }
+//        catch {
+//            self.fail(on: error)
+//        }
+//    }
 
     // MARK: - Deleting Account
 
@@ -322,7 +327,7 @@ class KinAccountTests: XCTestCase {
             wait(for: [expectation], timeout: requestTimeout)
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 
@@ -335,33 +340,12 @@ class KinAccountTests: XCTestCase {
             XCTAssertNotNil(data, "Unable to retrieve keyStore account: \(String(describing: account0))")
         }
         catch {
-            XCTAssertTrue(false, "Something went wrong: \(error)")
+            self.fail(on: error)
         }
     }
 }
 
 extension KinAccountTests {
-    func createAccountAndFund(kinAccount: KinAccount, amount: Kin) {
-        let group = DispatchGroup()
-        group.enter()
-
-        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(kinAccount.publicAddress)&amount=\(amount)")!
-        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-            guard
-                let data = data,
-                let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
-                let _ = jsonOpt as? [String: Any]
-                else {
-                    print("Unable to parse json for createAccount().")
-
-                    group.leave()
-                    return
-            }
-            group.leave()
-        }).resume()
-        group.wait()
-    }
-
     func getBalance(_ account: KinAccount) throws -> Kin {
         if let balance: Decimal = try serialize(account.balance) {
             return balance
@@ -406,7 +390,7 @@ extension KinAccountTests {
                 balance = try self.getBalance(account)
             }
             catch {
-                XCTAssertTrue(false, "Something went wrong: \(error)")
+                self.fail(on: error)
             }
 
             return balance > 0
@@ -458,5 +442,49 @@ extension KinAccountTests {
         if let error = error {
             XCTAssertTrue(false, "Something went wrong: \(error)")
         }
+    }
+}
+
+extension KinAccountTests: TransactionInterceptor {
+    func interceptTransactionSending<TxP>(process: TxP) throws -> TransactionId where TxP : TransactionProcess {
+        return ""
+    }
+}
+
+// MARK: - Reusable
+
+extension KinAccountTests {
+    static func createAccount(kinClient: KinClient, amount: Kin = 100) -> KinAccount {
+        guard let account = try? kinClient.addAccount() else {
+            XCTAssertTrue(false, "Unable to create account")
+            fatalError()
+        }
+
+        KinAccountTests.createAccountAndFund(publicAddress: account.publicAddress, amount: amount)
+
+        return account
+    }
+
+    static func createAccountAndFund(publicAddress: String, amount: Kin) {
+        let group = DispatchGroup()
+        group.enter()
+
+        let url = URL(string: "\(IntegEnvironment.friendbotUrl)?addr=\(publicAddress)&amount=\(amount)")!
+
+        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+            guard let data = data,
+                let jsonOpt = try? JSONSerialization.jsonObject(with: data, options: []),
+                let _ = jsonOpt as? [String: Any]
+                else {
+                    print("Unable to parse json for createAccount().")
+
+                    group.leave()
+                    return
+            }
+
+            group.leave()
+        }).resume()
+
+        group.wait()
     }
 }

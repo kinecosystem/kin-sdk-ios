@@ -11,16 +11,11 @@ import XCTest
 
 class KinClientTests: XCTestCase {
     var kinClient: KinClient!
+    
     override func setUp() {
         super.setUp()
 
-        guard let appId = try? AppId("test") else {
-            XCTAssertTrue(false, "Unable to create app id")
-            return
-        }
-
-        kinClient = KinClient(with: URL(string: "http://localhost:8000")!, network: .testNet, appId: appId)
-
+        kinClient = KinClientTests.createKinClient()
     }
 
     override func tearDown() {
@@ -74,4 +69,19 @@ class KinClientTests: XCTestCase {
         }
     }
 
+}
+
+// MARK: - Reusable
+
+extension KinClientTests {
+    static func createKinClient() -> KinClient {
+        let url = URL(string: IntegEnvironment.networkUrl)!
+        let network: Network = .custom(id: IntegEnvironment.networkPassphrase, url: url)
+
+        defer {
+            KeyStoreTests.removeAll()
+        }
+
+        return KinClient(network: network, appId: AppIdTests.createAppId())
+    }
 }

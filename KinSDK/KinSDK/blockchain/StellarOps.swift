@@ -10,42 +10,43 @@ import Foundation
 
 extension Operation {
     public static func createAccount(destination: String,
-                                     balance: Int64,
-                                     source: Account? = nil) -> Operation {
+                                     balance: Kin,
+                                     sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 
         var sourcePK: PublicKey? = nil
-        if let source = source, let pk = source.publicKey {
-            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: pk)))
+        if let sourcePublicAddress = sourcePublicAddress {
+            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
         }
 
-        return Operation(sourceAccount: sourcePK,
-                         body: Operation.Body.CREATE_ACCOUNT(CreateAccountOp(destination: destPK,
-                                                                             balance: balance)))
+        let account = CreateAccountOp(destination: destPK, balance: balance.toQuarkAsBlockchainUnit())
+
+        return Operation(sourceAccount: sourcePK, body: Operation.Body.CREATE_ACCOUNT(account))
     }
     
     public static func payment(destination: String,
-                               amount: Int64,
-                               asset: Asset,
-                               source: Account? = nil) -> Operation {
+                               amount: Kin,
+                               sourcePublicAddress: String? = nil) -> Operation {
         let destPK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: destination)))
 
         var sourcePK: PublicKey? = nil
-        if let source = source, let pk = source.publicKey {
-            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: pk)))
+        if let sourcePublicAddress = sourcePublicAddress {
+            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
         }
 
-        return Operation(sourceAccount: sourcePK,
-                         body: Operation.Body.PAYMENT(PaymentOp(destination: destPK,
-                                                                asset: asset,
-                                                                amount: amount)))
+        let payment = PaymentOp(destination: destPK, asset: .native, amount: amount.toQuarkAsBlockchainUnit())
 
+        return Operation(sourceAccount: sourcePK, body: Operation.Body.PAYMENT(payment))
     }
 
-    public static func manageData(key: String, value: Data?, source: Account? = nil) -> Operation {
+    static func payment(pendingPayment: PendingPayment) -> Operation {
+        return payment(destination: pendingPayment.destinationPublicAddress, amount: pendingPayment.amount, sourcePublicAddress: pendingPayment.sourcePublicAddress)
+    }
+
+    public static func manageData(key: String, value: Data?, sourcePublicAddress: String? = nil) -> Operation {
         var sourcePK: PublicKey? = nil
-        if let source = source, let pk = source.publicKey {
-            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: pk)))
+        if let sourcePublicAddress = sourcePublicAddress {
+            sourcePK = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
         }
 
         return Operation(sourceAccount: sourcePK,

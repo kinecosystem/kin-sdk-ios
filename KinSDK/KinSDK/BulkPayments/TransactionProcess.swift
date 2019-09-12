@@ -9,23 +9,59 @@
 import Foundation
 
 public class TransactionProcess {
-    var transaction: Transaction {
-        return nil!
+    let stellar: StellarProtocol
+
+    init(stellar: StellarProtocol) {
+        self.stellar = stellar
     }
 
-    func transaction(memo: String) -> Transaction {
-        return nil!
+    public func transaction() throws -> BaseTransaction {
+        fatalError("Subclass must implement")
     }
 
-    var payments: [PaymentQueue.PendingPayment] {
-        return []
+    public func sendTransaction(_ transaction: BaseTransaction) throws -> TransactionId {
+        return try send(transactionEnvelope: transaction.envelope())
     }
 
-    func send(transaction: Transaction) -> TransactionId {
-        return ""
+    public func sendWhitelistTransaction(data: Data) throws -> TransactionId {
+        guard let data = Data(base64Encoded: data) else {
+            throw KinError.internalInconsistency
+        }
+
+        let transactionEnvelope = try XDRDecoder.decode(Transaction.Envelope.self, data: data)
+
+        return try send(transactionEnvelope: transactionEnvelope)
     }
 
-    func send(whitelistPayload: String) -> TransactionId {
-        return ""
+    private func send(transactionEnvelope: Transaction.Envelope) throws -> TransactionId {
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        var result: Result<TransactionId, Error> = .failure(KinError.internalInconsistency)
+
+        stellar.postTransaction(envelope: transactionEnvelope)
+            .then { transactionId -> Void in
+                result = .success(transactionId)
+                dispatchGroup.leave()
+            }
+            .error { error in
+                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
+                    result = .failure(KinError.insufficientFunds)
+                }
+                else {
+                    result = .failure(KinError.paymentFailed(error))
+                }
+
+                dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+
+        switch result {
+        case .success(let transactionId):
+            return transactionId
+        case .failure(let error):
+            throw error
+        }
     }
 }

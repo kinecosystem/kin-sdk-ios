@@ -9,8 +9,11 @@
 import Foundation
 
 class TransactionFactory {
-    static func wrapping(transaction: Transaction) -> BaseTransaction {
-        if let transaction = try? PaymentTransaction(tryWrapping: transaction) {
+    static func wrapping(transaction: Transaction, sourcePublicAddress: String) -> BaseTransaction {
+        if let transaction = try? BatchPaymentTransaction(tryWrapping: transaction, sourcePublicAddress: sourcePublicAddress) {
+            return transaction
+        }
+        else if let transaction = try? PaymentTransaction(tryWrapping: transaction) {
             return transaction
         }
         else {

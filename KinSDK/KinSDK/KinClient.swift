@@ -13,48 +13,30 @@ import Foundation
  */
 public final class KinClient {
     /**
-     Convenience initializer to instantiate a `KinClient` with a `ServiceProvider`.
+     Instantiates a `KinClient` with a `Network` and an `AppId`.
 
-     - Parameter provider: The `ServiceProvider` instance that provides the `URL` and `Network`.
-     - Parameter appId: The `AppId` of the host application.
-     */
-    public convenience init(provider: ServiceProvider, appId: AppId) {
-        self.init(with: provider.url, network: provider.network, appId: appId)
-    }
-
-    /**
-     Instantiates a `KinClient` with a `URL` and a `Network`.
-
-     - Parameter nodeProviderUrl: The `URL` of the node this client will communicate to.
      - Parameter network: The `Network` to be used.
      - Parameter appId: The `AppId` of the host application.
      */
-    public init(with nodeProviderUrl: URL, network: Network, appId: AppId) {
-        self.node = Stellar.Node(baseURL: nodeProviderUrl, network: network)
+    public init(network: Network, appId: AppId) {
+        Network.current = network
 
-        self.accounts = KinAccounts(node: node, appId: appId)
-
-        self.network = network
+        self.accounts = KinAccounts(stellar: stellar, appId: appId)
     }
 
-    /**
-     The `URL` of the node this client communicates to.
-     */
-    public var url: URL {
-        return node.baseURL
-    }
+    let stellar = Stellar()
 
     /**
      The list of `KinAccount` objects this client is managing.
      */
     public private(set) var accounts: KinAccounts
 
-    internal let node: Stellar.Node
-
     /**
      The `Network` of the network which this client communicates to.
      */
-    public let network: Network
+    public var network: Network {
+        return Network.current
+    }
 
     /**
      Adds an account associated to this client, and returns it.
@@ -76,9 +58,8 @@ public final class KinClient {
      Deletes the account at the given index. This method is a no-op if there is no account at
      that index.
 
-     If this is an action triggered by the user, make sure you let the him know that any funds owned
-     by the account will be lost if it hasn't been backed up. See
-     `exportKeyStore(passphrase:exportPassphrase:)`.
+     If this is an action triggered by the user, make sure you let him know that any funds owned
+     by the account will be lost if it hasn't been backed up.
 
      - parameter index: The index of the account to delete.
 
@@ -110,9 +91,7 @@ public final class KinClient {
 
         let accountData = try JSONDecoder().decode(StellarAccount.KeychainData.self, from: data)
 
-        try KeyStore.importAccount(accountData,
-                                   passphrase: passphrase,
-                                   newPassphrase: "")
+        try KeyStore.importAccount(accountData, passphrase: passphrase)
 
         guard let account = accounts.last else {
             throw KinError.internalInconsistency
@@ -131,34 +110,25 @@ public final class KinClient {
 
         accounts.flushCache()
     }
-
-    /**
-     Cached minimum fee.
-     */
-    private var _minFee: Quark?
-
+    
     /**
      Get the minimum fee for sending a transaction.
 
      - Returns: The minimum fee needed to send a transaction.
      */
     public func minFee() -> Promise<Quark> {
-        let promise = Promise<Quark>()
+        return stellar.minFee()
+    }
+}
 
-        if let minFee = _minFee {
-            promise.signal(minFee)
-        }
-        else {
-            Stellar.minFee(node: node)
-                .then { [weak self] fee in
-                    self?._minFee = fee
-                    promise.signal(fee)
-                }
-                .error { error in
-                    promise.signal(error)
-            }
-        }
+// MARK: - Deprecated
 
-        return promise
+extension KinClient {
+    /**
+     The `URL` of the node this client communicates to.
+     */
+    @available(*, deprecated, renamed: "network.url")
+    public var url: URL {
+        return Network.current.url
     }
 }

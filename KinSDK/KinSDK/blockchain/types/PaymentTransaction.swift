@@ -20,11 +20,7 @@ public class PaymentTransaction: BaseTransaction {
             }
         }
 
-        if paymentOperations.count == 1 {
-            return paymentOperations.first
-        }
-        
-        return nil
+        return paymentOperations.count == 1 ? paymentOperations.first : nil
     }
 
     required init(tryWrapping transaction: Transaction) throws {
@@ -36,9 +32,9 @@ public class PaymentTransaction: BaseTransaction {
 
         super.init(wrapping: transaction)
     }
-
-    public var amount: Int64 {
-        return operation.amount
+    
+    public var amount: Kin {
+        return Kin(operation.amount)
     }
 
     public var destinationPublicAddress: String {

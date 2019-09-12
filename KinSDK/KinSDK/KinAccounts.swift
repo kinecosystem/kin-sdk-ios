@@ -14,9 +14,13 @@ import Foundation
 public final class KinAccounts {
     private var cache = [Int: KinAccount]()
     private let cacheLock = NSLock()
-
-    private let node: Stellar.Node
+    private let stellar: StellarProtocol
     private let appId: AppId
+
+    init(stellar: StellarProtocol, appId: AppId) {
+        self.stellar = stellar
+        self.appId = appId
+    }
 
     /**
      Number of `KinAccount` objects.
@@ -47,7 +51,7 @@ public final class KinAccounts {
             self.cacheLock.unlock()
         }
 
-        let account = createKinAccount(stellarAccount: try KeyStore.newAccount(passphrase: ""))
+        let account = createKinAccount(stellarAccount: try KeyStore.newAccount())
 
         cache[count - 1] = account
 
@@ -92,7 +96,7 @@ public final class KinAccounts {
 
     private func account(at index: Int) -> KinAccount? {
         return cache[index] ?? {
-            if index < self.count, let stellarAccount = KeyStore.account(at: index) {
+            if index < self.count, let stellarAccount = try? KeyStore.account(at: index) {
                 let kinAccount = createKinAccount(stellarAccount: stellarAccount)
 
                 cache[index] = kinAccount
@@ -101,16 +105,11 @@ public final class KinAccounts {
             }
 
             return nil
-            }()
-    }
-
-    init(node: Stellar.Node, appId: AppId) {
-        self.node = node
-        self.appId = appId
+        }()
     }
 
     private func createKinAccount(stellarAccount: StellarAccount) -> KinAccount {
-        return KinAccount(stellarAccount: stellarAccount, node: node, appId: appId)
+        return KinAccount(stellar: stellar, stellarAccount: stellarAccount, appId: appId)
     }
 
     func flushCache() {

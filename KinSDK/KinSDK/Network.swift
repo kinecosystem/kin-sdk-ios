@@ -28,12 +28,14 @@ public enum Network {
     case playground
 
     /**
-     A network with a custom identifier.
+     A network with a custom identifier and url.
      */
-    case custom(String)
+    case custom(id: String, url: URL)
 }
 
 extension Network {
+    static var current: Network = .testNet
+    
     public typealias Id = String
 
     fileprivate enum CodingKeys: String, CodingKey {
@@ -41,6 +43,11 @@ extension Network {
         case testNet
         case playground
         case custom
+    }
+
+    fileprivate struct CustomParams: Codable {
+        let id: String
+        let url: URL
     }
 
     /**
@@ -54,8 +61,24 @@ extension Network {
             return "Kin Testnet ; December 2018"
         case .playground:
             return ""
-        case .custom(let id):
+        case .custom(let id, _):
             return id
+        }
+    }
+
+    /**
+     The `URL` of the block chain node.
+     */
+    public var url: URL {
+        switch self {
+        case .mainNet:
+            return URL(string: "https://horizon.kininfrastructure.com")!
+        case .testNet:
+            return URL(string: "https://horizon-testnet.kininfrastructure.com")!
+        case .playground:
+            return URL(string: "https://horizon-testnet.kininfrastructure.com")!
+        case .custom(_, let url):
+            return url
         }
     }
 }
@@ -73,8 +96,8 @@ extension Network: Decodable {
         else if let _ = try? container.decode(String.self, forKey: .playground) {
             self = .playground
         }
-        else if let id = try? container.decode(String.self, forKey: .custom) {
-            self = .custom(id)
+        else if let params = try? container.decode(CustomParams.self, forKey: .custom) {
+            self = .custom(id: params.id, url: params.url)
         }
         else {
             throw StellarError.dataDencodingFailed
@@ -106,8 +129,8 @@ extension Network: Encodable {
             try container.encode(self.description, forKey: .testNet)
         case .playground:
             try container.encode(self.description, forKey: .playground)
-        case .custom(let id):
-            try container.encode(id, forKey: .custom)
+        case .custom(let id, let url):
+            try container.encode(CustomParams(id: id, url: url), forKey: .custom)
         }
     }
 }

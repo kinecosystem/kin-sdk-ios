@@ -10,7 +10,6 @@ import XCTest
 @testable import KinSDK
 
 class AppIdTests: XCTestCase {
-
     func test_app_id_not_valid() {
         XCTAssertThrowsError(try AppId(""))
         XCTAssertThrowsError(try AppId("a"))
@@ -30,5 +29,17 @@ class AppIdTests: XCTestCase {
         XCTAssertNoThrow(try AppId("aaaA"))
         XCTAssertNoThrow(try AppId("aaa1"))
     }
+}
 
+// MARK: - Reusable
+
+extension AppIdTests {
+    static func createAppId() -> AppId {
+        guard let appId = try? AppId("test") else {
+            XCTAssertTrue(false, "Unable to create app id")
+            fatalError()
+        }
+
+        return appId
+    }
 }

@@ -9,83 +9,98 @@
 import Foundation
 
 public protocol PaymentQueueDelegate: NSObjectProtocol {
-    func paymentEnqueued(pendingPayment: PaymentQueue.PendingPayment)
-    func transactionSend(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment])
-    func transactionSendSuccess(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment])
-    func transactionSendFailed(transaction: BatchPaymentTransaction, payments: [PaymentQueue.PendingPayment], error: Error)
+    func paymentEnqueued(pendingPayment: PendingPayment)
+    func transactionSend(transaction: BatchPaymentTransaction, payments: [PendingPayment])
+    func transactionSendSuccess(transaction: BatchPaymentTransaction, payments: [PendingPayment])
+    func transactionSendFailed(transaction: BatchPaymentTransaction, payments: [PendingPayment], error: Error)
 }
 
-public class PaymentQueue {
-    public weak var delegate: PaymentQueue?
+public class PaymentQueue: NSObject {
+    public weak var delegate: PaymentQueueDelegate?
 
-    public func enqueuePayment(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) throws {
+    let stellar: StellarProtocol
+    let stellarAccount: StellarAccount
 
+    private let paymentsQueueManager = PaymentsQueueManager()
+    private lazy var transactionTasksQueueManager: TransactionTasksQueueManager = {
+        return TransactionTasksQueueManager(stellar: stellar, stellarAccount: stellarAccount)
+    }()
+
+    init(stellar: StellarProtocol, stellarAccount: StellarAccount) {
+        self.stellar = stellar
+        self.stellarAccount = stellarAccount
+
+        super.init()
+
+        paymentsQueueManager.delegate = self
     }
 
-    public func setTransactionInterceptor(_ interceptor: TransactionInterceptor) {
+    // MARK: Enqueuing
 
+    public func enqueuePayment(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) throws -> PendingPayment {
+        let pendingPayment = PendingPayment(destinationPublicAddress: publicAddress, sourcePublicAddress: stellarAccount.publicAddress, amount: amount, metadata: metadata)
+
+        paymentsQueueManager.enqueue(pendingPayment: pendingPayment)
+
+        return pendingPayment
     }
 
-    public var fee: Int = 0 {
-        didSet {
+    func enqueueTransactionParams(_ params: SendTransactionParams, completion: @escaping (Result<TransactionId, Error>) -> Void) {
+        DispatchQueue.global(qos: .utility).async {
+            let transactionParamsOperation = self.transactionTasksQueueManager.enqueue(transactionParams: params)
 
+            transactionParamsOperation.completionBlock = {
+                DispatchQueue.main.async {
+                    if transactionParamsOperation.isCancelled {
+                        completion(.failure(KinError.transactionOperationCancelled))
+                        return
+                    }
+
+                    guard let result = transactionParamsOperation.result else {
+                        // This should never happen.
+                        completion(.failure(KinError.internalInconsistency))
+                        return
+                    }
+
+                    completion(result)
+                }
+            }
         }
     }
 
-    public var status: Status {
-        return Status()
+    // MARK: Inspecting
+
+    public var transactionInProgress: Bool {
+        return transactionTasksQueueManager.inProgress
     }
+
+    public var pendingPaymentsCount: Int {
+        return paymentsQueueManager.operationsCount
+    }
+
+    // MARK: Operation Properties
+
+    /**
+     - Note: The delegate functions will be called from a background thread.
+     */
+    weak public var transactionInterceptor: TransactionInterceptor?
+
+    public var fee: Quark = 0
 }
 
-extension PaymentQueue {
-    public class Status {
-        public var transactionInProgress: Bool {
-            return false
-        }
+extension PaymentQueue: PaymentsQueueManagerDelegate {
+    func paymentsQueueManager(_ manager: PaymentsQueueManager, dequeueing pendingPayments: [PendingPayment]) {
+        DispatchQueue.global(qos: .utility).async {
+            func enqueue() {
+                self.transactionTasksQueueManager.enqueue(pendingPayments: pendingPayments, fee: self.fee, transactionInterceptor: self.transactionInterceptor)
+            }
 
-        public var pendingPaymentsCount: Int {
-            return 0
+            if self.fee == 0 {
+                self.stellar.minFee().then({ self.fee = $0 }).finally({ enqueue() })
+            }
+            else {
+                enqueue()
+            }
         }
-    }
-}
-
-extension PaymentQueue {
-    // ???: change to struct
-    public class PendingPayment {
-        public var destinationPublicKey: String {
-            return ""
-        }
-
-        public var sourcePublicKey: String {
-            return ""
-        }
-
-        public var amount: Kin {
-            return 0
-        }
-
-        public var operationIndex: Int {
-            return 0
-        }
-
-        public func transaction() -> BatchPaymentTransaction {
-            return nil!
-        }
-
-        public var metaData: Any {
-            return {}
-        }
-
-        public var status: Status {
-            return .pending
-        }
-    }
-}
-
-extension PaymentQueue.PendingPayment {
-    public enum Status {
-        case pending
-        case completed
-        case failed
     }
 }

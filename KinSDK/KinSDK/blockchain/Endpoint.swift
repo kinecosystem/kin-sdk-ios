@@ -27,7 +27,7 @@ struct Endpoint: EndpointProtocol {
     let base: URL
     let params: [String: Any]
 
-    init(_ base: URL) {
+    init(_ base: URL = Network.current.url) {
         self.base = base
         params = [:]
     }

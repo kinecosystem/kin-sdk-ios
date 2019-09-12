@@ -29,15 +29,15 @@ public class PaymentWatch {
         return txWatch.eventSource.lastEventId
     }
 
-    init(node: Stellar.Node, account: String, cursor: String? = nil) {
-        self.txWatch = Stellar.txWatch(account: account, lastEventId: cursor, node: node)
+    init(cursor: String? = nil, stellar: StellarProtocol, stellarAccount: StellarAccount) {
+        self.txWatch = stellar.txWatch(publicAddress: stellarAccount.publicAddress, lastEventId: cursor)
 
         self.emitter = self.txWatch.emitter
             .filter({ ti in
                 ti.payments.count > 0
             })
             .map({
-                return PaymentInfo(txEvent: $0, account: account)
+                return PaymentInfo(txEvent: $0, account: stellarAccount.publicAddress)
             })
 
         self.emitter.add(to: linkBag)
@@ -65,10 +65,10 @@ public class BalanceWatch {
     */
     public let emitter: StatefulObserver<Kin>
 
-    init(node: Stellar.Node, account: String, balance: Kin? = nil) {
-        var balance = balance ?? Decimal(0)
+    init(balance: Kin? = nil, stellar: StellarProtocol, stellarAccount: StellarAccount) {
+        var balance = balance ?? Kin(0)
 
-        self.txWatch = Stellar.txWatch(account: account, lastEventId: "now", node: node)
+        self.txWatch = stellar.txWatch(publicAddress: stellarAccount.publicAddress, lastEventId: "now")
 
         self.emitter = txWatch.emitter
             .map({ txEvent in
@@ -79,14 +79,14 @@ public class BalanceWatch {
                             case .LEDGER_ENTRY_CREATED(let le),
                                  .LEDGER_ENTRY_UPDATED(let le):
                                 if case let LedgerEntry.Data.TRUSTLINE(trustlineEntry) = le.data {
-                                    if trustlineEntry.account == account {
-                                        balance = Decimal(Double(trustlineEntry.balance) / Double(AssetUnitDivisor))
+                                    if trustlineEntry.account == stellarAccount.publicAddress {
+                                        balance = Kin(trustlineEntry.balance)
                                         return balance
                                     }
                                 }
                                 else if case let LedgerEntry.Data.ACCOUNT(accountEntry) = le.data {
-                                    if accountEntry.accountID.publicKey == account {
-                                        balance = Decimal(Double(accountEntry.balance) / Double(AssetUnitDivisor))
+                                    if accountEntry.accountID.publicKey == stellarAccount.publicAddress {
+                                        balance = Kin(accountEntry.balance)
                                         return balance
                                     }
                                 }
@@ -122,8 +122,8 @@ public class CreationWatch {
      */
     public let emitter: Observable<Bool>
 
-    init(node: Stellar.Node, account: String) {
-        self.paymentWatch = Stellar.paymentWatch(account: account, lastEventId: nil, node: node)
+    init(stellar: StellarProtocol, stellarAccount: StellarAccount) {
+        self.paymentWatch = stellar.paymentWatch(publicAddress: stellarAccount.publicAddress, lastEventId: nil)
 
         self.emitter = paymentWatch.emitter
             .map({ _ in

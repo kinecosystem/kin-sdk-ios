@@ -24,7 +24,8 @@ extension SendTransactionParams {
             m = try Memo(memo)
         }
 
-//        Operation(sourceAccount: publicAddress, body: .PAYMENT(<#T##PaymentOp#>))
-        return SendTransactionParams(operations: [], fee: fee, memo: m)
+        let operation = Operation.payment(destination: publicAddress, amount: amount)
+        
+        return SendTransactionParams(operations: [operation], fee: fee, memo: m)
     }
 }

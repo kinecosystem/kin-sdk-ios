@@ -10,21 +10,6 @@ import Foundation
 import KinUtil
 
 /**
- A protocol to encapsulate the formation of the endpoint `URL` and the `Network`.
- */
-public protocol ServiceProvider {
-    /**
-     The `URL` of the block chain node.
-     */
-    var url: URL { get }
-
-    /**
-     The `Network` to be used.
-     */
-    var network: Network { get }
-}
-
-/**
  Type for `Transaction` identifier.
  */
 public typealias TransactionId = String
@@ -62,21 +47,6 @@ public enum AccountStatus: Int {
      */
     case created
 }
-
-internal let AssetUnitDivisor: UInt64 = 100_000
-
-/**
- Kin is the native currency of the network.
- */
-public typealias Kin = Decimal
-
-/**
- Quark is the smallest amount unit. It is one-hundred-thousandth of a Kin: `1/100000` or `0.00001`.
- */
-public typealias Quark = UInt32
-
-@available(*, deprecated, renamed: "Quark")
-public typealias Stroop = Quark
 
 /**
  `PaymentInfo` wraps all information related to a payment transaction.
@@ -126,6 +96,7 @@ public struct PaymentInfo {
      Amount in `Kin` of the payment
      */
     public var amount: Kin {
+        // ???: the amount should be quark going into kin and not kin into kin
         if let amount = txEvent.payments.first?.amount {
             return amount / Decimal(AssetUnitDivisor)
         }

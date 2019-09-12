@@ -9,6 +9,7 @@
 import XCTest
 @testable import KinSDK
 
+// TODO: rename to URLKinVersionTests
 class URLKinVersion: XCTestCase {
 
     let url = URL(string: "http://kin.org")!

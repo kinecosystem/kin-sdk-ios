@@ -9,101 +9,83 @@
 import Foundation
 import KinUtil
 
-@available(*, deprecated, renamed: "TransactionBuilder")
-public class TxBuilder: TransactionBuilder {
-
-}
-
-// TODO: uncomment final after removing TxBuilder
-public /*final*/ class TransactionBuilder {
-    private var source: Account
+final class TransactionBuilder {
+    private let sourcePublicAddress: String
+    // TODO: Stellar creates a TransactionBuilder which then uses Stellar. Fix this pattern.
+    private let stellar: StellarProtocol
     private var memo: Memo?
     private var fee: Quark?
     private var timeBounds: TimeBounds?
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
 
-    private var node: Stellar.Node
-
-    init(source: Account, node: Stellar.Node) {
-        self.source = source
-        self.node = node
+    init(sourcePublicAddress: String, stellar: StellarProtocol) {
+        self.sourcePublicAddress = sourcePublicAddress
+        self.stellar = stellar
     }
 
-    public func set(memo: Memo) -> TransactionBuilder {
+    @discardableResult
+    func set(memo: Memo) -> TransactionBuilder {
         self.memo = memo
 
         return self
     }
 
-    public func set(fee: Quark) -> TransactionBuilder {
+    @discardableResult
+    func set(fee: Quark) -> TransactionBuilder {
         self.fee = fee
 
         return self
     }
 
-    public func set(timeBounds: TimeBounds) -> TransactionBuilder {
+    @discardableResult
+    func set(timeBounds: TimeBounds) -> TransactionBuilder {
         self.timeBounds = timeBounds
 
         return self
     }
 
-    public func set(sequence: UInt64) -> TransactionBuilder {
+    @discardableResult
+    func set(sequence: UInt64) -> TransactionBuilder {
         self.sequence = sequence
 
         return self
     }
 
-    public func add(operation: Operation) -> TransactionBuilder {
+    @discardableResult
+    func add(operation: Operation) -> TransactionBuilder {
         operations.append(operation)
 
         return self
     }
 
-    public func add(operations: [Operation]) -> TransactionBuilder {
+    @discardableResult
+    func add(operations: [Operation]) -> TransactionBuilder {
         self.operations += operations
 
         return self
     }
 
-    @available(*, deprecated, renamed: "build")
-    public func tx() -> Promise<BaseTransaction> {
-        return build()
-    }
+    func build() -> Promise<Transaction> {
+        let p = Promise<Transaction>()
+        let pk = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
 
-    public func build() -> Promise<BaseTransaction> {
-        let p = Promise<BaseTransaction>()
-
-        guard let sourceKey = source.publicKey else {
-            p.signal(StellarError.missingPublicKey)
-
-            return p
+        func createTransaction(sequenceNumber: UInt64, fee: Quark? = nil) -> Transaction {
+            return Transaction(sourceAccount: pk,
+                               seqNum: sequenceNumber,
+                               timeBounds: timeBounds,
+                               memo: memo ?? .MEMO_NONE,
+                               fee: fee,
+                               operations: operations)
         }
-
-        let pk = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourceKey)))
 
         if sequence > 0 {
-            let transaction = Transaction(sourceAccount: pk,
-                                          seqNum: sequence,
-                                          timeBounds: timeBounds,
-                                          memo: memo ?? .MEMO_NONE,
-                                          fee: fee,
-                                          operations: operations)
-
-
-
-            p.signal(transaction.wrapper())
+            p.signal(createTransaction(sequenceNumber: sequence, fee: fee))
         }
         else {
-            Stellar.sequence(account: sourceKey, seqNum: sequence, node: node)
+            stellar.sequence(publicAddress: sourcePublicAddress, seqNum: sequence)
                 .then { sequenceNumber in
-                    let transaction = Transaction(sourceAccount: pk,
-                                                  seqNum: sequenceNumber,
-                                                  timeBounds: self.timeBounds,
-                                                  memo: self.memo ?? .MEMO_NONE,
-                                                  operations: self.operations)
-
-                    p.signal(transaction.wrapper())
+                    p.signal(createTransaction(sequenceNumber: sequenceNumber))
                 }
                 .error { _ in
                     p.signal(StellarError.missingSequence)
