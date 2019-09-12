@@ -87,6 +87,7 @@
 		68FA22FA23277EC800713600 /* TransactionProcessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FA22F923277EC800713600 /* TransactionProcessTests.swift */; };
 		68FA23092327D0BB00713600 /* KinEssentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FA23082327D0BB00713600 /* KinEssentials.swift */; };
 		68FA230D232A61AB00713600 /* StellarProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FA230C232A61AB00713600 /* StellarProtocol.swift */; };
+		68FA230F232A706700713600 /* KinAccountProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FA230E232A706700713600 /* KinAccountProtocol.swift */; };
 		C2B037F122F76259001F98B8 /* IntegEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B037F022F76259001F98B8 /* IntegEnvironment.swift */; };
 /* End PBXBuildFile section */
 
@@ -265,6 +266,7 @@
 		68FA22F923277EC800713600 /* TransactionProcessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionProcessTests.swift; sourceTree = "<group>"; };
 		68FA23082327D0BB00713600 /* KinEssentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinEssentials.swift; sourceTree = "<group>"; };
 		68FA230C232A61AB00713600 /* StellarProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarProtocol.swift; sourceTree = "<group>"; };
+		68FA230E232A706700713600 /* KinAccountProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinAccountProtocol.swift; sourceTree = "<group>"; };
 		C2B037F022F76259001F98B8 /* IntegEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -307,6 +309,7 @@
 				68319E8822DC62AA00EC2DDF /* KinClient.swift */,
 				68319E8722DC62AA00EC2DDF /* KinAccounts.swift */,
 				68319E6522DC62AA00EC2DDF /* KinAccount.swift */,
+				68FA230E232A706700713600 /* KinAccountProtocol.swift */,
 				68319E6622DC62AA00EC2DDF /* Watchers.swift */,
 				6844DE4F22E9C1D700D0CF87 /* Responses */,
 				68319E6722DC62AA00EC2DDF /* Utilities */,
@@ -764,6 +767,7 @@
 				6863167323018FF100C71132 /* SendTransactionParams.swift in Sources */,
 				68319E9922DC62AA00EC2DDF /* BaseTransaction.swift in Sources */,
 				68319EAB22DC62AA00EC2DDF /* KinAccounts.swift in Sources */,
+				68FA230F232A706700713600 /* KinAccountProtocol.swift in Sources */,
 				68319E9722DC62AA00EC2DDF /* Ledger.swift in Sources */,
 				68319EA122DC62AA00EC2DDF /* BCKeyUtils.swift in Sources */,
 				68319EA522DC62AA00EC2DDF /* StellarEventSource.swift in Sources */,
