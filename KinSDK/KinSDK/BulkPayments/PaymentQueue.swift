@@ -38,7 +38,7 @@ public class PaymentQueue: NSObject {
     // MARK: Enqueuing
 
     public func enqueuePayment(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) throws -> PendingPayment {
-        let pendingPayment = PendingPayment(destinationPublicAddress: publicAddress, sourcePublicAddress: stellarAccount.publicKey!, amount: amount, metadata: metadata)
+        let pendingPayment = PendingPayment(destinationPublicAddress: publicAddress, sourcePublicAddress: stellarAccount.publicAddress, amount: amount, metadata: metadata)
 
         paymentsQueueManager.enqueue(pendingPayment: pendingPayment)
 

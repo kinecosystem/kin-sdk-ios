@@ -12,7 +12,6 @@ public enum StellarError: Error {
     case memoTooLong (Any?)
     case missingAccount
     case invalidAccount
-    case missingPublicKey
     case missingHash
     case missingSequence
     case missingBalance

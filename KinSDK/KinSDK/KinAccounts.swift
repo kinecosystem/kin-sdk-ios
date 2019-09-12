@@ -96,7 +96,7 @@ public final class KinAccounts {
 
     private func account(at index: Int) -> KinAccount? {
         return cache[index] ?? {
-            if index < self.count, let stellarAccount = KeyStore.account(at: index) {
+            if index < self.count, let stellarAccount = try? KeyStore.account(at: index) {
                 let kinAccount = createKinAccount(stellarAccount: stellarAccount)
 
                 cache[index] = kinAccount
@@ -105,7 +105,7 @@ public final class KinAccounts {
             }
 
             return nil
-            }()
+        }()
     }
 
     private func createKinAccount(stellarAccount: StellarAccount) -> KinAccount {

@@ -15,9 +15,9 @@ class Stellar: StellarProtocol {
             .then { _ -> Promise<Transaction> in
                 let op = Operation.payment(destination: destinationPublicAddess,
                                            amount: amount,
-                                           sourcePublicAddress: sourceStellarAccount.publicKey)
+                                           sourcePublicAddress: sourceStellarAccount.publicAddress)
 
-                return TransactionBuilder(sourcePublicAddress: sourceStellarAccount.publicKey, stellar: self)
+                return TransactionBuilder(sourcePublicAddress: sourceStellarAccount.publicAddress, stellar: self)
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
@@ -44,13 +44,13 @@ class Stellar: StellarProtocol {
             return Promise(StellarError.missingPayment)
         }
 
-        return TransactionBuilder(sourcePublicAddress: sourceStellarAccount.publicKey, stellar: self)
+        return TransactionBuilder(sourcePublicAddress: sourceStellarAccount.publicAddress, stellar: self)
             .set(memo: memo)
             .set(fee: fee)
             .add(operations: pendingPayments.map { Operation.payment(pendingPayment: $0) })
             .build()
             .then { transaction -> Promise<BatchPaymentTransaction> in
-                let batchPaymentTransaction = try BatchPaymentTransaction(tryWrapping: transaction, sourcePublicAddress: sourceStellarAccount.publicKey!)
+                let batchPaymentTransaction = try BatchPaymentTransaction(tryWrapping: transaction, sourcePublicAddress: sourceStellarAccount.publicAddress)
                 try batchPaymentTransaction.addSignature(account: sourceStellarAccount)
 
                 return Promise(batchPaymentTransaction)

@@ -12,7 +12,7 @@ import XCTest
 class PendingPaymentOperationTests: XCTestCase {
     let stellar = Stellar()
     var kinClient: KinClient!
-    var account0: KinAccount! 
+    var account0: KinAccount!
     var account1: KinAccount!
 
     override func setUp() {

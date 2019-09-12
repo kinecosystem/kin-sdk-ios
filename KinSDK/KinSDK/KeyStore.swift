@@ -21,14 +21,7 @@ enum KeyStoreErrors: Error {
 
 public class StellarAccount {
     fileprivate let storageKey: String
-
-    public var publicKey: String? {
-        guard let accountData = try? accountData() else {
-            return nil
-        }
-
-        return accountData.pkey
-    }
+    public let publicAddress: String
 
     public func extra() throws -> Data? {
         return try accountData().extra
@@ -54,16 +47,21 @@ public class StellarAccount {
         return keypair.secretKey
     }
 
-    init(storageKey: String) {
+    init(storageKey: String) throws {
         self.storageKey = storageKey
+        self.publicAddress = try StellarAccount.accountData(storageKey: storageKey).pkey
     }
 
-    fileprivate func accountData() throws -> KeychainData {
+    fileprivate static func accountData(storageKey: String) throws -> KeychainData {
         guard let data = KeychainStorage.retrieve(storageKey) else {
             throw KeyStoreErrors.loadFailed
         }
 
         return try JSONDecoder().decode(KeychainData.self, from: data)
+    }
+
+    fileprivate func accountData() throws -> KeychainData {
+        return try StellarAccount.accountData(storageKey: storageKey)
     }
 
     private func seed() -> [UInt8]? {
@@ -94,13 +92,13 @@ public struct KeyStore {
 
         try save(accountData: try accountData(), key: storageKey)
 
-        let account = StellarAccount(storageKey: storageKey)
+        let account = try StellarAccount(storageKey: storageKey)
 
         return account
     }
 
-    public static func account(at index: Int) -> StellarAccount? {
-        return KeychainStorage.account(at: index)
+    public static func account(at index: Int) throws -> StellarAccount? {
+        return try KeychainStorage.account(at: index)
     }
 
     // TODO: make function to get StellarAccount by publicAddress
@@ -136,7 +134,7 @@ public struct KeyStore {
 
         try save(accountData: try accountData(seed: seedData), key: storageKey)
 
-        let account = StellarAccount(storageKey: storageKey)
+        let account = try StellarAccount(storageKey: storageKey)
 
         return account
     }
@@ -249,14 +247,14 @@ private struct KeychainStorage {
         }
     }
 
-    static func account(at index: Int) -> StellarAccount? {
+    static func account(at index: Int) throws -> StellarAccount? {
         let keys = self.keys
 
         guard index < keys.count, let indexStr = removePrefix(keys[index]) else {
             return nil
         }
 
-        return StellarAccount(storageKey: String(indexStr))
+        return try StellarAccount(storageKey: String(indexStr))
     }
 
     static func retrieve(_ key: String) -> Data? {

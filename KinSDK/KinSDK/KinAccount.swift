@@ -25,7 +25,7 @@ public final class KinAccount {
      manually to someone, or if you want to display the public address, use this property.
      */
     public var publicAddress: String {
-        return stellarAccount.publicKey!
+        return stellarAccount.publicAddress
     }
 
     var extra: Data? {

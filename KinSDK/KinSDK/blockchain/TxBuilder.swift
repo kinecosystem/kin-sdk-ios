@@ -10,7 +10,7 @@ import Foundation
 import KinUtil
 
 final class TransactionBuilder {
-    private let sourcePublicAddress: String?
+    private let sourcePublicAddress: String
     // TODO: Stellar creates a TransactionBuilder which then uses Stellar. Fix this pattern.
     private let stellar: StellarProtocol
     private var memo: Memo?
@@ -19,7 +19,7 @@ final class TransactionBuilder {
     private var sequence: UInt64 = 0
     private var operations = [Operation]()
 
-    init(sourcePublicAddress: String?, stellar: StellarProtocol) {
+    init(sourcePublicAddress: String, stellar: StellarProtocol) {
         self.sourcePublicAddress = sourcePublicAddress
         self.stellar = stellar
     }
@@ -68,13 +68,6 @@ final class TransactionBuilder {
 
     func build() -> Promise<Transaction> {
         let p = Promise<Transaction>()
-
-        guard let sourcePublicAddress = sourcePublicAddress else {
-            p.signal(StellarError.missingPublicKey)
-
-            return p
-        }
-
         let pk = PublicKey.PUBLIC_KEY_TYPE_ED25519(WD32(BCKeyUtils.key(base32: sourcePublicAddress)))
 
         func createTransaction(sequenceNumber: UInt64, fee: Quark? = nil) -> Transaction {

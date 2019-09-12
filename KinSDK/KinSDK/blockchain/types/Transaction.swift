@@ -297,12 +297,8 @@ public struct Transaction: XDRCodable {
     }
 
     public mutating func sign(account: StellarAccount) throws {
-        guard let publicKey = account.publicKey else {
-            throw StellarError.missingPublicKey
-        }
-
         let message = Array(try hash())
-        let hint = WrappedData4(BCKeyUtils.key(base32: publicKey).suffix(4))
+        let hint = WrappedData4(BCKeyUtils.key(base32: account.publicAddress).suffix(4))
         let signature = try account.sign(message: message)
 
         signatures.append(DecoratedSignature(hint: hint, signature: signature))
