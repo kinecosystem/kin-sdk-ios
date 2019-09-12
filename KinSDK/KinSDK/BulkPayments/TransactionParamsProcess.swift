@@ -15,9 +15,11 @@ class TransactionParamsProcess: TransactionProcess {
     init(transactionParams: SendTransactionParams, essentials: Essentials) {
         self.transactionParams = transactionParams
         self.essentials = essentials
+
+        super.init(stellar: essentials.stellar)
     }
 
-    func transaction() throws -> BaseTransaction {
+    override func transaction() throws -> BaseTransaction {
         var result: Result<BaseTransaction, Error> = .failure(KinError.internalInconsistency)
 
         if let operation = transactionParams.operations.first {

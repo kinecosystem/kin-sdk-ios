@@ -17,9 +17,11 @@ public class PaymentQueueTransactionProcess: TransactionProcess {
         self.pendingPayments = pendingPayments
         self.fee = fee
         self.essentials = essentials
+
+        super.init(stellar: essentials.stellar)
     }
 
-    public func transaction() throws -> BatchPaymentTransaction {
+    public override func transaction() throws -> BatchPaymentTransaction {
         return try transaction(memo: nil)
     }
 

@@ -8,15 +8,23 @@
 
 import Foundation
 
-public protocol TransactionProcess {
-    associatedtype Tx: BaseTransaction
+public class TransactionProcess {
+//    associatedtype Tx: BaseTransaction
+//
+//    func transaction() throws -> Tx
+//    func sendTransaction(_ transaction: BaseTransaction) throws -> TransactionId
+//    func sendWhitelistTransaction(data: Data) throws -> TransactionId
 
-    func transaction() throws -> Tx
-    func sendTransaction(_ transaction: BaseTransaction) throws -> TransactionId
-    func sendWhitelistTransaction(data: Data) throws -> TransactionId
-}
+    let stellar: StellarProtocol
 
-extension TransactionProcess {
+    init(stellar: StellarProtocol) {
+        self.stellar = stellar
+    }
+
+    public func transaction() throws -> BaseTransaction {
+        fatalError("Subclass must implement")
+    }
+
     public func sendTransaction(_ transaction: BaseTransaction) throws -> TransactionId {
         return try send(transactionEnvelope: transaction.envelope())
     }
@@ -37,23 +45,21 @@ extension TransactionProcess {
 
         var result: Result<TransactionId, Error> = .failure(KinError.internalInconsistency)
 
-        // TODO: fix path
-        dispatchGroup.leave()
-//        Stellar.postTransaction(envelope: transactionEnvelope)
-//            .then { transactionId -> Void in
-//                result = .success(transactionId)
-//                dispatchGroup.leave()
-//            }
-//            .error { error in
-//                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
-//                    result = .failure(KinError.insufficientFunds)
-//                }
-//                else {
-//                    result = .failure(KinError.paymentFailed(error))
-//                }
-//
-//                dispatchGroup.leave()
-//        }
+        stellar.postTransaction(envelope: transactionEnvelope)
+            .then { transactionId -> Void in
+                result = .success(transactionId)
+                dispatchGroup.leave()
+            }
+            .error { error in
+                if let error = error as? PaymentError, error == .PAYMENT_UNDERFUNDED {
+                    result = .failure(KinError.insufficientFunds)
+                }
+                else {
+                    result = .failure(KinError.paymentFailed(error))
+                }
+
+                dispatchGroup.leave()
+        }
 
         dispatchGroup.wait()
 

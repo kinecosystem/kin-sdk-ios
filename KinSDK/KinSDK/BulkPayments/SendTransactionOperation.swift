@@ -8,12 +8,12 @@
 
 import Foundation
 
-class SendTransactionOperation<TxP: TransactionProcess>: Foundation.Operation {
+class SendTransactionOperation: Foundation.Operation {
     var transactionInterceptor: TransactionInterceptor?
 
     var result: Result<TransactionId, Error>?
 
-    func createTransactionProcess() -> TxP {
+    func createTransactionProcess() -> TransactionProcess {
         fatalError("Subclass must implement")
     }
 

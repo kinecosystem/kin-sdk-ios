@@ -438,7 +438,6 @@
 				6863165B22F0724E00C71132 /* PaymentQueue.swift */,
 				6863167223018FF100C71132 /* SendTransactionParams.swift */,
 				6863167E2302628A00C71132 /* TransactionInterceptor.swift */,
-				686316802302D0B200C71132 /* TransactionProcess.swift */,
 				686316822303C0D500C71132 /* BatchPaymentTransaction.swift */,
 				686316842303DF9A00C71132 /* PaymentOperation.swift */,
 				68F38BFE23053C880013DBD1 /* PaymentsQueueManager.swift */,
@@ -447,6 +446,7 @@
 				68F38C102309703C0013DBD1 /* TransactionParamsOperation.swift */,
 				68F38C122309704D0013DBD1 /* PendingPaymentsOperation.swift */,
 				68F1A6C9230E6A5900DCADA2 /* SendTransactionOperation.swift */,
+				686316802302D0B200C71132 /* TransactionProcess.swift */,
 				68EB194923210EFC00A93C32 /* PaymentQueueTransactionProcess.swift */,
 				68FA22ED2324F0A300713600 /* TransactionParamsProcess.swift */,
 			);

@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class PendingPaymentsOperation: SendTransactionOperation<PaymentQueueTransactionProcess> {
+final class PendingPaymentsOperation: SendTransactionOperation {
     private(set) var pendingPayments: [PendingPayment]
     let fee: Quark
     let essentials: Essentials
@@ -25,7 +25,7 @@ final class PendingPaymentsOperation: SendTransactionOperation<PaymentQueueTrans
         name = "Pending Payments Operation"
     }
 
-    override func createTransactionProcess() -> PaymentQueueTransactionProcess {
+    override func createTransactionProcess() -> TransactionProcess {
         return PaymentQueueTransactionProcess(pendingPayments: pendingPayments, fee: fee, essentials: essentials)
     }
 
