@@ -12,11 +12,13 @@ final class PendingPaymentsOperation: SendTransactionOperation {
     private(set) var pendingPayments: [PendingPayment]
     let fee: Quark
     let stellar: StellarProtocol
+    let stellarAccount: StellarAccount
 
-    init(_ pendingPayments: [PendingPayment], fee: Quark, stellar: StellarProtocol) {
+    init(_ pendingPayments: [PendingPayment], fee: Quark, stellar: StellarProtocol, stellarAccount: StellarAccount) {
         self.pendingPayments = pendingPayments
         self.fee = fee
         self.stellar = stellar
+        self.stellarAccount = stellarAccount
 
         super.init()
 
@@ -26,7 +28,7 @@ final class PendingPaymentsOperation: SendTransactionOperation {
     }
 
     override func createTransactionProcess() -> TransactionProcess {
-        return PaymentQueueTransactionProcess(pendingPayments: pendingPayments, fee: fee, stellar: stellar)
+        return PaymentQueueTransactionProcess(pendingPayments: pendingPayments, fee: fee, stellar: stellar, stellarAccount: stellarAccount)
     }
 
     // TODO: needs tests

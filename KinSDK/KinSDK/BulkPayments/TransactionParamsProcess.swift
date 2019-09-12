@@ -10,9 +10,11 @@ import Foundation
 
 class TransactionParamsProcess: TransactionProcess {
     let transactionParams: SendTransactionParams
+    let stellarAccount: StellarAccount
 
-    init(transactionParams: SendTransactionParams, stellar: StellarProtocol) {
+    init(transactionParams: SendTransactionParams, stellar: StellarProtocol, stellarAccount: StellarAccount) {
         self.transactionParams = transactionParams
+        self.stellarAccount = stellarAccount
 
         super.init(stellar: stellar)
     }
@@ -28,7 +30,11 @@ class TransactionParamsProcess: TransactionProcess {
 
                 let memo: Memo = transactionParams.memo ?? .MEMO_NONE
 
-                stellar.transaction(source: stellar.stellarAccount, destination: paymentOp.destination.publicKey, amount: Kin(paymentOp.amount), memo: memo, fee: transactionParams.fee)
+                stellar.transaction(sourceStellarAccount: stellarAccount,
+                                    destinationPublicAddess: paymentOp.destination.publicKey,
+                                    amount: Kin(paymentOp.amount),
+                                    memo: memo,
+                                    fee: transactionParams.fee)
                     .then { baseTransaction in
                         result = .success(baseTransaction)
                         dispatchGroup.leave()

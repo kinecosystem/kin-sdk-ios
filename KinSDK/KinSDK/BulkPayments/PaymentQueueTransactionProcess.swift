@@ -11,10 +11,12 @@ import Foundation
 public class PaymentQueueTransactionProcess: TransactionProcess {
     public let pendingPayments: [PendingPayment]
     let fee: Quark
+    let stellarAccount: StellarAccount
 
-    init(pendingPayments: [PendingPayment], fee: Quark, stellar: StellarProtocol) {
+    init(pendingPayments: [PendingPayment], fee: Quark, stellar: StellarProtocol, stellarAccount: StellarAccount) {
         self.pendingPayments = pendingPayments
         self.fee = fee
+        self.stellarAccount = stellarAccount
 
         super.init(stellar: stellar)
     }
@@ -35,7 +37,7 @@ public class PaymentQueueTransactionProcess: TransactionProcess {
             memo = try Memo(memoString)
         }
 
-        stellar.transaction(source: stellar.stellarAccount, pendingPayments: pendingPayments, memo: memo, fee: fee)
+        stellar.transaction(sourceStellarAccount: stellarAccount, pendingPayments: pendingPayments, memo: memo, fee: fee)
             .then { transaction in
                 result = .success(transaction)
                 dispatchGroup.leave()

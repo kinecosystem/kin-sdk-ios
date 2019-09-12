@@ -19,14 +19,16 @@ public class PaymentQueue: NSObject {
     public weak var delegate: PaymentQueueDelegate?
 
     let stellar: StellarProtocol
+    let stellarAccount: StellarAccount
 
     private let paymentsQueueManager = PaymentsQueueManager()
     private lazy var transactionTasksQueueManager: TransactionTasksQueueManager = {
-        return TransactionTasksQueueManager(stellar: stellar)
+        return TransactionTasksQueueManager(stellar: stellar, stellarAccount: stellarAccount)
     }()
 
-    init(stellar: StellarProtocol) {
+    init(stellar: StellarProtocol, stellarAccount: StellarAccount) {
         self.stellar = stellar
+        self.stellarAccount = stellarAccount
 
         super.init()
 
@@ -36,7 +38,7 @@ public class PaymentQueue: NSObject {
     // MARK: Enqueuing
 
     public func enqueuePayment(publicAddress: String, amount: Kin, metadata: AnyObject? = nil) throws -> PendingPayment {
-        let pendingPayment = PendingPayment(destinationPublicAddress: publicAddress, sourcePublicAddress: stellar.stellarAccount.publicKey!, amount: amount, metadata: metadata)
+        let pendingPayment = PendingPayment(destinationPublicAddress: publicAddress, sourcePublicAddress: stellarAccount.publicKey!, amount: amount, metadata: metadata)
 
         paymentsQueueManager.enqueue(pendingPayment: pendingPayment)
 
@@ -94,7 +96,7 @@ extension PaymentQueue: PaymentsQueueManagerDelegate {
             }
 
             if self.fee == 0 {
-                Stellar.minFee().then({ self.fee = $0 }).finally({ enqueue() })
+                self.stellar.minFee().then({ self.fee = $0 }).finally({ enqueue() })
             }
             else {
                 enqueue()

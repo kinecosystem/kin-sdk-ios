@@ -14,108 +14,103 @@ import KinUtil
  */
 protocol StellarProtocol {
     /**
-     The source account.
-     */
-    var stellarAccount: StellarAccount { get }
-
-    init(stellarAccount: StellarAccount)
-
-    /**
      Generate a transaction envelope for the given account.
 
-     - Parameter source: The account from which the payment will be made.
-     - Parameter destination: The public key of the receiving account, as a base32 string.
+     - Parameter sourceStellarAccount: The account from which the payment will be made.
+     - Parameter destinationPublicAddess: The public address of the receiving account.
      - Parameter amount: The amount to be sent.
      - Parameter memo: A short string placed in the MEMO field of the transaction.
      - Parameter fee: The fee in `Quark`s used when the transaction is not whitelisted.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    func transaction(source: StellarAccount, destination: String, amount: Kin, memo: Memo, fee: Quark) -> Promise<PaymentTransaction>
+    func transaction(sourceStellarAccount: StellarAccount, destinationPublicAddess: String, amount: Kin, memo: Memo, fee: Quark) -> Promise<PaymentTransaction>
 
     /**
      Generate a transaction envelope for the given pending payments.
 
-     - Parameter source: The account from which the payment will be made.
+     - Parameter sourceStellarAccount: The account from which the payment will be made.
      - Parameter pendingPayments: The pending payments to add to the transaction.
      - Parameter memo: A short string placed in the MEMO field of the transaction.
      - Parameter fee: The fee in `Quark`s used when the transaction is not whitelisted.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    func transaction(source: StellarAccount, pendingPayments: [PendingPayment], memo: Memo, fee: Quark) -> Promise<BatchPaymentTransaction>
+    func transaction(sourceStellarAccount: StellarAccount, pendingPayments: [PendingPayment], memo: Memo, fee: Quark) -> Promise<BatchPaymentTransaction>
 
     func postTransaction(envelope: Transaction.Envelope) -> Promise<TransactionId>
 
     /**
      Obtain the balance.
 
-     - parameter account: The `Account` whose balance will be retrieved.
+     - Parameter publicAddress: The account whose balance will be retrieved.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    func balance(account: String) -> Promise<Kin>
+    func balance(publicAddress: String) -> Promise<Kin>
 
-    func accountData(account: String) -> Promise<AccountData>
+    func accountData(publicAddress: String) -> Promise<AccountData>
 
     /**
      Obtain details for the given account.
 
-     - parameter account: The `Account` whose details will be retrieved.
+     - Parameter publicAddress: The account whose details will be retrieved.
 
      - Returns: A promise which will be signalled with the result of the operation.
      */
-    func accountDetails(account: String) -> Promise<AccountDetails>
+    func accountDetails(publicAddress: String) -> Promise<AccountDetails>
 
     /**
      Observe transactions.  When `account` is non-`nil`, observations are
      limited to transactions involving the given account.
 
-     - parameter account: The `Account` whose transactions will be observed.  Optional.
-     - parameter lastEventId: If non-`nil`, only transactions with a later event Id will be observed.
+     - Parameter publicAddress: The account whose transactions will be observed.
+     - Parameter lastEventId: If non-`nil`, only transactions with a later event Id will be observed.
      The string _now_ will only observe transactions completed after observation begins.
 
      - Returns: An instance of `TxWatch`, which contains an `Observable` which emits `TxInfo` objects.
      */
-    func txWatch(account: String?, lastEventId: String?) -> EventWatcher<TxEvent>
+    func txWatch(publicAddress: String?, lastEventId: String?) -> EventWatcher<TxEvent>
 
     /**
      Observe payments.  When `account` is non-`nil`, observations are
      limited to payments involving the given account.
 
-     - parameter account: The `Account` whose payments will be observed.  Optional.
-     - parameter lastEventId: If non-`nil`, only payments with a later event Id will be observed.
+     - Parameter account: The account whose payments will be observed.
+     - Parameter lastEventId: If non-`nil`, only payments with a later event Id will be observed.
      The string _now_ will only observe payments made after observation begins.
 
      - Returns: An instance of `PaymentWatch`, which contains an `Observable` which emits `PaymentEvent` objects.
      */
-    func paymentWatch(account: String?, lastEventId: String?) -> EventWatcher<PaymentEvent>
+    func paymentWatch(publicAddress: String?, lastEventId: String?) -> EventWatcher<PaymentEvent>
 
-    func sequence(account: String, seqNum: UInt64) -> Promise<UInt64>
+    func sequence(publicAddress: String, seqNum: UInt64) -> Promise<UInt64>
 
     func sign(transaction: Transaction, signer: StellarAccount) throws -> Transaction.Envelope
 
     func issue(request: URLRequest) -> Promise<Data>
+
+    func networkParameters() -> Promise<NetworkParameters>
+
+    /**
+     Get the minimum fee for sending a transaction.
+
+     - Returns: The minimum fee needed to send a transaction.
+     */
+    func minFee() -> Promise<Quark>
 }
 
 
 
 class Stellar: StellarProtocol {
-    let stellarAccount: StellarAccount
-
-    required init(stellarAccount: StellarAccount) {
-        self.stellarAccount = stellarAccount
-    }
-
-    // TODO: remove all source params and replace with stellarAccount
-    func transaction(source: StellarAccount, destination: String, amount: Kin, memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<PaymentTransaction> {
-        return balance(account: destination)
+    func transaction(sourceStellarAccount: StellarAccount, destinationPublicAddess: String, amount: Kin, memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<PaymentTransaction> {
+        return balance(publicAddress: destinationPublicAddess)
             .then { _ -> Promise<Transaction> in
-                let op = Operation.payment(destination: destination,
+                let op = Operation.payment(destination: destinationPublicAddess,
                                            amount: amount,
-                                           sourcePublicAddress: source.publicKey)
+                                           sourcePublicAddress: sourceStellarAccount.publicKey)
 
-                return TransactionBuilder(sourcePublicAddress: source.publicKey, stellar: self)
+                return TransactionBuilder(sourcePublicAddress: sourceStellarAccount.publicKey, stellar: self)
                     .set(memo: memo)
                     .set(fee: fee)
                     .add(operation: op)
@@ -123,7 +118,7 @@ class Stellar: StellarProtocol {
             }
             .then { transaction -> Promise<PaymentTransaction> in
                 let baseTransaction = try PaymentTransaction(tryWrapping: transaction)
-                try baseTransaction.addSignature(account: source)
+                try baseTransaction.addSignature(account: sourceStellarAccount)
 
                 return Promise(baseTransaction)
             }
@@ -137,19 +132,19 @@ class Stellar: StellarProtocol {
             })
     }
 
-    func transaction(source: StellarAccount, pendingPayments: [PendingPayment], memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<BatchPaymentTransaction> {
+    func transaction(sourceStellarAccount: StellarAccount, pendingPayments: [PendingPayment], memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<BatchPaymentTransaction> {
         guard pendingPayments.count > 0 else {
             return Promise(StellarError.missingPayment)
         }
 
-        return TransactionBuilder(sourcePublicAddress: source.publicKey, stellar: self)
+        return TransactionBuilder(sourcePublicAddress: sourceStellarAccount.publicKey, stellar: self)
             .set(memo: memo)
             .set(fee: fee)
             .add(operations: pendingPayments.map { Operation.payment(pendingPayment: $0) })
             .build()
             .then { transaction -> Promise<BatchPaymentTransaction> in
-                let batchPaymentTransaction = try BatchPaymentTransaction(tryWrapping: transaction, sourcePublicAddress: source.publicKey!)
-                try batchPaymentTransaction.addSignature(account: source)
+                let batchPaymentTransaction = try BatchPaymentTransaction(tryWrapping: transaction, sourcePublicAddress: sourceStellarAccount.publicKey!)
+                try batchPaymentTransaction.addSignature(account: sourceStellarAccount)
 
                 return Promise(batchPaymentTransaction)
             }
@@ -204,8 +199,8 @@ class Stellar: StellarProtocol {
         }
     }
 
-    func balance(account: String) -> Promise<Kin> {
-        return accountDetails(account: account)
+    func balance(publicAddress: String) -> Promise<Kin> {
+        return accountDetails(publicAddress: publicAddress)
             .then { accountDetails in
                 let p = Promise<Kin>()
 
@@ -219,8 +214,8 @@ class Stellar: StellarProtocol {
         }
     }
 
-    func accountData(account: String) -> Promise<AccountData> {
-        let url = Endpoint().account(account).url
+    func accountData(publicAddress: String) -> Promise<AccountData> {
+        let url = Endpoint().account(publicAddress).url
 
         return issue(request: URLRequest(url: url))
             .then { data -> Promise<AccountResponse> in
@@ -248,8 +243,8 @@ class Stellar: StellarProtocol {
         }
     }
 
-    func accountDetails(account: String) -> Promise<AccountDetails> {
-        let url = Endpoint().account(account).url
+    func accountDetails(publicAddress: String) -> Promise<AccountDetails> {
+        let url = Endpoint().account(publicAddress).url
 
         return issue(request: URLRequest(url: url))
             .then { data in
@@ -266,24 +261,24 @@ class Stellar: StellarProtocol {
         }
     }
 
-    func txWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<TxEvent> {
-        let url = Endpoint().account(account).transactions().cursor(lastEventId).url
+    func txWatch(publicAddress: String? = nil, lastEventId: String?) -> EventWatcher<TxEvent> {
+        let url = Endpoint().account(publicAddress).transactions().cursor(lastEventId).url
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
 
-    func paymentWatch(account: String? = nil, lastEventId: String?) -> EventWatcher<PaymentEvent> {
-        let url = Endpoint().account(account).payments().cursor(lastEventId).url
+    func paymentWatch(publicAddress: String? = nil, lastEventId: String?) -> EventWatcher<PaymentEvent> {
+        let url = Endpoint().account(publicAddress).payments().cursor(lastEventId).url
 
         return EventWatcher(eventSource: StellarEventSource(url: url))
     }
 
-    func sequence(account: String, seqNum: UInt64 = 0) -> Promise<UInt64> {
+    func sequence(publicAddress: String, seqNum: UInt64 = 0) -> Promise<UInt64> {
         if seqNum > 0 {
             return Promise().signal(seqNum)
         }
 
-        return accountDetails(account: account)
+        return accountDetails(publicAddress: publicAddress)
             .then { accountDetails in
                 return Promise<UInt64>().signal(accountDetails.seqNum + 1)
         }
@@ -319,37 +314,8 @@ class Stellar: StellarProtocol {
 
         return p
     }
-}
 
-extension Stellar {
-    // TODO: create a better way to deal with the duplicate code
-
-    static func issue(request: URLRequest) -> Promise<Data> {
-        let p = Promise<Data>()
-
-        URLSession
-            .shared
-            .kinDataTask(with: request, completionHandler: { (data, _, error) in
-                if let error = error {
-                    p.signal(error)
-
-                    return
-                }
-
-                guard let data = data else {
-                    p.signal(StellarError.internalInconsistency)
-
-                    return
-                }
-
-                p.signal(data)
-            })
-            .resume()
-
-        return p
-    }
-
-    static func networkParameters() -> Promise<NetworkParameters> {
+    func networkParameters() -> Promise<NetworkParameters> {
         let url = Endpoint().ledgers().order(.descending).limit(1).url
 
         return issue(request: URLRequest(url: url))
@@ -362,23 +328,18 @@ extension Stellar {
         }
     }
 
-    static private var _minFee: Quark?
+    private var _minFee: Quark?
 
-    /**
-     Get the minimum fee for sending a transaction.
-
-     - Returns: The minimum fee needed to send a transaction.
-     */
-    static func minFee() -> Promise<Quark> {
+    func minFee() -> Promise<Quark> {
         let promise = Promise<Quark>()
 
-        if let minFee = Stellar._minFee {
+        if let minFee = _minFee {
             promise.signal(minFee)
         }
         else {
             networkParameters()
-                .then { networkParameters in
-                    Stellar._minFee = networkParameters.baseFee
+                .then { [weak self] networkParameters in
+                    self?._minFee = networkParameters.baseFee
                     promise.signal(networkParameters.baseFee)
                 }
                 .error { error in

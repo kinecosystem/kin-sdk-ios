@@ -90,7 +90,7 @@ final class TransactionBuilder {
             p.signal(createTransaction(sequenceNumber: sequence, fee: fee))
         }
         else {
-            stellar.sequence(account: sourcePublicAddress, seqNum: sequence)
+            stellar.sequence(publicAddress: sourcePublicAddress, seqNum: sequence)
                 .then { sequenceNumber in
                     p.signal(createTransaction(sequenceNumber: sequenceNumber))
                 }

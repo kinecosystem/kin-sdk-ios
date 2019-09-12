@@ -21,8 +21,10 @@ public final class KinClient {
     public init(network: Network, appId: AppId) {
         Network.current = network
 
-        self.accounts = KinAccounts(appId: appId)
+        self.accounts = KinAccounts(stellar: stellar, appId: appId)
     }
+
+    let stellar = Stellar()
 
     /**
      The list of `KinAccount` objects this client is managing.
@@ -116,7 +118,7 @@ public final class KinClient {
      - Returns: The minimum fee needed to send a transaction.
      */
     public func minFee() -> Promise<Quark> {
-        return Stellar.minFee()
+        return stellar.minFee()
     }
 }
 
