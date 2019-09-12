@@ -58,9 +58,8 @@ public final class KinClient {
      Deletes the account at the given index. This method is a no-op if there is no account at
      that index.
 
-     If this is an action triggered by the user, make sure you let the him know that any funds owned
-     by the account will be lost if it hasn't been backed up. See
-     `exportKeyStore(passphrase:exportPassphrase:)`.
+     If this is an action triggered by the user, make sure you let him know that any funds owned
+     by the account will be lost if it hasn't been backed up.
 
      - parameter index: The index of the account to delete.
 

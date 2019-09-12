@@ -9,43 +9,29 @@
 import Foundation
 import KinUtil
 
-/**
- `KinAccount` represents an account which holds Kin. It allows checking balance and sending Kin to
- other accounts.
- */
-public final class KinAccount {
-    fileprivate let stellar: StellarProtocol
-    let stellarAccount: StellarAccount
-    let appId: AppId
 
-    var deleted = false
+protocol KinAccountProtocol {
+    var publicAddress: String { get }
 
     /**
-     The public address of this account. If the user wants to receive KIN by sending his address
-     manually to someone, or if you want to display the public address, use this property.
+     Query the status of the account on the blockchain.
+
+     - Parameter completion: The completion handler function with the `AccountStatus` or an `Error.
      */
-    public var publicAddress: String {
-        return stellarAccount.publicAddress
-    }
+    func status(completion: @escaping (AccountStatus?, Error?) -> Void)
 
-    var extra: Data? {
-        get {
-            guard let extra = try? stellarAccount.extra() else {
-                return nil
-            }
+    /**
+     Retrieve the current Kin balance.
 
-            return extra
-        }
-        set {
-            try? KeyStore.set(extra: newValue, for: stellarAccount)
-        }
-    }
+     - Note: The closure is invoked on a background thread.
 
-    init(stellar: StellarProtocol, stellarAccount: StellarAccount, appId: AppId) {
-        self.stellar = stellar
-        self.stellarAccount = stellarAccount
-        self.appId = appId
-    }
+     - Parameter completion: A closure to be invoked once the request completes.
+     */
+    func balance(completion: @escaping BalanceCompletion)
+
+    var paymentQueue: PaymentQueue { get }
+
+    func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor?, completion: @escaping (Result<TransactionId, Error>) -> Void)
 
     /**
      Export the account data as a JSON string.  The seed is encrypted.
@@ -54,21 +40,56 @@ public final class KinAccount {
 
      - Returns: A JSON representation of the data as a string
      */
-    public func export(passphrase: String) throws -> String {
-        let ad = KeyStore.exportAccount(account: stellarAccount, passphrase: passphrase)
-
-        guard let jsonString = try String(data: JSONEncoder().encode(ad), encoding: .utf8) else {
-            throw KinError.internalInconsistency
-        }
-
-        return jsonString
-    }
+    func export(passphrase: String) throws -> String
 
     /**
-     Query the status of the account on the blockchain.
+     Watch for changes on the account balance.
 
-     - Parameter completion: The completion handler function with the `AccountStatus` or an `Error.
+     - Parameter balance: An optional `Kin` balance that the watcher will be notified of first.
+
+     - Returns: A `BalanceWatch` object that will notify of any balance changes.
      */
+    func watchBalance(_ balance: Kin?) throws -> BalanceWatch
+
+    /**
+     Watch for changes of account payments.
+
+     - Parameter cursor: An optional `cursor` that specifies the id of the last payment after which the watcher will be notified of the new payments.
+
+     - Returns: A `PaymentWatch` object that will notify of any payment changes.
+     */
+    func watchPayments(cursor: String?) throws -> PaymentWatch
+
+    /**
+     Watch for the creation of an account.
+
+     - Returns: A `Promise` that signals when the account is detected to have the `.created` `AccountStatus`.
+     */
+    func watchCreation() throws -> Promise<Void>
+}
+
+
+/**
+ `KinAccount` represents an account which holds Kin. It allows checking balance and sending Kin to
+ other accounts.
+ */
+public final class KinAccount: KinAccountProtocol {
+    fileprivate let stellar: StellarProtocol
+    let stellarAccount: StellarAccount
+    let appId: AppId
+    var deleted = false
+
+    public let publicAddress: String
+
+    init(stellar: StellarProtocol, stellarAccount: StellarAccount, appId: AppId) {
+        self.stellar = stellar
+        self.stellarAccount = stellarAccount
+        self.appId = appId
+        self.publicAddress = stellarAccount.publicAddress
+    }
+
+    // MARK: Inspecting
+
     public func status(completion: @escaping (AccountStatus?, Error?) -> Void) {
         balance { balance, error in
             if let error = error {
@@ -96,13 +117,38 @@ public final class KinAccount {
         }
     }
 
-    /**
-     Query the status of the account on the blockchain using promises.
-
-     - Returns: A promise which will signal the `AccountStatus` value.
-     */
     public func status() -> Promise<AccountStatus> {
         return promise(status)
+    }
+
+    public func balance(completion: @escaping BalanceCompletion) {
+        guard deleted == false else {
+            completion(nil, KinError.accountDeleted)
+
+            return
+        }
+
+        stellar.balance(publicAddress: publicAddress)
+            .then { balance -> Void in
+                completion(balance, nil)
+            }
+            .error { error in
+                completion(nil, KinError.balanceQueryFailed(error))
+        }
+    }
+
+    public func balance() -> Promise<Kin> {
+        return promise(balance)
+    }
+
+    // MARK: Transactions
+
+    public lazy var paymentQueue: PaymentQueue = {
+        return PaymentQueue(stellar: stellar, stellarAccount: stellarAccount)
+    }()
+
+    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor? = nil, completion: @escaping (Result<TransactionId, Error>) -> Void) {
+        paymentQueue.enqueueTransactionParams(params, completion: completion)
     }
 
     public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor? = nil) -> Promise<TransactionId> {
@@ -120,60 +166,21 @@ public final class KinAccount {
         return promise
     }
 
-    public func sendTransaction(_ params: SendTransactionParams, interceptor: TransactionInterceptor? = nil, completion: @escaping (Result<TransactionId, Error>) -> Void) {
-        paymentQueue.enqueueTransactionParams(params, completion: completion)
-    }
+    // MARK: Backup
 
-    /**
-     Retrieve the current Kin balance.
+    public func export(passphrase: String) throws -> String {
+        let ad = KeyStore.exportAccount(account: stellarAccount, passphrase: passphrase)
 
-     - Note: The closure is invoked on a background thread.
-
-     - Parameter completion: A closure to be invoked once the request completes.
-     */
-    public func balance(completion: @escaping BalanceCompletion) {
-        guard deleted == false else {
-            completion(nil, KinError.accountDeleted)
-
-            return
+        guard let jsonString = try String(data: JSONEncoder().encode(ad), encoding: .utf8) else {
+            throw KinError.internalInconsistency
         }
 
-        stellar.balance(publicAddress: publicAddress)
-            .then { balance -> Void in
-                completion(balance, nil)
-            }
-            .error { error in
-                completion(nil, KinError.balanceQueryFailed(error))
-        }
+        return jsonString
     }
 
-    /**
-     Retrieve the current Kin balance.
+    // MARK: Watching
 
-     - returns: A `Promise` which is signalled with the current balance.
-     */
-    public func balance() -> Promise<Kin> {
-        return promise(balance)
-    }
-
-    func accountData(completion: @escaping (AccountData?, Error?) -> Void) {
-        stellar.accountData(publicAddress: publicAddress)
-            .then { accountData in
-                completion(accountData, nil)
-            }
-            .error { error in
-                completion(nil, error)
-        }
-    }
-
-    /**
-     Watch for changes on the account balance.
-
-     - Parameter balance: An optional `Kin` balance that the watcher will be notified of first.
-
-     - Returns: A `BalanceWatch` object that will notify of any balance changes.
-     */
-    public func watchBalance(_ balance: Kin?) throws -> BalanceWatch {
+    func watchBalance(_ balance: Kin?) throws -> BalanceWatch {
         guard deleted == false else {
             throw KinError.accountDeleted
         }
@@ -181,14 +188,7 @@ public final class KinAccount {
         return BalanceWatch(balance: balance, stellar: stellar, stellarAccount: stellarAccount)
     }
 
-    /**
-     Watch for changes of account payments.
-
-     - Parameter cursor: An optional `cursor` that specifies the id of the last payment after which the watcher will be notified of the new payments.
-
-     - Returns: A `PaymentWatch` object that will notify of any payment changes.
-     */
-    public func watchPayments(cursor: String?) throws -> PaymentWatch {
+    func watchPayments(cursor: String?) throws -> PaymentWatch {
         guard deleted == false else {
             throw KinError.accountDeleted
         }
@@ -196,18 +196,12 @@ public final class KinAccount {
         return PaymentWatch(cursor: cursor, stellar: stellar, stellarAccount: stellarAccount)
     }
 
-    /**
-     Watch for the creation of an account.
-
-     - Returns: A `Promise` that signals when the account is detected to have the `.created` `AccountStatus`.
-     */
-    public func watchCreation() throws -> Promise<Void> {
+    func watchCreation() throws -> Promise<Void> {
         guard deleted == false else {
             throw KinError.accountDeleted
         }
 
         let p = Promise<Void>()
-
         var linkBag = LinkBag()
         var watch: CreationWatch? = CreationWatch(stellar: stellar, stellarAccount: stellarAccount)
 
@@ -222,41 +216,20 @@ public final class KinAccount {
         return p
     }
 
-    /**
-     Exports this account as a Key Store JSON string, to be backed up by the user.
+    // MARK:
 
-     - parameter passphrase: A new passphrase, to encrypt the Key Store JSON.
+    // ???: is this needed? deprecate?
+    var extra: Data? {
+        get {
+            guard let extra = try? stellarAccount.extra() else {
+                return nil
+            }
 
-     - throws: If the passphrase is invalid, or if exporting the associated account fails.
-
-     - returns: a prettified JSON string of the `account` exported; `nil` if `account` is `nil`.
-     */
-    @available(*, unavailable)
-    private func exportKeyStore(passphrase: String) throws -> String? {
-        let accountData = KeyStore.exportAccount(account: stellarAccount, passphrase: passphrase)
-
-        guard let store = accountData else {
-            throw KinError.internalInconsistency
+            return extra
         }
-
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: store, options: [.prettyPrinted]) else {
-            return nil
+        set {
+            try? KeyStore.set(extra: newValue, for: stellarAccount)
         }
-
-        return String(data: jsonData, encoding: .utf8)
-    }
-
-
-    public lazy var paymentQueue: PaymentQueue = {
-        return PaymentQueue(stellar: stellar, stellarAccount: stellarAccount)
-    }()
-
-    public func pendingBalance(_ completion: @escaping (Result<Kin, Error>) -> Void) {
-        completion(.success(Kin(0)))
-    }
-
-    public func pendingBalance() -> Promise<Kin> {
-        return Promise(0)
     }
 }
 
