@@ -16,8 +16,8 @@ class TransactionTasksQueueTests: XCTestCase {
         super.setUp()
 
         // These tests are for the queue and not the operations. No need to create real accounts.
-        let account = StellarAccount(storageKey: "")
-        transactionTasksQueueManager = TransactionTasksQueueManager(account: account)
+        let stellarAccount = StellarAccount(storageKey: "")
+        transactionTasksQueueManager = TransactionTasksQueueManager(stellar: Stellar(), stellarAccount: stellarAccount)
         transactionTasksQueueManager.isSuspended = true
     }
 

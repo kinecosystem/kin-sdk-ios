@@ -10,8 +10,9 @@ import XCTest
 @testable import KinSDK
 
 class PendingPaymentOperationTests: XCTestCase {
+    let stellar = Stellar()
     var kinClient: KinClient!
-    var account0: KinAccount!
+    var account0: KinAccount! 
     var account1: KinAccount!
 
     override func setUp() {
@@ -35,7 +36,7 @@ class PendingPaymentOperationTests: XCTestCase {
 
         let pendingPayment = PendingPayment(destinationPublicAddress: account0.publicAddress, sourcePublicAddress: account1.publicAddress, amount: 10)
 
-        let operation = PendingPaymentsOperation([pendingPayment], fee: 0, account: account0.stellarAccount)
+        let operation = PendingPaymentsOperation([pendingPayment], fee: 0, stellar: stellar, stellarAccount: account0.stellarAccount)
         operation.completionBlock = {
             // ???: check for failure
 

@@ -10,6 +10,7 @@ import XCTest
 @testable import KinSDK
 
 class TransactionProcessTests: XCTestCase {
+    let stellar = Stellar()
 
     override func setUp() {
         super.setUp()
@@ -23,7 +24,7 @@ class TransactionProcessTests: XCTestCase {
     }
 
     func testSendTransaction() {
-        let process = MockTransactionProcess()
+        let process = MockTransactionProcess(stellar: stellar)
         let transaction = process.transaction()
 
         do {
@@ -40,14 +41,14 @@ class TransactionProcessTests: XCTestCase {
 }
 
 class MockTransactionProcess: TransactionProcess {
-    func transaction() -> BaseTransaction {
+    override func transaction() -> BaseTransaction {
         var result: Result<BaseTransaction, Error> = .failure(KinError.internalInconsistency)
 
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
 
-        Stellar.transaction(source: KinEssentials.shared.account0.stellarAccount,
-                            destination: KinEssentials.shared.account1.publicAddress,
+        stellar.transaction(sourceStellarAccount: KinEssentials.shared.account0.stellarAccount,
+                            destinationPublicAddess: KinEssentials.shared.account1.publicAddress,
                             amount: 10,
                             memo: .MEMO_NONE,
                             fee: 0)
