@@ -18,10 +18,10 @@ class TransactionTasksQueueManager {
         return queue
     }()
 
-    let essentials: Essentials
+    let stellar: StellarProtocol
 
-    init(essentials: Essentials) {
-        self.essentials = essentials
+    init(stellar: StellarProtocol) {
+        self.stellar = stellar
     }
 
     // MARK: Inspecting
@@ -92,14 +92,14 @@ class TransactionTasksQueueManager {
         }
 
         arrayOfPendingPayments.forEach { pendingPayments in
-            let operation = PendingPaymentsOperation(pendingPayments, fee: fee, essentials: essentials)
+            let operation = PendingPaymentsOperation(pendingPayments, fee: fee, stellar: stellar)
             operation.transactionInterceptor = transactionInterceptor
             tasksQueue.addOperation(operation)
         }
     }
 
     func enqueue(transactionParams: SendTransactionParams) -> TransactionParamsOperation {
-        let operation = TransactionParamsOperation(transactionParams, essentials: essentials)
+        let operation = TransactionParamsOperation(transactionParams, stellar: stellar)
         tasksQueue.addOperation(operation)
         return operation
     }

@@ -12,8 +12,6 @@ import Foundation
  `KinClient` is a factory class for managing instances of `KinAccount`.
  */
 public final class KinClient {
-    let preEssentials: PreEssentials
-
     /**
      Instantiates a `KinClient` with a `Network` and an `AppId`.
 
@@ -21,12 +19,9 @@ public final class KinClient {
      - Parameter appId: The `AppId` of the host application.
      */
     public init(network: Network, appId: AppId) {
-        // TODO: can remove the global network in favor of essentials
         Network.current = network
 
-        self.preEssentials = PreEssentials(stellar: Stellar(), network: network, appId: appId)
-
-        self.accounts = KinAccounts(preEssentials: preEssentials)
+        self.accounts = KinAccounts(appId: appId)
     }
 
     /**
@@ -38,7 +33,7 @@ public final class KinClient {
      The `Network` of the network which this client communicates to.
      */
     public var network: Network {
-        return preEssentials.network
+        return Network.current
     }
 
     /**
@@ -121,7 +116,7 @@ public final class KinClient {
      - Returns: The minimum fee needed to send a transaction.
      */
     public func minFee() -> Promise<Quark> {
-        return preEssentials.stellar.minFee()
+        return Stellar.minFee()
     }
 }
 

@@ -10,11 +10,11 @@ import Foundation
 
 final class TransactionParamsOperation: SendTransactionOperation {
     let transactionParams: SendTransactionParams
-    let essentials: Essentials
+    let stellar: StellarProtocol
 
-    init(_ transactionParams: SendTransactionParams, essentials: Essentials) {
+    init(_ transactionParams: SendTransactionParams, stellar: StellarProtocol) {
         self.transactionParams = transactionParams
-        self.essentials = essentials
+        self.stellar = stellar
 
         super.init()
 
@@ -23,6 +23,6 @@ final class TransactionParamsOperation: SendTransactionOperation {
     }
 
     override func createTransactionProcess() -> TransactionProcess {
-        return TransactionParamsProcess(transactionParams: transactionParams, essentials: essentials)
+        return TransactionParamsProcess(transactionParams: transactionParams, stellar: stellar)
     }
 }

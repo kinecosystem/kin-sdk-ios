@@ -14,6 +14,13 @@ import KinUtil
  */
 protocol StellarProtocol {
     /**
+     The source account.
+     */
+    var stellarAccount: StellarAccount { get }
+
+    init(stellarAccount: StellarAccount)
+
+    /**
      Generate a transaction envelope for the given account.
 
      - Parameter source: The account from which the payment will be made.
@@ -86,25 +93,21 @@ protocol StellarProtocol {
 
     func sequence(account: String, seqNum: UInt64) -> Promise<UInt64>
 
-    func networkParameters() -> Promise<NetworkParameters>
-
     func sign(transaction: Transaction, signer: StellarAccount) throws -> Transaction.Envelope
-
-    /**
-     Get the minimum fee for sending a transaction.
-
-     - Returns: The minimum fee needed to send a transaction.
-     */
-    func minFee() -> Promise<Quark>
 
     func issue(request: URLRequest) -> Promise<Data>
 }
 
 
 
-
-
 class Stellar: StellarProtocol {
+    let stellarAccount: StellarAccount
+
+    required init(stellarAccount: StellarAccount) {
+        self.stellarAccount = stellarAccount
+    }
+
+    // TODO: remove all source params and replace with stellarAccount
     func transaction(source: StellarAccount, destination: String, amount: Kin, memo: Memo = .MEMO_NONE, fee: Quark) -> Promise<PaymentTransaction> {
         return balance(account: destination)
             .then { _ -> Promise<Transaction> in
@@ -286,48 +289,10 @@ class Stellar: StellarProtocol {
         }
     }
 
-    func networkParameters() -> Promise<NetworkParameters> {
-        let url = Endpoint().ledgers().order(.descending).limit(1).url
-
-        return issue(request: URLRequest(url: url))
-            .then { data in
-                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
-                    throw StellarError.unknownError(horizonError)
-                }
-
-                return try Promise(JSONDecoder().decode(NetworkParameters.self, from: data))
-        }
-    }
-
     func sign(transaction: Transaction, signer: StellarAccount) throws -> Transaction.Envelope {
         var transaction = transaction
         try transaction.sign(account: signer)
         return transaction.envelope()
-    }
-
-    /**
-     Cached minimum fee.
-     */
-    private var _minFee: Quark?
-
-    func minFee() -> Promise<Quark> {
-        let promise = Promise<Quark>()
-
-        if let minFee = _minFee {
-            promise.signal(minFee)
-        }
-        else {
-            networkParameters()
-                .then { [weak self] networkParameters in
-                    self?._minFee = networkParameters.baseFee
-                    promise.signal(networkParameters.baseFee)
-                }
-                .error { error in
-                    promise.signal(error)
-            }
-        }
-
-        return promise
     }
 
     func issue(request: URLRequest) -> Promise<Data> {
@@ -353,5 +318,74 @@ class Stellar: StellarProtocol {
             .resume()
 
         return p
+    }
+}
+
+extension Stellar {
+    // TODO: create a better way to deal with the duplicate code
+
+    static func issue(request: URLRequest) -> Promise<Data> {
+        let p = Promise<Data>()
+
+        URLSession
+            .shared
+            .kinDataTask(with: request, completionHandler: { (data, _, error) in
+                if let error = error {
+                    p.signal(error)
+
+                    return
+                }
+
+                guard let data = data else {
+                    p.signal(StellarError.internalInconsistency)
+
+                    return
+                }
+
+                p.signal(data)
+            })
+            .resume()
+
+        return p
+    }
+
+    static func networkParameters() -> Promise<NetworkParameters> {
+        let url = Endpoint().ledgers().order(.descending).limit(1).url
+
+        return issue(request: URLRequest(url: url))
+            .then { data in
+                if let horizonError = try? JSONDecoder().decode(HorizonError.self, from: data) {
+                    throw StellarError.unknownError(horizonError)
+                }
+
+                return try Promise(JSONDecoder().decode(NetworkParameters.self, from: data))
+        }
+    }
+
+    static private var _minFee: Quark?
+
+    /**
+     Get the minimum fee for sending a transaction.
+
+     - Returns: The minimum fee needed to send a transaction.
+     */
+    static func minFee() -> Promise<Quark> {
+        let promise = Promise<Quark>()
+
+        if let minFee = Stellar._minFee {
+            promise.signal(minFee)
+        }
+        else {
+            networkParameters()
+                .then { networkParameters in
+                    Stellar._minFee = networkParameters.baseFee
+                    promise.signal(networkParameters.baseFee)
+                }
+                .error { error in
+                    promise.signal(error)
+            }
+        }
+
+        return promise
     }
 }

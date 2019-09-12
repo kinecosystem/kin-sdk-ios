@@ -14,7 +14,8 @@ import KinUtil
  other accounts.
  */
 public final class KinAccount {
-    fileprivate let essentials: Essentials
+    fileprivate let stellar: StellarProtocol
+    let appId: AppId
 
     var deleted = false
 
@@ -23,28 +24,29 @@ public final class KinAccount {
      manually to someone, or if you want to display the public address, use this property.
      */
     public var publicAddress: String {
-        return essentials.stellarAccount.publicKey!
+        return stellar.stellarAccount.publicKey!
     }
 
     var stellarAccount: StellarAccount {
-        return essentials.stellarAccount
+        return stellar.stellarAccount
     }
 
     var extra: Data? {
         get {
-            guard let extra = try? essentials.stellarAccount.extra() else {
+            guard let extra = try? stellar.stellarAccount.extra() else {
                 return nil
             }
 
             return extra
         }
         set {
-            try? KeyStore.set(extra: newValue, for: essentials.stellarAccount)
+            try? KeyStore.set(extra: newValue, for: stellar.stellarAccount)
         }
     }
 
-    init(essentials: Essentials) {
-        self.essentials = essentials
+    init(stellar: StellarProtocol, appId: AppId) {
+        self.stellar = stellar
+        self.appId = appId
     }
 
     /**
@@ -55,7 +57,7 @@ public final class KinAccount {
      - Returns: A JSON representation of the data as a string
      */
     public func export(passphrase: String) throws -> String {
-        let ad = KeyStore.exportAccount(account: essentials.stellarAccount, passphrase: passphrase)
+        let ad = KeyStore.exportAccount(account: stellar.stellarAccount, passphrase: passphrase)
 
         guard let jsonString = try String(data: JSONEncoder().encode(ad), encoding: .utf8) else {
             throw KinError.internalInconsistency
@@ -138,7 +140,7 @@ public final class KinAccount {
             return
         }
 
-        essentials.stellar.balance(account: publicAddress)
+        stellar.balance(account: publicAddress)
             .then { balance -> Void in
                 completion(balance, nil)
             }
@@ -157,7 +159,7 @@ public final class KinAccount {
     }
 
     func accountData(completion: @escaping (AccountData?, Error?) -> Void) {
-        essentials.stellar.accountData(account: publicAddress)
+        stellar.accountData(account: publicAddress)
             .then { accountData in
                 completion(accountData, nil)
             }
@@ -178,7 +180,7 @@ public final class KinAccount {
             throw KinError.accountDeleted
         }
 
-        return BalanceWatch(essentials: essentials, balance: balance)
+        return BalanceWatch(balance: balance, stellar: stellar)
     }
 
     /**
@@ -193,7 +195,7 @@ public final class KinAccount {
             throw KinError.accountDeleted
         }
 
-        return PaymentWatch(essentials: essentials, cursor: cursor)
+        return PaymentWatch(cursor: cursor, stellar: stellar)
     }
 
     /**
@@ -209,7 +211,7 @@ public final class KinAccount {
         let p = Promise<Void>()
 
         var linkBag = LinkBag()
-        var watch: CreationWatch? = CreationWatch(essentials: essentials)
+        var watch: CreationWatch? = CreationWatch(stellar: stellar)
 
         _ = watch?.emitter.on(next: { _ in
             watch = nil
@@ -233,7 +235,7 @@ public final class KinAccount {
      */
     @available(*, unavailable)
     private func exportKeyStore(passphrase: String) throws -> String? {
-        let accountData = KeyStore.exportAccount(account: essentials.stellarAccount, passphrase: passphrase)
+        let accountData = KeyStore.exportAccount(account: stellar.stellarAccount, passphrase: passphrase)
 
         guard let store = accountData else {
             throw KinError.internalInconsistency
@@ -248,7 +250,7 @@ public final class KinAccount {
 
 
     public lazy var paymentQueue: PaymentQueue = {
-        return PaymentQueue(essentials: essentials)
+        return PaymentQueue(stellar: stellar)
     }()
 
     public func pendingBalance(_ completion: @escaping (Result<Kin, Error>) -> Void) {
@@ -258,8 +260,6 @@ public final class KinAccount {
     public func pendingBalance() -> Promise<Kin> {
         return Promise(0)
     }
-
-//    public func pendingBalanceListener() 
 }
 
 // MARK: - Deprecated
@@ -291,7 +291,7 @@ extension KinAccount {
             return
         }
 
-        let prefixedMemo = Memo.prependAppIdIfNeeded(essentials.appId, to: memo ?? "")
+        let prefixedMemo = Memo.prependAppIdIfNeeded(appId, to: memo ?? "")
 
         guard prefixedMemo.utf8.count <= Transaction.MaxMemoLength else {
             completion(nil, StellarError.memoTooLong(prefixedMemo))
@@ -299,7 +299,7 @@ extension KinAccount {
         }
 
         do {
-            essentials.stellar.transaction(source: essentials.stellarAccount,
+            stellar.transaction(source: stellar.stellarAccount,
                                 destination: recipient,
                                 amount: kin,
                                 memo: try Memo(prefixedMemo),
@@ -353,7 +353,7 @@ extension KinAccount {
             return
         }
 
-        essentials.stellar.postTransaction(envelope: envelope)
+        stellar.postTransaction(envelope: envelope)
             .then { txHash -> Void in
                 completion(txHash, nil)
             }

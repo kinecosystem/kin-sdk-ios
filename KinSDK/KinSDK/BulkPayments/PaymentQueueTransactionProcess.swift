@@ -11,14 +11,12 @@ import Foundation
 public class PaymentQueueTransactionProcess: TransactionProcess {
     public let pendingPayments: [PendingPayment]
     let fee: Quark
-    let essentials: Essentials
 
-    init(pendingPayments: [PendingPayment], fee: Quark, essentials: Essentials) {
+    init(pendingPayments: [PendingPayment], fee: Quark, stellar: StellarProtocol) {
         self.pendingPayments = pendingPayments
         self.fee = fee
-        self.essentials = essentials
 
-        super.init(stellar: essentials.stellar)
+        super.init(stellar: stellar)
     }
 
     public override func transaction() throws -> BatchPaymentTransaction {
@@ -37,7 +35,7 @@ public class PaymentQueueTransactionProcess: TransactionProcess {
             memo = try Memo(memoString)
         }
 
-        essentials.stellar.transaction(source: essentials.stellarAccount, pendingPayments: pendingPayments, memo: memo, fee: fee)
+        stellar.transaction(source: stellar.stellarAccount, pendingPayments: pendingPayments, memo: memo, fee: fee)
             .then { transaction in
                 result = .success(transaction)
                 dispatchGroup.leave()

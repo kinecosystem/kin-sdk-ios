@@ -10,13 +10,11 @@ import Foundation
 
 class TransactionParamsProcess: TransactionProcess {
     let transactionParams: SendTransactionParams
-    let essentials: Essentials
 
-    init(transactionParams: SendTransactionParams, essentials: Essentials) {
+    init(transactionParams: SendTransactionParams, stellar: StellarProtocol) {
         self.transactionParams = transactionParams
-        self.essentials = essentials
 
-        super.init(stellar: essentials.stellar)
+        super.init(stellar: stellar)
     }
 
     override func transaction() throws -> BaseTransaction {
@@ -30,7 +28,7 @@ class TransactionParamsProcess: TransactionProcess {
 
                 let memo: Memo = transactionParams.memo ?? .MEMO_NONE
 
-                essentials.stellar.transaction(source: essentials.stellarAccount, destination: paymentOp.destination.publicKey, amount: Kin(paymentOp.amount), memo: memo, fee: transactionParams.fee)
+                stellar.transaction(source: stellar.stellarAccount, destination: paymentOp.destination.publicKey, amount: Kin(paymentOp.amount), memo: memo, fee: transactionParams.fee)
                     .then { baseTransaction in
                         result = .success(baseTransaction)
                         dispatchGroup.leave()

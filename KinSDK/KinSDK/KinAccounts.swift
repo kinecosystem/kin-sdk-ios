@@ -14,10 +14,10 @@ import Foundation
 public final class KinAccounts {
     private var cache = [Int: KinAccount]()
     private let cacheLock = NSLock()
-    private let preEssentials: PreEssentials
+    private let appId: AppId
 
-    init(preEssentials: PreEssentials) {
-        self.preEssentials = preEssentials
+    init(appId: AppId) {
+        self.appId = appId
     }
 
     /**
@@ -107,8 +107,8 @@ public final class KinAccounts {
     }
 
     private func createKinAccount(stellarAccount: StellarAccount) -> KinAccount {
-        let essentials = Essentials(preEssentials: preEssentials, stellarAccount: stellarAccount)
-        return KinAccount(essentials: essentials)
+        let stellar = Stellar(stellarAccount: stellarAccount)
+        return KinAccount(stellar: stellar, appId: appId)
     }
 
     func flushCache() {

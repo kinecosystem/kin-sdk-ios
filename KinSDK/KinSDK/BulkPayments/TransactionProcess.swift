@@ -9,12 +9,6 @@
 import Foundation
 
 public class TransactionProcess {
-//    associatedtype Tx: BaseTransaction
-//
-//    func transaction() throws -> Tx
-//    func sendTransaction(_ transaction: BaseTransaction) throws -> TransactionId
-//    func sendWhitelistTransaction(data: Data) throws -> TransactionId
-
     let stellar: StellarProtocol
 
     init(stellar: StellarProtocol) {
