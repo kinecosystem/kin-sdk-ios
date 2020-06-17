@@ -1,4 +1,10 @@
 #  Kin SDK for iOS
+====================================================================================
+# THIS VERSION IS NOW DEPRECATED AND NO LONGER ACTIVELY MAINTAINED
+## Please check out the Kin SDK for iOS [here](https://github.com/kinecosystem/kin-ios)
+## The `KinBase` module replaces what's here and provides additional functionality
+## The `KinBaseCompat` module is a drop in replacement for this older version of the SDK to aid in the transition
+====================================================================================
 
 [![Swift Version](https://img.shields.io/badge/Swift-5.0.x-orange.svg)](https://swift.org)
 [![Platforms](https://img.shields.io/cocoapods/p/KinSDK.svg)](https://cocoapods.org/pods/KinSDK)
